@@ -94,6 +94,21 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_snap_process_site_coverimage');
     $settings->add($setting);
 
+    // Font loader.
+    $name = 'theme_snap/fontloaderheading';
+    $title = new lang_string('fontloaderheading', 'theme_snap');
+    $description = new lang_string('fontloaderheadingdesc', 'theme_snap');
+    $setting = new admin_setting_heading($name, $title, $description);
+    $settings->add($setting);
+
+    // Font include.
+    $fontloader = 'theme_snap/fontloader';
+    $title = new lang_string('fontloader', 'theme_snap');
+    $description = new lang_string('fontloaderdesc', 'theme_snap');
+    $default = new lang_string('fontloaderdefault', 'theme_snap');
+    $setting = new admin_setting_configtextarea($fontloader, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
 
     // Personal menu settings
     $name = 'theme_snap/personalmenu';
