@@ -81,6 +81,11 @@ $string['favicondesc'] = 'Please upload your favicon in .ico format here. The fa
 $string['feedbackavailable'] = 'Feedback available';
 $string['feedbacktoggle'] = 'Recent feedback';
 $string['feedbacktoggledesc'] = 'Recent Feedback shows recent feedback to learners and submissions which need grading to educators.';
+$string['fontloader'] = 'Font Loader';
+$string['fontloaderdesc'] = 'If you need to load a custom font resource, you can do it here.';
+$string['fontloaderdefault'] = "<link href='//fonts.googleapis.com/css?family=Roboto:500,100,400,300' rel='stylesheet' type='text/css'>";
+$string['fontloaderheading'] = 'Font Loader Option';
+$string['fontloaderheadingdesc'] = '';
 $string['footerheading'] = 'Footer';
 $string['footerheadingdesc'] = '';
 $string['footnote'] = 'Site footer';
