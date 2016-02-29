@@ -45,8 +45,8 @@ echo $OUTPUT->doctype();
 <meta name="theme-color" content="<?php echo $PAGE->theme->settings->themecolor ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <?php
-    if (!empty($theme->settings->fontloader)) {
-        echo $theme->settings->fontloader;
+    if (!empty($PAGE->theme->settings->fontloader)) {
+        echo $PAGE->theme->settings->fontloader;
     }
 ?>
 <?php
