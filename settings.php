@@ -152,7 +152,17 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('footerheadingdesc', 'theme_snap');
     $setting = new admin_setting_heading($name, $title, $description);
     $settings->add($setting);
-
+    
+    // Hide course page.
+    $name = 'theme_snap/hidecoursepage';
+    $title = new lang_string('hidecoursepage', 'theme_snap');
+    $description = new lang_string('hidecoursepagedesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+    
     // Hide navigation block.
     $name = 'theme_snap/hidenavblock';
     $title = new lang_string('hidenavblock', 'theme_snap');
@@ -162,7 +172,7 @@ if ($ADMIN->fulltree) {
     $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
-
+    
     // Course footer on/off.
     $name = 'theme_snap/coursefootertoggle';
     $title = new lang_string('coursefootertoggle', 'theme_snap');
