@@ -173,10 +173,21 @@ if ($ADMIN->fulltree) {
     $settings->add($setting);
 
 
-    $name = 'theme_snap/footerheading';
-    $title = new lang_string('footerheading', 'theme_snap');
-    $description = new lang_string('footerheadingdesc', 'theme_snap');
+    // Navigation.
+    $name = 'theme_snap/navigationheading';
+    $title = new lang_string('navigationheading', 'theme_snap');
+    $description = new lang_string('navigationheadingdesc', 'theme_snap');
     $setting = new admin_setting_heading($name, $title, $description);
+    $settings->add($setting);    
+    
+    // Breadcrumbs in nav bar.
+    $name = 'theme_snap/breadcrumbsinnav';
+    $title = new lang_string('breadcrumbsinnav', 'theme_snap');
+    $description = new lang_string('breadcrumbsinnavdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
     // Hide course page.
@@ -198,6 +209,13 @@ if ($ADMIN->fulltree) {
     $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
+    
+    // Footer.
+    $name = 'theme_snap/footerheading';
+    $title = new lang_string('footerheading', 'theme_snap');
+    $description = new lang_string('footerheadingdesc', 'theme_snap');
+    $setting = new admin_setting_heading($name, $title, $description);
+    $settings->add($setting);    
     
     // Course footer on/off.
     $name = 'theme_snap/coursefootertoggle';

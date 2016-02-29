@@ -45,4 +45,9 @@ use theme_snap\renderables\settings_link;
     }
     echo '<a aria-label="'.get_string('home', 'theme_snap').'" href="'. s($CFG->wwwroot).'" id="logo" title="'.s(format_string($SITE->fullname)).'">'.$sitefullname.'</a>';
 ?>
+<?php
+    if (!empty($PAGE->theme->settings->breadcrumbsinnav)) {
+        echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
+    }
+?>
 </header>
