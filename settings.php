@@ -94,6 +94,17 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_snap_process_site_coverimage');
     $settings->add($setting);
 
+    // CSS Post Process on/off.
+    $name = 'theme_snap/csspostprocesstoggle';
+    $title = new lang_string('csspostprocesstoggle', 'theme_snap');
+    $description = new lang_string('csspostprocesstoggledesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
+    
     // Font loader.
     $name = 'theme_snap/fontloaderheading';
     $title = new lang_string('fontloaderheading', 'theme_snap');

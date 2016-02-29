@@ -187,7 +187,9 @@ $THEME->javascripts_footer = array(
     'jquery.placeholder'
 );
 
-$THEME->csspostprocess = 'theme_snap_process_css';
+if (!empty($THEME->settings->csspostprocesstoggle)) {
+    $THEME->csspostprocess = 'theme_snap_process_css';
+}    
 $THEME->hidefromselector = false;
 
 // For use with Flexpage layouts.
