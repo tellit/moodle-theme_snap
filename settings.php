@@ -93,34 +93,7 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'poster', 0, $opts);
     $setting->set_updatedcallback('theme_snap_process_site_coverimage');
     $settings->add($setting);
-
-    // CSS Post Process on/off.
-    $name = 'theme_snap/csspostprocesstoggle';
-    $title = new lang_string('csspostprocesstoggle', 'theme_snap');
-    $description = new lang_string('csspostprocesstoggledesc', 'theme_snap');
-    $checked = '1';
-    $unchecked = '0';
-    $default = $checked;
-    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
-    $setting->set_updatedcallback('theme_reset_all_caches');
-    $settings->add($setting);
-    
-    // Font loader.
-    $name = 'theme_snap/fontloaderheading';
-    $title = new lang_string('fontloaderheading', 'theme_snap');
-    $description = new lang_string('fontloaderheadingdesc', 'theme_snap');
-    $setting = new admin_setting_heading($name, $title, $description);
-    $settings->add($setting);
-
-    // Font include.
-    $fontloader = 'theme_snap/fontloader';
-    $title = new lang_string('fontloader', 'theme_snap');
-    $description = new lang_string('fontloaderdesc', 'theme_snap');
-    $default = new lang_string('fontloaderdefault', 'theme_snap');
-    $setting = new admin_setting_configtextarea($fontloader, $title, $description, $default);
-    $setting->set_updatedcallback('theme_reset_all_caches');
-    $settings->add($setting);
-
+   
     // Personal menu settings
     $name = 'theme_snap/personalmenu';
     $title = new lang_string('personalmenu', 'theme_snap');
@@ -171,7 +144,6 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
-
 
     // Navigation.
     $name = 'theme_snap/navigationheading';
@@ -270,6 +242,15 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configtext($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
+    
+    // Font include.
+    $fontloader = 'theme_snap/fontloader';
+    $title = new lang_string('fontloader', 'theme_snap');
+    $description = new lang_string('fontloaderdesc', 'theme_snap');
+    $default = new lang_string('fontloaderdefault', 'theme_snap');
+    $setting = new admin_setting_configtextarea($fontloader, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
 
     // Custom CSS file.
     $name = 'theme_snap/customcss';
@@ -277,6 +258,17 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('customcssdesc', 'theme_snap');
     $default = '';
     $setting = new admin_setting_configtextarea($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
+    
+    // CSS Post Process on/off.
+    $name = 'theme_snap/csspostprocesstoggle';
+    $title = new lang_string('csspostprocesstoggle', 'theme_snap');
+    $description = new lang_string('csspostprocesstoggledesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
 }
