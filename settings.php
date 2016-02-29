@@ -208,6 +208,15 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
 
+    // Custom copyright notice.
+    $name = 'theme_snap/copyrightnotice';
+    $title = new lang_string('copyrightnotice', 'theme_snap');
+    $description = new lang_string('copyrightnoticedesc', 'theme_snap');
+    $default = '';
+    $setting = new admin_setting_confightmleditor($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
+    
     // Advanced branding heading.
     $name = 'theme_snap/advancedbrandingheading';
     $title = new lang_string('advancedbrandingheading', 'theme_snap');

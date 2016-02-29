@@ -79,18 +79,20 @@ if (core_component::get_component_directory('local_mrooms') !== null) {
 }
 
 $poweredbyrunby = get_string('poweredbyrunby', 'theme_snap', $builtwith);
-?>
 
-<div id='mrooms-footer' class="helplink text-right">
-    <small>
-    <?php
+if (empty($PAGE->theme->settings->copyrightnotice)) {
+    echo '<div id="mrooms-footer" class="helplink text-right">
+    <small>';
     if ($OUTPUT->page_doc_link()) {
         echo $OUTPUT->page_doc_link();
     }
-    ?>
-    <br/><?php echo $poweredbyrunby ?>
-<br>© Copyright 2016 Moodlerooms Inc, All Rights Reserved.</small>
-</div>
+    echo '<br/>' . $poweredbyrunby . '
+    <br>&copy; Copyright 2016 Moodlerooms Inc, All Rights Reserved.</small>
+    </div>';
+} else {
+    echo $PAGE->theme->settings->copyrightnotice;
+}
+?>
 <!-- close mrooms footer -->
 <div id="page-footer">
 <?php echo $OUTPUT->lang_menu(); ?>
