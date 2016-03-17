@@ -162,6 +162,11 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
+    //Display next activity in footer
+    //Popup Modal on activity completion
+    //Popup Modal tolerance (seconds)
+    //Popup Modal delay (milliseconds)
+    
     // Hide course page.
     $name = 'theme_snap/hidecoursepage';
     $title = new lang_string('hidecoursepage', 'theme_snap');
