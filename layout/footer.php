@@ -23,6 +23,9 @@
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+global $USER, $DB;
+
 $inccoursefooterclass = ($PAGE->theme->settings->coursefootertoggle && strpos($PAGE->pagetype, 'course-view-') === 0)
     ? ' hascoursefooter'
     : ' nocoursefooter';
@@ -92,6 +95,105 @@ if (empty($PAGE->theme->settings->copyrightnotice)) {
 } else {
     echo $PAGE->theme->settings->copyrightnotice;
 }
+
+$showcompletionmodal = false;
+
+//1 If we are on a mod page...
+$pagepath = explode('-', $PAGE->pagetype);
+if ($pagepath[0] == 'mod') {
+
+    //2 Check course completion setting
+    //Ask Leonard: Does course completion have to be set for activity completion to work
+    if ($COURSE->enablecompletion == COMPLETION_ENABLED) {
+        
+    }
+    
+    //3 Check completion setting of current mod
+    // Don't bother popping a modal if completion is based on user clicking a box ()COMPLETION_TRACKING_MANUAL)
+    if ($PAGE->cm->completion == COMPLETION_TRACKING_AUTOMATIC) {
+             
+        //4 Check completion of current mod
+        $completion = $DB->get_record('course_modules_completion', array('coursemoduleid'=>$PAGE->cm->id, 'userid'=>$USER->id));
+                                       
+        if (!empty($completion)) {
+            if (!empty($completion->timemodified)) {
+                
+                if (abs(time() - $completion->timemodified) < 20000) {
+                    if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
+                        $showcompletionmodal = true;
+                    }
+                }     
+            }
+        }  
+    }      
+}    
+
+//Get 'Next Activity' from section
+//select sequence from mdl_course_sections where course = 2 and section = 3;
+if ($showcompletionmodal) {
+    //$coursesections = $DB->get_record('course_sections', array('course'=>$PAGE->course->id, 'section'=>$PAGE->cm->sectionnum));
+    //$coursesections = $PAGE->cm->modinfo->sections[$PAGE->cm->sectionnum];
+    //$modsinsection = explode(',', $coursesections->sequence);
+    
+    //for loop to find current and next
+    $currentcmidfoundflag = false;
+    $nextmod = false;
+    
+    $cms = $PAGE->cm->get_modinfo()->cms;
+    foreach ($cms as $cmid => $cm) {
+        if (!$currentcmidfoundflag) {
+            if ($cmid == $PAGE->cm->id) {
+                $currentcmidfoundflag = true;
+                continue;
+            } else {
+                continue;
+            }
+        }
+        if ($cm->uservisible) {
+             $nextmod = $cm;
+             break;
+        }
+    }
+     
+}
+
+if ($showcompletionmodal) { //}($PAGE->theme->settings->activitycompletionmodal) {
+
+//Build language string
+//$object = new StdClass;
+//$object->foo = 'bar';
+
+//$link = html_writer::link($url, get_string('editcustomfooter', 'theme_snap'), ['class' => 'btn btn-default btn-sm']);
+$nextmodurl =  $nextmod->url->out();
+echo ' <!-- Modal -->
+  <div class="modal fade activitycompletemodal" id="activitycompletemodal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content activitycompletemodal-content">
+        <div class="modal-header activitycompletemodal-header">
+          <button type="button" class="close activitycompletemodal-close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title activitycompletemodal-title"><span class="glyphicon glyphicon-star activitycompletemodal-star"></span> Activity Complete!</h4>
+        </div>
+        <div class="modal-body activitycompletemodal-body">
+          <p>Congratulations on completing <span class="activitycompletecurrentmodname">' . $PAGE->cm->name . '</span> <span class="activitycompletecurrentmodtype">(' . $PAGE->cm->modname . ')</span></p>
+          <p><a href="' . $nextmodurl . '" class="activitycompletenextmodlink">Continue to next activity: <span class="activitycompletenextmodname">' . $nextmod->name . '</span> <span class="activitycompletecurrentmodtype">(' . $nextmod->modname . ')</span></a></p>
+        </div>
+        <div class="modal-footer activitycompletemodal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div> <script type="text/javascript">
+    $(window).load(function(){
+        //$(\'#myModal\').modal(\'show\');
+        setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, 2000);
+    });
+</script>
+';
+}
+
 ?>
 <!-- close mrooms footer -->
 <div id="page-footer">
