@@ -183,11 +183,11 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         }
         $output .= '<div class="asset-wrapper">';
 
+               
         // TODO - add if can edit.
         // Drop section notice.
         $output .= '<a class="snap-move-note" href="#">'.get_string('movehere', 'theme_snap').'</a>';
-        // Start the div for the activity content.
-        $output .= "<div class='activityinstance'>";
+        
         // Display the link to the module (or do nothing if module has no url).
         $cmname = $this->course_section_cm_name($mod, $displayoptions);
         $assetlink = '';
@@ -196,7 +196,72 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         if (!empty($cmname)) {
             $assetlink = '<a></a><h4 class="snap-asset-link">'.$cmname.'</h4>';
         }
-
+        
+        // Start the div for the activity content.
+        $this->page->theme->settings->collapsecompletedactivities = true;
+        
+        // If allow collapse/expand of activities with bootstrap, provide an id for this activityinstance and default collapse state based on completion.
+        if ($this->page->theme->settings->collapsecompletedactivities) {
+            $collapsetarget = 'collapsetarget-' . $mod->modname . '-' . $mod->instance;
+            $collapsebutton = '<button data-toggle="collapse" data-target="#' . $collapsetarget . '"><span class="glyphicon glyphicon-chevron-down"></span></button>';
+            $completiondata = $completioninfo->get_data($mod, true);
+            $currentcompleted = false;
+            $collapsestate = 'collapse';
+            $stepperspan = '';
+            
+            if ($completioninfo->is_enabled($mod) == COMPLETION_TRACKING_AUTOMATIC) {
+                if ($completiondata->completionstate != COMPLETION_INCOMPLETE) {
+                     $currentcompleted = true;  
+                } 
+            }
+            
+            //If current is completed change stepper to OK (tick).
+            if ($currentcompleted) {
+                $stepperspan = '<span class="stepper-complete glyphicon glyphicon-ok"></span>';
+            } else {    
+                //Assume all previous mods in section are completed.
+                $allpreviouscompleted = true;
+                //Find stepper item number
+                $stepper = 1;
+                //Loop through all previous mods in section
+                //This isn't the most efficient option, but it is the least invasive to the current codebase.
+                //Non-display of labels etc might break the stepper count
+                $modinfo = $mod->get_modinfo();
+                foreach ($modinfo->sections[$mod->sectionnum] as $imodnumber) {                   
+                    //Retrieve mod
+                    $imod = $modinfo->cms[$imodnumber];
+                    
+                    //Stop when mod is current
+                    if ($mod->id == $imod->id) break;
+                    
+                    //Note completion state of all previous
+                    if ($allpreviouscompleted) {
+                        if ($completioninfo->is_enabled($imod) == COMPLETION_TRACKING_AUTOMATIC) {
+                            $icompletiondata = $completioninfo->get_data($imod, true);
+                            if ($icompletiondata->completionstate == COMPLETION_INCOMPLETE) {
+                                 $allpreviouscompleted = false;  
+                            } 
+                        }
+                    }
+                    
+                    //Increment stepper count
+                    $stepper++;
+                }
+                
+                //if current is available and the first in section that is not completed, give number and expand
+                if ($mod->available && $allpreviouscompleted) {
+                    $collapsestate = 'collapse in';
+                    $stepperspan = "<span class='stepper-current'>$stepper</span>";  
+                } else {
+                    $stepperspan = "<span class='stepper-future'>$stepper</span>";    
+                }
+            }
+                                       
+            $output .= '<a href="' . $mod->url->out() . '">' . $stepperspan . '</a>' . $assetlink . $collapsebutton . "<div id=\"$collapsetarget\" class='activityinstance $collapsestate'>";
+        } else {
+            $output .= "<div class='activityinstance'>";
+        }
+        
         // Asset content.
         $contentpart = $this->course_section_cm_text($mod, $displayoptions);
 
@@ -210,7 +275,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         // Due date, feedback available and all the nice snap things.
         $snapcompletiondata = $this->module_meta_html($mod);
         $assetcompletionmeta = "<div class='snap-completion-meta'>".$completiontracking.$snapcompletiondata."</div>";
-
+       
         // Draft status - always output, shown via css of parent.
         $assetrestrictions = "<div class='draft-tag text text-warning'>".get_string('draft', 'theme_snap')."</div>";
 
@@ -241,10 +306,15 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         $assetrestrictions = "<div class='snap-restrictions-meta'>$assetrestrictions</div>";
 
         $assetmeta .= $assetcompletionmeta.$assetrestrictions;
-
+             
         // Build output.
         $postcontent = "<div class='snap-asset-meta'>".$mod->afterlink.$assetmeta."</div>";
-        $output .= $assetlink.$contentpart.$postcontent;
+        
+        if ($this->page->theme->settings->collapsecompletedactivities) {
+            $output .= $contentpart.$postcontent;
+        }   else {
+            $output .= $assetlink.$contentpart.$postcontent;
+        }
 
         // Bail at this point if we aren't using a supported format. (Folder view is only partially supported)
         $supported = ['folderview', 'topics', 'weeks', 'site'];
