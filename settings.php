@@ -219,6 +219,31 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
+    // Functional Heading.
+    $name = 'theme_snap/functionalheading';
+    $title = new lang_string('functionalheading', 'theme_snap');
+    $description = new lang_string('functionalheadingdesc', 'theme_snap');
+    $setting = new admin_setting_heading($name, $title, $description);
+    $settings->add($setting); 
+    
+    // Semantic activation for question types on/off.
+    // There is a body of knowledge that says a learner is able to answer questions better if they are presented with
+    // information about how they are intended to answer BEFORE reading the question text, as opposed to simply listing
+    // the word "Question" followed by the integer of the current question.
+    // e.g.
+    // If this setting is enabled a truefalse question type is rendered "True / False" prior to the question text rather than: "Question 1",
+    // which gives no information about how the learner is expected to answer, and really, gives no information at all.
+    
+    $name = 'theme_snap/questionsemanticactivation';
+    $title = new lang_string('questionsemanticactivation', 'theme_snap');
+    $description = new lang_string('questionsemanticactivationdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
+        
     // Footer.
     $name = 'theme_snap/footerheading';
     $title = new lang_string('footerheading', 'theme_snap');

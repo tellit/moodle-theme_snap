@@ -104,6 +104,8 @@ $string['forumpoststoggle'] = 'Forum posts';
 $string['forumpoststoggledesc'] = 'The 10 most recent forum posts from all the courses the current user is enrolled in will be shown in the personal menu.';
 $string['fullname'] = 'Site name';
 $string['fullnamedesc'] = 'The name of your site.';
+$string['functionalheading'] = 'Functional Options';
+$string['functionalheadingdesc'] = '';
 $string['graderadviseuserreport'] = 'The "grader report" does not work well on mobile devices. The "user report" is recommended instead';
 $string['grading'] = 'Grading';
 $string['headingfont'] = 'Heading font';
@@ -176,6 +178,8 @@ $string['poweredbyrunby'] = 'Built with {$a} from <a href="http://moodlerooms.co
     .', powered by <a href="http://www.moodle.com/" target="_blank">Moodle</a>.';
 $string['previoussection'] = 'Previous section';
 $string['problemsfound'] = 'Problems Found';
+$string['questionsemanticactivation'] = 'Semantic activation for question types';
+$string['questionsemanticactivationdesc'] = 'If this setting is enabled a truefalse question type is rendered "True / False" prior to the question text rather than: "Question 1"';
 $string['questionsemanticactivation-calculated'] = '';
 $string['questionsemanticactivation-calculatedmulti'] = '';
 $string['questionsemanticactivation-calculatedsimple'] = '';
