@@ -98,37 +98,46 @@ if (empty($PAGE->theme->settings->copyrightnotice)) {
 
 //<a class="next_section" href="#section-1"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">Next section</span><br>Week 1</span></a>
 
+$showcompletionnextactivity = false;
 $showcompletionmodal = false;
 
-//1 If we are on a mod page...
-$pagepath = explode('-', $PAGE->pagetype);
-if ($pagepath[0] == 'mod') {
+// If nextactivityinfooter or nextactivitymodaldialog are set
+//if ($this->page->theme->settings->nextactivityinfooter || $this->page->theme->settings->nextactivitymodaldialog) {
 
-    //2 Check course completion setting
-    if ($COURSE->enablecompletion == COMPLETION_ENABLED) {
-    
-        //3 Check completion setting of current mod
-        // Don't bother popping a modal if completion is based on user clicking a box (COMPLETION_TRACKING_MANUAL)
-        if ($PAGE->cm->completion == COMPLETION_TRACKING_AUTOMATIC) {
-                 
-            //4 Check completion of current mod
-            $completion = $DB->get_record('course_modules_completion', array('coursemoduleid'=>$PAGE->cm->id, 'userid'=>$USER->id));
-            
-                                           
-            if (!empty($completion)) {
-                if (!empty($completion->timemodified)) {
+    //1 If we are on a mod page...
+    $pagepath = explode('-', $PAGE->pagetype);
+    if ($pagepath[0] == 'mod') {
+
+        //2 Check course completion setting
+        if ($COURSE->enablecompletion == COMPLETION_ENABLED) {
+        
+            //3 Check completion setting of current mod
+            if ($PAGE->cm->completion == COMPLETION_TRACKING_MANUAL && $this->page->theme->settings->nextactivityinfooter)
+            // Don't bother popping a modal if completion is based on user clicking a box (COMPLETION_TRACKING_MANUAL)
+            if ($PAGE->cm->completion == COMPLETION_TRACKING_AUTOMATIC) {
+                     
+                //4 Check completion of current mod
+                $completion = $DB->get_record('course_modules_completion', array('coursemoduleid'=>$PAGE->cm->id, 'userid'=>$USER->id));
+                
+                                               
+                /*if (!empty($completion)) {
                     
-                    if (abs(time() - $completion->timemodified) < 20000) {
-                        if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
-                            $showcompletionmodal = true;
-                        }
-                    }     
-                }
-            }  
-        }
-    }      
-}    
-
+                    if (!empty )
+                    
+                    $this->page->theme->settings-
+                    
+                    if (!empty($completion->timemodified)) {
+                        if (abs(time() - $completion->timemodified) < 20000) {
+                            if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
+                                $showcompletionmodal = true;
+                            }
+                        }     
+                    }
+                }  */
+            }
+        }      
+    }    
+//}
 //Get 'Next Activity' from section
 //select sequence from mdl_course_sections where course = 2 and section = 3;
 if ($showcompletionmodal) {
@@ -178,16 +187,12 @@ echo '<!-- Modal -->
                 <h4 class="modal-title activitycompletemodal-title">
                     Activity Complete
                 </h4>
-                <p>You completed the activity <span class="activitycompletecurrentmodname">' . $PAGE->cm->name . '</span> 
-                    <span class="activitycompletecurrentmodtype">(' . $PAGE->cm->modname . ')</span> 
-                    and have released the next activity. <span class="activitycompletenextmodname">' . $nextmod->name . '</span>
+                <p>You released the next activity <span class="activitycompletenextmodname">' . $nextmod->name . '</span>.
                 </p>
             </div>
             <div class="modal-footer activitycompletemodal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <a href="' . $nextmodurl . '" class="activitycompletenextmodlink">Next activity
-                <span class="activitycompletenextmodname">' . $nextmod->name . '</span> 
-                <span class="activitycompletecurrentmodtype">(' . $nextmod->modname . ')</span>
+                <a href="' . $nextmodurl . '" class="activitycompletenextmodlink">Next Activity
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </a>
             </div>
