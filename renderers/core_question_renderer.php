@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . "/question/engine/renderer.php");
+
 class theme_snap_core_question_renderer extends core_question_renderer {
     
     /**
