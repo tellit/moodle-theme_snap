@@ -162,10 +162,42 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
-    //Display next activity in footer
-    //Popup Modal on activity completion
-    //Popup Modal tolerance (seconds)
-    //Popup Modal delay (milliseconds)
+    // On completion, display next activity in footer on/off.
+    $name = 'theme_snap/nextactivityinfooter';
+    $title = new lang_string('nextactivityinfooter', 'theme_snap');
+    $description = new lang_string('nextactivityinfooterdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+    
+    // On activity completion, popup modal dialog with link to next activity on/off.
+    $name = 'theme_snap/nextactivitymodaldialog';
+    $title = new lang_string('nextactivitymodaldialog', 'theme_snap');
+    $description = new lang_string('nextactivitymodaldialogdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+    
+    // Number of seconds after completion event to continue generating the modal dialog. Default 30.
+    // Popup Modal tolerance (seconds)
+    $name = 'theme_snap/nextactivitymodaldialogtolerance';
+    $title = new lang_string('nextactivitymodaldialogtolerance', 'theme_snap');
+    $description = new lang_string('nextactivitymodaldialogtolerancedesc', 'theme_snap');
+    $default = 30;
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
+    $settings->add($setting);
+    
+    // Number of milliseconds after page load to pop the completion modal. Default 2000.
+    $name = 'theme_snap/nextactivitymodaldialogdelay';
+    $title = new lang_string('nextactivitymodaldialogdelay', 'theme_snap');
+    $description = new lang_string('nextactivitymodaldialogdelaydesc', 'theme_snap');
+    $default = 2000;
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
+    $settings->add($setting);
     
     // Hide course page.
     $name = 'theme_snap/hidecoursepage';
