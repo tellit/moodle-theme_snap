@@ -44,8 +44,8 @@ class theme_snap_core_question_renderer extends core_question_renderer {
      */
     protected function info(question_attempt $qa, qbehaviour_renderer $behaviouroutput,
             qtype_renderer $qtoutput, question_display_options $options, $number) {
-        $output = '';
-        
+
+        $output = '';      
         if (!empty($this->page->theme->settings->questionsemanticactivation)) {
             $output .= $this->semanticactivation($qa);
         } else {

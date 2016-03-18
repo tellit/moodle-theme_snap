@@ -24,6 +24,7 @@
 
 html {
     -webkit-font-smoothing: auto !important;
+    background: @gray-dark;
 }
 
 // Snap Layout yo...
@@ -115,7 +116,7 @@ table.boxwidthwide {
 #page-login-index {
     #region-main {
         max-width: 100%;
-        padding: 0 4% 2em;
+        padding: 0 0 2em;
     }
 
     .loginpanel h2 {
@@ -235,17 +236,20 @@ html {
 }
 
  ::-moz-selection {
-    background: #fe57a1;
-    color: #fff;
+    background: @gray-lighter;
+    color: #000;
     text-shadow: none;
 }
 
  ::selection {
-    background: #fe57a1;
-    color: #fff;
+   background: @gray-lighter;
+    color: #000;
     text-shadow: none;
 }
 
+table#explaincaps > tbody > tr:nth-of-type(odd), table#defineroletable > tbody > tr:nth-of-type(odd), table.grading-report > tbody > tr:nth-of-type(odd), table#listdirectories > tbody > tr:nth-of-type(odd), table.rolecaps > tbody > tr:nth-of-type(odd), table.userenrolment > tbody > tr:nth-of-type(odd), table#form > tbody > tr:nth-of-type(odd), .ratingtable > tbody > tr:nth-of-type(odd), #report-eventlist-table table > tbody > tr:nth-of-type(odd), form#movecourses table > tbody > tr:nth-of-type(odd), #page-admin-course-index .editcourse > tbody > tr:nth-of-type(odd), table#categoryquestions > tbody > tr:nth-of-type(odd), .forumheaderlist > tbody > tr:nth-of-type(odd), table.surveytable > tbody > tr:nth-of-type(odd), table.flexible > tbody > tr:nth-of-type(odd), .generaltable > tbody > tr:nth-of-type(odd) {
+background-color: transparent;
+}
 // scrollbars in ie
 body.ie {
     -ms-overflow-style: scrollbar;
@@ -297,7 +301,10 @@ table,
 blockquote {
 
     //    border-left: 5px solid @brand-primary; customisable
-    font-size: 1em;
+    font-size: .9em;
+        margin-left: 1em;
+    margin-right: 1em;
+    border: 0;
 }
 
 img {
@@ -401,7 +408,7 @@ h5,
 h6,
 legend {
     line-height: 1.5;
-    margin: 0.5em 0;
+    margin: 0.44em 0 0;
 }
 
 h1 {
@@ -503,7 +510,7 @@ input[type="reset"] {
     border-color: #fff;
     color: #fff;
     font-weight: 300;
-    font-family: @font-family-base;
+    font-family: @font-family-sans-serif;
 
     // background-color: @brand-primary; customisable
     &:hover,
@@ -533,6 +540,7 @@ input[type="text"]+input[type="submit"] {
     margin-right: 0.8em;
     vertical-align: baseline;
     line-height: 1.5;
+    font-family: @font-family-sans-serif;
 }
 
 // Shame - the front page uses a different renderer for add asset.
@@ -625,7 +633,7 @@ input[type="text"]+input[type="submit"] {
 }
 
 #logo {
-    display: inline-block;
+    display: none;
     background-color: transparent;
     background-repeat: no-repeat;
     height: 38px;
@@ -741,6 +749,7 @@ input[type="text"]+input[type="submit"] {
 
 .fixy-trigger {
     // border: 1px solid @brand-primary; customisable
+    font-family: @font-family-sans-serif;
     padding: 1em;
     position: relative;
     .alakazam();
@@ -778,9 +787,8 @@ input[type="text"]+input[type="submit"] {
     left: 0;
     bottom: 0;
     overflow-y: auto;
-
-    //	background-color: @brand-primary; customisable
-    color: #fff;
+    background-color: @gray-lighter;
+    color: @gray;
     z-index: 1000000;
 
     hr {
@@ -1183,7 +1191,6 @@ footer #moodle-footer
  ****************************/
 #mr-nav,
 #page-header,
-#region-main,
 #moodle-footer,
 #moodle-blocks {
     margin: 0 auto;
@@ -1205,13 +1212,18 @@ footer #moodle-footer
 // Mr.nav - he's there and fixed to the top of your page
 // -------------------------
 
+header#mr-nav a {
+    color: #333;
+}
+
 #mr-nav {
     position: fixed;
     width: 100%;
     z-index: 23;
     line-height: 2;
-    padding: 0.5em 0 0.5em 4%;
-    background-color: rgba(255,255,255,0.95);
+  padding: 0.5em 0 0.5em 1%;
+  background-color: #fff;
+  box-shadow: -2px 1px 4px #333;
 
     //headroom js http://wicky.nillia.ms/headroom.js/
     &.headroom--unpinned {
@@ -1263,8 +1275,8 @@ footer #moodle-footer
 
 #region-main {
     font-family: @font-family-serif;
-    max-width: 60.5em;
     padding-top: 1em;
+    margin: 0 auto 0;
 }
 
 // Pages that need as much width as they can get as they
@@ -1316,18 +1328,34 @@ header#page-header
 // Breadcrumb - not really a breadcrumb like on the web, but some moodleything
 // -------------------------
 
+
+.breadcrumb > li:before {
+    content: @breadcrumb-separator;
+}
+
+.breadcrumb li:nth-child(2):before {
+    content: '\e091 ';
+    padding-right: 1em;
+    vertical-align: top;
+    font-family: 'Glyphicons Halflings';
+    color: #000;
+}
+
 .breadcrumb-nav {
-    margin-bottom: 0;
-    float: none;
-    margin-top: -0.5em;
+    margin: 0;
+    float: left;
 }
 
 .breadcrumb {
     background-color: transparent;
     padding: 0;
-    font-size: @font-size-small;
+    font-size: @font-size-base;
     display: block;
-}
+    font-family: @font-family-sans-serif;
+    &> li:last-child, &> li:first-child, {
+    display: none;
+        }
+} 
 
 @media screen and (max-width: @screen-sm) {
     .breadcrumb li {
@@ -1341,6 +1369,7 @@ header#page-header
         }
     }
 }
+
 
 // SHAME - what is this?
 // -------------------------
@@ -1442,6 +1471,7 @@ ol#chapters {
         padding-bottom: 0.1em;
         color: #999;
         line-height: 1;
+        list-style-type: decimal;
 
         a {
             display: block;
@@ -1787,6 +1817,16 @@ ol#chapters {
 .no-overflow {
     overflow: visible;
     padding: 0;
+}
+
+.forumpost {
+  background-color: transparent;
+  border: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  padding: 0;
+  width: 640px;
+  float: right;
 }
 
 .form-label .form-shortname {
@@ -2797,9 +2837,8 @@ ul.events-new + ul.events-underway {
 
 // quiz itself //
 .que {
-    border-bottom: 1px solid #999;
-    padding: 1.5em 0;
-    margin: 1em 0;
+    padding: 0;
+	margin: 0;
 }
 
 .que .info,
@@ -3329,7 +3368,7 @@ table#user-grades tr.avg td.cell {
     }
 
     table .header[scope="col"] {
-        background-color: #fff;
+        background-color: transparent;
         font-size: 13px; // SHAME - magic number
     }
 
@@ -3561,7 +3600,7 @@ table#user-grades tr.avg td.cell {
     //	background-color: @brand-primary; customisable
     font-size: 2em;
     width: 100%;
-    padding: 1em 4% 4em;
+    padding: 2em 4% 4em;
 
     // pull buttons up into the #notice when they are placed
     // after it, rather than inside it.
@@ -3722,6 +3761,7 @@ body.hascontinuecancel.path-site #page {
 .moodle-dialogue-base .moodle-dialogue {
     min-width: 32%;
     padding: 0;
+    text-align: center;
     /* large size */
     &.chooserdialogue,
     &.filepicker {
@@ -3866,10 +3906,11 @@ body.hascontinuecancel.path-site #page {
 // The site footer - moodle-footer
 // -------------------------
 
+
+
 #moodle-footer {
     padding-top: 2em;
     padding-bottom: 1em;
-    border-top: 1px solid #ccc;
     clear: both;
     color: @gray-lighter;
     background-color: @text-color;
@@ -3915,6 +3956,12 @@ body.hascontinuecancel.path-site #page {
 #site-news-forum + br {
     display: none;
 }
+
+img.cass-logo {
+    float: left;
+    width: 255px;
+    height: 74px;
+} 
 
 /* Moodle error, reports, all that stuff in the footer */
 #page-footer {

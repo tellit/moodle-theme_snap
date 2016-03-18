@@ -197,9 +197,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
             $assetlink = '<a></a><h4 class="snap-asset-link">'.$cmname.'</h4>';
         }
         
-        // Start the div for the activity content.
-        $this->page->theme->settings->collapsecompletedactivities = true;       
-        $this->page->theme->settings->scrapecurrentactivity = true;
+        // Start the div for the activity content.       
 
         //Three states:
         //Completed: $currentmodcompleted is true.
@@ -207,8 +205,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         //Future: $currentmodcompleted is false, $allpreviouscompleted is false
         $currentmodcompleted = false;
         $allpreviouscompleted = false;
-        
-        
+
         // If allow collapse/expand of activities with bootstrap, provide an id for this activityinstance and default collapse state based on completion.
         if ($this->page->theme->settings->collapsecompletedactivities) {
             $collapsetarget = 'collapsetarget-' . $mod->modname . '-' . $mod->instance;
@@ -352,6 +349,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
                     $postcontent .= '<div id="current-mod-scrape" class="current-mod-scrape">' . $contents . '</div>';
                 }
             }
+
             $output .= $contentpart.$postcontent;
         }   else {
             $output .= $assetlink.$contentpart.$postcontent;
