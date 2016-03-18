@@ -198,28 +198,36 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         }
         
         // Start the div for the activity content.
-        $this->page->theme->settings->collapsecompletedactivities = true;
+        $this->page->theme->settings->collapsecompletedactivities = true;       
+        $this->page->theme->settings->scrapecurrentactivity = true;
+
+        //Three states:
+        //Completed: $currentmodcompleted is true.
+        //Current: $currentmodcompleted is false, $allpreviouscompleted is true and mod is available
+        //Future: $currentmodcompleted is false, $allpreviouscompleted is false
+        $currentmodcompleted = false;
+        $allpreviouscompleted = false;
+        
         
         // If allow collapse/expand of activities with bootstrap, provide an id for this activityinstance and default collapse state based on completion.
         if ($this->page->theme->settings->collapsecompletedactivities) {
             $collapsetarget = 'collapsetarget-' . $mod->modname . '-' . $mod->instance;
             $collapsebutton = '<button data-toggle="collapse" data-target="#' . $collapsetarget . '"><span class="glyphicon glyphicon-chevron-down"></span></button>';
             $completiondata = $completioninfo->get_data($mod, true);
-            $currentcompleted = false;
             $collapsestate = 'collapse';
             $stepperspan = '';
             
             if ($completioninfo->is_enabled($mod) == COMPLETION_TRACKING_AUTOMATIC) {
                 if ($completiondata->completionstate != COMPLETION_INCOMPLETE) {
-                     $currentcompleted = true;  
+                     $currentmodcompleted = true;  
                 } 
             }
             
             //If current is completed change stepper to OK (tick).
-            if ($currentcompleted) {
+            if ($currentmodcompleted) {
                 $stepperspan = '<span class="stepper-complete glyphicon glyphicon-ok"></span>';
-            } else {    
-                //Assume all previous mods in section are completed.
+            } else {
+            
                 $allpreviouscompleted = true;
                 //Find stepper item number
                 $stepper = 1;
@@ -251,7 +259,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
                 //if current is available and the first in section that is not completed, give number and expand
                 if ($mod->available && $allpreviouscompleted) {
                     $collapsestate = 'collapse in';
-                    $stepperspan = "<span class='stepper-current'>$stepper</span>";  
+                    $stepperspan = "<span class='stepper-current'>$stepper</span>";
                 } else {
                     $stepperspan = "<span class='stepper-future'>$stepper</span>";    
                 }
@@ -311,6 +319,40 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         $postcontent = "<div class='snap-asset-meta'>".$mod->afterlink.$assetmeta."</div>";
         
         if ($this->page->theme->settings->collapsecompletedactivities) {
+            if ($this->page->theme->settings->scrapecurrentactivity) {
+                if (!$currentmodcompleted && $mod->available && $allpreviouscompleted) {
+                    //scrape the mod page
+                    $url = new moodle_url($mod->url, array('scrape'=>'1'));
+                    
+                    //$url = clone $mod->url;
+                    //$url->param('scrape', '1');
+                                       
+                    //Send user cookie
+                    $context = stream_context_create(array('http' => array('header'=> 'Cookie: ' . $_SERVER['HTTP_COOKIE']."\r\n")));
+                    
+                    //Must close session prior to scrape to prevent session deadlock
+                    session_write_close();
+                    
+                    //Retieve the page (Do not URL encode parameters)
+                    $contents = file_get_contents($url->out(false), false, $context);
+                    //session_start(); // Lock the file
+                    
+                    //Use a dom document to parse and correct any missing closing elements
+                    $doc = new DOMDocument();
+
+                    //We are not interested in escalating errors associated with malformed HTML
+                    //Disable PHP warning reports (but storethe current state of libxml_use_internal_errors)
+                    $libxml_previous_state = libxml_use_internal_errors(true);
+                    $doc->loadHTML($contents);
+                    $contents = $doc->saveHTML();
+                    //Clear any errors
+                    libxml_clear_errors();
+                    //Restore error reporting state
+                    libxml_use_internal_errors($libxml_previous_state);   
+                                                         
+                    $postcontent .= '<div id="current-mod-scrape" class="current-mod-scrape">' . $contents . '</div>';
+                }
+            }
             $output .= $contentpart.$postcontent;
         }   else {
             $output .= $assetlink.$contentpart.$postcontent;
