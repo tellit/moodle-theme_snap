@@ -18416,7 +18416,24 @@ li.snap-resource.snap-mime-text,
 .unavailable .snap-asset-link:before {
   background: #999;
 }
-h4.snap-asset-link:before {
+span.stepper-complete {
+  content: counter(activity) !important;
+  counter-increment: activity;
+  position: absolute;
+  left: -18px;
+  top: 0;
+  z-index: 4;
+  background: green;
+  border-radius: 1em;
+  width: 1.5em;
+  height: 1.5em;
+  text-indent: 13px;
+  line-height: 1.2em;
+  color: #fff;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+span.stepper-current {
   content: counter(activity) !important;
   counter-increment: activity;
   position: absolute;
@@ -18424,6 +18441,23 @@ h4.snap-asset-link:before {
   top: 0;
   z-index: 4;
   background: #00759B;
+  border-radius: 1em;
+  width: 1.5em;
+  height: 1.5em;
+  text-indent: 13px;
+  line-height: 1.2em;
+  color: #fff;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+span.stepper-future {
+  content: counter(activity) !important;
+  counter-increment: activity;
+  position: absolute;
+  left: -18px;
+  top: 0;
+  z-index: 4;
+  background: grey;
   border-radius: 1em;
   width: 1.5em;
   height: 1.5em;

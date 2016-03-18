@@ -111,7 +111,8 @@ if ($this->page->theme->settings->nextactivityinfooter || $this->page->theme->se
         if ($COURSE->enablecompletion == COMPLETION_ENABLED) {
         
             //3 Check completion setting of current mod
-            if ($PAGE->cm->completion == COMPLETION_TRACKING_MANUAL && $this->page->theme->settings->nextactivityinfooter)
+            if ($PAGE->cm->completion == COMPLETION_TRACKING_MANUAL && $this->page->theme->settings->nextactivityinfooter) $showcompletionnextactivity = true;
+            
             // Don't bother popping a modal if completion is based on user clicking a box (COMPLETION_TRACKING_MANUAL)
             if ($PAGE->cm->completion == COMPLETION_TRACKING_AUTOMATIC) {
                      

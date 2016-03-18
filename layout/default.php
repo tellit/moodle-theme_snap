@@ -22,7 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$this->page->theme->settings->scrapecurrentactivity = 1;
 if ($this->page->theme->settings->scrapecurrentactivity) {
     $scrape = optional_param('scrape', 0, PARAM_INT);
     if ($scrape) {
