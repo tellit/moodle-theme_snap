@@ -23,6 +23,9 @@
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+global $USER, $DB;
+
 $inccoursefooterclass = ($PAGE->theme->settings->coursefootertoggle && strpos($PAGE->pagetype, 'course-view-') === 0)
     ? ' hascoursefooter'
     : ' nocoursefooter';
@@ -92,6 +95,113 @@ if (empty($PAGE->theme->settings->copyrightnotice)) {
 } else {
     echo $PAGE->theme->settings->copyrightnotice;
 }
+
+
+$showcompletionnextactivity = false;
+$showcompletionmodal = false;
+
+// If nextactivityinfooter or nextactivitymodaldialog are set
+if ($this->page->theme->settings->nextactivityinfooter || $this->page->theme->settings->nextactivitymodaldialog) {
+
+    //1 If we are on a mod page...
+    $pagepath = explode('-', $PAGE->pagetype);
+    if ($pagepath[0] == 'mod') {
+
+        //2 Check course completion setting
+        if ($COURSE->enablecompletion == COMPLETION_ENABLED) {
+        
+            //3 Check completion setting of current mod
+            if ($PAGE->cm->completion == COMPLETION_TRACKING_MANUAL && $this->page->theme->settings->nextactivityinfooter)
+            // Don't bother popping a modal if completion is based on user clicking a box (COMPLETION_TRACKING_MANUAL)
+            if ($PAGE->cm->completion == COMPLETION_TRACKING_AUTOMATIC) {
+                     
+                //4 Check completion of current mod
+                $completion = $DB->get_record('course_modules_completion', array('coursemoduleid'=>$PAGE->cm->id, 'userid'=>$USER->id));
+                
+                if (!empty($completion)) {                    
+                    if (!empty($completion->completionstate)) {
+                        if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
+                            
+                            if ($this->page->theme->settings->nextactivityinfooter) $showcompletionnextactivity = true;
+                            
+                            if ($this->page->theme->settings->nextactivitymodaldialog) {
+                    
+                                if (!empty($completion->timemodified)) {
+                                    // Use absolute value in forumla to be defensive about potential concurrency issues from multiple webservers
+                                    if (abs(time() - $completion->timemodified) < $this->page->theme->settings->nextactivitymodaldialogtolerance) {
+                                        if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
+                                            $showcompletionmodal = true;
+                                        }
+                                    }     
+                                }
+                            }
+                        }
+                    }
+                } 
+            }
+        }      
+    }    
+}
+if ($showcompletionnextactivity || $showcompletionmodal) {
+    //for loop to find current and next
+    $currentcmidfoundflag = false;
+    $nextmod = false;
+    
+    $cms = $PAGE->cm->get_modinfo()->cms;
+    foreach ($cms as $cmid => $cm) {
+        if (!$currentcmidfoundflag) {
+            if ($cmid == $PAGE->cm->id) {
+                $currentcmidfoundflag = true;
+                continue;
+            } else {
+                continue;
+            }
+        }
+        if ($cm->uservisible) {
+             $nextmod = $cm;
+             break;
+        }
+    }
+    $nextmodurl =  $nextmod->url->out();
+}
+
+if ($showcompletionmodal) { 
+echo '<!-- Modal -->
+<div class="modal fade activitycompletemodal" id="activitycompletemodal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content activitycompletemodal-content">
+            <div class="modal-header activitycompletemodal-header">
+                <span class="glyphicon glyphicon-ok activitycompletemodal-ok"></span>
+            </div>
+            <div class="modal-body activitycompletemodal-body">
+                <h4 class="modal-title activitycompletemodal-title">
+                    Activity Complete
+                </h4>
+                <p>You released the next activity <span class="activitycompletenextmodname">' . $nextmod->name . '</span>.
+                </p>
+            </div>
+            <div class="modal-footer activitycompletemodal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a href="' . $nextmodurl . '" class="activitycompletenextmodlink">Next Activity
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(window).load(function(){
+        //$(\'#myModal\').modal(\'show\');
+        setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
+    });
+</script>';
+}
+
+if ($showcompletionnextactivity) {
+   echo '<a class="next_activity" href="' . $nextmodurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">Next Activity</span><br>' . $nextmod->name . '</span></a>';
+}
+
 ?>
 <!-- close mrooms footer -->
 <div id="page-footer">
