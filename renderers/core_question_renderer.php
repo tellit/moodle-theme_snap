@@ -25,10 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-//require_once($CFG->dirroot . "/lib/outputrenderers.php");
 require_once($CFG->dirroot . "/question/engine/renderer.php");
-
-
 
 class theme_snap_core_question_renderer extends core_question_renderer {
     
@@ -48,7 +45,12 @@ class theme_snap_core_question_renderer extends core_question_renderer {
     protected function info(question_attempt $qa, qbehaviour_renderer $behaviouroutput,
             qtype_renderer $qtoutput, question_display_options $options, $number) {
         $output = '';
-        $output .= $this->semanticactivation($qa);
+        
+        if (!empty($this->page->theme->settings->questionsemanticactivation)) {
+            $output .= $this->semanticactivation($qa);
+        } else {
+            $output .= $this->number($number);
+        }
         $output .= $this->status($qa, $behaviouroutput, $options);
         $output .= $this->mark_summary($qa, $behaviouroutput, $options);
         $output .= $this->question_flag($qa, $options->flags);
@@ -57,9 +59,9 @@ class theme_snap_core_question_renderer extends core_question_renderer {
     }
     
     /**
-     * Generate the display of the question number.
-     * @param string|null $number The question number to display. 'i' is a special
-     *      value that gets displayed as Information. Null means no number is displayed.
+     * Generate a language string title text based on the question type
+     * 
+     * @param question_attempt $qa the question attempt to display.
      * @return HTML fragment.
      */
     protected function semanticactivation(question_attempt $qa) {
