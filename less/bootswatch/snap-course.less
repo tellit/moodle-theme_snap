@@ -398,6 +398,10 @@ li.section:focus {
     height: auto;
     width: auto;
     outline: 0;
+    overflow: visible;
+}
+.course-content > ul li.section.state-visible{
+    counter-reset: activity;
 }
 
 /* hide progress label with odd z-indexing */
@@ -509,28 +513,30 @@ body.format-flexpage .singlebutton {
     display: block;
     position: relative;
     padding: 0;
-    margin: 1em auto;
+    margin: 0;
     padding-bottom: 1em;
     min-height: 125px;
     height: auto;
     font-family: @font-family-base;
-    background-image: url([[pix:theme|file]]);
-    background-repeat: no-repeat;
     background-position: 50% 75%;
     background-size: 70px auto;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    border: 0 0 0 1px @gray-light;
+    box-shadow: none;  
+    background-color: transparent;
+    border-left: 1px solid @gray-light;
+    border-radius: 0;
+    
 
     .asset-wrapper {
         height: 100%;
         overflow-x: hidden;
         overflow-y: auto;
         position: static;
-        padding: 1em 0;
+        padding: 0;
     }
 
     .activityinstance {
-        padding: 0.5em 2%;
-        background-color: #fff;
+        padding: 0 2em 1em;
         height: auto;
         .clearfix();
 
@@ -934,24 +940,48 @@ li.snap-resource,
 // -------------------------
 // Snap Activity
 // -------------------------
+.unavailable .snap-asset-link:before {
+    background: @gray-light;
+}
+
+
+h4.snap-asset-link:before {
+    content: counter(activity) !important;
+    counter-increment: activity;
+    position: absolute;
+    left: -18px;
+    top: 0;
+    z-index: 4;
+    background: @brand-info;
+    border-radius: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    text-indent: 13px;
+    line-height: 1.2em;
+    color: #fff;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+ 
+li.unavailable h4 {
+    color: @gray-light;
+}
 
 .section li.snap-activity {
     background-image: none;
     width: 99%; // to allow for box-shadow faux border
 
-    .instancename {
-        font-size: @font-size-large;
-        display: block;
-        overflow: hidden;
-    }
 
     .activityicon {
         margin-left: 3%;
     }
 
-    .activityinstance .snap-asset-link a {
+    .activityinstance .snap-asset-link {
         display: block;
+        font-size: @font-size-large;
+        display: block;
+        overflow: hidden;
         .clearfix();
+        
     }
 }
 
@@ -1087,7 +1117,7 @@ li.snap-activity.modtype_folder {
     /* Completion actions */
     .togglecompletion,
     .autocompletion {
-        display: inline-block;
+        display: none;
         clear: left;
         float: left;
     }

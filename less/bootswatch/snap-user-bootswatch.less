@@ -55,9 +55,11 @@
     border: inherit !important;
     text-align: inherit !important;
 }
+ul, ol {
+    padding: 0 0 0 1em;
+}
 
 blockquote {
-    border-left: 5px solid @brand-primary;
 
     &.blockquote-reverse {
         border-left: 0;
@@ -138,7 +140,6 @@ a:hover,
 }
 
 #region-main,
-#region-main textarea,
 .contentafterlink,
 .contentwithoutlink,
 #course_about,
@@ -147,21 +148,43 @@ a:hover,
 #course_teachers .text_to_html,
 .snap-lightbox-description,
 #page-mod-book-print  {
-    font-family: @font-family-serif;
+ font-family: @font-family-serif;
+max-width: 1020px;
+    padding-left: 40px;
+    padding-right: 40px;
+  
 }
+#region-main textarea{
+    width: 100%;
+}
+
+@media screen and (min-width: 62em){
+#page-mod-hsuforum-view #region-main {
+    max-width: 1020px;
+    padding-left: 40px;
+    padding-right: 40px;
+    }
+} 
+
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6,
 legend,
 .mform legend a,
 .mform legend a:hover,
 .coursebox .info .coursename,
 .collapsibleregioncaption {
-    font-family: @font-family-sans-serif;
+    font-family: @font-family-serif;
+}
+code{
+    font-size: 80%;
+}
+
+h3,
+h4,
+h5,
+h6,{
+font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
 
 .pagemod-readmore,
@@ -207,10 +230,15 @@ legend,
 }
 
 .fixy {
-    background-color: @brand-primary;
+    background-color: @gray-lighter;
 
     .label-success {
         color: @brand-primary;
+    }
+    h2{
+        colo r: @gray-dark;
+        padding: 0;
+        border-bottom: 1px solid @gray-light;
     }
 }
 
@@ -253,22 +281,36 @@ input[type="submit"],
 input[type="reset"],
 #page-mast .snap-login-button,
 #page-site-index .section-modchooser-link .section-modchooser-text {
-    background-color: darken(@brand-primary, 5%);
-    border: 0;
-    color: #fff;
-    font-family: @font-family-base;
-    font-weight: 300;
-    box-shadow: 0 3px 0 0 darken(@brand-primary, 8%);
-    transition: all 0.4s ease-in-out;
+  background-color: @brand-info;
+  border: 0;
+  color: #fff;
+  font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
+  text-align: center;
+  cursor: pointer;
+  background-image: none;
+  white-space: nowrap;
+  padding: 1em 1.618em;
+  font-size: 14px;
+  line-height: 1em;
+  border-radius: 0px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: baseline;
+  margin: .4em 10px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    //transition: all 0.4s ease-in-out;
 
     &:hover,
     &:focus,
     &:active,
     &.active {
-        background-color: darken(@brand-primary, 8%);
+        background-color: darken(@brand-info, 8%);
         color: #fff;
         text-decoration: none;
-        box-shadow: 0 3px 0 0 darken(@brand-primary, 12%);
     }
 
     &:visited {
@@ -309,11 +351,11 @@ input[type="reset"],
 
 #admin-menu-trigger {
     .lines {
-        background-color: @brand-primary;
+        background-color: @text-color;
 
         &:after,
         &:before {
-            background-color: @brand-primary;
+            background-color: @text-color;
         }
     }
 
@@ -499,13 +541,1028 @@ img.iconhelp:hover {
     background-color: @brand-primary;
 }
 
+.table > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #777;
+}
+
+.generaltable > tbody > tr > td, .generaltable > thead > tr > th, .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 1.618em 0em 1em;
+    line-height: 1em;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+} 
+
 // -------------------------
 //  Moodle mods
 // -------------------------
 // -------------------------
 // Quiz
 // -------------------------
-
-.que {
-    border-bottom: 1px solid @brand-primary;
+#page-mod-quiz-view .generalbox#feedback h3 {
+    width: 100%;
 }
+#page-mod-quiz-view .generalbox#feedback {
+    float: right;
+    width: 100%;
+    max-width: 640px;
+}
+#responseform {
+    padding-top: 2em;
+}
+
+input[type="radio"] + label:before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -.5em;
+    border: 0.2em solid #fbfbfb;
+    border-radius: 1em;
+    box-shadow: 0 0 0 0.1em #999;
+    margin-right: 0.75em;
+    transition: 0.5s ease all;
+}
+input[type="radio"] {
+  display: none;
+}
+.path-mod-feedback input[type="radio"] {
+  display: inline-block;
+}
+
+td input[type="radio"] {
+ border: 0; 
+  clip: rect(0 0 0 0); 
+  height: auto; 
+  margin: -1px; 
+  overflow: hidden; 
+  padding: 0; 
+  display: inline-block;
+}
+
+[type="radio"]:checked + label:before {
+  background: #000;
+  box-shadow: 0 0 0 0.1em #000;
+}
+
+[type="radio"]:focus + label:after {
+  content: '\0020\2190';
+  font-size: 1.5em;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
+input[type="radio"] + label {
+-webkit-transition: all 0.25s linear;
+cursor: pointer;
+color: #777;
+}
+
+ul li label:hover{
+	color: #000;
+}
+
+.que .im-controls {
+    margin-top: 1em;
+    margin-bottom: 7.6em;
+}
+
+#page-mod-quiz-view {
+    
+
+.quizinfo, .quizattempt {
+    max-width: 640px;
+    float: right;
+    margin: 0 auto;
+    clear: both;
+    width: 100%;
+    }
+    h3{
+        float:right;
+        max-width: 640px;
+        clear: both;
+    }
+
+}
+
+#page-mod-quiz-view .generaltable.quizattemptsummary {
+    max-width: 640px;
+    float: right;
+}
+
+body#page-mod-quiz-attempt{
+	overflow-x: hidden;
+	text-align: center;
+}
+
+.que .content {
+	margin: 0;
+}
+
+
+.que .content {
+	margin: 0;
+}
+
+#page-mod-quiz-attempt 
+
+{
+     #moodle-footer.nocoursefooter {
+        margin-top: 0;
+    }
+    
+    .submitbtns, #page-mod-quiz-review .submitbtns {
+	clear: left;
+	text-align: left;
+	padding-top: 1.5em;
+	float: right;
+	margin-top: -126px;
+        -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+         -o-animation: fadein 2s; /* Opera < 12.1 */
+            animation: fadein 2s;
+    }}
+
+.notyetanswered+ .submitbtns {
+	display: none;
+}
+
+.truefalse .prompt, .multichoice .prompt {
+	display: none;
+}
+
+#page-mod-quiz-attempt #moodle-blocks {
+    max-width: 300px;
+    display: inline-block;
+    float: left;
+    padding: 0 0 0 40px;
+    
+    &#page-mod-quiz-attempt #moodle-blocks .block_fake {
+	margin-top: 0;
+    font-family: @font-family-fancy; 
+}
+}
+
+#page-mod-quiz-attempt section#region-main {
+    max-width: 600px;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+#page-mod-quiz-attempt .block_fake h2 {
+    display: none;
+}
+
+.path-mod-quiz .qnbutton.blocked, .path-mod-quiz .qnbutton.notyetanswered, .path-mod-quiz .qnbutton.requiresgrading, .path-mod-quiz .qnbutton.invalidanswer {
+background: none;
+}
+
+.path-mod-quiz .qnbutton:last-child {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: inherit;
+}
+
+
+
+#page-mod-quiz-attempt .info {
+    display: none;
+}
+
+.path-mod-quiz .qnbutton {
+    display: none;
+    border-color: transparent;
+    padding: 0;
+}
+
+.path-mod-quiz .qnbutton.notanswered .trafficlight, .path-mod-quiz .qnbutton.incorrect .trafficlight, 
+.path-mod-quiz .qnbutton.correct .trafficlight {
+    border-color: transparent;
+    border-bottom: none;
+}
+
+.path-mod-quiz .qnbutton.thispage .thispageholder {
+    border: none;
+    }
+    
+.path-mod-quiz .qnbutton.thispage {
+     border: none;
+}
+
+.qnbutton.thispage:before {
+    content: "Question ";
+}
+
+.qnbutton.thispage:after{
+	content: " of\0000a0";
+	}
+
+.qn_buttons .qnbutton.thispage {
+	display: block;
+	background: transparent;
+	width: inherit;
+	border: none;
+}
+body#page-mod-quiz-review .que h3.no {
+    font-size: 1.3em;
+    padding: 0;
+    margin: 0;
+}
+
+body#page-mod-quiz-review .que .feedback {
+        margin: 1em -310%;
+}
+body#page-mod-quiz-review .questionflag {
+    display: none;
+} 
+
+.que:before{
+ padding-bottom: 1em;
+    font-size: 2em;
+    font-family: FF-Meta-Web-Pro, Arial, sans-serif;
+}
+
+.truefalse:before {
+    content: "True or false";  
+}
+
+.freehanddrawing:before{
+    content: "Draw the answer";  
+}
+
+.multianswer:before
+{
+    content: "Fill in the blank";
+}
+
+.numerical:before {
+    content: "Compute";
+}
+
+.multichoice:before {
+    content: "Select one";
+}
+
+#page-mod-quiz-attempt #page {
+    margin: 0;
+    padding: 0;
+}
+
+
+.correct .im-controls, .incorrect .im-controls {
+    display: none;
+}
+
+.rightanswer {
+    max-width: 65%;
+    float: left;
+}
+
+input[type=submit]:disabled, button:disabled {
+    display: none;
+}
+
+.incorrect .feedback{
+ background: #C9282D;
+}
+.correct .feedback{
+ background: #6C953C;
+}
+
+
+.que .feedback {
+    padding: 1em 310% 3.9em;
+    color: #fff;
+    margin: 0px -310%;
+    -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+         -o-animation: fadein 2s; /* Opera < 12.1 */
+            animation: fadein 2s;
+            min-height: 200px;
+            }
+            
+.generalfeedback {
+    width: 80%;
+}            
+
+ .incorrect .feedback:before {
+    content: "\e014";
+    float: left;
+    background: #fff;
+    border-radius: 42px;
+    padding: 33px 17px 19px 28px;
+    line-height: 17px;
+    margin: 0 15px 5px 0px;
+    color: #E55302;
+    font-size: 1.5em;
+    font-family: 'Glyphicons Halflings';
+    height: 81px;
+    width: 81px;
+}
+ .correct .feedback:before {
+    content: '\e013';
+    float: left;
+    background: #fff;
+    border-radius: 42px;
+    padding: 32px 18px 19px 28px;
+    line-height: 17px;
+    margin: 0 15px 5px 0;
+    color: #6C953C;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: 'Glyphicons Halflings';
+    height: 81px;
+    width: 81px;
+}
+
+
+.correct .rightanswer {
+    display: none;
+}
+
+.que .outcome {
+    padding: 0;
+    border: none;
+    margin-bottom: -1px;
+    margin-top: 1em;
+
+}
+
+.correct .feedback:after {
+    content: 'You are correct';
+}
+
+img.questioncorrectnessicon {
+    display: none;
+}
+
+//Getting the padding to work when there is no feedback
+.que .content div:nth-last-child(2) {
+    padding-bottom: 0;
+}
+
+.que .formulation {
+    padding-bottom: 4em;
+}
+
+//Quiz navigation
+
+.path-mod-quiz .qnbutton {
+	position: relative;
+	float: left;
+	height: 2.5em;
+	overflow: hidden;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 2.5em !important;
+	font-weight: bold;
+	text-decoration: none;
+	margin: 0;
+}
+
+.path-mod-quiz .qnbutton.thispage:last-child:before {
+    content: "Last question of ";
+}
+
+.path-mod-quiz .qnbutton.thispage:last-child:after {
+    content: "";
+}
+
+// -------------------------
+//  Moodle mods
+// -------------------------
+// -------------------------
+// Forum
+// -------------------------
+
+.forumsearch {
+  display: none;
+}
+#page-mod-forum-view .forumaddnew {
+    margin-bottom: 20px;
+    clear: both;
+    width: 640px;
+    float: left;
+    clear: none;
+    margin-left: 300px;
+}
+
+
+// -------------------------
+//  Moodle mods
+// -------------------------
+// -------------------------
+// Choice
+// -------------------------
+body#page-mod-choice-view {
+    overflow-x:hidden;
+}
+
+.path-mod-choice form.vertical{
+    float: left;
+}
+.path-mod-choice .response {
+    overflow: auto;
+    float: left;
+    clear: both;
+}
+
+.path-mod-choice .responseheader {
+    margin-top: 10px;
+    background: #eae9e7;
+    margin: 0px -300%;
+    padding: 0px 300%;
+    float: left;
+overflow: hidden;
+    color: #000;
+}
+
+.path-mod-choice .response {
+    float: left;
+    clear: both;
+    background: #eae9e7;
+    margin: 0px -300%;
+    padding: 2em 300% 4em;
+    overflow: hidden;
+    color: #000;
+}
+
+.path-mod-choice #moodle-footer.nocoursefooter {
+    margin-top: 0;
+}
+
+.path-mod-choice #yourselection {
+    padding: 1em 0 6em;
+}
+.path-mod-choice .button {
+    margin-bottom: 4.854em;
+}
+
+// -------------------------
+//  Moodle mods
+// -------------------------
+// -------------------------
+// assignment
+// -------------------------
+
+
+#page-mod-assign-view h2 {
+    max-width: 960px;
+    margin: 0 auto;
+}
+#page-mod-assign-view #intro {
+    max-width: 960px;
+}
+
+#page-mod-assign-view .gradingsummary {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+#page-mod-assign-view h3 {
+    max-width: 960px;
+    float: left;
+}
+
+#page-mod-assign-view .submissionstatustable {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+// -------------------------
+//  Moodle mods
+// -------------------------
+// -------------------------
+// hsu forum
+// -------------------------
+.hsuforum-form .hsuforum-textarea{
+    font-family: @font-family-fancy;
+}
+
+#page-mod-hsuforum-discuss{
+    overflow-x: hidden;
+}
+
+#page-mod-hsuforum-discuss .hsuforum-thread-replies {
+border-top: 1px solid @gray-lighter; 
+}
+
+#page-mod-hsuforum-discuss .breadcrumb > li:nth-last-child(2), time.hsuforum-thread-pubdate, #hsuforum-filter-options, 
+.hsuforum-search, #page-mod-hsuforum-discuss .hsuforum-thread-author,
+span.hsuforum-replycount, small.hsuforum-thread-replies-meta{
+    display: none;
+}
+
+.hsuforum-thread {
+    padding: 0;
+    background: transparent;
+}
+
+.hsuforum-thread-figure, .hsuforum-thread-content, .hsuforum-thread-tools, .hsuforum-post-figure, .hsuforum-thread-body {
+    padding: 0;
+}
+
+#page-mod-hsuforum-discuss input.form-control, .hsuforum-thread-meta{
+    display: none;
+}
+
+.hsuforum-post-body a.hsuforum-reply-link.btn.btn-default {
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    color: @brand-primary;
+    font-size: @font-size-small;
+    margin: 0;
+}
+ 
+.hsuforum-thread-content {
+    float: left;
+    clear: none;
+}
+.hsuforum-search {
+display: none;
+}
+
+#hsuforum-filter-options {
+    display: none;
+}
+
+p.hsuforum-thread-byline {
+    text-align: left;
+}
+
+.hsuforum-thread-author .userpicture, .hsuforum-post-figure .userpicture {
+    margin: 0;
+   
+}
+
+.hsuforum-thread {
+    padding: 0;
+}
+
+#page-mod-hsuforum-discuss .hsuforum-thread-author {
+display: none;
+}
+
+.hsuforum-post-byline a {
+    display: inline-block;
+}
+
+.hsuforum-post-byline {
+    font-size: 0px;
+    width: 0%;
+}
+
+.hsuforum-post-byline a {
+    font-size: @font-size-base;
+}
+
+.hsuforum-tools {
+    font-family: @font-family-fancy;
+    font-size: @font-size-small;
+    max-width: 640px;
+    width: 100%;
+    float: right;
+    margin-top: 0;
+    padding-left: 1.5px;
+    padding-bottom: 1.618em;
+}
+
+
+.hsuforum-post-title {
+    display: none;
+}
+.hsuforum-post-content .posting {
+    padding: 0;
+    font-family: @font-family-fancy;
+    font-size: .9em; 
+    color: @gray;
+}
+
+.hsuforum-post:before{
+    content: none;
+}
+
+.hsuforum-thread-replies-list{
+    padding: 0;
+}
+
+.hsuforum-thread-article, .hsuforum-reply, .hsuforum-thread-replies {
+    padding: 0.5em 0;
+}
+
+.hsuforum-thread-body {
+    float: right;
+    max-width: 940px;
+    width: 100%;
+    @media screen and (max-width: 1020px){
+        float:left;
+    }
+}
+
+.hsuforum-post-body{
+     max-width: 640px;
+    width: 100%;
+    float: right;
+    @media screen and (max-width: 1020px){
+        float:left;
+    }
+}
+
+.hsuforum-thread-replies h5 {
+    max-width: 640px;
+    width: 100%;
+    float: right;
+}
+
+.hsuforum-post-figure {
+    float: left;
+    max-width: 242px;
+    width: 100%;
+    margin-right: 58px;
+}
+
+.hsuforum-post-figure .userpicture {
+    float: right;
+     @media screen and (max-width: 1020px){
+        float:left;
+    }
+}
+
+.hsuforum-form legend {
+    max-width: 640px;
+    width: 100%;
+    float: right;
+    margin-left: 100px;
+     @media screen and (max-width: 1020px){
+        float:left;
+         margin-left: 0;
+    }
+}
+
+.hsuforum-post-wrapper {
+    padding-top: 1em;
+}
+
+.hsuforum-thread-body h6 a {
+    font-weight: bold;
+    color: @text-color;
+    line-height: 1em;
+    
+}
+
+time.hsuforum-post-pubdate {
+    color: @gray;
+    font-family: @font-family-fancy;
+}
+
+#page-mod-hsuforum-discuss .hsuforum-thread-header {
+    padding: 0.33em 0;
+    h4{
+    font-family: @font-family-serif;
+    font-size: @font-size-h2;
+    } 
+}
+.hsuform-post-date{
+    line-height: 1.6em;
+}
+.hsuforum-tools a:not(.btn) {
+    padding: 0 0 0 0.5em;
+}
+.hsuforum-parent-post-link {
+    background: @brand-warning;
+        padding-left: 2px;
+    line-height: 1.3em;
+}
+
+// -------------------------
+//  Moodle mods
+// -------------------------
+// -------------------------
+// feedback
+// -------------------------
+
+.box.feedback_anonymousinfo {
+    display: none;
+}
+
+.feedback_item_presentation_left ul {
+    padding: 0;
+}
+
+.path-mod-feedback input, .path-mod-feedback textarea, .path-mod-feedback .uneditable-input {
+    width: auto;
+    margin-bottom: 1em;
+}
+
+.box.feedback_items {
+    margin-bottom: 2em;
+}
+
+div.feedback_item_box_left div.feedback_item_label_left, div.feedback_item_box_left div.feedback_item_presentation_left{
+    margin-left: 0;
+    font-family: @font-family-fancy;
+}
+ .feedback_items label {
+    color: #333;
+}
+ 
+#page-mod-feedback-view {
+       h3 {
+    float: left;
+    width: 100%;
+}
+    
+    .box.boxaligncenter.boxwidthwide {
+    width: 100%;
+    float: left;
+    margin-left: 300px;
+        @media screen and (max-width: 1020px){
+         margin-left: 0;
+        }
+    a {
+
+        background-color: #00759b;
+    border: 0;
+    color: #fff;
+    font-family: @font-family-fancy;
+    text-align: center;
+    cursor: pointer;
+    background-image: none;
+    white-space: nowrap;
+    padding: 1em 1.618em;
+    font-size: 14px;
+    line-height: 1em;
+    border-radius: 0px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0 .4em;
+    vertical-align: baseline;
+    margin: 0 0 10px 0;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+}
+}
+    
+
+
+// -------------------------
+//  All mods
+// -------------------------
+
+#intro.generalbox {
+    padding: 0px;
+}
+.path-mod #page-header h1 {
+    display: none;
+}
+
+.activity-meta {
+    float: left;
+    width: 300px;
+    line-height: 21px;
+}
+
+.activity-type {
+    padding: 1em 0;
+    border-bottom: 1px dotted #999;
+    width: 240px;
+}
+
+.activity-intro {
+    min-height: 20px;
+    padding: 19px 0;
+    float: right;
+    max-width: 640px;
+    clear: right;
+}
+
+@media screen and (max-width: 1020px) {
+    .activity-intro {
+        float: left;
+    }
+    #region-main {
+    padding-top: 0;
+}
+    .activity-type {
+    border: none;
+    width: initial;
+    float: left;
+    padding-right: 1em;
+}
+    #intro.generalbox {
+    float: left;
+    width: 100%;
+}
+}
+
+.dropcap {
+    color: #b02a1a;
+    /*color: #8F2B8C;*/
+    display: inline-block;
+    vertical-align: text-top;
+    height: 4.25rem;
+    margin-right: 0.95rem;
+    float: left;
+}
+
+span.dropcap_inner {
+    font-size: 6.25rem;
+    line-height: 6.25rem;
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+
+.activity-time {
+    padding: 1em 0;
+}
+
+#region-main {
+    
+    font: 1em @font-family-serif;
+    
+    p{
+    line-height: 1.5em;
+    margin: 0 0 14px;
+    }}
+
+.path-mod .pagelayout-incourse .pagelayour.mform {
+    width: 640px;
+    margin: 0 auto;
+    float: right;
+} 
+
+.grouppictures {
+    display: none;}
+
+.activity-info {
+    display: block;
+    padding: .3em 0;
+    font-family: @font-family-fancy;
+    font-size: .9em;
+    color: #666;
+}
+
+
+// -------------------------
+//  videos/iframes
+// -------------------------
+
+.holder {
+width: 100vw;                    /* viewport units */
+height: calc(56.25vw + 35px);    /* height is 9/16 of width + 35px for control bar */
+max-width: 940px;                /* maximum width of the player */
+max-height: 568px;				 /* maximum height = 9/16 of max width + 35px */
+overflow: hidden;                /* hide any unsightly borders */
+margin: 25px auto;                  /* centre on screen */
+}
+
+iframe {
+position: relative;
+display: block;
+top: -2px;                        /* move iframe to left to hide any unsightly border */
+left: -0px;                       /* move iframe up to hide any unsightly border */
+width: calc(100% + .5px);		  /* oversize the iframe width slightly to hide any unsightly border */
+height: calc(100% + .5px);         /* oversize the iframe height slightly to hide any unsightly border */			
+}
+
+
+// -------------------------
+//  glyphicon
+// -------------------------
+
+.glyphicon {
+    top: 2px;
+    padding-right: .4em;
+} 
+
+
+// -------------------------
+//  Course page
+// -------------------------
+
+.snap-assettype {
+display: none;
+}
+
+.activity.modtype_hsuforum .snap-media-body, {
+color: @text-color;
+}
+
+.section li.snap-asset .activityinstance .snap-asset-link a {
+color: @text-color;
+}
+
+.section li.snap-asset .activityinstance .snap-asset-link a:hover {
+text-decoration: underline;
+}
+
+
+// -------------------------
+//  'Next' modal
+// -------------------------
+.activitycompletemodal-content {
+    color: @text-color;
+}
+
+.activitycompletemodal-content {
+    color: #333;
+    text-align: center;
+    margin: 0 auto;
+    min-height: 247px;
+}
+
+#moodle-footer h4.activitycompletemodal-title {
+    color: #333;
+    font-size: 2.5em;
+    padding: .2em 0 .15em;
+}
+
+.activitycompletemodal-header {
+    background: @brand-yellow;
+    padding: 1.618em 15px 1em;
+}
+
+
+.activitycompletemodal-body {
+    padding: 0 20px 0.3em;
+    p{
+    font-family: @font-family-fancy;
+    }
+}
+
+span.glyphicon.glyphicon-ok.activitycompletemodal-ok {
+    font-size: 1.9em;
+    color: #fff;
+    margin: .4em auto 0;
+    padding: .5em;
+    border-radius: 2em;
+    border: .2em solid;
+    line-height: 1em;
+    text-align: center;
+    animation: completion 1s;
+    -webkit-animation: completion 1s;
+}
+
+
+span.activitycompletecurrentmodname {
+    font-weight: bold;
+}
+
+#moodle-footer a.activitycompletenextmodlink {
+    font-weight: bold;
+    color: #00759B;
+    border: none;
+    background: transparent;
+    font-family: FF-Meta-Web-Pro, Arial, sans-serif;
+    display: inline-block;
+    padding: 1em 1.618em;
+    line-height: 1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+}
+    
+.modal-content.activitycompletemodal-content .btn {
+    margin: 0;
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #00759B;
+    font-weight: bold;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+.activitycompletemodal-content span.glyphicon.glyphicon-arrow-right {
+    line-height: .8em;
+}
+
+.activitycompletemodal-footer {
+    border: 0;
+    padding: 0 0 .1em;
+    text-align: center;
+}
+
+#moodle-footer a.activitycompletenextmodlink:hover, .modal-content.activitycompletemodal-content .btn:hover {
+    background: @gray-lighter;
+    text-decoration: none;
+}
+
+// -------------------------
+//  modals
+// -------------------------
+.modal-content{
+border-width: 0;
+border-bottom-color: transparent;
+box-shadow: 0 12px 15px 0 rgba(0,0,0,0.25);
+} 
