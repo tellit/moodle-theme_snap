@@ -162,6 +162,26 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
+    // Collapse completed activities via the course renderer
+    $name = 'theme_snap/collapsecompletedactivities';
+    $title = new lang_string('collapsecompletedactivities', 'theme_snap');
+    $description = new lang_string('collapsecompletedactivitiesdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+    
+    // Scrape the current activity directly to the course renderer
+    $name = 'theme_snap/collapsecompletedactivities';
+    $title = new lang_string('collapsecompletedactivities', 'theme_snap');
+    $description = new lang_string('collapsecompletedactivitiesdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+    
     // On completion, display next activity in footer on/off.
     $name = 'theme_snap/nextactivityinfooter';
     $title = new lang_string('nextactivityinfooter', 'theme_snap');
@@ -198,7 +218,7 @@ if ($ADMIN->fulltree) {
     $default = 2000;
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
     $settings->add($setting);
-    
+        
     // Hide course page.
     $name = 'theme_snap/hidecoursepage';
     $title = new lang_string('hidecoursepage', 'theme_snap');
