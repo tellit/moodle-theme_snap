@@ -96,13 +96,12 @@ if (empty($PAGE->theme->settings->copyrightnotice)) {
     echo $PAGE->theme->settings->copyrightnotice;
 }
 
-//<a class="next_section" href="#section-1"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">Next section</span><br>Week 1</span></a>
 
 $showcompletionnextactivity = false;
 $showcompletionmodal = false;
 
 // If nextactivityinfooter or nextactivitymodaldialog are set
-//if ($this->page->theme->settings->nextactivityinfooter || $this->page->theme->settings->nextactivitymodaldialog) {
+if ($this->page->theme->settings->nextactivityinfooter || $this->page->theme->settings->nextactivitymodaldialog) {
 
     //1 If we are on a mod page...
     $pagepath = explode('-', $PAGE->pagetype);
@@ -119,32 +118,31 @@ $showcompletionmodal = false;
                 //4 Check completion of current mod
                 $completion = $DB->get_record('course_modules_completion', array('coursemoduleid'=>$PAGE->cm->id, 'userid'=>$USER->id));
                 
-                                               
-                /*if (!empty($completion)) {
+                if (!empty($completion)) {                    
+                    if (!empty($completion->completionstate)) {
+                        if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
+                            
+                            if ($this->page->theme->settings->nextactivityinfooter) $showcompletionnextactivity = true;
+                            
+                            if ($this->page->theme->settings->nextactivitymodaldialog) {
                     
-                    if (!empty )
-                    
-                    $this->page->theme->settings-
-                    
-                    if (!empty($completion->timemodified)) {
-                        if (abs(time() - $completion->timemodified) < 20000) {
-                            if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
-                                $showcompletionmodal = true;
+                                if (!empty($completion->timemodified)) {
+                                    // Use absolute value in forumla to be defensive about potential concurrency issues from multiple webservers
+                                    if (abs(time() - $completion->timemodified) < $this->page->theme->settings->nextactivitymodaldialogtolerance) {
+                                        if ($completion->completionstate == COMPLETION_COMPLETE || $completion->completionstate == COMPLETION_COMPLETE_PASS) {
+                                            $showcompletionmodal = true;
+                                        }
+                                    }     
+                                }
                             }
-                        }     
+                        }
                     }
-                }  */
+                } 
             }
         }      
     }    
-//}
-//Get 'Next Activity' from section
-//select sequence from mdl_course_sections where course = 2 and section = 3;
-if ($showcompletionmodal) {
-    //$coursesections = $DB->get_record('course_sections', array('course'=>$PAGE->course->id, 'section'=>$PAGE->cm->sectionnum));
-    //$coursesections = $PAGE->cm->modinfo->sections[$PAGE->cm->sectionnum];
-    //$modsinsection = explode(',', $coursesections->sequence);
-    
+}
+if ($showcompletionnextactivity || $showcompletionmodal) {
     //for loop to find current and next
     $currentcmidfoundflag = false;
     $nextmod = false;
@@ -164,17 +162,10 @@ if ($showcompletionmodal) {
              break;
         }
     }
-     
+    $nextmodurl =  $nextmod->url->out();
 }
 
-if ($showcompletionmodal) { //}($PAGE->theme->settings->activitycompletionmodal) {
-
-//Build language string
-//$object = new StdClass;
-//$object->foo = 'bar';
-
-//$link = html_writer::link($url, get_string('editcustomfooter', 'theme_snap'), ['class' => 'btn btn-default btn-sm']);
-$nextmodurl =  $nextmod->url->out();
+if ($showcompletionmodal) { 
 echo '<!-- Modal -->
 <div class="modal fade activitycompletemodal" id="activitycompletemodal" role="dialog">
     <div class="modal-dialog">
@@ -202,9 +193,13 @@ echo '<!-- Modal -->
 <script type="text/javascript">
     $(window).load(function(){
         //$(\'#myModal\').modal(\'show\');
-        setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, 2000);
+        setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
     });
 </script>';
+}
+
+if ($showcompletionnextactivity) {
+   echo '<a class="next_activity" href="' . $nextmodurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">Next Activity</span><br>' . $nextmod->name . '</span></a>';
 }
 
 ?>
