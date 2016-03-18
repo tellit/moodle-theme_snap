@@ -173,9 +173,9 @@ if ($ADMIN->fulltree) {
     $settings->add($setting);
     
     // Scrape the current activity directly to the course renderer
-    $name = 'theme_snap/collapsecompletedactivities';
-    $title = new lang_string('collapsecompletedactivities', 'theme_snap');
-    $description = new lang_string('collapsecompletedactivitiesdesc', 'theme_snap');
+    $name = 'theme_snap/scrapecurrentactivity';
+    $title = new lang_string('scrapecurrentactivity', 'theme_snap');
+    $description = new lang_string('scrapecurrentactivitydesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
     $default = $unchecked;
