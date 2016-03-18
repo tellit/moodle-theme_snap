@@ -335,7 +335,6 @@ class theme_snap_core_course_renderer extends core_course_renderer {
                     
                     //Retieve the page (Do not URL encode parameters)
                     $contents = file_get_contents($url->out(false), false, $context);
-                    //session_start(); // Lock the file
                     
                     //Use a dom document to parse and correct any missing closing elements
                     $doc = new DOMDocument();
