@@ -33,9 +33,24 @@ if ($this->page->theme->settings->scrapecurrentactivity) {
 }
  
 include(__DIR__.'/header.php');
+
+$modpageclass = '';
+if ($this->page->theme->settings->highlightfirstactivityinsection) {
+
+    $pagepath = explode('-', $PAGE->pagetype);
+    if ($pagepath[0] == 'mod') {
+        $mod = $PAGE->cm;
+        $modinfo = $mod->get_modinfo();
+        if ($mod->id == $modinfo->sections[$mod->sectionnum][0]) {
+            //This mod is the first in its section    
+            $modpageclass = ' class="firstactivityinsection"';
+        }
+    }
+}               
+
 ?>
 <!-- moodle js hooks -->
-<div id="page">
+<div id="page"<?php echo $modpageclass?>>
 <div id="page-content">
 
 <!--

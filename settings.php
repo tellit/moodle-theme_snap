@@ -263,6 +263,17 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
+    
+    // Visual signal to indicate the first activity on/off.
+    $name = 'theme_snap/highlightfirstactivityinsection';
+    $title = new lang_string('highlightfirstactivityinsection', 'theme_snap');
+    $description = new lang_string('highlightfirstactivityinsectiondesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
         
     // Footer.
     $name = 'theme_snap/footerheading';
