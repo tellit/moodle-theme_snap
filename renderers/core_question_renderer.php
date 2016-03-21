@@ -65,14 +65,14 @@ class theme_snap_core_question_renderer extends core_question_renderer {
      * @return HTML fragment.
      */
     protected function semanticactivation(question_attempt $qa) {
-        $questiontype = $qa->get_question()->qtype->name();
-        
-        $languagestring = 'questionsemanticactivation-' . $questiontype;
+        $questiontype = $qa->get_question()->qtype;
+                
+        $languagestring = 'questionsemanticactivation-' . $questiontype->name();
         if (get_string_manager()->string_exists($languagestring, 'theme_snap')) {
             $title =  get_string($languagestring, 'theme_snap');
         }
         
-        if (empty($title)) $title = $questiontype . ' is an unsupported question type';
+        if (empty($title)) $title = $questiontype->menu_name();
         
         return html_writer::tag('h3', $title, array('class' => 'qtype'));
     }
