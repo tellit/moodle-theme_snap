@@ -2907,7 +2907,6 @@ li.section:focus {
   float: none;
   display: block;
   text-align: left;
-  margin-top: -1em;
 }
 .course-content ul.weeks li.section .left.side.snap-section-editing a,
 .course-content ul.weeks li.section .right.side.snap-section-editing a,
@@ -3088,6 +3087,9 @@ body.format-flexpage .singlebutton {
 .section .activityinstance .contentwithoutlink .contentafterlink p {
   margin-bottom: 1.6em;
 }
+h4.snap-asset-link .instancename {
+  line-height: 1em;
+}
 .snap-asset-link {
   margin: 0;
   padding: 0;
@@ -3098,7 +3100,6 @@ body.format-flexpage .singlebutton {
   padding: 0;
   margin: 0;
   padding-bottom: 1em;
-  min-height: 125px;
   height: auto;
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
   background-position: 50% 75%;
@@ -3106,7 +3107,7 @@ body.format-flexpage .singlebutton {
   border: 0 0 0 1px #999;
   box-shadow: none;
   background-color: transparent;
-  border-left: 1px solid #999;
+  border-left: 1px solid #eae9e7;
   border-radius: 0;
 }
 .section li.snap-asset .asset-wrapper {
@@ -3525,66 +3526,87 @@ li.snap-resource.snap-mime-text,
 #snap-move-message.snap-mime-text {
   background-color: #f1bf26;
 }
+body#page-course-view-weeks button {
+  background: none;
+  color: #999;
+  box-shadow: none;
+  padding: 0 1em;
+}
+h4.snap-asset-link a {
+  color: #333;
+}
+h4.snap-asset-link {
+  font-size: 1.1em;
+  color: #333;
+  padding-left: 2em;
+  float: left;
+  margin-top: -1px;
+}
 .unavailable .snap-asset-link:before {
   background: #999;
 }
 span.stepper-complete {
-  content: counter(activity) !important;
-  counter-increment: activity;
   position: absolute;
-  left: -18px;
-  top: 0;
-  z-index: 4;
-  background: green;
-  border-radius: 1em;
-  width: 1.5em;
-  height: 1.5em;
-  text-indent: 13px;
-  line-height: 1.2em;
-  color: #fff;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-}
-span.stepper-current {
-  content: counter(activity) !important;
-  counter-increment: activity;
-  position: absolute;
-  left: -18px;
+  left: -16px;
   top: 0;
   z-index: 4;
   background: #00759B;
-  border-radius: 1em;
-  width: 1.5em;
-  height: 1.5em;
-  text-indent: 13px;
-  line-height: 1.2em;
+  border-radius: 2em;
+  width: 30px;
+  height: 30px;
+  line-height: 2em;
   color: #fff;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  text-indent: 8px;
+  font-size: .7em;
+  font-feature-settings: 'lnum';
 }
-span.stepper-future {
-  content: counter(activity) !important;
-  counter-increment: activity;
+span.stepper-current {
   position: absolute;
-  left: -18px;
+  left: -16px;
   top: 0;
   z-index: 4;
-  background: grey;
-  border-radius: 1em;
-  width: 1.5em;
-  height: 1.5em;
-  text-indent: 13px;
-  line-height: 1.2em;
+  background: #6C953C;
+  border-radius: 2em;
+  width: 30px;
+  height: 30px;
+  text-indent: 11px;
+  line-height: 2.2em;
   color: #fff;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  font-size: .7em;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-feature-settings: 'lnum';
+}
+span.stepper-future {
+  position: absolute;
+  left: -16px;
+  top: 0;
+  z-index: 4;
+  background: #999;
+  border-radius: 2em;
+  width: 30px;
+  height: 30px;
+  text-indent: 11px;
+  line-height: 2.2em;
+  color: #fff;
+  font-size: .7em;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-feature-settings: 'lnum';
 }
 li.unavailable h4 {
   color: #999;
+}
+#page .course-content .content ul.section.img-text {
+  margin: 1em 0 0 .75em;
+}
+h2.sectionname {
+  line-height: 1em;
 }
 .section li.snap-activity {
   background-image: none;
   width: 99%;
 }
 .section li.snap-activity .activityicon {
-  margin-left: 3%;
+  display: none;
 }
 .section li.snap-activity .activityinstance .snap-asset-link {
   font-size: 25px;
@@ -10150,6 +10172,12 @@ span.activitycompletecurrentmodname {
   border-width: 0;
   border-bottom-color: transparent;
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
+}
+.firstactivityinsection h4 {
+  background: #b02a1a;
+  color: white;
+  margin: -9% -300% 0;
+  padding: 11.0901em 300% 1em;
 }
 body {
   margin: 8px;
