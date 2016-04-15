@@ -158,7 +158,12 @@ function scrollIn(selector) {
 function scrollOut(selector) {
     $(selector).animate({right: "-600px", opacity: 0.5}, 200, function(){ $(selector).hide()});
 }
+      
+</script>';
+}
 
+echo '
+<script>
 //Steves code that Leonard wanted...
 
 // the code that does it all
@@ -199,9 +204,8 @@ return;
     }
   });
 });
-  
-</script>';
-}
+</script>
+';
 
 if ($showcompletionnextactivity) {
    echo '<a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a>';

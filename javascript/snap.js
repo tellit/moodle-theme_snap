@@ -804,7 +804,7 @@ function snapInit() {
             //At the end of the func:
             lastHash = newHash;
         });
-
+/*
         // Show fixed header on scroll down
         // using headroom js - http://wicky.nillia.ms/headroom.js/
         var myElement = document.querySelector("#mr-nav");
@@ -829,7 +829,7 @@ function snapInit() {
         if(!$('.notloggedin').length) {
             headroom.init();
         }
-
+*/
         // Listener for toc search.
         var dataList = $("#toc-searchables").find('li').clone(true);
         $('#toc-search-input').keyup(function() {
