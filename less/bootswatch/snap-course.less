@@ -495,7 +495,10 @@ body.format-flexpage .singlebutton {
         }
     }
 }
-
+.section .activityinstance.collapse {
+    max-height: auto;
+    min-height: auto;
+}
 // -------------------------
 // Activity & Resource styles
 // -------------------------
@@ -970,7 +973,7 @@ span.stepper-complete {
     left: -16px;
     top: 0;
     z-index: 4;
-    background: #00759B;
+    background: #6C953C;
     border-radius: 2em;
     width: 30px;
     height: 30px;
@@ -986,7 +989,7 @@ span.stepper-current {
     left: -16px;
     top: 0;
     z-index: 4;
-    background: #6C953C;
+    background: #00759B; 
     border-radius: 2em;
     width: 30px;
     height: 30px;
@@ -1173,6 +1176,10 @@ li.snap-activity.modtype_folder {
 }
 
 /* Activity data - e.g. Due date */
+
+a.snap-assignment-stage.label.label-warning {
+    display: none;
+}
 .snap-completion-meta {
     padding-bottom: 0.5em;
     /* Completion actions */

@@ -17968,6 +17968,10 @@ body.format-flexpage .singlebutton {
 .section .activityinstance .contentwithoutlink .contentafterlink p {
   margin-bottom: 1.6em;
 }
+.section .activityinstance.collapse {
+  max-height: auto;
+  min-height: auto;
+}
 h4.snap-asset-link .instancename {
   line-height: 1em;
 }
@@ -18439,7 +18443,7 @@ span.stepper-complete {
   left: -16px;
   top: 0;
   z-index: 4;
-  background: #00759B;
+  background: #6C953C;
   border-radius: 2em;
   width: 30px;
   height: 30px;
@@ -18456,7 +18460,7 @@ span.stepper-current {
   left: -16px;
   top: 0;
   z-index: 4;
-  background: #6C953C;
+  background: #00759B;
   border-radius: 2em;
   width: 30px;
   height: 30px;
@@ -18627,6 +18631,9 @@ li.snap-activity.modtype_folder .snap-assettype {
   margin-bottom: 2em;
 }
 /* Activity data - e.g. Due date */
+a.snap-assignment-stage.label.label-warning {
+  display: none;
+}
 .snap-completion-meta {
   padding-bottom: 0.5em;
   /* Completion actions */
@@ -19863,6 +19870,7 @@ li {
   -webkit-column-break-inside: avoid;
      page-break-inside: avoid;
           break-inside: avoid-column;
+  line-height: 1.5em;
 }
 hr {
   margin-top: 0.75em;
@@ -22190,6 +22198,7 @@ ul.events-new + ul.events-underway {
 }
 .que .qtext {
   font-size: 1.3em;
+  margin-bottom: .5em;
 }
 .que.multichoice .answer .specificfeedback {
   display: block;
@@ -24036,6 +24045,7 @@ fieldset[disabled] #id_cancel:focus {
 ul,
 ol {
   padding: 0 0 0 1em;
+  margin-bottom: 1em;
 }
 blockquote.blockquote-reverse {
   border-left: 0;
@@ -24569,7 +24579,7 @@ input[type="radio"] + label:before {
   border-radius: 1em;
   -webkit-box-shadow: 0 0 0 0.1em #999;
           box-shadow: 0 0 0 0.1em #999;
-  margin-right: 0.75em;
+  margin: 0 0.75em .35em 0;
   -webkit-transition: 0.5s ease all;
           transition: 0.5s ease all;
 }
@@ -24589,9 +24599,9 @@ td input[type="radio"] {
   display: inline-block;
 }
 [type="radio"]:checked + label:before {
-  background: #000;
-  -webkit-box-shadow: 0 0 0 0.1em #000;
-          box-shadow: 0 0 0 0.1em #000;
+  background: #00759B;
+  -webkit-box-shadow: 0 0 0 0.1em #00759B;
+          box-shadow: 0 0 0 0.1em #00759B;
 }
 [type="radio"]:focus + label:after {
   content: '\0020\2190';
@@ -24602,10 +24612,10 @@ td input[type="radio"] {
 input[type="radio"] + label {
   -webkit-transition: all 0.25s linear;
   cursor: pointer;
-  color: #777;
+  color: #333;
 }
 ul li label:hover {
-  color: #000;
+  color: #00759B;
 }
 .que .im-controls {
   margin-top: 1em;
@@ -24656,10 +24666,6 @@ body#page-mod-quiz-attempt {
   animation: fadein 2s;
 }
 .notyetanswered + .submitbtns {
-  display: none;
-}
-.truefalse .prompt,
-.multichoice .prompt {
   display: none;
 }
 #page-mod-quiz-attempt #moodle-blocks {
@@ -24793,34 +24799,38 @@ button:disabled {
 .generalfeedback {
   width: 80%;
 }
-.incorrect .feedback:before {
-  content: "\e014";
-  float: left;
-  background: #fff;
-  border-radius: 42px;
-  padding: 33px 17px 19px 28px;
-  line-height: 17px;
-  margin: 0 15px 5px 0px;
-  color: #E55302;
-  font-size: 1.5em;
-  font-family: 'Glyphicons Halflings';
-  height: 81px;
-  width: 81px;
+/*f .incorrect .feedback:before {
+    content: "\e014";
+    float: left;
+    background: #fff;
+    border-radius: 42px;
+    padding: 33px 17px 19px 28px;
+    line-height: 17px;
+    margin: 0 15px 5px 0px;
+    color: #E55302;
+    font-size: 1.5em;
+    font-family: 'Glyphicons Halflings';
+    height: 81px;
+    width: 81px;
 }
-.correct .feedback:before {
-  content: '\e013';
-  float: left;
-  background: #fff;
-  border-radius: 42px;
-  padding: 32px 18px 19px 28px;
-  line-height: 17px;
-  margin: 0 15px 5px 0;
-  color: #6C953C;
-  font-weight: bold;
-  font-size: 1.5em;
-  font-family: 'Glyphicons Halflings';
-  height: 81px;
-  width: 81px;
+ .correct .feedback:before {
+    content: '\e013';
+    float: left;
+    background: #fff;
+    border-radius: 42px;
+    padding: 32px 18px 19px 28px;
+    line-height: 17px;
+    margin: 0 15px 5px 0;
+    color: #6C953C;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: 'Glyphicons Halflings';
+    height: 81px;
+    width: 81px;
+}
+*/
+.que .ablock {
+  margin: 1em 0 1.618em 0;
 }
 .correct .rightanswer {
   display: none;
@@ -24835,7 +24845,8 @@ button:disabled {
   content: 'You are correct';
 }
 img.questioncorrectnessicon {
-  display: none;
+  height: 1.6em;
+  margin: 0 0 -0.2em 0.2em;
 }
 .que .content div:nth-last-child(2) {
   padding-bottom: 0;
@@ -25144,17 +25155,20 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   float: left;
   width: 100%;
 }
-#page-mod-feedback-view .box.boxaligncenter.boxwidthwide {
+.box.boxaligncenter {
+  clear: both;
+}
+.box.boxaligncenter .boxwidthwide {
   width: 100%;
   float: left;
   margin-left: 300px;
 }
 @media screen and (max-width: 1020px) {
-  #page-mod-feedback-view .box.boxaligncenter.boxwidthwide {
+  .box.boxaligncenter .boxwidthwide {
     margin-left: 0;
   }
 }
-#page-mod-feedback-view .box.boxaligncenter.boxwidthwide a {
+.box.boxaligncenter .boxwidthwide a {
   background-color: #00759b;
   border: 0;
   color: #fff;
@@ -25189,6 +25203,13 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   width: 300px;
   line-height: 21px;
 }
+@media screen and (max-width: 1020px) {
+  .activity-meta {
+    max-width: 640px;
+    float: left;
+    width: 100%;
+  }
+}
 .activity-type {
   padding: 1em 0;
   border-bottom: 1px dotted #999;
@@ -25207,12 +25228,17 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   }
   #region-main {
     padding-top: 0;
+    max-width: 640px;
   }
   .activity-type {
-    border: none;
+    border-bottom: none;
     width: initial;
     float: left;
     padding-right: 1em;
+  }
+  .activity-type .activity-info:after {
+    content: "|";
+    padding-left: 1em;
   }
   #intro.generalbox {
     float: left;
@@ -25274,6 +25300,14 @@ span.dropcap_inner {
   margin: 25px auto;
   /* centre on screen */
 }
+@media screen and (max-width: 1020px) {
+  .holder {
+    max-width: 640px;
+    float: left;
+    margin: 25px auto 5px;
+    max-height: 396px;
+  }
+}
 iframe {
   position: relative;
   display: block;
@@ -25304,6 +25338,13 @@ iframe {
 .section li.snap-asset .activityinstance .snap-asset-link a:hover {
   text-decoration: underline;
 }
+.activitycompletemodal {
+  position: fixed;
+  top: auto;
+  left: auto;
+  bottom: 20px;
+  right: -320px;
+}
 .activitycompletemodal-content {
   color: #333;
 }
@@ -25319,7 +25360,7 @@ iframe {
   padding: .2em 0 .15em;
 }
 .activitycompletemodal-header {
-  background: #E2CC00;
+  background: #6C953C;
   padding: 1.618em 15px 1em;
 }
 .activitycompletemodal-body {
@@ -25355,14 +25396,15 @@ span.activitycompletecurrentmodname {
   text-transform: uppercase;
   border-radius: 2px;
 }
-.modal-content.activitycompletemodal-content .btn {
+.modal-content.activitycompletemodal-content .btn,
+.moodle-dialogue-confirm input[type="button"] {
   margin: 0;
   background: transparent;
   -webkit-box-shadow: none;
   box-shadow: none;
   color: #00759B;
   font-weight: bold;
-  font-size: 1em;
+  font-size: .9em;
   text-transform: uppercase;
 }
 .activitycompletemodal-content span.glyphicon.glyphicon-arrow-right {
@@ -25374,9 +25416,13 @@ span.activitycompletecurrentmodname {
   text-align: center;
 }
 #moodle-footer a.activitycompletenextmodlink:hover,
-.modal-content.activitycompletemodal-content .btn:hover {
+.modal-content.activitycompletemodal-content .btn:hover,
+.moodle-dialogue-confirm input[type="button"]:hover {
   background: #eae9e7;
   text-decoration: none;
+}
+span.activitycompletenextmodname {
+  font-weight: bold;
 }
 .modal-content {
   border-width: 0;
@@ -25384,9 +25430,19 @@ span.activitycompletecurrentmodname {
   -webkit-box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
           box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
 }
+.moodle-dialogue-base .moodle-dialogue-wrap {
+  border: none;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
+}
+.yui3-skin-sam .yui3-widget-mask {
+  background-color: #eee;
+  opacity: 0.8;
+}
 .firstactivityinsection h4 {
   background: #b02a1a;
   color: white;
-  margin: -9% -300% 0;
-  padding: 11.0901em 300% 1em;
+  margin: -10% -300% 0;
+  padding: 4.236em 300% 1em;
+  line-height: 1.3em;
 }

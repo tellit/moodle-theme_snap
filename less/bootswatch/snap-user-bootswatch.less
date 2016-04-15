@@ -57,6 +57,7 @@
 }
 ul, ol {
     padding: 0 0 0 1em;
+    margin-bottom: 1em;
 }
 
 blockquote {
@@ -236,7 +237,7 @@ font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
         color: @brand-primary;
     }
     h2{
-        colo r: @gray-dark;
+        color: @gray-dark;
         padding: 0;
         border-bottom: 1px solid @gray-light;
     }
@@ -580,7 +581,7 @@ input[type="radio"] + label:before {
     border: 0.2em solid #fbfbfb;
     border-radius: 1em;
     box-shadow: 0 0 0 0.1em #999;
-    margin-right: 0.75em;
+    margin: 0 0.75em .35em 0;
     transition: 0.5s ease all;
 }
 input[type="radio"] {
@@ -601,8 +602,8 @@ td input[type="radio"] {
 }
 
 [type="radio"]:checked + label:before {
-  background: #000;
-  box-shadow: 0 0 0 0.1em #000;
+  background: @brand-info;
+  box-shadow: 0 0 0 0.1em @brand-info;
 }
 
 [type="radio"]:focus + label:after {
@@ -614,11 +615,11 @@ td input[type="radio"] {
 input[type="radio"] + label {
 -webkit-transition: all 0.25s linear;
 cursor: pointer;
-color: #777;
+color: @text-color;
 }
 
 ul li label:hover{
-	color: #000;
+	color: @brand-info;
 }
 
 .que .im-controls {
@@ -684,10 +685,6 @@ body#page-mod-quiz-attempt{
     }}
 
 .notyetanswered+ .submitbtns {
-	display: none;
-}
-
-.truefalse .prompt, .multichoice .prompt {
 	display: none;
 }
 
@@ -848,7 +845,7 @@ input[type=submit]:disabled, button:disabled {
     width: 80%;
 }            
 
- .incorrect .feedback:before {
+/*f .incorrect .feedback:before {
     content: "\e014";
     float: left;
     background: #fff;
@@ -877,7 +874,11 @@ input[type=submit]:disabled, button:disabled {
     height: 81px;
     width: 81px;
 }
+*/ 
 
+.que .ablock {
+    margin: 1em 0 1.618em 0;
+}
 
 .correct .rightanswer {
     display: none;
@@ -896,7 +897,8 @@ input[type=submit]:disabled, button:disabled {
 }
 
 img.questioncorrectnessicon {
-    display: none;
+    height: 1.6em;
+    margin: 0 0 -.2em .2em;
 }
 
 //Getting the padding to work when there is no feedback
@@ -1272,13 +1274,15 @@ div.feedback_item_box_left div.feedback_item_label_left, div.feedback_item_box_l
     color: #333;
 }
  
-#page-mod-feedback-view {
+#page-mod-feedback-view
        h3 {
     float: left;
     width: 100%;
 }
     
-    .box.boxaligncenter.boxwidthwide {
+    .box.boxaligncenter{
+    clear: both;
+    .boxwidthwide {
     width: 100%;
     float: left;
     margin-left: 300px;
@@ -1330,6 +1334,12 @@ div.feedback_item_box_left div.feedback_item_label_left, div.feedback_item_box_l
     float: left;
     width: 300px;
     line-height: 21px;
+    @media screen and (max-width: 1020px)
+   {
+        max-width: 640px;
+       float: left;
+       width: 100%;
+}
 }
 
 .activity-type {
@@ -1352,12 +1362,17 @@ div.feedback_item_box_left div.feedback_item_label_left, div.feedback_item_box_l
     }
     #region-main {
     padding-top: 0;
+    max-width: 640px;
 }
     .activity-type {
-    border: none;
+    border-bottom: none;
     width: initial;
     float: left;
     padding-right: 1em;
+}
+    .activity-type .activity-info:after {
+    content: "|";
+    padding-left: 1em;
 }
     #intro.generalbox {
     float: left;
@@ -1425,7 +1440,14 @@ max-width: 940px;                /* maximum width of the player */
 max-height: 568px;				 /* maximum height = 9/16 of max width + 35px */
 overflow: hidden;                /* hide any unsightly borders */
 margin: 25px auto;                  /* centre on screen */
-}
+@media screen and (max-width: 1020px)
+   {
+        max-width: 640px;
+       float: left;
+       margin: 25px auto 5px;
+       max-height: 396px;
+} }
+
 
 iframe {
 position: relative;
@@ -1471,6 +1493,16 @@ text-decoration: underline;
 // -------------------------
 //  'Next' modal
 // -------------------------
+
+.activitycompletemodal {
+    position: fixed;
+    //display: none;
+    top: auto;
+    left: auto;
+    bottom: 20px;
+    right: -320px; //320
+}
+
 .activitycompletemodal-content {
     color: @text-color;
 }
@@ -1489,7 +1521,7 @@ text-decoration: underline;
 }
 
 .activitycompletemodal-header {
-    background: @brand-yellow;
+    background: @brand-success;
     padding: 1.618em 15px 1em;
 }
 
@@ -1532,14 +1564,14 @@ span.activitycompletecurrentmodname {
     border-radius: 2px;
 }
     
-.modal-content.activitycompletemodal-content .btn {
+.modal-content.activitycompletemodal-content .btn, .moodle-dialogue-confirm input[type="button"] {
     margin: 0;
     background: transparent;
     -webkit-box-shadow: none;
     box-shadow: none;
-    color: #00759B;
+    color: @brand-info;
     font-weight: bold;
-    font-size: 1em;
+    font-size: .9em;
     text-transform: uppercase;
 }
 
@@ -1553,13 +1585,16 @@ span.activitycompletecurrentmodname {
     text-align: center;
 }
 
-#moodle-footer a.activitycompletenextmodlink:hover, .modal-content.activitycompletemodal-content .btn:hover {
+#moodle-footer a.activitycompletenextmodlink:hover, .modal-content.activitycompletemodal-content .btn:hover, .moodle-dialogue-confirm input[type="button"]:hover {
     background: @gray-lighter;
     text-decoration: none;
 }
 
+span.activitycompletenextmodname {
+    font-weight: bold;
+}
 // -------------------------
-//  modals
+//  dialogs
 // -------------------------
 .modal-content{
 border-width: 0;
@@ -1567,14 +1602,27 @@ border-bottom-color: transparent;
 box-shadow: 0 12px 15px 0 rgba(0,0,0,0.25);
 } 
 
+.moodle-dialogue-base .moodle-dialogue-wrap {
+    border: none;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 12px 15px 0 rgba(0,0,0,0.25);
+}
+
+.yui3-skin-sam .yui3-widget-mask {
+    background-color: #eee;
+    opacity: 0.8;
+}
+
+
 
 // -------------------------
 //  first activity of a section styling, so tasteful and Swiss-inspired
 // -------------------------
 
 .firstactivityinsection h4 {
-    background: #b02a1a;
+    background: @brand-primary;
     color: white;
-    margin: -9% -300% 0;
-    padding: 11.0901em 300% 1em;
+    margin: -10% -300% 0;
+    padding: 4.236em 300% 1em;
+    line-height: 1.3em;
     }

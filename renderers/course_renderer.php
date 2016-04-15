@@ -316,18 +316,18 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         $postcontent = "<div class='snap-asset-meta'>".$mod->afterlink.$assetmeta."</div>";
         
         if ($this->page->theme->settings->collapsecompletedactivities) {
-            if ($this->page->theme->settings->scrapecurrentactivity) {
+            if ($this->page->theme->settings->embedcurrentactivity) {
                 if (!$currentmodcompleted && $mod->available && $allpreviouscompleted) {
-                    //scrape the mod page
-                    $url = new moodle_url($mod->url, array('scrape'=>'1'));
+                    //scrape/embed the mod page
+                    $url = new moodle_url($mod->url, array('embed'=>'1'));
                     
                     //$url = clone $mod->url;
-                    //$url->param('scrape', '1');
+                    //$url->param('embed', '1');
                                        
                     //Send user cookie
                     $context = stream_context_create(array('http' => array('header'=> 'Cookie: ' . $_SERVER['HTTP_COOKIE']."\r\n")));
                     
-                    //Must close session prior to scrape to prevent session deadlock
+                    //Must close session prior to embed to prevent session deadlock
                     session_write_close();
                     
                     //Retieve the page (Do not URL encode parameters)
@@ -346,7 +346,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
                     //Restore error reporting state
                     libxml_use_internal_errors($libxml_previous_state);   
                                                          
-                    $postcontent .= '<div id="current-mod-scrape" class="current-mod-scrape">' . $contents . '</div>';
+                    $postcontent .= '<div id="current-mod-embed" class="current-mod-embed">' . $contents . '</div>';
                 }
             }
 

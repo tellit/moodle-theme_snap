@@ -22,9 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-if ($this->page->theme->settings->scrapecurrentactivity) {
-    $scrape = optional_param('scrape', 0, PARAM_INT);
-    if ($scrape) {
+if ($this->page->theme->settings->embedcurrentactivity) {
+    $embed = optional_param('embed', 0, PARAM_INT);
+    if ($embed) {
         //Must output doctype 
         echo $OUTPUT->doctype();
         echo $OUTPUT->main_content();

@@ -76,4 +76,77 @@ class theme_snap_core_question_renderer extends core_question_renderer {
         
         return html_writer::tag('h3', $title, array('class' => 'qtype'));
     }
+    
+    /**
+     * Generate the display of a question in a particular state, and with certain
+     * display options. Normally you do not call this method directly. Intsead
+     * you call {@link question_usage_by_activity::render_question()} which will
+     * call this method with appropriate arguments.
+     *
+     * @param question_attempt $qa the question attempt to display.
+     * @param qbehaviour_renderer $behaviouroutput the renderer to output the behaviour
+     *      specific parts.
+     * @param qtype_renderer $qtoutput the renderer to output the question type
+     *      specific parts.
+     * @param question_display_options $options controls what should and should not be displayed.
+     * @param string|null $number The question number to display. 'i' is a special
+     *      value that gets displayed as Information. Null means no number is displayed.
+     * @return string HTML representation of the question.
+     */
+    public function question(question_attempt $qa, qbehaviour_renderer $behaviouroutput,
+            qtype_renderer $qtoutput, question_display_options $options, $number) {
+        
+                $output = ''; 
+        
+        // The only safe way to number questions is how the quiz_attempt class does it in the constructor.
+        // Two choices:  1. Hit the DB in a renderer OR 2. Use Reflection to retrieve the protected quiz_attempt members
+        
+        // The data we require is available in this "deep" property of the question bank engine :
+        // $qa->observer->quba->questionattempts
+        //
+        // In each case the member is protected. Reloading the question bank data from the database is considerable.
+        // Use reflection to retrieve the data from already loaded objects.
+        
+        // Output question x of y header based on theme config setting
+        if ($this->page->theme->settings->displayquestionxofy) {
+            
+            $questionattempts = $this->reflect($qa, 'observer->quba->questionattempts');
+            
+            $a = new stdClass();
+            $a->x = $number;
+            $a->y = count($questionattempts);
+            $output .= html_writer::tag('div', get_string('questionxofy', 'theme_snap', $a), array('class' => 'progress'));
+        }
+
+        $output .= parent::question($qa, $behaviouroutput, $qtoutput, $options, $number);
+            
+        return $output;
+    }
+    
+    // Object to reflect on, string of propertyname to return (allowing depth for recursive search)
+    private function reflect($object, $property) {        
+        $depth = explode("->", $property);
+               
+        // Error case
+        if (empty($depth)) return null;
+        
+        // Retrieve and drop first property from new object
+        $thisproperty = array_shift($depth);
+        
+        try {
+            $reflection = new ReflectionClass($object);
+            $property = $reflection->getProperty($thisproperty);
+            $property->setAccessible(true);
+            $object = $property->getValue($object);
+            
+            // Base case
+            if (count($depth) == 0) return $object; 
+            
+            // Recursion
+            return $this->reflect($object, implode("->", $depth));
+            
+        } catch (Exception $e) {
+            return null;
+        }        
+    }
 }

@@ -151,6 +151,16 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('navigationheadingdesc', 'theme_snap');
     $setting = new admin_setting_heading($name, $title, $description);
     $settings->add($setting);    
+
+    // Hide quiz navigation for non editors.
+    $name = 'theme_snap/hidequiznavigation';
+    $title = new lang_string('hidequiznavigation', 'theme_snap');
+    $description = new lang_string('hidequiznavigationdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
     
     // Breadcrumbs in nav bar.
     $name = 'theme_snap/breadcrumbsinnav';
@@ -172,10 +182,10 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
-    // Scrape the current activity directly to the course renderer
-    $name = 'theme_snap/scrapecurrentactivity';
-    $title = new lang_string('scrapecurrentactivity', 'theme_snap');
-    $description = new lang_string('scrapecurrentactivitydesc', 'theme_snap');
+    // Embed the current activity directly to the course renderer
+    $name = 'theme_snap/embedcurrentactivity';
+    $title = new lang_string('embedcurrentactivity', 'theme_snap');
+    $description = new lang_string('embedcurrentactivitydesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
     $default = $unchecked;
@@ -264,6 +274,17 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
     
+    // Display: "Question x of y" before each question in a quiz activity
+    $name = 'theme_snap/displayquestionxofy';
+    $title = new lang_string('displayquestionxofy', 'theme_snap');
+    $description = new lang_string('displayquestionxofydesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
+        
     // Visual signal to indicate the first activity on/off.
     $name = 'theme_snap/highlightfirstactivityinsection';
     $title = new lang_string('highlightfirstactivityinsection', 'theme_snap');
