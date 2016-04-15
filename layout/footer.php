@@ -128,7 +128,7 @@ echo '<!-- Modal -->
                 </p>
             </div>
             <div class="modal-footer activitycompletemodal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="scrollOut()">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="scrollOut(\'#activitycompletemodal\')">Close</button>
                 <a href="' . $forwardlinkurl . '" class="activitycompletenextmodlink">' . $forwardlinktext . '
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </a>
@@ -137,37 +137,26 @@ echo '<!-- Modal -->
     </div>
 </div>
 <script type="text/javascript">
-    $(window).load(function(){
-        //$(\'#myModal\').modal(\'show\');
+    $(window).load(function(){        
+        //Using bootstrap modal
         //setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
         
-        setTimeout(function(){
-            //scrollIn();
-            $(\'#activitycompletemodal\').show().animate({
-            right: "20px",
-            opacity: 1},
-            200
-    )
-        
-        }, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
+        //using animate slide position fixed
+        setTimeout(
+            function() {
+                scrollIn(\'#activitycompletemodal\');
+            }, 
+            ' . $this->page->theme->settings->nextactivitymodaldialogdelay . '
+        );
         
     });
-    
-function scrollIn() {
-    $(\'#activitycompletemodal\').show().animate({
-    right: "20px",
-    opacity: 1},
-    200
-    )
-}
 
-function scrollOut() {
-    $(\'#activitycompletemodal\').animate({
-    right: "-320px",
-    opacity: 0},
-    200,
-    function(){ $(\'#activitycompletemodal\').hide() }
-    )
+function scrollIn(selector) {
+    $(selector).show().animate({right: "20px", opacity: 1}, 1000);
+}    
+    
+function scrollOut(selector) {
+    $(selector).animate({right: "-600px", opacity: 0.5}, 200, function(){ $(selector).hide()});
 }
 
 //Steves code that Leonard wanted...

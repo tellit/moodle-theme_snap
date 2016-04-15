@@ -109,7 +109,7 @@ class theme_snap_core_question_renderer extends core_question_renderer {
         
         // Output question x of y header based on theme config setting
         if ($this->page->theme->settings->displayquestionxofy) {
-            
+
             $questionattempts = $this->reflect($qa, 'observer->quba->questionattempts');
             
             $a = new stdClass();

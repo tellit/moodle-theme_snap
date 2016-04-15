@@ -10130,10 +10130,11 @@ iframe {
 }
 .activitycompletemodal {
   position: fixed;
+  display: none;
   top: auto;
   left: auto;
   bottom: 20px;
-  right: -320px;
+  right: -600px;
 }
 .activitycompletemodal-content {
   color: #333;
