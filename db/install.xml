@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="theme/snap/db" VERSION="20160418" COMMENT="XMLDB file for Moodle theme/snap"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="snap_meta" COMMENT="Table for course meta information">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Course meta information name"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="Integer field to assist with sort order"/>
+        <FIELD NAME="default" TYPE="char" LENGTH="512" NOTNULL="false" SEQUENCE="false" COMMENT="Default value for meta field"/>
+        <FIELD NAME="icon" TYPE="char" LENGTH="512" NOTNULL="true" SEQUENCE="false" COMMENT="HTML container for icon display"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="snap_meta_course" COMMENT="Table for storing meta information about a course in snap">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="metaid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to snap_meta"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to course table"/>
+        <FIELD NAME="data" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="meta information for a course"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

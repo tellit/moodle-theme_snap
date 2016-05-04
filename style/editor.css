@@ -2906,7 +2906,7 @@ li.section:focus {
   margin: 0 auto;
   float: none;
   display: block;
-  text-align: left;
+  text-align: center;
 }
 .course-content ul.weeks li.section .left.side.snap-section-editing a,
 .course-content ul.weeks li.section .right.side.snap-section-editing a,
@@ -2943,8 +2943,8 @@ li.section:focus {
   margin: 0 auto;
   float: none;
   display: block;
-  text-align: left;
-  margin-top: -1em;
+  text-align: center;
+  margin-top: 0;
 }
 .snap-section-editing a {
   display: inline-block;
@@ -3585,7 +3585,7 @@ span.stepper-future {
   left: -16px;
   top: 0;
   z-index: 4;
-  background: #999;
+  background: #00759B;
   border-radius: 2em;
   width: 30px;
   height: 30px;
@@ -4033,7 +4033,7 @@ span.editinstructions {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -4100,7 +4100,7 @@ fieldset[disabled] a.snap-asset .unread a {
 .snap-asset .unread a:focus,
 .snap-asset .unread a:active,
 .snap-asset .unread a.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -4136,7 +4136,7 @@ fieldset[disabled] a.snap-asset .unread a {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -4224,7 +4224,7 @@ fieldset[disabled] a#changenumsections .reduce-sections {
 #changenumsections .reduce-sections:active,
 #changenumsections .increase-sections.active,
 #changenumsections .reduce-sections.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -4247,9 +4247,9 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   font-weight: 300;
 }
 #snap-course-footer {
-  margin: 2em auto -2em;
-  padding: 1em 4%;
-  background-color: #f1f0ee;
+  margin: 2em -220% 0;
+  padding: 1em 220%;
+  background-color: #eae9e7;
 }
 #course_recent_updates h3 {
   font-size: 1em;
@@ -4863,6 +4863,7 @@ h1 {
 }
 #region-main textarea {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
+  white-space: nowrap;
 }
 label,
 .label,
@@ -5011,7 +5012,7 @@ input[type="text"] + input[type="submit"] {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -5099,7 +5100,7 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
 #page-site-index .section-modchooser-link .section-modchooser-text:active,
 .snap-modchooser .section-modchooser-text.active,
 #page-site-index .section-modchooser-link .section-modchooser-text.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -5292,8 +5293,8 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   left: 0;
   bottom: 0;
   overflow-y: auto;
-  background-color: #eae9e7;
-  color: #666;
+  background-color: #666;
+  color: #fff;
   z-index: 1000000;
 }
 .fixy hr {
@@ -5308,13 +5309,13 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   color: #fff;
 }
 .fixy h2 {
-  color: rgba(255, 255, 255, 0.7);
+  color: #fdfdfd;
   text-transform: uppercase;
   font-weight: 100;
   line-height: 1;
   margin: 1em 0;
   padding: 0.5em 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid #fdfdfd;
   font-size: 1em;
 }
 .fixy .label-success {
@@ -5539,6 +5540,9 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   .courseinfo {
     width: 100%;
   }
+  #login.fixy .fixy-inner {
+    max-width: 61.8%;
+  }
 }
 @media screen and (min-width: 768px) {
   #fixy-username {
@@ -5550,10 +5554,16 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   .courseinfo {
     width: 48%;
   }
+  #login.fixy .fixy-inner {
+    max-width: 38.1%;
+  }
 }
 @media screen and (min-width: 992px) {
   .courseinfo {
     width: 31%;
+  }
+  #login.fixy .fixy-inner {
+    max-width: 23.6%;
   }
 }
 .message_badge_message,
@@ -5616,7 +5626,7 @@ footer #moodle-footer
 #moodle-footer,
 #moodle-blocks {
   margin: 0 auto;
-  padding: 0 4%;
+  padding: 0;
   font-size: 1em;
 }
 @media (max-width: 375px) {
@@ -5675,7 +5685,7 @@ header#mr-nav a {
 }
 #region-main {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
-  padding-top: 1em;
+  padding-top: 0;
   margin: 0 auto 0;
 }
 #page-mod-quiz-edit #region-main,
@@ -5704,14 +5714,30 @@ header#page-header
 
  ****************************/
 #page-header {
-  padding-top: 4em;
+  padding-top: 5.15em;
   padding-bottom: 0.5em;
 }
 .breadcrumb > li:before {
   content: "|";
 }
-.breadcrumb li:nth-child(2):before {
+.admin .breadcrumb li:first-child:before,
+.path-enrol .breadcrumb li:first-child:before,
+.pagelayout-admin#page-mod-quiz-attempt #moodle-blocks .breadcrumb li:first-child:before {
   content: '\e091 ';
+  padding-right: 1em;
+  vertical-align: top;
+  font-family: 'Glyphicons Halflings';
+  color: #000;
+}
+.path-mod .breadcrumb li:nth-child(3):before {
+  content: '\e091 ';
+  padding-right: 1em;
+  vertical-align: top;
+  font-family: 'Glyphicons Halflings';
+  color: #000;
+}
+.path-course .breadcrumb li:nth-child(2):before {
+  content: ' ';
   padding-right: 1em;
   vertical-align: top;
   font-family: 'Glyphicons Halflings';
@@ -5721,15 +5747,35 @@ header#page-header
   margin: 0;
   float: left;
 }
-.breadcrumb {
+.path-course .breadcrumb,
+.path-mod .breadcrumb {
   background-color: transparent;
   padding: 0;
   font-size: 20px;
   display: block;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
-.breadcrumb > li:last-child,
-.breadcrumb > li:first-child {
+.path-course .breadcrumb > li:last-child,
+.path-mod .breadcrumb > li:last-child,
+.path-course .breadcrumb > li:nth-child(-n+2),
+.path-mod .breadcrumb > li:nth-child(-n+2) {
+  display: none;
+}
+.admin .breadcrumb,
+.path-enrol .breadcrumb,
+.pagelayout-admin .breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  font-size: 20px;
+  display: block;
+  font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
+}
+.admin .breadcrumb > li:last-child,
+.path-enrol .breadcrumb > li:last-child,
+.pagelayout-admin .breadcrumb > li:last-child {
+  display: none;
+}
+.path-login .breadcrumb {
   display: none;
 }
 @media screen and (max-width: 768px) {
@@ -5740,6 +5786,11 @@ header#page-header
     content: "";
     padding: 0;
   }
+}
+.pagelayout-incourse .breadcrumb li:nth-child(3) a,
+.pagelayout-course .breadcrumb li:nth-child(2) a {
+  padding: 0px 0px 0px 20%;
+  margin: 0px 0px 0px -20%;
 }
 .breadcrumb-button {
   margin-top: 0;
@@ -5770,6 +5821,7 @@ header#page-header
 #course-toc .completionstatus {
   font-size: small;
   color: #999;
+  margin-left: 1.6em;
 }
 #course-toc .completionstatus + .published-status:before,
 #course-toc .published-status + .published-status:before {
@@ -5777,10 +5829,11 @@ header#page-header
 }
 #course-toc .toc-footer {
   margin-right: 4%;
-  text-align: right;
+  text-align: left;
+  padding: .5em 0;
 }
 #course-toc .toc-footer a {
-  margin-left: 0.5em;
+  color: #999;
 }
 body:not(.format-topics):not(.format-weeks) .toc-footer {
   display: none;
@@ -5800,14 +5853,14 @@ body:not(.format-topics):not(.format-weeks) .toc-footer {
   background-color: rgba(255, 255, 255, 0.95);
 }
 #chapters {
-  column-count: 2;
+  column-count: 1;
   margin-bottom: 0;
 }
 ol#chapters {
   list-style-position: outside;
+  padding: 0;
 }
 ol#chapters li {
-  margin-left: 2em;
   padding-bottom: 0.1em;
   color: #999;
   line-height: 1;
@@ -5816,7 +5869,7 @@ ol#chapters li {
 ol#chapters li a {
   display: block;
   margin-bottom: -0.3em;
-  line-height: 1.75;
+  line-height: 1.6;
 }
 ol#chapters li.current a {
   color: #666;
@@ -5842,10 +5895,10 @@ ol#chapters li.current a {
 /* if > tablet size */
 @media screen and (min-width: 768px) {
   #chapters.list-large {
-    column-count: 3;
+    column-count: 1;
   }
   #course-toc {
-    margin: 1em auto -0.5em;
+    margin: 0 auto -0.5em;
   }
   .mast-image #course-toc {
     margin-top: 6.6vh;
@@ -5891,7 +5944,7 @@ ol#chapters li.current a {
 #toc-mobile-menu-toggle {
   display: none;
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   #toc-search,
   #course-toc #toc-desktop-menu-heading,
   #course-toc .toc-footer {
@@ -6018,6 +6071,7 @@ ol#chapters li.current a {
   line-height: 1;
   font-size: 1rem;
   text-transform: uppercase;
+  color: #fff;
 }
 #admin-menu-trigger {
   background-color: transparent;
@@ -6262,6 +6316,9 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
   padding: 0.25em 2em;
   margin-top: 1em;
 }
+header#mr-nav .fixy a {
+  color: #fff;
+}
 @media screen and (min-width: 768px) {
   #page-site-index #page-mast {
     width: 50%;
@@ -6446,7 +6503,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 .coursebox.container-fluid,
 .coursebox.row {
   padding: 1em 4%;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eae9e7;
 }
 .coursebox .info .coursename {
   font-size: 40px;
@@ -6508,7 +6565,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -6574,7 +6631,7 @@ fieldset[disabled] a.paging.paging-morelink a {
 .paging.paging-morelink a:focus,
 .paging.paging-morelink a:active,
 .paging.paging-morelink a.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -6876,7 +6933,7 @@ ul.events-new + ul.events-underway {
   bottom: 0;
   left: 1%;
   background-color: #000;
-  color: #eee;
+  color: #eae9e7;
   padding: 0.1em 1%;
   z-index: 1030;
 }
@@ -7036,7 +7093,7 @@ ul.events-new + ul.events-underway {
   display: block;
 }
 #page-mod-quiz-edit .editq div.question {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eae9e7;
   border-top: 1px solid #ccc;
 }
 #categoryquestions td,
@@ -7210,7 +7267,7 @@ table.boxaligncenter.generaltable.user-grade th {
   font-weight: 500;
 }
 table.boxaligncenter.generaltable.user-grade thead {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eae9e7;
 }
 table.boxaligncenter.generaltable.user-grade img.icon {
   width: 1.3em;
@@ -7310,7 +7367,6 @@ table#user-grades tr.avg td.cell {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
   border: 0;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   text-align: center;
@@ -7447,7 +7503,7 @@ fieldset[disabled] a.gradingform_rubric.editor .addcriterion input {
 .gradingform_checklist.editor .additem input.active,
 .gradingform_rubric.editor .addlevel input.active,
 .gradingform_rubric.editor .addcriterion input.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -7986,9 +8042,6 @@ fieldset[disabled] .gradingform_rubric.editor .addcriterion input.active {
   width: 100%;
   padding: 2em 4% 4em;
 }
-#notice + .continuebutton {
-  margin-top: -3em;
-}
 #notice .buttons {
   text-align: center;
   border-top: none;
@@ -8049,10 +8102,15 @@ body.hascontinuecancel.path-site #page {
 #page-mod-survey-save #page-header {
   display: none;
 }
+.modtype_book,
+.modtype_page {
+  border-bottom: none;
+}
 .section_footer {
   margin-top: 2em;
   padding: 1em 0;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eae9e7;
+  display: none;
 }
 .section_footer a {
   font-style: normal;
@@ -8079,14 +8137,20 @@ body.hascontinuecancel.path-site #page {
   text-transform: uppercase;
   font-style: normal;
   color: #333;
+  font-weight: normal !important;
 }
 .nav_icon {
-  padding: 0.3em;
-  text-align: center;
+  margin-left: 0.3em;
+  border-left: 1px solid #999;
+  font-size: 2.5em;
+  width: 36px;
+  float: right;
+  padding: 0.0em 0.3em 0.2em 0em;
+  line-height: 1em;
 }
 .next_section .nav_icon {
   margin-left: 0.3em;
-  border-left: 1px solid #eee;
+  border-left: 1px solid #eae9e7;
   font-size: 2em;
   width: 50px;
   float: right;
@@ -8094,8 +8158,21 @@ body.hascontinuecancel.path-site #page {
 .previous_section .nav_icon {
   float: left;
   margin-right: 0.3em;
-  border-right: 1px solid #eee;
+  border-right: 1px solid #eae9e7;
   font-size: 2em;
+}
+.next_activity_area {
+  background: #eae9e7;
+  padding: 1.94em 0 1.2em;
+  margin-top: 4.23em;
+}
+.next_activity_link {
+  margin: 0 auto;
+  font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
+  max-width: 940px;
+}
+.next_activity_text {
+  text-align: right;
 }
 /* moodle dialogues */
 /* standard size */
@@ -8234,7 +8311,7 @@ body.hascontinuecancel.path-site #page {
 }
 #moodle-footer {
   padding-top: 2em;
-  padding-bottom: 1em;
+  padding-bottom: 2.3em;
   clear: both;
   color: #eae9e7;
   background-color: #333;
@@ -8275,6 +8352,7 @@ img.cass-logo {
   float: left;
   width: 255px;
   height: 74px;
+  margin: 0 0 0 1%;
 }
 /* Moodle error, reports, all that stuff in the footer */
 #page-footer {
@@ -8514,7 +8592,7 @@ table th img.iconhelp {
 }
 div.editor_atto_toolbar {
   background-color: transparent;
-  border-color: #eee;
+  border-color: #eae9e7;
   padding-bottom: 0;
 }
 .editor_atto_content {
@@ -8529,7 +8607,7 @@ textarea {
   width: 100%;
 }
 .editor_atto_content_wrap {
-  border-color: #eee;
+  border-color: #eae9e7;
 }
 .editor_atto_content .img-responsive {
   display: inline;
@@ -8538,7 +8616,7 @@ textarea {
 .editor_atto_toolbar button.highlight,
 .editor_atto_toolbar button:hover {
   background-image: none;
-  background-color: #eee;
+  background-color: #eae9e7;
 }
 div.editor_atto_toolbar button + button {
   border-color: #fff;
@@ -8907,18 +8985,18 @@ a:hover,
 .snap-lightbox-description,
 #page-mod-book-print {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
-  max-width: 1020px;
-  padding-left: 40px;
-  padding-right: 40px;
+  max-width: 960px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 #region-main textarea {
   width: 100%;
 }
 @media screen and (min-width: 62em) {
   #page-mod-hsuforum-view #region-main {
-    max-width: 1020px;
-    padding-left: 40px;
-    padding-right: 40px;
+    max-width: 960px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 h1,
@@ -8958,16 +9036,8 @@ h6 {
 .fixy-trigger .message_badge_count {
   background-color: #8c2215;
 }
-.fixy {
-  background-color: #eae9e7;
-}
 .fixy .label-success {
   color: #b02a1a;
-}
-.fixy h2 {
-  color: #333;
-  padding: 0;
-  border-bottom: 1px solid #999;
 }
 .snap-unread-marker {
   color: #b02a1a;
@@ -9008,7 +9078,7 @@ input[type="submit"],
 input[type="reset"],
 #page-mast .snap-login-button,
 #page-site-index .section-modchooser-link .section-modchooser-text {
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -9110,7 +9180,7 @@ input[type="submit"].active,
 input[type="reset"].active,
 #page-mast .snap-login-button.active,
 #page-site-index .section-modchooser-link .section-modchooser-text.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -9349,6 +9419,24 @@ img.iconhelp:hover {
   vertical-align: top;
   border-top: 1px solid #ddd;
 }
+th.data.header {
+  text-align: center;
+}
+.path-mod-choice .results .option,
+.path-mod-choice .results .numberofuser,
+.path-mod-choice .results .percentage {
+  font-weight: normal;
+  padding: 1em 0 0;
+}
+.progress {
+  overflow: hidden;
+  height: 32px;
+  margin-bottom: 32px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #999;
+}
 #page-mod-quiz-view .generalbox#feedback h3 {
   width: 100%;
 }
@@ -9410,7 +9498,8 @@ ul li label:hover {
   margin-bottom: 7.6em;
 }
 #page-mod-quiz-view .quizinfo,
-#page-mod-quiz-view .quizattempt {
+#page-mod-quiz-view .quizattempt,
+#page-mod-quiz-view .quizattemptcounts {
   max-width: 640px;
   float: right;
   margin: 0 auto;
@@ -9470,10 +9559,11 @@ body#page-mod-quiz-attempt {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
 #page-mod-quiz-attempt section#region-main {
-  max-width: 600px;
+  max-width: 940px;
   display: inline-block;
-  margin: 0;
-  padding: 0;
+  margin: 0 1em;
+  padding: 0 1em;
+  width: 100%;
 }
 #page-mod-quiz-attempt .block_fake h2 {
   display: none;
@@ -9490,8 +9580,10 @@ body#page-mod-quiz-attempt {
   padding: 0;
   width: inherit;
 }
-#page-mod-quiz-attempt .info {
-  display: none;
+.info .state,
+.info .grade,
+.info .questionflag {
+  display: none !important;
 }
 .path-mod-quiz .qnbutton {
   display: none;
@@ -9537,21 +9629,6 @@ body#page-mod-quiz-review .questionflag {
   padding-bottom: 1em;
   font-size: 2em;
   font-family: FF-Meta-Web-Pro, Arial, sans-serif;
-}
-.truefalse:before {
-  content: "True or false";
-}
-.freehanddrawing:before {
-  content: "Draw the answer";
-}
-.multianswer:before {
-  content: "Fill in the blank";
-}
-.numerical:before {
-  content: "Compute";
-}
-.multichoice:before {
-  content: "Select one";
 }
 #page-mod-quiz-attempt #page {
   margin: 0;
@@ -9690,24 +9767,11 @@ body#page-mod-choice-view {
   clear: both;
 }
 .path-mod-choice .responseheader {
-  margin-top: 10px;
-  background: #eae9e7;
-  margin: 0px -300%;
-  padding: 0px 300%;
+  margin: 1em 0 3.6em;
   float: left;
-  overflow: hidden;
-  color: #000;
+  text-align: left;
 }
-.path-mod-choice .response {
-  float: left;
-  clear: both;
-  background: #eae9e7;
-  margin: 0px -300%;
-  padding: 2em 300% 4em;
-  overflow: hidden;
-  color: #000;
-}
-.path-mod-choice #moodle-footer.nocoursefooter {
+#moodle-footer.nocoursefooter {
   margin-top: 0;
 }
 .path-mod-choice #yourselection {
@@ -9763,6 +9827,7 @@ small.hsuforum-thread-replies-meta {
 .hsuforum-post-figure,
 .hsuforum-thread-body {
   padding: 0;
+  width: 100%;
 }
 #page-mod-hsuforum-discuss input.form-control,
 .hsuforum-thread-meta {
@@ -9813,7 +9878,7 @@ p.hsuforum-thread-byline {
 .hsuforum-tools {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
   margin-top: 0;
@@ -9845,23 +9910,23 @@ p.hsuforum-thread-byline {
   max-width: 940px;
   width: 100%;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-thread-body {
     float: left;
   }
 }
 .hsuforum-post-body {
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-post-body {
     float: left;
   }
 }
 .hsuforum-thread-replies h5 {
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
 }
@@ -9874,18 +9939,18 @@ p.hsuforum-thread-byline {
 .hsuforum-post-figure .userpicture {
   float: right;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-post-figure .userpicture {
     float: left;
   }
 }
 .hsuforum-form legend {
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
   margin-left: 100px;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-form legend {
     float: left;
     margin-left: 0;
@@ -9956,7 +10021,7 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   float: left;
   margin-left: 300px;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .box.boxaligncenter .boxwidthwide {
     margin-left: 0;
   }
@@ -9993,10 +10058,10 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
 }
 .activity-meta {
   float: left;
-  width: 300px;
+  padding: 0;
   line-height: 21px;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .activity-meta {
     max-width: 640px;
     float: left;
@@ -10004,9 +10069,9 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   }
 }
 .activity-type {
-  padding: 1em 0;
+  padding: 0 0 1em;
   border-bottom: 1px dotted #999;
-  width: 240px;
+  width: 230px;
 }
 .activity-intro {
   min-height: 20px;
@@ -10015,7 +10080,7 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   max-width: 640px;
   clear: right;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .activity-intro {
     float: left;
   }
@@ -10044,12 +10109,12 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   display: inline-block;
   vertical-align: text-top;
   height: 4.25rem;
-  margin-right: 0.95rem;
+  margin-right: 0.75rem;
   float: left;
 }
 span.dropcap_inner {
   font-size: 6.25rem;
-  line-height: 6.25rem;
+  line-height: 5.75rem;
   display: inline-block;
   vertical-align: text-top;
 }
@@ -10073,7 +10138,7 @@ span.dropcap_inner {
 }
 .activity-info {
   display: block;
-  padding: .3em 0;
+  padding: .1em 0 0.3em;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   font-size: .9em;
   color: #666;
@@ -10085,31 +10150,24 @@ span.dropcap_inner {
   /* height is 9/16 of width + 35px for control bar */
   max-width: 940px;
   /* maximum width of the player */
-  max-height: 568px;
+  max-height: 575px;
   /* maximum height = 9/16 of max width + 35px */
   overflow: hidden;
   /* hide any unsightly borders */
-  margin: 25px auto;
+  margin: 40px auto;
   /* centre on screen */
-}
-@media screen and (max-width: 1020px) {
-  .holder {
-    max-width: 640px;
-    float: left;
-    margin: 25px auto 5px;
-    max-height: 396px;
-  }
+  padding: 63px 0;
 }
 iframe {
   position: relative;
   display: block;
-  top: -2px;
+  top: -1px;
   /* move iframe to left to hide any unsightly border */
-  left: 0px;
+  left: -2px;
   /* move iframe up to hide any unsightly border */
-  width: calc(100.5%);
+  width: calc(104%);
   /* oversize the iframe width slightly to hide any unsightly border */
-  height: calc(100.5%);
+  height: calc(102%);
   /* oversize the iframe height slightly to hide any unsightly border */
 }
 .glyphicon {
@@ -10175,7 +10233,7 @@ span.glyphicon.glyphicon-ok.activitycompletemodal-ok {
 span.activitycompletecurrentmodname {
   font-weight: bold;
 }
-#moodle-footer a.activitycompletenextmodlink {
+a.activitycompletenextmodlink {
   font-weight: bold;
   color: #00759B;
   border: none;
@@ -10226,15 +10284,111 @@ span.activitycompletenextmodname {
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
 }
 .yui3-skin-sam .yui3-widget-mask {
-  background-color: #eee;
+  background-color: #eae9e7;
   opacity: 0.8;
 }
 .firstactivityinsection h4 {
   background: #b02a1a;
   color: white;
   margin: -10% -300% 0;
-  padding: 4.236em 300% 1em;
-  line-height: 1.3em;
+  padding: 4.49em 300% .85em;
+  line-height: 1.23em;
+}
+.section li.snap-asset:last-child {
+  border-left: none;
+}
+ol#chapters li {
+  padding: 1em 0;
+  border-bottom: 1px dotted;
+  list-style-position: inside;
+}
+ol#chapters li a {
+  color: #999;
+}
+.path-course-view #region-main {
+  width: calc(81% - 239px);
+  float: none;
+  margin-top: 7.1em;
+  min-height: 98vh;
+  padding: 0;
+}
+.path-course-view #page-header {
+  max-width: 229px;
+  left: 1%;
+  position: absolute;
+}
+.path-course-view h2.sectionname {
+  text-align: center;
+  font-size: 3em;
+}
+.path-course-view .section .summary {
+  text-align: center;
+}
+.path-course-view main#moodle-page {
+  max-width: 940px;
+  margin: 0 auto;
+}
+.path-course-view #region-main p {
+  color: #999;
+}
+.path-course-view #page-header h1,
+#toc-search,
+#course-toc h2 {
+  display: none;
+}
+.choosercontainer #chooseform .option {
+  text-align: left;
+}
+.activity-complete {
+  float: left;
+}
+span.activity-complete.glyphicon.glyphicon-ok {
+  top: 0;
+  z-index: 4;
+  background: #6C953C;
+  border-radius: 5em;
+  width: 1.6em;
+  height: 1.6em;
+  line-height: 1.6em;
+  color: #fff;
+  text-indent: 13px;
+  font-size: 2em;
+  -webkit-font-feature-settings: 'lnum';
+  -moz-font-feature-settings: 'lnum';
+  font-feature-settings: 'lnum';
+  text-align: left;
+}
+.done {
+  float: right;
+  margin-top: 1.6em;
+  vertical-align: bottom;
+  text-align: right;
+  margin-left: .5em;
+}
+ol#chapters li.current a:after {
+  content: "\e080";
+  font-family: 'Glyphicons Halflings';
+  float: right;
+}
+span.text {
+  font-weight: bold;
+}
+.coursebox .info .coursename {
+  display: none;
+}
+.path-enrol h2 {
+  margin: .65em 0px 0px;
+}
+.col-md-8 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.col-md-4 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.posting {
+  padding-top: 2.6em;
 }
 body {
   margin: 8px;

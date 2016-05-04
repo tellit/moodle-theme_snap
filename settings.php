@@ -158,7 +158,7 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('hidequiznavigationdesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
@@ -168,7 +168,7 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('breadcrumbsinnavdesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
@@ -229,10 +229,10 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
     $settings->add($setting);
         
-    // Hide course page.
-    $name = 'theme_snap/hidecoursepage';
-    $title = new lang_string('hidecoursepage', 'theme_snap');
-    $description = new lang_string('hidecoursepagedesc', 'theme_snap');
+    // Course page redirect.
+    $name = 'theme_snap/coursepageredirect';
+    $title = new lang_string('coursepageredirect', 'theme_snap');
+    $description = new lang_string('coursepageredirectdesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
     $default = $checked;

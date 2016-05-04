@@ -22,6 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// If the embedcurrentactivity theme setting is set and a URL parameter
+// of embed is set (to true), output nothing but the activity mod content.
+// This allows the course page to 'scrape' the first page of the activity.
 if ($this->page->theme->settings->embedcurrentactivity) {
     $embed = optional_param('embed', 0, PARAM_INT);
     if ($embed) {
@@ -34,19 +37,42 @@ if ($this->page->theme->settings->embedcurrentactivity) {
  
 include(__DIR__.'/header.php');
 
-$modpageclass = '';
-if ($this->page->theme->settings->highlightfirstactivityinsection) {
+// By default, assume we are not on a mod page.
+$ismodpage = false;
 
+// Do not assume mod page if user is editing.
+// (This function returns true if the user is adding a new mod
+// $PAGE->pagetype gets set even though the URL is not /mod/)
+if (!$PAGE->user_is_editing()) {
     $pagepath = explode('-', $PAGE->pagetype);
-    if ($pagepath[0] == 'mod') {
-        $mod = $PAGE->cm;
-        $modinfo = $mod->get_modinfo();
-        if ($mod->id == $modinfo->sections[$mod->sectionnum][0]) {
-            //This mod is the first in its section    
-            $modpageclass = ' class="firstactivityinsection"';
+    if ($PAGE->pagetype != 'admin' && $pagepath[0] == 'mod') {
+        
+        // We are on a activity (mod) page
+        $ismodpage = true;
+        
+        //Defensive Programming. $PAGE->cm doesn't exist if the user is editing (adding a new mod)
+        //It may not exist for other reasons
+        if (is_object($PAGE->cm)) {
+            $mod = $PAGE->cm;
         }
     }
-}               
+}
+
+// By default, do not add additional CSS classes to the 'page' div
+$modpageclass = '';
+
+// If we are on a mod page, and we are supposed to highlight the first activity in section
+if ($ismodpage && $this->page->theme->settings->highlightfirstactivityinsection) {
+    
+    //Get the mod info
+    $modinfo = $mod->get_modinfo();
+    
+    // If this activity is the first in the section
+    if ($mod->id == $modinfo->sections[$mod->sectionnum][0]) {
+        // Add an extra CSS class to the page div
+        $modpageclass = ' class="firstactivityinsection"';
+    }               
+}
 
 ?>
 <!-- moodle js hooks -->
@@ -130,11 +156,45 @@ if ($hasadminbutton) {
 
 echo $OUTPUT->page_heading_button();
 
+// If we are on a mod page and a theme setting of 'use meta information' is set
+$this->page->theme->settings->usemetainformation = true;
+if ($ismodpage && $this->page->theme->settings->usemetainformation) {
+    
+    // Wrap the main content 
+    echo "<div class='row'><div class=\"activity-meta col-md-4\">";  
+    
+    //
+    //
+    //meta meta2
+    
+    
+    ?>
+    <ul class="snap-meta">
+    <li class="meta meta1"><span class="glyphicon glyphicon-facetime-video">Video Lecture</span></li>
+    <li class="meta meta2"><span class="glyphicon glyphicon-eye-open">Quiz</span></li>
+    <li class="meta meta3"><span class="glyphicon glyphicon-scissors"></span></li>
+    <li class="meta meta4"><span class="glyphicon glyphicon-time">50-60 Minutes</span></li>
+    </ul>
+    <?php
+    
+    
+    // Close the first column and start the second column container
+    echo "</div><div class=\"col-md-8\>";
+}
+
+
 // On the front page, output some different content.
 if ($PAGE->pagetype == 'site-index') {
     include(__DIR__.'/faux_site_index.php');
 } else {
     echo $OUTPUT->main_content();
+}
+
+// If we are on a mod page and a theme setting of 'use meta information' is set
+if ($ismodpage && $this->page->theme->settings->usemetainformation) {
+    
+    // Close the second column container and the row
+    echo "</div></div>";
 }
 
 echo $OUTPUT->course_content_footer();

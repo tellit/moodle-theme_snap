@@ -74,7 +74,7 @@ a.dimmed_text:visited,
 }
 .green,
 .notifysuccess {
-  color: #6C953C;
+  color: #E2CC00;
 }
 .reportlink {
   text-align: right;
@@ -1442,7 +1442,7 @@ a.environmenttable .ok:focus {
   background-color: #E55302;
 }
 .environmenttable .ok {
-  background-color: #6C953C;
+  background-color: #E2CC00;
 }
 .path-admin .admintable.environmenttable .name,
 .path-admin .admintable.environmenttable .info,
@@ -1524,7 +1524,7 @@ a.statuscritical:focus {
   color: #fff;
 }
 .statusok {
-  background-color: #6C953C;
+  background-color: #E2CC00;
 }
 .statusinfo {
   background-color: #00759B;
@@ -1548,7 +1548,7 @@ a.statuscritical:focus {
 #page-admin-report-backups-index .backup-skipped,
 #page-admin-report-backups-index .backup-ok,
 #page-admin-report-backups-index .backup-notyetrun {
-  color: #6C953C;
+  color: #E2CC00;
 }
 #page-admin-report-backups-index .backup-warning {
   color: #E55302;
@@ -1891,7 +1891,7 @@ img.iconsmall {
   width: 16px;
 }
 #plugins-check .status-new .status {
-  background-color: rgba(108, 149, 60, 0.1);
+  background-color: rgba(226, 204, 0, 0.1);
 }
 #page-admin-index .adminwarning.availableupdatesinfo .moodleupdateinfo.maturity200 .info.release,
 #plugins-check .status-upgrade .status,
@@ -1926,10 +1926,10 @@ img.iconsmall {
   color: #C9282D;
 }
 #plugins-control-panel .status-new .pluginname {
-  background-color: rgba(108, 149, 60, 0.1);
+  background-color: rgba(226, 204, 0, 0.1);
 }
 #plugins-control-panel .status-new .statusmsg {
-  color: #6C953C;
+  color: #E2CC00;
 }
 #plugins-control-panel .disabled .availability {
   background-color: #eae9e7;
@@ -2587,13 +2587,18 @@ span.editinstructions {
   padding: 0;
 }
 .dndupload-progress-outer {
-  overflow: hidden;
-  height: 32px;
-  margin-bottom: 32px;
   background-color: #f5f5f5;
   border-radius: 0px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 32px;
+  margin-bottom: 32px;
+  background-color: transparent;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #999;
 }
 .dndupload-progress-inner {
   float: left;
@@ -4792,15 +4797,15 @@ body.path-question-type .fitem_fgroup .accesshide {
   width: auto;
 }
 .que .comment {
-  background-color: rgba(108, 149, 60, 0.1);
-  border-color: rgba(108, 149, 60, 0.1);
-  color: #6C953C;
+  background-color: rgba(226, 204, 0, 0.1);
+  border-color: rgba(226, 204, 0, 0.1);
+  color: #E2CC00;
 }
 .que .comment hr {
-  border-top-color: rgba(95, 131, 53, 0.1);
+  border-top-color: rgba(201, 181, 0, 0.1);
 }
 .que .comment .alert-link {
-  color: #52712d;
+  color: #af9e00;
 }
 .que .history {
   min-height: 20px;
@@ -4866,7 +4871,7 @@ a.que .correctness:focus {
   color: #fff;
 }
 .que .correctness.correct {
-  background-color: #6C953C;
+  background-color: #E2CC00;
 }
 .que .correctness.partiallycorrect {
   background-color: #E55302;
@@ -4879,7 +4884,7 @@ a.que .correctness:focus {
   color: #C9282D;
 }
 .formulation .correct {
-  background-color: rgba(108, 149, 60, 0.1);
+  background-color: rgba(226, 204, 0, 0.1);
 }
 .formulation .partiallycorrect {
   background-color: rgba(229, 83, 2, 0.1);
@@ -4889,17 +4894,17 @@ a.que .correctness:focus {
 }
 .formulation select.correct,
 .formulation input.correct {
-  color: #6C953C;
-  background-color: rgba(108, 149, 60, 0.1);
-  border-color: #6C953C;
+  color: #E2CC00;
+  background-color: rgba(226, 204, 0, 0.1);
+  border-color: #E2CC00;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .formulation select.correct:focus,
 .formulation input.correct:focus {
-  border-color: #52712d;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #9fc671;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #9fc671;
+  border-color: #af9e00;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ffed49;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ffed49;
 }
 .formulation select.partiallycorrect,
 .formulation input.partiallycorrect {
@@ -6999,11 +7004,11 @@ a.text-primary:focus {
   color: #841f13;
 }
 .text-success {
-  color: #6C953C;
+  color: #E2CC00;
 }
 a.text-success:hover,
 a.text-success:focus {
-  color: #52712d;
+  color: #af9e00;
 }
 .text-info {
   color: #00759B;
@@ -7035,11 +7040,11 @@ a.bg-primary:focus {
   background-color: #841f13;
 }
 .bg-success {
-  background-color: rgba(108, 149, 60, 0.1);
+  background-color: rgba(226, 204, 0, 0.1);
 }
 a.bg-success:hover,
 a.bg-success:focus {
-  background-color: rgba(82, 113, 45, 0.1);
+  background-color: rgba(175, 158, 0, 0.1);
 }
 .bg-info {
   background-color: rgba(0, 117, 155, 0.1);
@@ -7191,7 +7196,7 @@ samp {
 code {
   padding: 2px 4px;
   font-size: 90%;
-  color: #6C953C;
+  color: #E2CC00;
   background-color: #f9f2f4;
   border-radius: 0px;
 }
@@ -8022,14 +8027,14 @@ table th[class*="col-"] {
 .table > thead > tr.success > th,
 .table > tbody > tr.success > th,
 .table > tfoot > tr.success > th {
-  background-color: rgba(108, 149, 60, 0.1);
+  background-color: rgba(226, 204, 0, 0.1);
 }
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
 .table-hover > tbody > tr.success:hover > td,
 .table-hover > tbody > tr:hover > .success,
 .table-hover > tbody > tr.success:hover > th {
-  background-color: rgba(95, 131, 53, 0.1);
+  background-color: rgba(201, 181, 0, 0.1);
 }
 .table > thead > tr > td.info,
 .table > tbody > tr > td.info,
@@ -8471,25 +8476,25 @@ select[multiple].input-lg {
 .has-success.checkbox label,
 .has-success.radio-inline label,
 .has-success.checkbox-inline label {
-  color: #6C953C;
+  color: #E2CC00;
 }
 .has-success .form-control {
-  border-color: #6C953C;
+  border-color: #E2CC00;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .has-success .form-control:focus {
-  border-color: #52712d;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #9fc671;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #9fc671;
+  border-color: #af9e00;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ffed49;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ffed49;
 }
 .has-success .input-group-addon {
-  color: #6C953C;
-  border-color: #6C953C;
-  background-color: rgba(108, 149, 60, 0.1);
+  color: #E2CC00;
+  border-color: #E2CC00;
+  background-color: rgba(226, 204, 0, 0.1);
 }
 .has-success .form-control-feedback {
-  color: #6C953C;
+  color: #E2CC00;
 }
 .has-warning .help-block,
 .has-warning .control-label,
@@ -8842,26 +8847,26 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-success {
   color: #fff;
-  background-color: #6C953C;
-  border-color: #6C953C;
+  background-color: #E2CC00;
+  border-color: #E2CC00;
 }
 .btn-success:focus,
 .btn-success.focus {
   color: #fff;
-  background-color: #52712d;
-  border-color: #2a3a17;
+  background-color: #af9e00;
+  border-color: #625900;
 }
 .btn-success:hover {
   color: #fff;
-  background-color: #52712d;
-  border-color: #4c692a;
+  background-color: #af9e00;
+  border-color: #a59500;
 }
 .btn-success:active,
 .btn-success.active,
 .open > .dropdown-toggle.btn-success {
   color: #fff;
-  background-color: #52712d;
-  border-color: #4c692a;
+  background-color: #af9e00;
+  border-color: #a59500;
 }
 .btn-success:active:hover,
 .btn-success.active:hover,
@@ -8873,8 +8878,8 @@ fieldset[disabled] .btn-primary.active {
 .btn-success.active.focus,
 .open > .dropdown-toggle.btn-success.focus {
   color: #fff;
-  background-color: #3f5723;
-  border-color: #2a3a17;
+  background-color: #8b7e00;
+  border-color: #625900;
 }
 .btn-success:active,
 .btn-success.active,
@@ -8899,11 +8904,11 @@ fieldset[disabled] .btn-success:active,
 .btn-success.disabled.active,
 .btn-success[disabled].active,
 fieldset[disabled] .btn-success.active {
-  background-color: #6C953C;
-  border-color: #6C953C;
+  background-color: #E2CC00;
+  border-color: #E2CC00;
 }
 .btn-success .badge {
-  color: #6C953C;
+  color: #E2CC00;
   background-color: #fff;
 }
 .btn-info {
@@ -10579,11 +10584,11 @@ a.label:focus {
   background-color: #841f13;
 }
 .label-success {
-  background-color: #6C953C;
+  background-color: #E2CC00;
 }
 .label-success[href]:hover,
 .label-success[href]:focus {
-  background-color: #52712d;
+  background-color: #af9e00;
 }
 .label-info {
   background-color: #00759B;
@@ -10750,15 +10755,15 @@ a.thumbnail.active {
   color: inherit;
 }
 .alert-success {
-  background-color: rgba(108, 149, 60, 0.1);
-  border-color: rgba(108, 149, 60, 0.1);
-  color: #6C953C;
+  background-color: rgba(226, 204, 0, 0.1);
+  border-color: rgba(226, 204, 0, 0.1);
+  color: #E2CC00;
 }
 .alert-success hr {
-  border-top-color: rgba(95, 131, 53, 0.1);
+  border-top-color: rgba(201, 181, 0, 0.1);
 }
 .alert-success .alert-link {
-  color: #52712d;
+  color: #af9e00;
 }
 .alert-info {
   background-color: rgba(0, 117, 155, 0.1);
@@ -10845,7 +10850,7 @@ a.thumbnail.active {
   animation: progress-bar-stripes 2s linear infinite;
 }
 .progress-bar-success {
-  background-color: #6C953C;
+  background-color: #E2CC00;
 }
 .progress-striped .progress-bar-success {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -11003,12 +11008,12 @@ button.list-group-item {
   color: #f2ada4;
 }
 .list-group-item-success {
-  color: #6C953C;
-  background-color: rgba(108, 149, 60, 0.1);
+  color: #E2CC00;
+  background-color: rgba(226, 204, 0, 0.1);
 }
 a.list-group-item-success,
 button.list-group-item-success {
-  color: #6C953C;
+  color: #E2CC00;
 }
 a.list-group-item-success .list-group-item-heading,
 button.list-group-item-success .list-group-item-heading {
@@ -11018,8 +11023,8 @@ a.list-group-item-success:hover,
 button.list-group-item-success:hover,
 a.list-group-item-success:focus,
 button.list-group-item-success:focus {
-  color: #6C953C;
-  background-color: rgba(95, 131, 53, 0.1);
+  color: #E2CC00;
+  background-color: rgba(201, 181, 0, 0.1);
 }
 a.list-group-item-success.active,
 button.list-group-item-success.active,
@@ -11028,8 +11033,8 @@ button.list-group-item-success.active:hover,
 a.list-group-item-success.active:focus,
 button.list-group-item-success.active:focus {
   color: #fff;
-  background-color: #6C953C;
-  border-color: #6C953C;
+  background-color: #E2CC00;
+  border-color: #E2CC00;
 }
 .list-group-item-info {
   color: #00759B;
@@ -11401,16 +11406,16 @@ button.list-group-item-danger.active:focus {
   border-color: #ddd;
 }
 .panel-success > .panel-heading {
-  color: #6C953C;
-  background-color: #6C953C;
+  color: #E2CC00;
+  background-color: #E2CC00;
   border-color: #ddd;
 }
 .panel-success > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #ddd;
 }
 .panel-success > .panel-heading .badge {
-  color: #6C953C;
-  background-color: #6C953C;
+  color: #E2CC00;
+  background-color: #E2CC00;
 }
 .panel-success > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: #ddd;
@@ -11596,7 +11601,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 940;
   background-color: #fff;
 }
 .modal-backdrop.fade {
@@ -14455,7 +14460,7 @@ input[type="reset"] {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -14610,7 +14615,7 @@ input.form-submit.active,
 input[type="button"].active,
 input[type="submit"].active,
 input[type="reset"].active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -14686,7 +14691,7 @@ input.fp-btn-choose {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -14764,7 +14769,7 @@ fieldset[disabled] a#page-grade-grading-manage .actions .action {
 #page-grade-grading-manage .actions .action:focus,
 #page-grade-grading-manage .actions .action:active,
 #page-grade-grading-manage .actions .action.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -15301,7 +15306,7 @@ div.badge .expireimage {
   vertical-align: top;
 }
 .connected {
-  color: #6C953C;
+  color: #E2CC00;
 }
 .notconnected {
   color: #C9282D;
@@ -15325,7 +15330,7 @@ div.badge .expireimage {
   margin-bottom: 0px;
 }
 .statusbox.active {
-  background-color: rgba(108, 149, 60, 0.1);
+  background-color: rgba(226, 204, 0, 0.1);
 }
 .statusbox.inactive {
   background-color: rgba(229, 83, 2, 0.1);
@@ -15567,7 +15572,6 @@ body.tag .managelink {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
   border: 0;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   text-align: center;
@@ -15657,7 +15661,7 @@ fieldset[disabled] a.yui-button button {
 .yui-button button:active,
 .yui3-button.active,
 .yui-button button.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -17365,7 +17369,7 @@ fieldset[disabled] .yui-button button.active {
   background-color: rgba(229, 83, 2, 0.1);
 }
 .cache-store-stats.hihits {
-  background-color: rgba(108, 149, 60, 0.1);
+  background-color: rgba(226, 204, 0, 0.1);
 }
 #page-footer,
 #page-footer .validators,
@@ -17786,7 +17790,7 @@ li.section:focus {
   margin: 0 auto;
   float: none;
   display: block;
-  text-align: left;
+  text-align: center;
 }
 .course-content ul.weeks li.section .left.side.snap-section-editing a,
 .course-content ul.weeks li.section .right.side.snap-section-editing a,
@@ -17823,8 +17827,8 @@ li.section:focus {
   margin: 0 auto;
   float: none;
   display: block;
-  text-align: left;
-  margin-top: -1em;
+  text-align: center;
+  margin-top: 0;
 }
 .snap-section-editing a {
   display: inline-block;
@@ -17982,9 +17986,8 @@ h4.snap-asset-link .instancename {
 .section li.snap-asset {
   display: block;
   position: relative;
-  padding: 0;
+  padding: 0 0 1.55em;
   margin: 0;
-  padding-bottom: 1em;
   height: auto;
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
   background-position: 50% 75%;
@@ -18035,6 +18038,9 @@ h4.snap-asset-link .instancename {
 .section li.snap-asset .activityinstance .snap-asset-link a:hover {
   color: #333;
   text-decoration: none;
+}
+.section li.snap-asset-last {
+  border-left: none;
 }
 /* resourcelinkdetails = moodle putting filetype on screen if option selected
 we do this by default in snap, so hide moodle version */
@@ -18107,7 +18113,6 @@ we do this by default in snap, so hide moodle version */
   text-align: left;
   font-weight: 300;
   padding: 0.5em 0;
-  margin: 0.5em 0;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
@@ -18187,10 +18192,6 @@ we do this by default in snap, so hide moodle version */
 }
 .snap-native.snap-image .activityinstance .snap-asset-link a {
   display: none;
-}
-.modtype_book,
-.modtype_page {
-  border-bottom: 1px solid #ccc;
 }
 .snap-native.modtype_book ol.bookmod-chapters {
   margin: 0;
@@ -18440,30 +18441,31 @@ h4.snap-asset-link {
 }
 span.stepper-complete {
   position: absolute;
-  left: -16px;
-  top: 0;
+  left: -26px;
+  top: -10px;
   z-index: 4;
-  background: #6C953C;
+  background: #E2CC00;
   border-radius: 2em;
-  width: 30px;
-  height: 30px;
-  line-height: 2em;
-  color: #fff;
+  width: 50px;
+  height: 50px;
+  line-height: 2.2em;
+  color: #fdfdfd;
   text-indent: 8px;
   font-size: .7em;
   -webkit-font-feature-settings: 'lnum';
      -moz-font-feature-settings: 'lnum';
           font-feature-settings: 'lnum';
+  border: solid #fff 10px;
 }
 span.stepper-current {
   position: absolute;
-  left: -16px;
-  top: 0;
+  left: -26px;
+  top: -10px;
   z-index: 4;
   background: #00759B;
   border-radius: 2em;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   text-indent: 11px;
   line-height: 2.2em;
   color: #fff;
@@ -18472,16 +18474,17 @@ span.stepper-current {
   -webkit-font-feature-settings: 'lnum';
      -moz-font-feature-settings: 'lnum';
           font-feature-settings: 'lnum';
+  border: solid #fff 10px;
 }
 span.stepper-future {
   position: absolute;
-  left: -16px;
-  top: 0;
+  left: -26px;
+  top: -10px;
   z-index: 4;
-  background: #999;
+  background: #00759B;
   border-radius: 2em;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   text-indent: 11px;
   line-height: 2.2em;
   color: #fff;
@@ -18490,6 +18493,7 @@ span.stepper-future {
   -webkit-font-feature-settings: 'lnum';
      -moz-font-feature-settings: 'lnum';
           font-feature-settings: 'lnum';
+  border: solid #fff 10px;
 }
 li.unavailable h4 {
   color: #999;
@@ -18588,9 +18592,6 @@ li.modtype_collaborate {
 li.modtype_collaborate .snap-assettype {
   background-color: #aa70b0;
 }
-li.snap-activity.modtype_folder {
-  border-color: #f9f29a;
-}
 li.snap-activity.modtype_folder .snap-assettype {
   background-color: #f9f29a;
 }
@@ -18638,7 +18639,6 @@ a.snap-assignment-stage.label.label-warning {
   padding-bottom: 0.5em;
   /* Completion actions */
 }
-.snap-completion-meta .togglecompletion,
 .snap-completion-meta .autocompletion {
   display: none;
   clear: left;
@@ -18724,7 +18724,7 @@ li.draft .snap-assettype {
   height: 1.75em;
 }
 .snap-asset-actions input[type=checkbox]:checked + .svg-icon {
-  background-color: #6C953C !important;
+  background-color: #E2CC00 !important;
 }
 .snap-asset-actions .dropdown-menu {
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
@@ -18946,7 +18946,7 @@ span.editinstructions {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -19013,7 +19013,7 @@ fieldset[disabled] a.snap-asset .unread a {
 .snap-asset .unread a:focus,
 .snap-asset .unread a:active,
 .snap-asset .unread a.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -19050,7 +19050,7 @@ fieldset[disabled] a.snap-asset .unread a {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -19138,7 +19138,7 @@ fieldset[disabled] a#changenumsections .reduce-sections {
 #changenumsections .reduce-sections:active,
 #changenumsections .increase-sections.active,
 #changenumsections .reduce-sections.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -19161,9 +19161,9 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   font-weight: 300;
 }
 #snap-course-footer {
-  margin: 2em auto -2em;
-  padding: 1em 4%;
-  background-color: #f1f0ee;
+  margin: 2em -220% 0;
+  padding: 1em 220%;
+  background-color: #eae9e7;
 }
 #course_recent_updates h3 {
   font-size: 1em;
@@ -19404,7 +19404,7 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   display: block;
 }
 .snap-move-section .section-drop:hover {
-  border-color: #6C953C;
+  border-color: #E2CC00;
 }
 #snap-move-message {
   position: fixed;
@@ -19903,6 +19903,7 @@ h1 {
 }
 #region-main textarea {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
+  white-space: nowrap;
 }
 label,
 .label,
@@ -20052,7 +20053,7 @@ input[type="text"] + input[type="submit"] {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -20140,7 +20141,7 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
 #page-site-index .section-modchooser-link .section-modchooser-text:active,
 .snap-modchooser .section-modchooser-text.active,
 #page-site-index .section-modchooser-link .section-modchooser-text.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -20337,8 +20338,8 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   left: 0;
   bottom: 0;
   overflow-y: auto;
-  background-color: #eae9e7;
-  color: #666;
+  background-color: #666;
+  color: #fff;
   z-index: 1000000;
 }
 .fixy hr {
@@ -20353,13 +20354,13 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   color: #fff;
 }
 .fixy h2 {
-  color: rgba(255, 255, 255, 0.7);
+  color: #fdfdfd;
   text-transform: uppercase;
   font-weight: 100;
   line-height: 1;
   margin: 1em 0;
   padding: 0.5em 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid #fdfdfd;
   font-size: 1em;
 }
 .fixy .label-success {
@@ -20584,7 +20585,7 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   border-bottom: 0.5em solid #eae9e7;
 }
 .courseinfo .completion-line {
-  background-color: #6C953C;
+  background-color: #E2CC00;
   height: 0.3em;
   margin-top: -0.3em;
 }
@@ -20612,6 +20613,9 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   .courseinfo {
     width: 100%;
   }
+  #login.fixy .fixy-inner {
+    max-width: 61.8%;
+  }
 }
 @media screen and (min-width: 768px) {
   #fixy-username {
@@ -20625,10 +20629,16 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   .courseinfo {
     width: 48%;
   }
+  #login.fixy .fixy-inner {
+    max-width: 38.1%;
+  }
 }
 @media screen and (min-width: 992px) {
   .courseinfo {
     width: 31%;
+  }
+  #login.fixy .fixy-inner {
+    max-width: 23.6%;
   }
 }
 .message_badge_message,
@@ -20691,7 +20701,7 @@ footer #moodle-footer
 #moodle-footer,
 #moodle-blocks {
   margin: 0 auto;
-  padding: 0 4%;
+  padding: 0;
   font-size: 1em;
 }
 @media (max-width: 375px) {
@@ -20745,6 +20755,7 @@ header#mr-nav a {
   left: 0;
   -webkit-transition: all 0.4s 0s ease;
           transition: all 0.4s 0s ease;
+  overflow-x: hidden;
 }
 #page.offcanvas {
   left: -200px;
@@ -20757,7 +20768,7 @@ header#mr-nav a {
 }
 #region-main {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
-  padding-top: 1em;
+  padding-top: 0;
   margin: 0 auto 0;
 }
 #page-mod-quiz-edit #region-main,
@@ -20786,14 +20797,31 @@ header#page-header
 
  ****************************/
 #page-header {
-  padding-top: 4em;
+  padding-top: 3.8em;
   padding-bottom: 0.5em;
+  font-size: .85em;
 }
 .breadcrumb > li:before {
   content: "|";
 }
-.breadcrumb li:nth-child(2):before {
+.admin .breadcrumb li:first-child:before,
+.path-enrol .breadcrumb li:first-child:before,
+.pagelayout-admin#page-mod-quiz-attempt #moodle-blocks .breadcrumb li:first-child:before {
   content: '\e091 ';
+  padding-right: 1em;
+  vertical-align: top;
+  font-family: 'Glyphicons Halflings';
+  color: #000;
+}
+.path-mod .breadcrumb li:nth-child(3):before {
+  content: '\e091 ';
+  padding-right: 1em;
+  vertical-align: top;
+  font-family: 'Glyphicons Halflings';
+  color: #000;
+}
+.path-course .breadcrumb li:nth-child(2):before {
+  content: ' ';
   padding-right: 1em;
   vertical-align: top;
   font-family: 'Glyphicons Halflings';
@@ -20803,15 +20831,35 @@ header#page-header
   margin: 0;
   float: left;
 }
-.breadcrumb {
+.path-course .breadcrumb,
+.path-mod .breadcrumb {
   background-color: transparent;
   padding: 0;
   font-size: 20px;
   display: block;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
-.breadcrumb > li:last-child,
-.breadcrumb > li:first-child {
+.path-course .breadcrumb > li:last-child,
+.path-mod .breadcrumb > li:last-child,
+.path-course .breadcrumb > li:nth-child(-n+2),
+.path-mod .breadcrumb > li:nth-child(-n+2) {
+  display: none;
+}
+.admin .breadcrumb,
+.path-enrol .breadcrumb,
+.pagelayout-admin .breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  font-size: 20px;
+  display: block;
+  font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
+}
+.admin .breadcrumb > li:last-child,
+.path-enrol .breadcrumb > li:last-child,
+.pagelayout-admin .breadcrumb > li:last-child {
+  display: none;
+}
+.path-login .breadcrumb {
   display: none;
 }
 @media screen and (max-width: 768px) {
@@ -20822,6 +20870,11 @@ header#page-header
     content: "";
     padding: 0;
   }
+}
+.pagelayout-incourse .breadcrumb li:nth-child(3) a,
+.pagelayout-course .breadcrumb li:nth-child(2) a {
+  padding: 0px 0px 0px 20%;
+  margin: 0px 0px 0px -20%;
 }
 .breadcrumb-button {
   margin-top: 0;
@@ -20851,7 +20904,6 @@ header#page-header
 }
 #course-toc .completionstatus {
   font-size: small;
-  color: #999;
 }
 #course-toc .completionstatus + .published-status:before,
 #course-toc .published-status + .published-status:before {
@@ -20859,13 +20911,33 @@ header#page-header
 }
 #course-toc .toc-footer {
   margin-right: 4%;
-  text-align: right;
+  text-align: left;
+  padding: 1em 0;
 }
 #course-toc .toc-footer a {
-  margin-left: 0.5em;
+  color: #999;
 }
 body:not(.format-topics):not(.format-weeks) .toc-footer {
   display: none;
+}
+ol#chapters li {
+  padding: 1em 0;
+  border-bottom: 1px dotted;
+  list-style-position: inside;
+  height: 63px;
+  color: #333;
+  opacity: .7;
+}
+ol#chapters li a {
+  color: #333;
+}
+ol#chapters li.current {
+  opacity: 1;
+}
+ol#chapters li.current a:after {
+  content: "\e080";
+  font-family: 'Glyphicons Halflings';
+  float: right;
 }
 .mast-image .breadcrumb li:before,
 .mast-image .breadcrumb > li + li:before,
@@ -20878,32 +20950,25 @@ body:not(.format-topics):not(.format-weeks) .toc-footer {
   color: white;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
-.mast-image #course-toc {
-  background-color: rgba(255, 255, 255, 0.95);
-}
 #chapters {
-  -webkit-column-count: 2;
-     -moz-column-count: 2;
-          column-count: 2;
+  -webkit-column-count: 1;
+     -moz-column-count: 1;
+          column-count: 1;
   margin-bottom: 0;
 }
 ol#chapters {
-  list-style-position: outside;
+  padding: 0;
 }
 ol#chapters li {
-  margin-left: 2em;
   padding-bottom: 0.1em;
-  color: #999;
   line-height: 1;
-  list-style-type: decimal;
 }
 ol#chapters li a {
   display: block;
   margin-bottom: -0.3em;
-  line-height: 1.75;
+  line-height: 1.6;
 }
 ol#chapters li.current a {
-  color: #666;
   text-decoration: none;
 }
 #chapters > :first-child {
@@ -20926,12 +20991,12 @@ ol#chapters li.current a {
 /* if > tablet size */
 @media screen and (min-width: 768px) {
   #chapters.list-large {
-    -webkit-column-count: 3;
-       -moz-column-count: 3;
-            column-count: 3;
+    -webkit-column-count: 1;
+       -moz-column-count: 1;
+            column-count: 1;
   }
   #course-toc {
-    margin: 1em auto -0.5em;
+    margin: 0 auto -0.5em;
   }
   .mast-image #course-toc {
     margin-top: 6.6vh;
@@ -20981,7 +21046,7 @@ ol#chapters li.current a {
 #toc-mobile-menu-toggle {
   display: none;
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   #toc-search,
   #course-toc #toc-desktop-menu-heading,
   #course-toc .toc-footer {
@@ -21118,6 +21183,7 @@ ol#chapters li.current a {
   line-height: 1;
   font-size: 1rem;
   text-transform: uppercase;
+  color: #fff;
 }
 #admin-menu-trigger {
   background-color: transparent;
@@ -21370,6 +21436,9 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
   padding: 0.25em 2em;
   margin-top: 1em;
 }
+header#mr-nav .fixy a {
+  color: #fff;
+}
 @media screen and (min-width: 768px) {
   #page-site-index #page-mast {
     width: 50%;
@@ -21609,7 +21678,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 .coursebox.user-enroller-panel .oump-wrap .oump-footer,
 .coursebox.other-user-manager-panel .oump-wrap .oump-footer {
   padding: 1em 4%;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eae9e7;
 }
 .coursebox .info .coursename {
   font-size: 40px;
@@ -21672,7 +21741,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -21738,7 +21807,7 @@ fieldset[disabled] a.paging.paging-morelink a {
 .paging.paging-morelink a:focus,
 .paging.paging-morelink a:active,
 .paging.paging-morelink a.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -21766,7 +21835,7 @@ fieldset[disabled] a.paging.paging-morelink a {
 span.calendar_event_global,
 li.calendar_event_global:before,
 td.calendar_event_global > a {
-  background-color: #6C953C;
+  background-color: #E2CC00;
 }
 span.calendar_event_course,
 li.calendar_event_course:before,
@@ -22043,7 +22112,7 @@ ul.events-new + ul.events-underway {
   bottom: 0;
   left: 1%;
   background-color: #000;
-  color: #eee;
+  color: #eae9e7;
   padding: 0.1em 1%;
   z-index: 1030;
 }
@@ -22204,7 +22273,7 @@ ul.events-new + ul.events-underway {
   display: block;
 }
 #page-mod-quiz-edit .editq div.question {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eae9e7;
   border-top: 1px solid #ccc;
 }
 #categoryquestions td,
@@ -22378,7 +22447,7 @@ table.boxaligncenter.generaltable.user-grade th {
   font-weight: 500;
 }
 table.boxaligncenter.generaltable.user-grade thead {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eae9e7;
 }
 table.boxaligncenter.generaltable.user-grade img.icon {
   width: 1.3em;
@@ -22479,7 +22548,6 @@ table#user-grades tr.avg td.cell {
   margin-left: 0;
   margin-right: 0.8em;
   line-height: 1.5;
-  background-color: #00759B;
   border: 0;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   text-align: center;
@@ -22616,7 +22684,7 @@ fieldset[disabled] a.gradingform_rubric.editor .addcriterion input {
 .gradingform_checklist.editor .additem input.active,
 .gradingform_rubric.editor .addlevel input.active,
 .gradingform_rubric.editor .addcriterion input.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -23157,9 +23225,6 @@ fieldset[disabled] .gradingform_rubric.editor .addcriterion input.active {
   width: 100%;
   padding: 2em 4% 4em;
 }
-#notice + .continuebutton {
-  margin-top: -3em;
-}
 #notice .buttons {
   text-align: center;
   border-top: none;
@@ -23219,11 +23284,17 @@ body.hascontinuecancel.path-site #page {
 #page-course-loginas #page-header,
 #page-mod-survey-save #page-header {
   display: none;
+  background-image: none;
+}
+.modtype_book,
+.modtype_page {
+  border-bottom: none;
 }
 .section_footer {
   margin-top: 2em;
   padding: 1em 0;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eae9e7;
+  display: none;
 }
 .section_footer a {
   font-style: normal;
@@ -23250,14 +23321,20 @@ body.hascontinuecancel.path-site #page {
   text-transform: uppercase;
   font-style: normal;
   color: #333;
+  font-weight: normal !important;
 }
 .nav_icon {
-  padding: 0.3em;
-  text-align: center;
+  margin-left: 0.3em;
+  border-left: 1px solid #999;
+  font-size: 2.5em;
+  width: 36px;
+  float: right;
+  padding: 0.0em 0.3em 0.2em 0em;
+  line-height: 1em;
 }
 .next_section .nav_icon {
   margin-left: 0.3em;
-  border-left: 1px solid #eee;
+  border-left: 1px solid #eae9e7;
   font-size: 2em;
   width: 50px;
   float: right;
@@ -23265,8 +23342,21 @@ body.hascontinuecancel.path-site #page {
 .previous_section .nav_icon {
   float: left;
   margin-right: 0.3em;
-  border-right: 1px solid #eee;
+  border-right: 1px solid #eae9e7;
   font-size: 2em;
+}
+.next_activity_area {
+  background: #eae9e7;
+  padding: 1.94em 0 1.2em;
+  margin-top: 2.29em;
+}
+.next_activity_link {
+  margin: 0 auto;
+  font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
+  max-width: 940px;
+}
+.next_activity_text {
+  text-align: right;
 }
 /* moodle dialogues */
 /* standard size */
@@ -23410,7 +23500,7 @@ body.hascontinuecancel.path-site #page {
 }
 #moodle-footer {
   padding-top: 2em;
-  padding-bottom: 1em;
+  padding-bottom: 2.3em;
   clear: both;
   color: #eae9e7;
   background-color: #333;
@@ -23451,6 +23541,7 @@ img.cass-logo {
   float: left;
   width: 255px;
   height: 74px;
+  margin: 0 0 0 1%;
 }
 /* Moodle error, reports, all that stuff in the footer */
 #page-footer {
@@ -23720,7 +23811,7 @@ table th img.iconhelp {
 }
 div.editor_atto_toolbar {
   background-color: transparent;
-  border-color: #eee;
+  border-color: #eae9e7;
   padding-bottom: 0;
 }
 .editor_atto_content {
@@ -23735,7 +23826,7 @@ textarea {
   width: 100%;
 }
 .editor_atto_content_wrap {
-  border-color: #eee;
+  border-color: #eae9e7;
 }
 .editor_atto_content .img-responsive {
   display: inline;
@@ -23744,7 +23835,7 @@ textarea {
 .editor_atto_toolbar button.highlight,
 .editor_atto_toolbar button:hover {
   background-image: none;
-  background-color: #eee;
+  background-color: #eae9e7;
 }
 div.editor_atto_toolbar button + button {
   border-color: #fff;
@@ -24115,18 +24206,18 @@ a:hover,
 .snap-lightbox-description,
 #page-mod-book-print {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
-  max-width: 1020px;
-  padding-left: 40px;
-  padding-right: 40px;
+  max-width: 960px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 #region-main textarea {
   width: 100%;
 }
 @media screen and (min-width: 62em) {
   #page-mod-hsuforum-view #region-main {
-    max-width: 1020px;
-    padding-left: 40px;
-    padding-right: 40px;
+    max-width: 960px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 h1,
@@ -24166,16 +24257,8 @@ h6 {
 .fixy-trigger .message_badge_count {
   background-color: #8c2215;
 }
-.fixy {
-  background-color: #eae9e7;
-}
 .fixy .label-success {
   color: #b02a1a;
-}
-.fixy h2 {
-  color: #333;
-  padding: 0;
-  border-bottom: 1px solid #999;
 }
 .snap-unread-marker {
   color: #b02a1a;
@@ -24216,7 +24299,7 @@ input[type="submit"],
 input[type="reset"],
 #page-mast .snap-login-button,
 #page-site-index .section-modchooser-link .section-modchooser-text {
-  background-color: #00759B;
+  background-color: #b02a1a;
   border: 0;
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -24318,7 +24401,7 @@ input[type="submit"].active,
 input[type="reset"].active,
 #page-mast .snap-login-button.active,
 #page-site-index .section-modchooser-link .section-modchooser-text.active {
-  background-color: #005672;
+  background-color: #8c2215;
   color: #fff;
   text-decoration: none;
 }
@@ -24558,6 +24641,25 @@ img.iconhelp:hover {
   vertical-align: top;
   border-top: 1px solid #ddd;
 }
+th.data.header {
+  text-align: center;
+}
+.path-mod-choice .results .option,
+.path-mod-choice .results .numberofuser,
+.path-mod-choice .results .percentage {
+  font-weight: normal;
+  padding: 1em 0 0;
+}
+.progress {
+  overflow: hidden;
+  height: 32px;
+  margin-bottom: 32px;
+  background-color: transparent;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #999;
+}
 #page-mod-quiz-view .generalbox#feedback h3 {
   width: 100%;
 }
@@ -24622,7 +24724,8 @@ ul li label:hover {
   margin-bottom: 7.6em;
 }
 #page-mod-quiz-view .quizinfo,
-#page-mod-quiz-view .quizattempt {
+#page-mod-quiz-view .quizattempt,
+#page-mod-quiz-view .quizattemptcounts {
   max-width: 640px;
   float: right;
   margin: 0 auto;
@@ -24679,10 +24782,11 @@ body#page-mod-quiz-attempt {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
 #page-mod-quiz-attempt section#region-main {
-  max-width: 600px;
+  max-width: 940px;
   display: inline-block;
-  margin: 0;
-  padding: 0;
+  margin: 0 1em;
+  padding: 0 1em;
+  width: 100%;
 }
 #page-mod-quiz-attempt .block_fake h2 {
   display: none;
@@ -24699,8 +24803,10 @@ body#page-mod-quiz-attempt {
   padding: 0;
   width: inherit;
 }
-#page-mod-quiz-attempt .info {
-  display: none;
+.info .state,
+.info .grade,
+.info .questionflag {
+  display: none !important;
 }
 .path-mod-quiz .qnbutton {
   display: none;
@@ -24747,21 +24853,6 @@ body#page-mod-quiz-review .questionflag {
   font-size: 2em;
   font-family: FF-Meta-Web-Pro, Arial, sans-serif;
 }
-.truefalse:before {
-  content: "True or false";
-}
-.freehanddrawing:before {
-  content: "Draw the answer";
-}
-.multianswer:before {
-  content: "Fill in the blank";
-}
-.numerical:before {
-  content: "Compute";
-}
-.multichoice:before {
-  content: "Select one";
-}
 #page-mod-quiz-attempt #page {
   margin: 0;
   padding: 0;
@@ -24779,10 +24870,10 @@ button:disabled {
   display: none;
 }
 .incorrect .feedback {
-  background: #C9282D;
+  background: #E55302;
 }
 .correct .feedback {
-  background: #6C953C;
+  background: #E2CC00;
 }
 .que .feedback {
   padding: 1em 310% 3.9em;
@@ -24896,31 +24987,31 @@ body#page-mod-choice-view {
   clear: both;
 }
 .path-mod-choice .responseheader {
-  margin-top: 10px;
-  background: #eae9e7;
-  margin: 0px -300%;
-  padding: 0px 300%;
+  margin: 1em 0 3.6em;
   float: left;
-  overflow: hidden;
-  color: #000;
+  text-align: left;
 }
-.path-mod-choice .response {
-  float: left;
-  clear: both;
-  background: #eae9e7;
-  margin: 0px -300%;
-  padding: 2em 300% 4em;
-  overflow: hidden;
-  color: #000;
+body#page-mod-choice-view h2,
+.path-mod-quiz h2 {
+  line-height: .95;
+  margin: 1.5em 0px .3em;
 }
-.path-mod-choice #moodle-footer.nocoursefooter {
+#moodle-footer.nocoursefooter {
   margin-top: 0;
 }
 .path-mod-choice #yourselection {
-  padding: 1em 0 6em;
+  padding: 3.15em 0 1em;
+  color: #E2CC00;
+  display: inline-block;
 }
 .path-mod-choice .button {
-  margin-bottom: 4.854em;
+  margin: 0 0 5.8em;
+}
+ul.choices {
+  padding: 0;
+}
+.path-mod-choice .next_activity_area {
+  margin-top: 2.9em;
 }
 #page-mod-assign-view h2 {
   max-width: 960px;
@@ -24940,6 +25031,9 @@ body#page-mod-choice-view {
 #page-mod-assign-view .submissionstatustable {
   max-width: 960px;
   margin: 0 auto;
+}
+#page-mod-hsuforum-discuss button {
+  margin: .4em 0;
 }
 .hsuforum-form .hsuforum-textarea {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
@@ -24969,6 +25063,7 @@ small.hsuforum-thread-replies-meta {
 .hsuforum-post-figure,
 .hsuforum-thread-body {
   padding: 0;
+  width: 100%;
 }
 #page-mod-hsuforum-discuss input.form-control,
 .hsuforum-thread-meta {
@@ -25020,12 +25115,15 @@ p.hsuforum-thread-byline {
 .hsuforum-tools {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
   margin-top: 0;
   padding-left: 1.5px;
   padding-bottom: 1.618em;
+}
+.hsuforum-post-wrapper .hsuforum-tools {
+  max-width: 100%;
 }
 .hsuforum-post-title {
   display: none;
@@ -25052,23 +25150,23 @@ p.hsuforum-thread-byline {
   max-width: 940px;
   width: 100%;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-thread-body {
     float: left;
   }
 }
 .hsuforum-post-body {
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-post-body {
     float: left;
   }
 }
 .hsuforum-thread-replies h5 {
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
 }
@@ -25081,18 +25179,18 @@ p.hsuforum-thread-byline {
 .hsuforum-post-figure .userpicture {
   float: right;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-post-figure .userpicture {
     float: left;
   }
 }
 .hsuforum-form legend {
-  max-width: 640px;
+  max-width: 66.6667%;
   width: 100%;
   float: right;
   margin-left: 100px;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .hsuforum-form legend {
     float: left;
     margin-left: 0;
@@ -25163,7 +25261,7 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   float: left;
   margin-left: 300px;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .box.boxaligncenter .boxwidthwide {
     margin-left: 0;
   }
@@ -25200,10 +25298,10 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
 }
 .activity-meta {
   float: left;
-  width: 300px;
+  padding: 0;
   line-height: 21px;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .activity-meta {
     max-width: 640px;
     float: left;
@@ -25211,9 +25309,9 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   }
 }
 .activity-type {
-  padding: 1em 0;
+  padding: 0 0 1em;
   border-bottom: 1px dotted #999;
-  width: 240px;
+  width: 208px;
 }
 .activity-intro {
   min-height: 20px;
@@ -25222,7 +25320,7 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   max-width: 640px;
   clear: right;
 }
-@media screen and (max-width: 1020px) {
+@media screen and (max-width: 940px) {
   .activity-intro {
     float: left;
   }
@@ -25235,6 +25333,9 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
     width: initial;
     float: left;
     padding-right: 1em;
+  }
+  .col-md-4 .activity-time {
+    padding: 0 0 1em;
   }
   .activity-type .activity-info:after {
     content: "|";
@@ -25251,12 +25352,12 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   display: inline-block;
   vertical-align: text-top;
   height: 4.25rem;
-  margin-right: 0.95rem;
+  margin-right: 0.75rem;
   float: left;
 }
 span.dropcap_inner {
   font-size: 6.25rem;
-  line-height: 6.25rem;
+  line-height: 5.75rem;
   display: inline-block;
   vertical-align: text-top;
 }
@@ -25280,7 +25381,7 @@ span.dropcap_inner {
 }
 .activity-info {
   display: block;
-  padding: .3em 0;
+  padding: .1em 0 0.3em;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   font-size: .9em;
   color: #666;
@@ -25293,33 +25394,26 @@ span.dropcap_inner {
   /* height is 9/16 of width + 35px for control bar */
   max-width: 940px;
   /* maximum width of the player */
-  max-height: 568px;
+  max-height: 575px;
   /* maximum height = 9/16 of max width + 35px */
   overflow: hidden;
   /* hide any unsightly borders */
-  margin: 25px auto;
+  margin: 40px auto;
   /* centre on screen */
-}
-@media screen and (max-width: 1020px) {
-  .holder {
-    max-width: 640px;
-    float: left;
-    margin: 25px auto 5px;
-    max-height: 396px;
-  }
+  padding: 49px 0 63px;
 }
 iframe {
   position: relative;
   display: block;
-  top: -2px;
+  top: -1px;
   /* move iframe to left to hide any unsightly border */
-  left: 0px;
+  left: -2px;
   /* move iframe up to hide any unsightly border */
-  width: -webkit-calc(100.5%);
-  width: calc(100.5%);
+  width: -webkit-calc(104%);
+  width: calc(104%);
   /* oversize the iframe width slightly to hide any unsightly border */
-  height: -webkit-calc(100.5%);
-  height: calc(100.5%);
+  height: -webkit-calc(102%);
+  height: calc(102%);
   /* oversize the iframe height slightly to hide any unsightly border */
 }
 .glyphicon {
@@ -25361,7 +25455,7 @@ iframe {
   padding: .2em 0 .15em;
 }
 .activitycompletemodal-header {
-  background: #6C953C;
+  background: #E2CC00;
   padding: 1.618em 15px 1em;
 }
 .activitycompletemodal-body {
@@ -25385,7 +25479,7 @@ span.glyphicon.glyphicon-ok.activitycompletemodal-ok {
 span.activitycompletecurrentmodname {
   font-weight: bold;
 }
-#moodle-footer a.activitycompletenextmodlink {
+a.activitycompletenextmodlink {
   font-weight: bold;
   color: #00759B;
   border: none;
@@ -25437,13 +25531,130 @@ span.activitycompletenextmodname {
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
 }
 .yui3-skin-sam .yui3-widget-mask {
-  background-color: #eee;
+  background-color: #eae9e7;
   opacity: 0.8;
 }
 .firstactivityinsection h4 {
   background: #b02a1a;
   color: white;
   margin: -10% -300% 0;
-  padding: 4.236em 300% 1em;
-  line-height: 1.3em;
+  padding: 4.82em 300% .85em;
+  line-height: 1.23em;
+}
+.section li.snap-asset:last-child {
+  border-left: none;
+}
+.path-course-view #region-main {
+  /*width: calc(~"81%" - unit(@coursenav, px)); */
+  float: left;
+  margin: 7.1em -webkit-calc(50% - 260px) 0 -webkit-calc(50% - 469px);
+  margin: 7.1em calc(50% - 260px) 0 calc(50% - 469px);
+  min-height: 98vh;
+  padding: 0;
+  width: 520px;
+}
+.path-course-view #page-header {
+  width: 208.8px;
+  float: left;
+}
+.path-course-view h2.sectionname {
+  text-align: center;
+  font-size: 3em;
+}
+.path-course-view .section .summary {
+  text-align: center;
+}
+.path-course-view main#moodle-page {
+  margin: 0 1%;
+}
+.path-course-view #region-main p {
+  color: #999;
+}
+.path-course-view #page-header h1,
+#toc-search,
+#course-toc h2 {
+  display: none;
+}
+.choosercontainer #chooseform .option {
+  text-align: left;
+}
+.activity-complete {
+  float: left;
+}
+span.activity-complete.glyphicon.glyphicon-ok {
+  top: 0;
+  z-index: 4;
+  background: #E2CC00;
+  border-radius: 5em;
+  width: 1.6em;
+  height: 1.6em;
+  line-height: 1.6em;
+  color: #fff;
+  text-indent: 13px;
+  font-size: 2em;
+  -webkit-font-feature-settings: 'lnum';
+  -moz-font-feature-settings: 'lnum';
+  font-feature-settings: 'lnum';
+  text-align: left;
+}
+.done {
+  float: right;
+  margin-top: 1.6em;
+  vertical-align: bottom;
+  text-align: right;
+  margin-left: .5em;
+}
+span.text {
+  font-weight: bold;
+}
+.coursebox .info .coursename {
+  display: none;
+}
+.path-enrol h2 {
+  margin: .65em 0px 0px;
+}
+.col-md-8 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.col-md-4 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.posting {
+  padding-top: 2.6em;
+}
+.path-course #page-header {
+  background-image: none;
+}
+input[type="file"] {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.boxStyle {
+  -webkit-box-shadow: 0px 6px 17px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 6px 17px 0px rgba(0, 0, 0, 0.75);
+  position: fixed;
+  display: none;
+  left: -webkit-calc(-100%);
+  left: calc(-100%);
+  top: -webkit-calc(-100%);
+  top: calc(-100%);
+  width: 300px;
+  height: 300px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  z-index: 1500;
+}
+.darkBackgroundStyle {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 1000;
 }

@@ -425,6 +425,7 @@ h1 {
 
 #region-main textarea {
     font-family: @font-family-serif;
+    white-space: nowrap;
 }
 
 // Roboto robot voice for system text
@@ -788,8 +789,8 @@ input[type="text"]+input[type="submit"] {
     left: 0;
     bottom: 0;
     overflow-y: auto;
-    background-color: @gray-lighter;
-    color: @gray;
+    background-color: @gray;
+    color: #fff;
     z-index: 1000000;
 
     hr {
@@ -806,13 +807,13 @@ input[type="text"]+input[type="submit"] {
     }
 
     h2 {
-        color: rgba(255,255,255,0.7);
+        color: @body-bg;
         text-transform: uppercase;
         font-weight: 100;
         line-height: 1;
         margin: 1em 0;
         padding: 0.5em 0;
-        border-bottom: 1px solid rgba(255,255,255,0.7);
+        border-bottom: 1px solid @body-bg;
         font-size: 1em;
     }
 
@@ -916,8 +917,9 @@ input[type="text"]+input[type="submit"] {
     .fixy-inner {
         max-width: 50.5em;
         padding-top: 4%;
+        
     }
-}
+} 
 
 
 .fixy input::placeholder {
@@ -1094,6 +1096,10 @@ input[type="text"]+input[type="submit"] {
     .courseinfo {
         width: 100%;
     }
+    
+      #login.fixy .fixy-inner {
+        max-width: 61.8%;
+    }
 }
 
 @media screen and (min-width: @screen-sm-min) {
@@ -1108,11 +1114,17 @@ input[type="text"]+input[type="submit"] {
     .courseinfo {
         width: 48%;
     }
+     #login.fixy .fixy-inner {
+        max-width: 38.1%;
+    }
 }
 
 @media screen and (min-width: @screen-md-min) {
     .courseinfo {
         width: 31%;
+    }
+      #login.fixy .fixy-inner {
+        max-width: 23.6%;
     }
 }
 
@@ -1195,7 +1207,7 @@ footer #moodle-footer
 #moodle-footer,
 #moodle-blocks {
     margin: 0 auto;
-    padding: 0 4%;
+    padding: 0;
     font-size: 1em;
 }
 
@@ -1260,6 +1272,7 @@ header#mr-nav a {
     position: relative;
     left: 0;
     transition: all 0.4s 0s ease;
+    overflow-x: hidden;
 
     // When admin block is open
     &.offcanvas {
@@ -1276,7 +1289,7 @@ header#mr-nav a {
 
 #region-main {
     font-family: @font-family-serif;
-    padding-top: 1em;
+    padding-top: 0;
     margin: 0 auto 0;
 }
 
@@ -1322,8 +1335,9 @@ header#page-header
 // -------------------------
 
 #page-header {
-    padding-top: 4em;
+    padding-top: 3.8em; 
     padding-bottom: 0.5em;
+    font-size: .85em;
 }
 
 // Breadcrumb - not really a breadcrumb like on the web, but some moodleything
@@ -1334,8 +1348,26 @@ header#page-header
     content: @breadcrumb-separator;
 }
 
-.breadcrumb li:nth-child(2):before {
+.admin, .path-enrol, .pagelayout-admin#page-mod-quiz-attempt #moodle-blocks{
+   .breadcrumb li:first-child:before {
     content: '\e091 ';
+    padding-right: 1em;
+    vertical-align: top;
+    font-family: 'Glyphicons Halflings';
+    color: #000;
+    }
+} 
+    
+.path-mod .breadcrumb li:nth-child(3):before {
+    content: '\e091 ';
+    padding-right: 1em;
+    vertical-align: top;
+    font-family: 'Glyphicons Halflings';
+    color: #000;
+}
+
+ .path-course .breadcrumb li:nth-child(2):before {
+    content: ' ';
     padding-right: 1em;
     vertical-align: top;
     font-family: 'Glyphicons Halflings';
@@ -1347,17 +1379,36 @@ header#page-header
     float: left;
 }
 
+.path-course, .path-mod{
 .breadcrumb {
     background-color: transparent;
     padding: 0;
     font-size: @font-size-base;
     display: block;
     font-family: @font-family-sans-serif;
-    &> li:last-child, &> li:first-child, {
+    &> li:last-child, &> li:nth-child(-n+2), {
     display: none;
         }
-} 
+    } } 
+ 
+    .admin, .path-enrol, .pagelayout-admin {
+    .breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    font-size: @font-size-base;
+    display: block;
+    font-family: @font-family-sans-serif;
+    &> li:last-child {
+    display: none;
+        }
+        }      } 
 
+ .path-login  {
+    .breadcrumb {
+   display: none;
+     }      }  
+
+    
 @media screen and (max-width: @screen-sm) {
     .breadcrumb li {
         &:nth-last-child(n+4) {
@@ -1369,6 +1420,13 @@ header#page-header
             padding: 0;
         }
     }
+}
+
+// Breadcrumb for activites
+// -------------------------
+.pagelayout-incourse .breadcrumb li:nth-child(3) a, .pagelayout-course .breadcrumb li:nth-child(2) a {
+    padding: 0px 0px 0px 20%;
+    margin: 0px 0px 0px -20%;
 }
 
 
@@ -1412,7 +1470,6 @@ header#page-header
 
     .completionstatus {
         font-size: small;
-        color: #999;
     }
 
     .completionstatus + .published-status:before,
@@ -1422,11 +1479,12 @@ header#page-header
 
     .toc-footer {
         margin-right: 4%;
-        text-align: right;
+        text-align: left;
+        padding: 1em 0;
 
         a {
-            margin-left: 0.5em;
-        }
+            color: @gray-light
+        } 
     }
 }
 
@@ -1434,6 +1492,29 @@ body:not(.format-topics):not(.format-weeks) {
     .toc-footer {
         display: none;
     }
+}
+
+ol#chapters li {
+    padding: 1em 0;
+    border-bottom: 1px dotted;
+    list-style-position: inside;
+    height: 63px;
+    color: @text-color;
+    opacity: .7; 
+}
+
+ol#chapters li a {
+    color: @text-color;
+}
+
+ol#chapters li.current {
+    opacity: 1;
+}
+
+ol#chapters li.current a:after {
+    content: "\e080";
+    font-family: 'Glyphicons Halflings';
+    float: right;
 }
 
 // if the course has an image
@@ -1453,35 +1534,28 @@ body:not(.format-topics):not(.format-weeks) {
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     }
 
-    #course-toc {
-        background-color: rgba(255,255,255,0.95);
-    }
 }
 
 #chapters {
-    column-count: 2;
+    column-count: 1;
     margin-bottom: 0;
 }
 
 // specific styles for numbered chapters to improve readability
 ol#chapters {
-    list-style-position: outside;
+    padding: 0;
 
     li {
-        margin-left: 2em;
         padding-bottom: 0.1em;
-        color: #999;
         line-height: 1;
-        list-style-type: decimal;
 
         a {
             display: block;
             margin-bottom: -0.3em;
-            line-height: 1.75;
+            line-height: 1.6;
         }
 
         &.current a {
-            color: #666;
             text-decoration: none;
         }
     }
@@ -1513,11 +1587,11 @@ ol#chapters {
 /* if > tablet size */
 @media screen and (min-width: @screen-sm-min) {
     #chapters.list-large {
-        column-count: 3;
+        column-count: 1;
     }
 
     #course-toc {
-        margin: 1em auto -.5em;
+        margin: 0 auto -.5em;
     }
 
     .mast-image {
@@ -1580,7 +1654,7 @@ ol#chapters {
 }
 
 // small screen
-@media screen and (max-width: @screen-xs-min) {
+@media screen and (max-width: @screen-sm-min) {
     #toc-search,
     #course-toc #toc-desktop-menu-heading,
     #course-toc .toc-footer {
@@ -1727,6 +1801,7 @@ ol#chapters {
         line-height: 1;
         font-size: 1rem;
         text-transform: uppercase;
+        color: #fff;
     }
 }
 
@@ -2040,6 +2115,10 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
     margin-top: 1em;
 }
 
+header#mr-nav .fixy a {
+    color: #fff;
+}
+
 @media screen and (min-width: @screen-sm-min) {
     #page-site-index #page-mast {
         width: 50%;
@@ -2240,7 +2319,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 
 .coursebox.clearfix {
     padding: 1em 4%;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid @gray-lighter;
 }
 
 .coursebox .info .coursename {
@@ -2682,7 +2761,7 @@ ul.events-new + ul.events-underway {
     bottom: 0;
     left: 1%;
     background-color: #000;
-    color: #eee;
+    color: @gray-lighter;
     padding: 0.1em 1%;
     z-index: @zindex-navbar-fixed;
 }
@@ -2889,7 +2968,7 @@ ul.events-new + ul.events-underway {
 }
 
 #page-mod-quiz-edit .editq div.question {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid @gray-lighter;
     border-top: 1px solid #ccc;
 }
 
@@ -3099,7 +3178,7 @@ table.boxaligncenter.generaltable.user-grade {
     }
 
     thead {
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid @gray-lighter;
     }
 
     img.icon {
@@ -3604,13 +3683,6 @@ table#user-grades tr.avg td.cell {
     width: 100%;
     padding: 2em 4% 4em;
 
-    // pull buttons up into the #notice when they are placed
-    // after it, rather than inside it.
-
-    &+ .continuebutton {
-        margin-top: -3em;
-    }
-
     .buttons {
         text-align: center;
         border-top: none;
@@ -3695,14 +3767,20 @@ body.hascontinuecancel.path-site #page {
 
     #page-header {
         display: none;
+        background-image: none; 
     }
 }
 
 // next / previous nav
+.modtype_book, .modtype_page {
+    border-bottom: none; 
+}
+
 .section_footer {
     margin-top: 2em;
     padding: 1em 0;
-    border-top: 1px solid #eee;
+    border-top: 1px solid @gray-lighter;
+    display: none;  
 }
 
 .section_footer a {
@@ -3736,16 +3814,22 @@ body.hascontinuecancel.path-site #page {
     text-transform: uppercase;
     font-style: normal;
     color: @text-color;
+    font-weight: normal !important;
 }
 
 .nav_icon {
-    padding: 0.3em;
-    text-align: center;
+    margin-left: 0.3em;
+    border-left: 1px solid @gray-light;
+    font-size: 2.5em;
+    width: 36px;
+    float: right;
+    padding: 0.0em 0.3em 0.2em 0em;
+    line-height: 1em;
 }
-
+  
 .next_section .nav_icon {
     margin-left: 0.3em;
-    border-left: 1px solid #eee;
+    border-left: 1px solid @gray-lighter;
     font-size: 2em;
     width: 50px;
     float: right;
@@ -3754,8 +3838,23 @@ body.hascontinuecancel.path-site #page {
 .previous_section .nav_icon {
     float: left;
     margin-right: 0.3em;
-    border-right: 1px solid #eee;
+    border-right: 1px solid @gray-lighter;
     font-size: 2em;
+}
+
+.next_activity_area {
+    background: #eae9e7;
+    padding: 1.94em 0 1.2em;
+    margin-top: 2.29em;
+}
+.next_activity_link {
+    margin: 0 auto;
+    font-family: @font-family-fancy; 
+    max-width: 940px;
+}
+
+.next_activity_text {
+    text-align: right;
 }
 
 /* moodle dialogues */
@@ -3912,12 +4011,12 @@ body.hascontinuecancel.path-site #page {
 
 #moodle-footer {
     padding-top: 2em;
-    padding-bottom: 1em;
+    padding-bottom: 2.3em;
     clear: both;
     color: @gray-lighter;
     background-color: @text-color;
     margin-top: 0;
-}
+} 
 
 #moodle-footer {
     h1,
@@ -3963,7 +4062,8 @@ img.cass-logo {
     float: left;
     width: 255px;
     height: 74px;
-} 
+    margin: 0 0 0 1%;
+}  
 
 /* Moodle error, reports, all that stuff in the footer */
 #page-footer {
@@ -4276,7 +4376,7 @@ table th img.iconhelp {
 
 div.editor_atto_toolbar {
     background-color: transparent;
-    border-color: #eee;
+    border-color: @gray-lighter;
     padding-bottom: 0;
 }
 
@@ -4294,7 +4394,7 @@ textarea {
 }
 
 .editor_atto_content_wrap {
-    border-color: #eee;
+    border-color: @gray-lighter;
 }
 
 // Help Atto editor select img's properly
@@ -4306,7 +4406,7 @@ textarea {
 .editor_atto_toolbar button.highlight,
 .editor_atto_toolbar button:hover {
     background-image: none;
-    background-color: #eee;
+    background-color: @gray-lighter;
 }
 
 div.editor_atto_toolbar button + button {

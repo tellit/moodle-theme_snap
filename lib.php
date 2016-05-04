@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require __DIR__ . '/hidecoursepageredirect.php';
+require_once __DIR__ . '/coursepageredirect.php';
 
 /**
  * Standard library functions for snap theme.

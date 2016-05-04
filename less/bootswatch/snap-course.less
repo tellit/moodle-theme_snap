@@ -283,7 +283,7 @@ li.section:focus {
         margin: 0 auto;
         float: none;
         display: block;
-        text-align: left;
+        text-align: center; 
         a,
         span {
             display: inline-block;
@@ -313,8 +313,8 @@ li.section:focus {
     margin: 0 auto;
     float: none;
     display: block;
-    text-align: left;
-    margin-top: -1em;
+    text-align: center;
+    margin-top: 0;
     a {
         display: inline-block;
         border-radius: 100%;
@@ -424,7 +424,7 @@ body.format-flexpage .singlebutton {
 }
 
 .folderview-single-section #coursetools {
-    display: none;
+    display: none; 
 }
 
 .snap-section-remove {
@@ -518,9 +518,8 @@ h4.snap-asset-link .instancename {
 .section li.snap-asset {
     display: block;
     position: relative;
-    padding: 0;
+    padding: 0 0 1.55em;
     margin: 0;
-    padding-bottom: 1em;
     height: auto;
     font-family: @font-family-base;
     background-position: 50% 75%;
@@ -562,6 +561,11 @@ h4.snap-asset-link .instancename {
         }
     }
 }
+
+// Override the stepper border on the final activity list item
+.section li.snap-asset-last {
+    border-left: none;
+}  
 /* resourcelinkdetails = moodle putting filetype on screen if option selected
 we do this by default in snap, so hide moodle version */
 .resourcelinkdetails {
@@ -634,7 +638,7 @@ we do this by default in snap, so hide moodle version */
     text-align: left;
     font-weight: 300;
     padding: 0.5em 0;
-    margin: 0.5em 0;
+    //margin: 0.5em 0;
     box-shadow: none;
     .clearfix();
 
@@ -723,10 +727,10 @@ we do this by default in snap, so hide moodle version */
     display: none;
 }
 
-.modtype_book,
-.modtype_page {
-    border-bottom: 1px solid #ccc;
-}
+//.modtype_book,
+//.modtype_page {
+//    border-bottom: 1px solid #ccc;
+//}
 
 
 .snap-native.modtype_book ol.bookmod-chapters {
@@ -970,52 +974,55 @@ h4.snap-asset-link {
 
 span.stepper-complete {
     position: absolute;
-    left: -16px;
-    top: 0;
+    left: -26px;
+    top: -10px;
     z-index: 4;
-    background: #6C953C;
+    background: @brand-success;
     border-radius: 2em;
-    width: 30px;
-    height: 30px;
-    line-height: 2em;
-    color: #fff;
+    width: 50px;
+    height: 50px;
+    line-height: 2.2em;
+    color: @body-bg;
     text-indent: 8px;
     font-size: .7em;
-    font-feature-settings: 'lnum'
+    font-feature-settings: 'lnum';
+    border: solid #fff 10px;
 }
               
 span.stepper-current {
     position: absolute;
-    left: -16px;
-    top: 0;
+    left: -26px;
+    top: -10px;
     z-index: 4;
-    background: #00759B; 
+    background: @brand-info;
     border-radius: 2em;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     text-indent: 11px;
     line-height: 2.2em;
     color: #fff;
     font-size: .7em;
     font-family: @font-family-monospace;
-    font-feature-settings: 'lnum'
+    font-feature-settings: 'lnum';
+    border: solid #fff 10px;
 }
 
 span.stepper-future {
     position: absolute;
-    left: -16px;
-    top: 0;
+    left: -26px;
+    top: -10px;
     z-index: 4;
-    background: @gray-light;
+    background: @brand-info;
     border-radius: 2em;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     text-indent: 11px;
     line-height: 2.2em;
     color: #fff;
-        font-size: .7em;
+    font-size: .7em;
     font-family: @font-family-monospace;
-    font-feature-settings: 'lnum'
+    font-feature-settings: 'lnum';
+    border: solid #fff 10px;
 }
 
 li.unavailable h4 {
@@ -1121,7 +1128,7 @@ li.modtype_collaborate {
 }
 
 li.snap-activity.modtype_folder {
-    border-color: #f9f29a;
+    //border-color: #f9f29a;
 
     .snap-assettype {
         background-color: #f9f29a;
@@ -1183,7 +1190,7 @@ a.snap-assignment-stage.label.label-warning {
 .snap-completion-meta {
     padding-bottom: 0.5em;
     /* Completion actions */
-    .togglecompletion,
+    //.togglecompletion,
     .autocompletion {
         display: none;
         clear: left;
@@ -1575,9 +1582,9 @@ span.editinstructions {
 // -------------------------
 
 #snap-course-footer {
-    margin: 2em auto -2em; // pull the sitewide footer up if we have a course footer
-    padding: 1em 4%;
-    background-color: #f1f0ee;
+    margin: 2em -220% 0; // pull the sitewide footer up if we have a course footer
+    padding: 1em 220%;
+    background-color: @gray-lighter;
 }
 
 #course_recent_updates {
@@ -1596,7 +1603,7 @@ span.editinstructions {
             float: right;
             font-size: small;
         }
-    }
+    } 
 
     .info.bold {
         font-weight: inherit;
