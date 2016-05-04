@@ -120,7 +120,7 @@ if ($showcompletionnextactivity || $showcompletionmodal) {
 }
 
 if ($showcompletionmodal) {    
-    
+                                             
 echo '<!-- Modal -->
 
 <span id = "darkBackground" class = "darkBackgroundStyle"></span>
@@ -185,30 +185,30 @@ function popCompletion() {
 }
 ';
 
-//if mod -> type == book, page, blah
-if ($mod) {
+    //if mod -> type == book, page, blah
+    if ($mod) {
 
-    echo '$(window).load(function(){        
-        //Using bootstrap modal
-        //setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
-        
-        //using animate slide position fixed
-        setTimeout(
-            function() {
-                popCompletion();
-            }, 
-            ' . $this->page->theme->settings->nextactivitymodaldialogdelay . '
-        );
-        
-    });
-    </script>';
-} else {
-     //Otherwise, add button to pop
-     echo '
-     </script> 
-     <p><strong><a href="javascript: doIt()">Press to pop completion box</a></strong></p>';
+        echo '$(window).load(function(){        
+            //Using bootstrap modal
+            //setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
+            
+            //using animate slide position fixed
+            setTimeout(
+                function() {
+                    popCompletion();
+                }, 
+                ' . $this->page->theme->settings->nextactivitymodaldialogdelay . '
+            );
+            
+        });
+        </script>';
+    } else {
+         //Otherwise, add button to pop
+         echo '
+         </script> 
+         <p><strong><a href="javascript: doIt()">Press to pop completion box</a></strong></p>';
+    }
 }
-
 
 echo '
 <script type="text/javascript">
