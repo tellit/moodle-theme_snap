@@ -17979,6 +17979,9 @@ body.format-flexpage .singlebutton {
 h4.snap-asset-link .instancename {
   line-height: 1em;
 }
+h4.snap-activity-current .instancename {
+  font-weight: 700;
+}
 .snap-asset-link {
   margin: 0;
   padding: 0;

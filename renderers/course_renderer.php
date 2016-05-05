@@ -213,14 +213,6 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         // Drop section notice.
         $output .= '<a class="snap-move-note" href="#">'.get_string('movehere', 'theme_snap').'</a>';
         
-        // Display the link to the module (or do nothing if module has no url).
-        $cmname = $this->course_section_cm_name($mod, $displayoptions);
-        $assetlink = '';
-        // SHAME - For moodles ajax show/hide call to work it needs activityinstance > a to add a class of dimmed to.
-        // This dimmed class is of course inaccessible junk.
-        if (!empty($cmname)) {
-            $assetlink = '<a></a><h4 class="snap-asset-link">'.$cmname.'</h4>';
-        }
         
         // Start the div for the activity content.       
 
@@ -311,6 +303,19 @@ class theme_snap_core_course_renderer extends core_course_renderer {
             $steppercontainer =  $stepperspan;
         }
 
+        // Display the link to the module (or do nothing if module has no url).
+        $cmname = $this->course_section_cm_name($mod, $displayoptions);
+        $assetlink = '';
+        // SHAME - For moodles ajax show/hide call to work it needs activityinstance > a to add a class of dimmed to.
+        // This dimmed class is of course inaccessible junk.
+        if (!empty($cmname)) {
+            $activitycurrent = '';
+            if ($allpreviouscompleted && !$currentmodcompleted) {
+                $activitycurrent = ' snap-activity-current';
+            }
+            $assetlink = '<a></a><h4 class="snap-asset-link' . $activitycurrent . '">'.$cmname.'</h4>';
+        }
+        
         // Append everything together
         // If the collapse setting isn't enabled then collapsebutton will be empty and collapsecontainer will not be tagged to be collapsable.
         $output .= $steppercontainer . $assetlink . $collapsebutton . $collapsecontainer;
