@@ -12,7 +12,7 @@
         // only has a /snap element).
         $elepath = $this->get_pathfor('/snap');
 
-        // The 'ou' here defines that it will use the process_ou function
+        // The 'snap' here defines that it will use the process_snap function
         // to restore its element.
         $paths[] = new restore_path_element('snap', $elepath);
 
@@ -28,9 +28,9 @@
     }
 
     /**
-     * Process the 'ou' element
+     * Process the 'snap' element
      */
-    public function process_ou($data) {
+    public function process_snap($data) {
         global $DB;
 
         // Get data record ready to insert in database

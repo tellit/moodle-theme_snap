@@ -44,9 +44,9 @@ if (!$PAGE->user_is_editing()) {
 
             //2 Check course completion setting
             if ($COURSE->enablecompletion == COMPLETION_ENABLED) {
-            
+
+                $mod = $PAGE->cm;            
                 if (is_object($mod)) {
-                    $mod = $PAGE->cm;
                 
                     //3 Check completion setting of current mod
                     if ($mod->completion == COMPLETION_TRACKING_MANUAL && $this->page->theme->settings->nextactivityinfooter) $showcompletionnextactivity = true;
@@ -125,8 +125,8 @@ echo '<!-- Modal -->
 
 <span id = "darkBackground" class = "darkBackgroundStyle"></span>
 <span id = "alertBox" class = "boxStyle">
-<img style = "position: relative; display: block; width: 100px; height: 100px; top: 75px; left: 100px;" src = "http://www.combey.com/check.svg">
-<span style = "position: relative; top: 125px; text-align: center; font-size: 24px; display: block">Section Complete!</span>
+    <img style = "position: relative; display: block; width: 100px; height: 100px; top: 75px; left: 100px;" src = "http://www.combey.com/check.svg">
+    <span style = "position: relative; top: 125px; text-align: center; font-size: 24px; display: block">Activity Complete!</span>
 </span>
 
 <div class="modal fade activitycompletemodal" id="activitycompletemodal" role="dialog">
@@ -152,6 +152,7 @@ echo '<!-- Modal -->
         </div>
     </div>
 </div>
+<script src = "http://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TweenMax.min.js"></script>
 <script type="text/javascript">
     //$(\'[data-toggle="collapse"]\').on(\'click\', function() {
     //    $(this).toggleClass(\'glyphicon-chevron-down glyphicon-chevron-up\');
@@ -164,6 +165,7 @@ echo '<!-- Modal -->
     //        .find(".glyphicon").toggleClass(\'glyphicon-chevron-down glyphicon-chevron-up\');
     //}
     //$(\'[data-toggle="collapse"\').on(\'hide.bs.collapse show.bs.collapse\', toggleChevron);
+
    
 function scrollIn(selector) {
     $(selector).show().animate({right: "20px", opacity: 1}, 1000);
@@ -173,58 +175,61 @@ function scrollOut(selector) {
     $(selector).animate({right: "-600px", opacity: 0.5}, 200, function(){ $(selector).hide()});
 }
 
-function popCompletion() {
+function popCompletion() {    
     TweenLite.to($("#darkBackground"), 0, {display:"block"});
     TweenLite.to($("#darkBackground"), 0.3, {background:"rgba(0,0,0,0.4)", force3D:true});
+    TweenLite.to($("#alertBox"), 0, {left:"calc(50% - 150px)", top:"calc(50% - 150px)", delay:"0.2"});
+    TweenLite.to($("#alertBox"), 0, {display:"block", opacity: 1, delay:"0.2"});                                 
     TweenLite.to($("#alertBox"), 0, {display:"block", scale:0.2, opacity: 0, delay:"0.2"});
     TweenLite.to($("#alertBox"), 0.3, {opacity: 1, force3D:true, delay:"0.2"});
     TweenLite.to($("#alertBox"), 0.6, {scale:1, scale:1, force3D:true, delay:"0.2"});
     TweenLite.to($("#darkBackground"), 0.2, {backgroundColor: "rgba(0,0,0,0)", force3D:true, delay:"2"});
     TweenLite.to($("#darkBackground"), 0.2, {display: "none", force3D:true, delay:"2"});
-    TweenLite.to($("#alertBox"), 0.2, {opacity: 0, display:"none", force3D:true, delay:"2", onComplete:scrollIn(\'#activitycompletemodal\');});
+    TweenLite.to($("#alertBox"), 0.2, {opacity: 0, display:"none", force3D:true, delay:"2", onComplete:slideNextActivity});
+}
+
+function slideNextActivity() {
+    scrollIn(\'#activitycompletemodal\');
 }
 ';
 
     //if mod -> type == book, page, blah
-    if ($mod) {
+    
+    //page, book, wiki
+    switch ($mod->modname) {
 
-        echo '$(window).load(function(){        
-            //Using bootstrap modal
-            //setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
-            
-            //using animate slide position fixed
-            setTimeout(
-                function() {
-                    popCompletion();
-                }, 
-                ' . $this->page->theme->settings->nextactivitymodaldialogdelay . '
-            );
-            
-        });
-        </script>';
-    } else {
-         //Otherwise, add button to pop
-         echo '
-         </script> 
-         <p><strong><a href="javascript: doIt()">Press to pop completion box</a></strong></p>';
+        //Don't pop these completion events, but show a button        
+        case 'page': case 'book': case 'wiki':
+             echo '
+             </script> 
+             <p><strong><a href="javascript: doIt()">Press to pop completion box</a></strong></p>';
+        
+        default:
+            echo '$(window).load(function(){        
+                //Using bootstrap modal
+                //setTimeout(function(){$(\'#activitycompletemodal\').modal(\'show\');}, ' . $this->page->theme->settings->nextactivitymodaldialogdelay . ');
+                
+                //using animate slide position fixed
+                setTimeout(
+                    function() {
+                        popCompletion();
+                    }, 
+                    ' . $this->page->theme->settings->nextactivitymodaldialogdelay . '
+                );
+                
+            });
+            </script>';
     }
 }
 
 echo '
 <script type="text/javascript">
 
+    // Register click events on collapsable elements to toggle the chevron up/down on click
+    
     $(\'[data-toggle="collapse"]\').on(\'click\', function() {
         $(this).find("span.glyphicon").toggleClass(\'glyphicon-chevron-down glyphicon-chevron-up\');
     });
-    
-    
-    
-    //function toggleChevron(e) {
-    //    $(e.target)
-    //        .find("span.glyphicon").toggleClass(\'glyphicon-chevron-down glyphicon-chevron-up\');
-    //}
-    //$(\'[data-toggle="collapse"\').on(\'hide.bs.collapse show.bs.collapse\', toggleChevron);
-
     
 //Steves code that Leonard wanted...
 
