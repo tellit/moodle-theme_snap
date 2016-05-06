@@ -202,7 +202,7 @@ function slideNextActivity() {
         case 'page': case 'book': case 'wiki':
              echo '
              </script> 
-             <p><strong><a href="javascript: doIt()">Press to pop completion box</a></strong></p>';
+             <p><strong><a href="javascript: popCompletion()">Press to pop completion box</a></strong></p>';
         
         default:
             echo '$(window).load(function(){        
