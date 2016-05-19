@@ -52,10 +52,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
         if ($modulehtml = $this->course_section_cm($course, $completioninfo, $mod, $sectionreturn, $displayoptions)) {
             list($snapmodtype, $extension) = $this->get_mod_type($mod);
 
-            // DXA
             $modclasses = array('snap-activity');
-            
-            //if ($mod->modname === 'label') return '';
             
             /*
             if ($mod->modname === 'resource') {
@@ -80,9 +77,7 @@ class theme_snap_core_course_renderer extends core_course_renderer {
             } else {
                 $modclasses = array('snap-activity');
             }
-            */
 
-            /*
             // Special classes for native html elements.
             if (in_array($mod->modname, ['page', 'book'])) {
                 $modclasses = array('snap-native', 'snap-mime-'.$mod->modname);
@@ -92,7 +87,8 @@ class theme_snap_core_course_renderer extends core_course_renderer {
                 if ($mod->uservisible) {
                     $attr['data-href'] = $modurl;
                 }
-            }  */
+            }  
+			*/
 
             // Is this mod draft?
             if (!$mod->visible) {
@@ -125,9 +121,18 @@ class theme_snap_core_course_renderer extends core_course_renderer {
             // TODO - can we add completion data.
 
             $modclasses [] = 'activity'; // Moodle needs this for drag n drop.
-            $modclasses [] = $mod->modname;
-            $modclasses [] = "modtype_$mod->modname";
-            $modclasses [] = $mod->extraclasses;
+            
+			// Tagging an li element with a selector called 'page' results is poor CSS specificity due to
+			// the main HTML region also being tagged with 'page'. Hopefully snap people will address this
+			// in the future, but they probably don't have the same problems we do because they embed
+			// page content anyway, and don't treat it like any other course render li target.
+            if ($mod->modname == 'page') {
+                // Do nothing here
+            } else {
+                $modclasses [] = $mod->modname;
+                $modclasses [] = "modtype_$mod->modname";
+                $modclasses [] = $mod->extraclasses;
+            }
 
             $attr['data-type'] = $snapmodtype;
             $attr['class'] = implode(' ', $modclasses);
@@ -203,16 +208,12 @@ class theme_snap_core_course_renderer extends core_course_renderer {
             && (empty($mod->availableinfo))) {
             return $output;
         }
-        
-        //if ($mod->modname === 'label') return $output;
-        
+               
         $output .= '<div class="asset-wrapper">';
 
-               
         // TODO - add if can edit.
         // Drop section notice.
         $output .= '<a class="snap-move-note" href="#">'.get_string('movehere', 'theme_snap').'</a>';
-        
         
         // Start the div for the activity content.       
 
@@ -270,14 +271,8 @@ class theme_snap_core_course_renderer extends core_course_renderer {
                     }
                 }
                 
-                //Increment stepper count
-                //print $mod->modname;
-                /*
-                if ($mod->modname === 'label') {
-                    $stepper = 57; 
-                } else {*/
-                    $stepper++;
-                //}
+                //Increment stepper count                
+                $stepper++;
             }
             
             //if current is available and the first in section that is not completed, give number and expand
@@ -514,13 +509,13 @@ class theme_snap_core_course_renderer extends core_course_renderer {
 
         // Get custom module content for Snap, or get modules own content.
         $modmethod = 'mod_'.$mod->modname.'_html';
-        //if ($this->is_image_mod($mod)) {
-        //    $content = $this->mod_image_html($mod);
-        //} else if (method_exists($this,  $modmethod )) {
-        //    $content = call_user_func(array($this, $modmethod), $mod);
-        //} else {
+        if ($this->is_image_mod($mod)) {
+            $content = $this->mod_image_html($mod);
+        } else if (method_exists($this,  $modmethod )) {
+            $content = call_user_func(array($this, $modmethod), $mod);
+        } else {
             $content = $mod->get_formatted_content(array('overflowdiv' => false, 'noclean' => true));
-        //}
+        }
 
         $accesstext = '';
         $textclasses = '';
