@@ -152,6 +152,16 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_heading($name, $title, $description);
     $settings->add($setting);    
 
+    // Hide navigation block.
+    $name = 'theme_snap/hidenavblock';
+    $title = new lang_string('hidenavblock', 'theme_snap');
+    $description = new lang_string('hidenavblockdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+    
     // Hide quiz navigation for non editors.
     $name = 'theme_snap/hidequiznavigation';
     $title = new lang_string('hidequiznavigation', 'theme_snap');
@@ -172,13 +182,23 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
+    // Fix header to top of page
+    $name = 'theme_snap/fixheadertotopofpage';
+    $title = new lang_string('fixheadertotopofpage', 'theme_snap');
+    $description = new lang_string('fixheadertotopofpagedesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+    
     // Collapse completed activities via the course renderer
     $name = 'theme_snap/collapsecompletedactivities';
     $title = new lang_string('collapsecompletedactivities', 'theme_snap');
     $description = new lang_string('collapsecompletedactivitiesdesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
@@ -192,13 +212,23 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
+    // Course page redirect.
+    $name = 'theme_snap/coursepageredirect';
+    $title = new lang_string('coursepageredirect', 'theme_snap');
+    $description = new lang_string('coursepageredirectdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $settings->add($setting);
+       
     // On completion, display next activity in footer on/off.
     $name = 'theme_snap/nextactivityinfooter';
     $title = new lang_string('nextactivityinfooter', 'theme_snap');
     $description = new lang_string('nextactivityinfooterdesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
@@ -208,7 +238,7 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('nextactivitymodaldialogdesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
@@ -227,26 +257,6 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('nextactivitymodaldialogdelaydesc', 'theme_snap');
     $default = 2000;
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
-    $settings->add($setting);
-        
-    // Course page redirect.
-    $name = 'theme_snap/coursepageredirect';
-    $title = new lang_string('coursepageredirect', 'theme_snap');
-    $description = new lang_string('coursepageredirectdesc', 'theme_snap');
-    $checked = '1';
-    $unchecked = '0';
-    $default = $checked;
-    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
-    $settings->add($setting);
-    
-    // Hide navigation block.
-    $name = 'theme_snap/hidenavblock';
-    $title = new lang_string('hidenavblock', 'theme_snap');
-    $description = new lang_string('hidenavblockdesc', 'theme_snap');
-    $checked = '1';
-    $unchecked = '0';
-    $default = $checked;
-    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
     
     // Functional Heading.
@@ -269,7 +279,7 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('questionsemanticactivationdesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
@@ -280,7 +290,7 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('displayquestionxofydesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
@@ -291,7 +301,7 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('highlightfirstactivityinsectiondesc', 'theme_snap');
     $checked = '1';
     $unchecked = '0';
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
