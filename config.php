@@ -178,14 +178,29 @@ $THEME->layouts = array(
 
 $THEME->javascripts = array(
 );
+
 $THEME->javascripts_footer = array(
     'bootstrap',
-    'headroom',
     'snap',
     'course',
     'modernizer',
     'jquery.placeholder'
 );
+
+// Optionally load headroom only if required
+if (empty($THEME->settings->fixheadertotopofpage)) {
+    $THEME->javascripts_footer[] = 'headroom';
+} else {
+    $THEME->javascripts_footer[] = 'breadcrumb';
+}
+
+// Optionally load TweenMax only if required
+if (!empty($THEME->settings->nextactivitymodaldialog)) {
+    $THEME->javascripts_footer[] = 'completion';
+    
+    //TweenMax raises a minification error
+    $THEME->javascripts_footer[] = 'TweenMax';
+}
 
 if (!empty($THEME->settings->csspostprocesstoggle)) {
     $THEME->csspostprocess = 'theme_snap_process_css';
