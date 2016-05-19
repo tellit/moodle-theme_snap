@@ -34,7 +34,7 @@ if ($this->page->theme->settings->embedcurrentactivity) {
         return;
     }
 }
- 
+
 include(__DIR__.'/header.php');
 
 // By default, assume we are not on a mod page.
@@ -46,13 +46,12 @@ $ismodpage = false;
 if (!$PAGE->user_is_editing()) {
     $pagepath = explode('-', $PAGE->pagetype);
     if ($PAGE->pagetype != 'admin' && $pagepath[0] == 'mod') {
-        
-        // We are on a activity (mod) page
-        $ismodpage = true;
-        
+               
         //Defensive Programming. $PAGE->cm doesn't exist if the user is editing (adding a new mod)
         //It may not exist for other reasons
         if (is_object($PAGE->cm)) {
+            // We are on a activity (mod) page
+            $ismodpage = true;
             $mod = $PAGE->cm;
         }
     }
@@ -68,12 +67,12 @@ if ($ismodpage && $this->page->theme->settings->highlightfirstactivityinsection)
     $modinfo = $mod->get_modinfo();
     
     // If this activity is the first in the section
+    // This ignores the possibility of hidden scetions
     if ($mod->id == $modinfo->sections[$mod->sectionnum][0]) {
         // Add an extra CSS class to the page div
         $modpageclass = ' class="firstactivityinsection"';
     }               
 }
-
 ?>
 <!-- moodle js hooks -->
 <div id="page"<?php echo $modpageclass?>>
@@ -156,45 +155,11 @@ if ($hasadminbutton) {
 
 echo $OUTPUT->page_heading_button();
 
-// If we are on a mod page and a theme setting of 'use meta information' is set
-$this->page->theme->settings->usemetainformation = true;
-if ($ismodpage && $this->page->theme->settings->usemetainformation) {
-    
-    // Wrap the main content 
-    echo "<div class='row'><div class=\"activity-meta col-md-4\">";  
-    
-    //
-    //
-    //meta meta2
-    
-    
-    ?>
-    <ul class="snap-meta">
-    <li class="meta meta1"><span class="glyphicon glyphicon-facetime-video">Video Lecture</span></li>
-    <li class="meta meta2"><span class="glyphicon glyphicon-eye-open">Quiz</span></li>
-    <li class="meta meta3"><span class="glyphicon glyphicon-scissors"></span></li>
-    <li class="meta meta4"><span class="glyphicon glyphicon-time">50-60 Minutes</span></li>
-    </ul>
-    <?php
-    
-    
-    // Close the first column and start the second column container
-    echo "</div><div class=\"col-md-8\>";
-}
-
-
 // On the front page, output some different content.
 if ($PAGE->pagetype == 'site-index') {
     include(__DIR__.'/faux_site_index.php');
 } else {
     echo $OUTPUT->main_content();
-}
-
-// If we are on a mod page and a theme setting of 'use meta information' is set
-if ($ismodpage && $this->page->theme->settings->usemetainformation) {
-    
-    // Close the second column container and the row
-    echo "</div></div>";
 }
 
 echo $OUTPUT->course_content_footer();
