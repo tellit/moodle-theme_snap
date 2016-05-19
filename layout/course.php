@@ -38,11 +38,14 @@ $coursemainpage = strpos($PAGE->pagetype, 'course-view-') === 0;
 <?php if (!empty($courseimagecss)) : ?>
  mast-image
 <?php endif;?>">
+
 <?php
     if (empty($PAGE->theme->settings->breadcrumbsinnav)) {
         echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
     }
 ?>
+
+
 <div id="page-mast">
 <?php
 echo $OUTPUT->page_heading();
