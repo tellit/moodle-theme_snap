@@ -804,32 +804,62 @@ function snapInit() {
             //At the end of the func:
             lastHash = newHash;
         });
-/*
-        // Show fixed header on scroll down
-        // using headroom js - http://wicky.nillia.ms/headroom.js/
-        var myElement = document.querySelector("#mr-nav");
-        // Construct an instance of Headroom, passing the element.
-        var headroom = new Headroom(myElement, {
-          "tolerance": 5,
-          "offset": 100,
-          "classes": {
-            // when element is initialised
-                initial : "headroom",
-                // when scrolling up
-                pinned : "headroom--pinned",
-                // when scrolling down
-                unpinned : "headroom--unpinned",
-                // when above offset
-                top : "headroom--top",
-                // when below offset
-                notTop : "headroom--not-top"
-          }
+
+        // Alternate up/down chevron direction based on collapsable bootstrap elements
+        $('[data-toggle="collapse"]').on('click', function() {
+            $(this).find("span.glyphicon").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
         });
-        // When not signed in always show mr-nav?
-        if(!$('.notloggedin').length) {
-            headroom.init();
+        
+        //Use headroom.js ? Check the theme setting
+        if (typeof M.theme_snap.settings.fixheadertotopofpage === 'undefined' ||
+            M.theme_snap.settings.fixheadertotopofpage == "0") {
+                
+            // Show fixed header on scroll down
+            // using headroom js - http://wicky.nillia.ms/headroom.js/
+            var myElement = document.querySelector("#mr-nav");
+            // Construct an instance of Headroom, passing the element.
+            var headroom = new Headroom(myElement, {
+              "tolerance": 5,
+              "offset": 100,
+              "classes": {
+                // when element is initialised
+                    initial : "headroom",
+                    // when scrolling up
+                    pinned : "headroom--pinned",
+                    // when scrolling down
+                    unpinned : "headroom--unpinned",
+                    // when above offset
+                    top : "headroom--top",
+                    // when below offset
+                    notTop : "headroom--not-top"
+              }
+            });
+            // When not signed in always show mr-nav?
+            if(!$('.notloggedin').length) {
+                headroom.init();
+            }
         }
-*/
+
+          
+        //Attach specific events for specific mod pages
+        if (typeof M.theme_snap.mod != 'undefined' && M.theme_snap.mod != null) {
+            if (M.theme_snap.mod.modname == 'hsuforum') {
+                
+                //posting a reply inline via hsuforum:
+                // - Uses a YUI ajax call
+                // - replaces the article node tagged with the hsuforum-post-target class
+                // - this node is a child of the mod-hsuforum-posts-container div
+                // - this node can not be easily targetted by an event listener for a change event
+                // - can be targeted
+
+                // Unforunately can not easily attach an event to the hsuform-post-target div
+                // bind this function to the reply form submit that adds a timer 
+                // to lazy check completion via ajax
+
+                bindHsuforumCompletion();
+            }
+        }
+        
         // Listener for toc search.
         var dataList = $("#toc-searchables").find('li').clone(true);
         $('#toc-search-input').keyup(function() {
@@ -1057,7 +1087,7 @@ function snapInit() {
           }
         });
     };
-
+    
     // GO !!!!
     movePHPErrorsToHeader(); // boring
     polyfills(); // for none evergreen
