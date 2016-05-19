@@ -30,7 +30,6 @@ require_once(__DIR__.'/renderers/course_format_topics_renderer.php');
 require_once(__DIR__.'/renderers/course_format_weeks_renderer.php');
 require_once(__DIR__.'/renderers/core_question_renderer.php');
 require_once(__DIR__.'/renderers/mod_quiz_renderer.php');
-require_once(__DIR__.'/renderers/format_renderer_toolbox.php');
 
 // Only include folderview renderer if available.
 if (file_exists($CFG->dirroot.'/course/format/folderview/renderer.php')) {
