@@ -288,6 +288,7 @@ textarea {
 
 body {
     font-weight: 300;
+    overflow-x: hidden;
 }
 
 // GT Mod - 2015-07-09 - add .floater .cell to accommodate fixed col and header in gradebook
@@ -296,6 +297,7 @@ table,
     width: 100%;
     font-family: @font-family-base;
     font-size: @font-size-table;
+    clear: both;
 }
 
 blockquote {
@@ -789,7 +791,7 @@ input[type="text"]+input[type="submit"] {
     left: 0;
     bottom: 0;
     overflow-y: auto;
-    background-color: @gray;
+    background-color: @gray-dark;
     color: #fff;
     z-index: 1000000;
 
@@ -812,9 +814,10 @@ input[type="text"]+input[type="submit"] {
         font-weight: 100;
         line-height: 1;
         margin: 1em 0;
-        padding: 0.5em 0;
-        border-bottom: 1px solid @body-bg;
+        padding: 0.5em 0 .1em;
+        border-bottom: 1px solid @gray-light;
         font-size: 1em;
+        text-align: center;
     }
 
     .label-success {
@@ -1080,7 +1083,7 @@ input[type="text"]+input[type="submit"] {
 .fixy .real-user-info {
     display: block;
     text-align: center;
-    margin-top: -50px;
+    margin-top: -38px;
 }
 
 .fixy .label.label-info {
@@ -1348,6 +1351,10 @@ header#page-header
     content: @breadcrumb-separator;
 }
 
+.breadcrumb > li {
+    display: inline;
+}
+
 .admin, .path-enrol, .pagelayout-admin#page-mod-quiz-attempt #moodle-blocks{
    .breadcrumb li:first-child:before {
     content: '\e091 ';
@@ -1367,11 +1374,7 @@ header#page-header
 }
 
  .path-course .breadcrumb li:nth-child(2):before {
-    content: ' ';
-    padding-right: 1em;
-    vertical-align: top;
-    font-family: 'Glyphicons Halflings';
-    color: #000;
+display: none;
 }
 
 .breadcrumb-nav {
@@ -1421,6 +1424,24 @@ header#page-header
         }
     }
 }
+
+.path-course .breadcrumb, .path-mod .breadcrumb {
+	@media screen and (max-width: @screen-md) {
+	    max-width: 478px;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    word-wrap: break-word;
+	    word-break: break-all;
+    }
+	@media screen and (max-width: @screen-sm) {
+    	max-width: 200px;
+    }
+    @media screen and (max-width: @screen-xs) {
+        max-width: 35px;
+        text-overflow: clip;
+    }
+} 
 
 // Breadcrumb for activites
 // -------------------------
@@ -1498,7 +1519,7 @@ ol#chapters li {
     padding: 1em 0;
     border-bottom: 1px dotted;
     list-style-position: inside;
-    height: 63px;
+    min-height: 63px;
     color: @text-color;
     opacity: .7; 
 }
@@ -1654,11 +1675,19 @@ ol#chapters {
 }
 
 // small screen
-@media screen and (max-width: @screen-sm-min) {
+@media screen and (max-width: @screen-md) {
     #toc-search,
     #course-toc #toc-desktop-menu-heading,
     #course-toc .toc-footer {
         display: none;
+    }
+
+   .path-course-view #moodle-page #region-main {
+        margin: 7.1em auto;
+        max-width: 520px;
+        width: 100%; 
+        float: none;
+        padding: 0 1%;
     }
 
     #toc-mobile-menu-toggle {
@@ -3842,10 +3871,37 @@ body.hascontinuecancel.path-site #page {
     font-size: 2em;
 }
 
+.next_activity_overlay {
+    background: @gray-light;
+    padding: 0;
+    margin-top: 0;
+    z-index: 50;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    h5 {
+        color: white;
+        //line-height: 1.1em;
+        //font-weight: bold;
+    }
+    button {
+        background-color: darken(@brand-success, 2%);
+        &:active, &:focus, &:hover  {
+            background-color: darken(@brand-success, 10%);
+        }
+    }
+}
+
+
 .next_activity_area {
     background: #eae9e7;
     padding: 1.94em 0 1.2em;
     margin-top: 2.29em;
+    width: 100%;
+    position: relative;
 }
 .next_activity_link {
     margin: 0 auto;
@@ -3973,6 +4029,7 @@ body.hascontinuecancel.path-site #page {
 
 .file-picker .fp-repo-area {
     height: 475px;
+    clear: both;
 }
 
 .file-picker .fp-content {

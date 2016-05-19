@@ -260,7 +260,7 @@ li.section:focus {
 .path-course-view .section .summary {
     position: relative;
     line-height: inherit;
-    padding-bottom: 1.6em;
+    padding-bottom: 1.25em;
     .clearfix();
 
     p {
@@ -509,11 +509,6 @@ h4.snap-asset-link .instancename {
 
 }
 
-h4.snap-activity-current .instancename {
-    font-weight: 700;
-}
-
-
 .snap-asset-link {
     margin: 0;
     padding: 0;
@@ -529,10 +524,9 @@ h4.snap-activity-current .instancename {
     font-family: @font-family-base;
     background-position: 50% 75%;
     background-size: 70px auto;
-    border: 0 0 0 1px @gray-light;
     box-shadow: none;  
     background-color: transparent;
-    border-left: 1px solid #eae9e7;
+    border-left: 1px solid @gray-light;
     border-radius: 0;
     
 
@@ -545,7 +539,7 @@ h4.snap-activity-current .instancename {
     }
 
     .activityinstance {
-        padding: 0 2em 1em;
+        padding: 0 2.2em 1em;
         height: auto;
         .clearfix();
 
@@ -643,7 +637,7 @@ we do this by default in snap, so hide moodle version */
     text-align: left;
     font-weight: 300;
     padding: 0.5em 0;
-    //margin: 0.5em 0;
+    margin: 0.5em 0;
     box-shadow: none;
     .clearfix();
 
@@ -731,12 +725,6 @@ we do this by default in snap, so hide moodle version */
 .snap-native.snap-image .activityinstance .snap-asset-link a {
     display: none;
 }
-
-//.modtype_book,
-//.modtype_page {
-//    border-bottom: 1px solid #ccc;
-//}
-
 
 .snap-native.modtype_book ol.bookmod-chapters {
     margin: 0;
@@ -981,7 +969,6 @@ span.stepper-complete {
     position: absolute;
     left: -26px;
     top: -10px;
-    z-index: 4;
     background: @brand-success;
     border-radius: 2em;
     width: 50px;
@@ -991,14 +978,13 @@ span.stepper-complete {
     text-indent: 8px;
     font-size: .7em;
     font-feature-settings: 'lnum';
-    border: solid #fff 10px;
+    border: solid @body-bg 10px;
 }
               
 span.stepper-current {
     position: absolute;
     left: -26px;
     top: -10px;
-    z-index: 4;
     background: @brand-info;
     border-radius: 2em;
     width: 50px;
@@ -1009,14 +995,13 @@ span.stepper-current {
     font-size: .7em;
     font-family: @font-family-monospace;
     font-feature-settings: 'lnum';
-    border: solid #fff 10px;
+    border: solid @body-bg 10px;
 }
 
 span.stepper-future {
     position: absolute;
     left: -26px;
     top: -10px;
-    z-index: 4;
     background: @brand-info;
     border-radius: 2em;
     width: 50px;
@@ -1027,7 +1012,7 @@ span.stepper-future {
     font-size: .7em;
     font-family: @font-family-monospace;
     font-feature-settings: 'lnum';
-    border: solid #fff 10px;
+    border: solid @body-bg 10px;
 }
 
 li.unavailable h4 {
@@ -1072,72 +1057,6 @@ h2.sectionname {
 li.snap-activity {
     border-left: 0.3em solid #ccc;
     border-radius: 3px;
-}
-
-li.modtype_forum,
-li.modtype_chat,
-li.modtype_hsuforum {
-    border-color: #49a0ae;
-
-    .snap-assettype {
-        background-color: #49a0ae;
-    }
-}
-
-li.modtype_assign,
-li.modtype_assignment,
-li.modtype_workshop {
-    border-color: #4abc96;
-
-    .snap-assettype {
-        background-color: #4abc96;
-    }
-}
-
-li.modtype_lesson {
-    border-color: #6cc077;
-
-    .snap-assettype {
-        background-color: #6cc077;
-    }
-}
-
-li.modtype_choice,
-li.modtype_feedback,
-li.modtype_quiz,
-li.modtype_survey,
-li.modtype_questionnaire {
-    border-color: #a0bf19;
-
-    .snap-assettype {
-        background-color: #a0bf19;
-    }
-}
-
-li.modtype_data,
-li.modtype_glossary,
-li.modtype_wiki {
-    border-color: #edc92c;
-
-    .snap-assettype {
-        background-color: #edc92c;
-    }
-}
-
-li.modtype_collaborate {
-    border-color: #aa70b0;
-
-    .snap-assettype {
-        background-color: #aa70b0;
-    }
-}
-
-li.snap-activity.modtype_folder {
-    //border-color: #f9f29a;
-
-    .snap-assettype {
-        background-color: #f9f29a;
-    }
 }
 
 // -------------------------
