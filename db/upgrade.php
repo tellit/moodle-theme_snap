@@ -48,7 +48,6 @@ function xmldb_theme_snap_upgrade($oldversion) {
         theme_snap_process_site_coverimage();
         upgrade_plugin_savepoint(true, 2014110404, 'theme', 'snap');
     }
-    
     // upgrade without needing to increment version.
     // (By using the greater than or equals operator
     if ($oldversion <= 2016012600) {
@@ -76,49 +75,12 @@ function xmldb_theme_snap_upgrade($oldversion) {
             set_config('copyrightnotice', 0, 'theme_snap');
             set_config('fontloader', 0, 'theme_snap');
             set_config('csspostprocesstoggle', 0, 'theme_snap');
-            
             set_config('coursefootertoggle', 0, 'theme_snap');  
-        }
-
-        // Define table snap_meta to be created.
-        $table = new xmldb_table('snap_meta');
-
-        // Adding fields to table snap_meta.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('name', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('sortorder', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
-        $table->add_field('default', XMLDB_TYPE_CHAR, '512', null, null, null, null);
-        $table->add_field('icon', XMLDB_TYPE_CHAR, '512', null, XMLDB_NOTNULL, null, null);
-
-        // Adding keys to table snap_meta.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-
-        // Conditionally launch create table for snap_meta.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
-        }
-
-        // Define table snap_meta_course to be created.
-        $table = new xmldb_table('snap_meta_course');
-
-        // Adding fields to table snap_meta_course.
-        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-        $table->add_field('metaid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('data', XMLDB_TYPE_TEXT, null, null, null, null, null);
-
-        // Adding keys to table snap_meta_course.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-
-        // Conditionally launch create table for snap_meta_course.
-        if (!$dbman->table_exists($table)) {
-            $dbman->create_table($table);
         }
 
         // Snap savepoint reached.
         upgrade_plugin_savepoint(true, 2016012600, 'theme', 'snap');
     }
-
 
     return true;
 }
