@@ -329,8 +329,27 @@ class snap_shared extends renderer_base {
             'fullpath' => '/theme/snap/javascript/module.js'
         );
 
+        // We want to have some theme settings available to javascript.
+        // But some theme settings may be sensitive so only pass which settings are required.
+        $required_settings = array('fixheadertotopofpage', 'nextactivitymodaldialogdelay');
+        $theme_settings = array_intersect_key((array)$PAGE->theme->settings, array_flip($required_settings));
+        
+        // We want some information about the activity to be available to javascript on mod pages
+        // There exist various pure javascript techniques for attempting to determine this infomation
+        // from the renderered HTML, but nothing beats being explicit.
+        $mod = null;
+        //Sometimes it is better to test the URL, rather than rely on the pagetype being correct
+        if (explode('-', $PAGE->pagetype)[0] == 'mod') {
+            if (is_object($PAGE->cm)) {
+                $mod = array(
+                    'modname' => $PAGE->cm->modname, 
+                    'context' => $PAGE->cm->context
+                );
+            }
+        }
+                
         $PAGE->requires->js_init_call('M.theme_snap.core.init',
-          [$COURSE->id, $PAGE->context->id, $courseconfig],
+          [$COURSE->id, $PAGE->context->id, $courseconfig, $theme_settings, $mod],
           false,
           $module
         );
