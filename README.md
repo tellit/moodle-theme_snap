@@ -1,6 +1,6 @@
 #CASS Snap
 Snap changes manifest
-
+```
 │   config.php
 
 │		- Moved headroom.js out of default list, to optionally load based on
@@ -385,35 +385,8 @@ Snap changes manifest
 │             activity information.
 
 │
+```
 
-│
-
-
-│
-
-│   renderers.php
-
-│       - include additional renderer to allow meta information to be created.
-
-│       - require_once(__DIR__.'/renderers/format_renderer_toolbox.php');     
-
-│
-├───renderers
-
-│       format_renderer_toolbox.php
-
-│           
-├───db
-
-│       install.xml
-
-│       upgrade.php
-
-│           
-└───backup
-    └───moodle2
-            backup_theme_snap_plugin.class.php
-            restore_theme_snap_plugin.class.php
 			
 			
 
