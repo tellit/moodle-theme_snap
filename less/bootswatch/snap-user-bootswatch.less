@@ -82,7 +82,7 @@ a:visited,
 a,
 .dropdown-toggle{
     &:focus{
-        outline: 3px solid @brand-primary;
+        outline: 1px dotted @brand-primary;
     }
     &:active, &:hover {
         outline: 0;
@@ -156,6 +156,7 @@ a:hover,
 }
 #region-main textarea{
     width: 100%;
+    white-space: normal;
 }
 
 @media screen and (min-width: 62em){
@@ -1409,12 +1410,16 @@ div.feedback_item_box_left div.feedback_item_label_left, div.feedback_item_box_l
     float: left;
     padding-right: 1em;
 }
+.activity-info {
+    float: left;
+}
+    
     .col-md-4 .activity-time {
     padding: 0 0 1em;
 } 
     .activity-type .activity-info:after {
     content: "|";
-    padding-left: 1em;
+    padding: 0 1em;
 }
     #intro.generalbox {
     float: left;
@@ -1467,7 +1472,7 @@ span.dropcap_inner {
     padding: .1em 0 0.3em;
     font-family: @font-family-fancy;
     font-size: .9em;
-    color: #666;
+    color: @gray-light;
 }
 
 
@@ -1481,7 +1486,7 @@ span.dropcap_inner {
     padding-top: 35px;
     height: 0;
     overflow: hidden;
-	margin: 1em 0px 3em;
+    margin: 1em 0 3em;
 }
 
 iframe {
@@ -1582,7 +1587,7 @@ h4.modal-title.activitycompletemodal-title {
     padding: .618em 1em;
     p {
         font-family: @font-family-fancy;
-        margin: 0 2em 2.75em 0;
+        margin: 0 2em 1.15em 0;
     }
 }
 
@@ -1617,7 +1622,7 @@ span.activitycompletecurrentmodname {
 
 .activitycompletemodal-content span.glyphicon.glyphicon-arrow-right {
     line-height: .8em;
-    padding-left: 0 0 0 .4em
+    padding: 0 0 0 .4em
 }
 
 .activitycompletemodal-footer {
@@ -1634,7 +1639,7 @@ span.activitycompletenextmodname {
     font-weight: bold;
 }
 .activitycompletemodal-content .closebutton {
-    margin: 1.5em 2em;
+    margin: none;
 	width: 25px;
 	height: 25px;
 }
@@ -1670,7 +1675,7 @@ span.activitycompletenextmodname {
 // -------------------------
 
 .firstactivityinsection {
-	h4:first-child, h2:first-child {
+	h4:first-child, #region-main h2:first-child {
     	background: @brand-primary;
     	color: white;
     	margin: -10% -300% 0;
@@ -1699,7 +1704,7 @@ span.activitycompletenextmodname {
     margin: 7.1em calc(~"50%" - unit(@leftmargin, px)) 0 0;
     /*min-height: 98vh;*/ 
     padding: 0;
-    max-width: 728px;
+    max-width: 524px;
     width: 100%;
     @media screen and (max-width: @screen-lg-min){
         margin: 7.1em calc(~"50%" - unit(@leftmarginlargescreen, px)) 0 0;
@@ -1800,7 +1805,7 @@ span.text {
 background-image: none;
 }
 
-input[type="file"] {
+input[type="file"].closebutton {
     display: flex;
 }
 
@@ -1888,9 +1893,28 @@ h4.snap-asset-link.snap-activity-current {
 @media (min-width: 62em) {
 	#region-main .snap-activity.modtype_hsuforum .snap-media-object {
 	    padding: 0 1em 0 0;
-	}
-}
+}}
+
 
 .col-md-12 {
-    padding: 1em 0px 3em;
+    padding: 0;
+	}
+
+.path-mod-feedback .box.boxaligncenter {
+    max-width: 626px;
+    float: right;
+    width: 100%;
+    padding: 0 0 3.15em;
+}
+
+.activityinstance .instancename {
+display: none;
+}
+
+.snap-media-body p {
+    display: none;
+}
+
+.path-mod #page-header{
+background: none;
 }

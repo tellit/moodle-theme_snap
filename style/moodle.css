@@ -18006,7 +18006,7 @@ h4.snap-asset-link .instancename {
   padding: 0;
 }
 .section li.snap-asset .activityinstance {
-  padding: 0 2.2em 1em;
+  padding: 0 2em 1em;
   height: auto;
 }
 .section li.snap-asset .activityinstance:before,
@@ -18440,12 +18440,12 @@ h4.snap-asset-link {
 }
 span.stepper-complete {
   position: absolute;
-  left: -26px;
-  top: -10px;
+  left: -31px;
+  top: -15px;
   background: #E2CC00;
-  border-radius: 2em;
-  width: 50px;
-  height: 50px;
+  border-radius: 3em;
+  width: 63px;
+  height: 63px;
   line-height: 2.2em;
   color: #fdfdfd;
   text-indent: 8px;
@@ -18453,43 +18453,43 @@ span.stepper-complete {
   -webkit-font-feature-settings: 'lnum';
      -moz-font-feature-settings: 'lnum';
           font-feature-settings: 'lnum';
-  border: solid #fdfdfd 10px;
+  border: solid #fdfdfd 16px;
 }
 span.stepper-current {
   position: absolute;
-  left: -26px;
-  top: -10px;
+  left: -31px;
+  top: -15px;
   background: #00759B;
-  border-radius: 2em;
-  width: 50px;
-  height: 50px;
+  border-radius: 3em;
+  width: 63px;
+  height: 63px;
   text-indent: 11px;
-  line-height: 2.2em;
+  line-height: 2.3em;
   color: #fff;
   font-size: .7em;
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
   -webkit-font-feature-settings: 'lnum';
      -moz-font-feature-settings: 'lnum';
           font-feature-settings: 'lnum';
-  border: solid #fdfdfd 10px;
+  border: solid #fdfdfd 16px;
 }
 span.stepper-future {
   position: absolute;
-  left: -26px;
-  top: -10px;
+  left: -31px;
+  top: -15px;
   background: #00759B;
-  border-radius: 2em;
-  width: 50px;
-  height: 50px;
+  border-radius: 3em;
+  width: 63px;
+  height: 63px;
   text-indent: 11px;
-  line-height: 2.2em;
+  line-height: 2.3em;
   color: #fff;
   font-size: .7em;
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
   -webkit-font-feature-settings: 'lnum';
      -moz-font-feature-settings: 'lnum';
           font-feature-settings: 'lnum';
-  border: solid #fdfdfd 10px;
+  border: solid #fdfdfd 16px;
 }
 li.unavailable h4 {
   color: #888;
@@ -20961,9 +20961,6 @@ ol#chapters li.current a {
   #course-toc {
     margin: 0 auto -0.5em;
   }
-  .mast-image #course-toc {
-    margin-top: 6.6vh;
-  }
 }
 #toc-search {
   float: right;
@@ -23348,7 +23345,8 @@ body.hascontinuecancel.path-site #page {
 .next_activity_link {
   margin: 0 auto;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
-  max-width: 940px;
+  max-width: 960px;
+  padding: 0 10px;
 }
 .next_activity_text {
   text-align: right;
@@ -23496,7 +23494,7 @@ body.hascontinuecancel.path-site #page {
 }
 #moodle-footer {
   padding-top: 2em;
-  padding-bottom: 2.3em;
+  padding-bottom: 3.3em;
   clear: both;
   color: #eae9e7;
   background-color: #333;
@@ -23537,7 +23535,7 @@ img.cass-logo {
   float: left;
   width: 255px;
   height: 74px;
-  margin: 0 0 0 1%;
+  margin: 0 0 0 30px;
 }
 /* Moodle error, reports, all that stuff in the footer */
 #page-footer {
@@ -24148,7 +24146,7 @@ a:visited,
 }
 a:focus,
 .dropdown-toggle:focus {
-  outline: 3px solid #b02a1a;
+  outline: 1px dotted #b02a1a;
 }
 a:active,
 .dropdown-toggle:active,
@@ -24208,6 +24206,7 @@ a:hover,
 }
 #region-main textarea {
   width: 100%;
+  white-space: normal;
 }
 @media screen and (min-width: 62em) {
   #page-mod-hsuforum-view #region-main {
@@ -25362,12 +25361,15 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
     float: left;
     padding-right: 1em;
   }
+  .activity-info {
+    float: left;
+  }
   .col-md-4 .activity-time {
     padding: 0 0 1em;
   }
   .activity-type .activity-info:after {
     content: "|";
-    padding-left: 1em;
+    padding: 0 1em;
   }
   #intro.generalbox {
     float: left;
@@ -25412,7 +25414,7 @@ span.dropcap_inner {
   padding: .1em 0 0.3em;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   font-size: .9em;
-  color: #666;
+  color: #888;
 }
 .holder {
   position: relative;
@@ -25420,7 +25422,7 @@ span.dropcap_inner {
   padding-top: 35px;
   height: 0;
   overflow: hidden;
-  margin: 1em 0px 3em;
+  margin: 1em 0 3em;
 }
 iframe {
   position: absolute;
@@ -25495,7 +25497,7 @@ h4.modal-title.activitycompletemodal-title {
 }
 .activitycompletemodal-body p {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
-  margin: 0 2em 2.75em 0;
+  margin: 0 2em 1.15em 0;
 }
 span.activitycompletecurrentmodname {
   font-weight: bold;
@@ -25526,7 +25528,7 @@ a.activitycompletenextmodlink {
 }
 .activitycompletemodal-content span.glyphicon.glyphicon-arrow-right {
   line-height: .8em;
-  padding-left: 0 0 0 0.4em;
+  padding: 0 0 0 0.4em;
 }
 .activitycompletemodal-footer {
   border: 0;
@@ -25542,7 +25544,7 @@ span.activitycompletenextmodname {
   font-weight: bold;
 }
 .activitycompletemodal-content .closebutton {
-  margin: 1.5em 2em;
+  margin: none;
   width: 25px;
   height: 25px;
 }
@@ -25567,7 +25569,7 @@ span.activitycompletenextmodname {
   display: flex;
 }
 .firstactivityinsection h4:first-child,
-.firstactivityinsection h2:first-child {
+.firstactivityinsection #region-main h2:first-child {
   background: #b02a1a;
   color: white;
   margin: -10% -300% 0;
@@ -25580,11 +25582,11 @@ span.activitycompletenextmodname {
 .path-course-view #region-main {
   /*width: calc(~"81%" - unit(@coursenav, px)); */
   float: right;
-  margin: 7.1em -webkit-calc(50% - 374px) 0 0;
-  margin: 7.1em calc(50% - 374px) 0 0;
+  margin: 7.1em -webkit-calc(50% - 263px) 0 0;
+  margin: 7.1em calc(50% - 263px) 0 0;
   /*min-height: 98vh;*/
   padding: 0;
-  max-width: 728px;
+  max-width: 524px;
   width: 100%;
 }
 @media screen and (max-width: 1200px) {
@@ -25673,7 +25675,7 @@ span.text {
 .path-course #page-header {
   background-image: none;
 }
-input[type="file"] {
+input[type="file"].closebutton {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -25757,5 +25759,20 @@ h4.snap-asset-link.snap-activity-current {
   }
 }
 .col-md-12 {
-  padding: 1em 0px 3em;
+  padding: 0;
+}
+.path-mod-feedback .box.boxaligncenter {
+  max-width: 626px;
+  float: right;
+  width: 100%;
+  padding: 0 0 3.15em;
+}
+.activityinstance .instancename {
+  display: none;
+}
+.snap-media-body p {
+  display: none;
+}
+.path-mod #page-header {
+  background: none;
 }
