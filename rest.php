@@ -42,7 +42,7 @@ require_login($course, false, $cm, false, true);
 $PAGE->set_context($context);
 $PAGE->set_url('/theme/snap/rest.php', array('action' => $action, 'contextid' => $context->id));
 $PAGE->set_course($course);
-$PAGE->set_cm($cm);
+if (is_object($cm)) $PAGE->set_cm($cm);
 
 $router = new router();
 
