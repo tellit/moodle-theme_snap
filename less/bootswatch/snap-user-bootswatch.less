@@ -34,7 +34,7 @@
 // Typography
 // -------------------------
 // Reset - overwrites inline style tags
-
+ 
 .news-article-message *[style],
 .snap-image-summary *[style],
 .summary-text *[style],
@@ -395,11 +395,6 @@ a[href="#sections"] {
 .moodle-actionmenu[data-enhanced].show .menu a:focus {
     color: @brand-primary;
     background-color: transparent;
-}
-
-/* activities */
-.current .sectionname {
-    color: @brand-primary;
 }
 
 // yui-bs overrides
@@ -1712,12 +1707,12 @@ span.activitycompletenextmodname {
 }    
 
     #page-header {
-    width: 208.8px;
+    min-width: 312.2px; 
     float: left; 
 } 
     h2.sectionname {
     text-align: center;
-    font-size: 3em;
+    font-size: 3.15em;
 }
     .section .summary {
     text-align: center;
@@ -1917,4 +1912,105 @@ display: none;
 
 .path-mod #page-header{
 background: none;
+}
+
+.outoftotal {
+    color: @gray-light;
+}
+
+.background-video {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+
+}
+
+.background-video iframe {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+}  
+
+#page-login-index .loginpanel h2 {
+    background-image: url(http://s1.city.ac.uk/cassrmain/i/cass-logo-1894.svg);
+}
+
+.loginpanel {
+    padding: 0em 0 1.68em;
+}
+
+.forgetpass {
+    text-align: center;
+    line-height: 1em;
+    float: right;
+    font-size: .9em;
+}
+
+.forgetpass a {
+    color: @gray-light;
+}
+
+.accreditation a {
+    display: block;
+    padding: .2em;
+    background: transparent url(http://s1.city.ac.uk/cassrmain/i/footer/accreditation-sprite.png) no-repeat 0 0;
+    text-indent: -99999px;
+    height: 41px;
+}
+
+.accreditation-aacsb a {
+    width: 40px;
+    background-position: -159px 0;
+}
+
+.accreditation-mbas a {
+    width: 81px;
+    background-position: 0 0;
+}
+
+.accreditation-equis a {
+    width: 58px;
+    background-position: -91px 0;
+}
+
+ul.accreditation-list li {
+    display: inline-flex;
+    padding: 0 1em 0 0;
+}
+
+ul.accreditation-list {
+    padding-top: 1em;
+}
+
+#page-login-index #region-main {
+    padding: 0px 0 11em;
+}
+
+.loginbox input[type="submit"] {
+    float: left;
+}
+
+#page-login-index a#loginbtn.forgetpass {
+    color: #888;
+    padding: 1em 0 1em .75em;
+}
+
+#moodle-page ol#chapters li a.current + .text-success {
+    background: @text-color;
+    color: @body-bg;
+     border-radius: 1em;
+    padding: .15em .5em .1em;
+    font-weight: normal;
+    float: right;
+    margin: .15em 10em 0 0;
+    font-size: .78em;
+} 
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: @body-bg;
+}   
+
+#fixy-my-courses .courseinfo h3 a, #fixy-my-courses .courseinfo a:visited {
+    color: @text-color;
 }

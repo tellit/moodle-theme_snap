@@ -3109,7 +3109,7 @@ h4.snap-asset-link .instancename {
   background-size: 70px auto;
   box-shadow: none;
   background-color: transparent;
-  border-left: 1px solid #888;
+  border-left: 1px solid #bbb;
   border-radius: 0;
 }
 .section li.snap-asset .asset-wrapper {
@@ -3120,7 +3120,7 @@ h4.snap-asset-link .instancename {
   padding: 0;
 }
 .section li.snap-asset .activityinstance {
-  padding: 0 2em 1em;
+  padding: 0 2.2em 1em;
   height: auto;
 }
 .section li.snap-asset .activityinstance:before,
@@ -3581,7 +3581,7 @@ span.stepper-future {
   position: absolute;
   left: -31px;
   top: -15px;
-  background: #00759B;
+  background: #666;
   border-radius: 3em;
   width: 63px;
   height: 63px;
@@ -4578,27 +4578,66 @@ table.boxwidthwide {
   overflow: hidden;
   background: no-repeat center center;
   background-size: contain;
-  margin: 0;
+  position: relative;
+  margin: 0 auto;
+  z-index: 1;
+  height: 2.4em;
 }
 #page-login-index .loginbox {
   float: none;
-  padding: 1em 4%;
+  padding: .68em 4% 1em;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #fdfdfd;
   margin: 2em auto;
-  max-width: 30em;
+  max-width: 31.3em;
   left: 0;
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.5);
+}
+#page-login-index .loginbox .loginform .form-input input[type="text"],
+#page-login-index .loginbox .loginform .form-input input[type="password"] {
+  border-width: 0 0 1px 0;
+  box-shadow: none;
 }
 #page-login-index #loginbtn {
   display: block;
-  width: 100%;
   margin: 1em 0;
+  box-shadow: none;
+  background: none;
+  color: #b02a1a;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  font-size: .8em;
+  margin-left: -0.7em;
+  font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
+}
+#page-login-index #loginbtn:hover {
+  background: #eae9e7;
+  text-decoration: none;
+}
+#page-login-index #loginbtn:active {
+  background: #d7d5d1;
+  text-decoration: none;
 }
 #page-login-index .signuppanel > h2 {
   display: none;
 }
 #page-login-index #moodle-footer {
   margin-top: 0;
+  padding: 2em 1% 3.3em;
+  font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
+  font-size: .8em;
+  color: #888;
+}
+#page-login-index #moodle-footer span[itemprop="name"] {
+  font-weight: bold;
+  color: #fdfdfd;
+}
+#page-login-index #moodle-footer a {
+  color: #888;
+}
+#page-login-index #moodle-footer ul.legal,
+#page-login-index #moodle-footer ul.social {
+  list-style-type: none;
 }
 /* animations */
 @keyframes snap-drop {
@@ -5096,10 +5135,12 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
 .icon-arrow-left:before {
   background: transparent url("[[pix:theme|left-arrow]]") no-repeat 50% 50%;
 }
-#page-header,
-#page-login-index #page {
+#page-header {
   background-position: center top;
   background-size: cover;
+}
+#page-login-index #page {
+  background-color: #333;
 }
 #logo {
   display: none;
@@ -5799,12 +5840,11 @@ body:not(.format-topics):not(.format-weeks) .toc-footer {
   display: none;
 }
 ol#chapters li {
-  padding: 1em 0;
-  border-bottom: 1px dotted;
+  padding: .68em 0;
+  border-bottom: 1px dotted #888;
   list-style-position: inside;
   min-height: 63px;
   color: #333;
-  opacity: .7;
 }
 ol#chapters li a {
   color: #333;
@@ -8154,12 +8194,12 @@ body.hascontinuecancel.path-site #page {
   color: white;
 }
 .next_activity_overlay button {
-  background-color: #d8c300;
+  background-color: #a72819;
 }
 .next_activity_overlay button:active,
 .next_activity_overlay button:focus,
 .next_activity_overlay button:hover {
-  background-color: #af9e00;
+  background-color: #841f13;
 }
 .next_activity_area {
   background: #eae9e7;
@@ -9291,10 +9331,6 @@ a[href="#sections"] {
   color: #b02a1a;
   background-color: transparent;
 }
-/* activities */
-.current .sectionname {
-  color: #b02a1a;
-}
 .yui-skin-sam .yuimenu a.yuimenuitemlabel:hover,
 .yui-bootstrapped .yuimenu a.yuimenuitemlabel:hover,
 .yui-skin-sam .yuimenu a.yuimenuitemlabel:focus,
@@ -10379,12 +10415,12 @@ span.activitycompletenextmodname {
   }
 }
 .path-course-view #page-header {
-  width: 208.8px;
+  min-width: 312.2px;
   float: left;
 }
 .path-course-view h2.sectionname {
   text-align: center;
-  font-size: 3em;
+  font-size: 3.15em;
 }
 .path-course-view .section .summary {
   text-align: center;
@@ -10551,6 +10587,90 @@ h4.snap-asset-link.snap-activity-current {
 }
 .path-mod #page-header {
   background: none;
+}
+.outoftotal {
+  color: #888;
+}
+.background-video {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.background-video iframe {
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+}
+#page-login-index .loginpanel h2 {
+  background-image: url(http://s1.city.ac.uk/cassrmain/i/cass-logo-1894.svg);
+}
+.loginpanel {
+  padding: 0em 0 1.68em;
+}
+.forgetpass {
+  text-align: center;
+  line-height: 1em;
+  float: right;
+  font-size: .9em;
+}
+.forgetpass a {
+  color: #888;
+}
+.accreditation a {
+  display: block;
+  padding: .2em;
+  background: transparent url(http://s1.city.ac.uk/cassrmain/i/footer/accreditation-sprite.png) no-repeat 0 0;
+  text-indent: -99999px;
+  height: 41px;
+}
+.accreditation-aacsb a {
+  width: 40px;
+  background-position: -159px 0;
+}
+.accreditation-mbas a {
+  width: 81px;
+  background-position: 0 0;
+}
+.accreditation-equis a {
+  width: 58px;
+  background-position: -91px 0;
+}
+ul.accreditation-list li {
+  display: inline-flex;
+  padding: 0 1em 0 0;
+}
+ul.accreditation-list {
+  padding-top: 1em;
+}
+#page-login-index #region-main {
+  padding: 0px 0 11em;
+}
+.loginbox input[type="submit"] {
+  float: left;
+}
+#page-login-index a#loginbtn.forgetpass {
+  color: #888;
+  padding: 1em 0 1em .75em;
+}
+#moodle-page ol#chapters li a.current + .text-success {
+  background: #333;
+  color: #fdfdfd;
+  border-radius: 1em;
+  padding: .15em .5em .1em;
+  font-weight: normal;
+  float: right;
+  margin: .15em 10em 0 0;
+  font-size: .78em;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  background-color: #fdfdfd;
+}
+#fixy-my-courses .courseinfo h3 a,
+#fixy-my-courses .courseinfo a:visited {
+  color: #333;
 }
 body {
   margin: 8px;
