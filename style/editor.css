@@ -5139,7 +5139,7 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
   background-position: center top;
   background-size: cover;
 }
-#page-login-index #page {
+body#page-login-index #page {
   background-color: #333;
 }
 #logo {
@@ -10596,6 +10596,11 @@ h4.snap-asset-link.snap-activity-current {
   left: 0;
   top: 0;
   width: 100%;
+}
+@media screen and (max-width: 1200px) {
+  .background-video {
+    display: none;
+  }
 }
 .background-video iframe {
   position: absolute;
