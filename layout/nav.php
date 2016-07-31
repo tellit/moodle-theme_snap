@@ -27,11 +27,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 use theme_snap\renderables\settings_link;
+use theme_snap\renderables\bb_dashboard_link;
 
 ?>
 <header id='mr-nav' class='clearfix moodle-has-zindex'>
 <div class="pull-right">
-<?php 
+<?php
+    $bblink = new bb_dashboard_link();
+    echo $OUTPUT->render($bblink);
     echo $OUTPUT->fixed_menu();
     $settingslink = new settings_link();
     echo $OUTPUT->render($settingslink);
@@ -40,10 +43,17 @@ use theme_snap\renderables\settings_link;
 
 <?php
     $sitefullname = format_string($SITE->fullname);
+    $attrs = array(
+        'aria-label' => get_string('home', 'theme_snap'),
+        'id' => 'snap-home',
+        'title' => $sitefullname,
+    );
     if (!empty($PAGE->theme->settings->logo)) {
         $sitefullname = '<span class="sr-only">'.format_string($SITE->fullname).'</span>';
+        $attrs['class'] = 'logo';
     }
-    echo '<a aria-label="'.get_string('home', 'theme_snap').'" href="'. s($CFG->wwwroot).'" id="logo" title="'.s(format_string($SITE->fullname)).'">'.$sitefullname.'</a>';
+
+    echo html_writer::link($CFG->wwwroot, $sitefullname, $attrs);
 ?>
 <?php
     if (!empty($PAGE->theme->settings->breadcrumbsinnav)) {

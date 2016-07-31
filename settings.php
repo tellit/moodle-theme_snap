@@ -93,12 +93,23 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'poster', 0, $opts);
     $setting->set_updatedcallback('theme_snap_process_site_coverimage');
     $settings->add($setting);
-   
+
+
     // Personal menu settings
     $name = 'theme_snap/personalmenu';
     $title = new lang_string('personalmenu', 'theme_snap');
     $description = new lang_string('footerheadingdesc', 'theme_snap');
     $setting = new admin_setting_heading($name, $title, $description);
+    $settings->add($setting);
+
+    // Personal menu display on login on/off.
+    $name = 'theme_snap/personalmenulogintoggle';
+    $title = new lang_string('personalmenulogintoggle', 'theme_snap');
+    $description = new lang_string('personalmenulogintoggledesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $settings->add($setting);
 
     // Personal menu deadlines on/off.

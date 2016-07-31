@@ -41,16 +41,6 @@ class theme_snap_local_test extends \advanced_testcase {
         require_once($CFG->dirroot.'/mod/assign/tests/base_test.php');
     }
 
-    public function test_grade_warning_debug_off() {
-        global $CFG;
-
-        $this->resetAfterTest();
-        $CFG->debugdisplay = 0;
-
-        $actual = local::skipgradewarning("warning text");
-        $this->assertNull($actual);
-    }
-
     public function test_get_course_color() {
         $actual = local::get_course_color(1);
         $this->assertSame('c4ca42', $actual);
@@ -673,6 +663,114 @@ class theme_snap_local_test extends \advanced_testcase {
         $this->assertSame($actual, $expected);
     }
 
+    public function test_one_message() {
+        $this->resetAfterTest();
+
+        $generator = $this->getDataGenerator();
+
+        $userfrom = $generator->create_user();
+        $userto = $generator->create_user();
+
+        $message = new \core\message\message();
+        $message->component         = 'moodle';
+        $message->name              = 'instantmessage';
+        $message->userfrom          = $userfrom;
+        $message->userto            = $userto;
+        $message->subject           = 'message subject 1';
+        $message->fullmessage       = 'message body';
+        $message->fullmessageformat = FORMAT_MARKDOWN;
+        $message->fullmessagehtml   = '<p>message body</p>';
+        $message->smallmessage      = 'small message';
+        $message->notification      = '0';
+
+        message_send($message);
+        $aftersent = time();
+
+        $actual = local::get_user_messages($userfrom->id);
+        $this->assertCount(0, $actual);
+
+        $actual = local::get_user_messages($userto->id);
+        $this->assertCount(1, $actual);
+        $this->assertSame($actual[0]->subject, "message subject 1");
+
+        $actual = local::get_user_messages($userto->id, $aftersent);
+        $this->assertCount(0, $actual);
+    }
+
+
+    public function test_one_message_deleted() {
+        global $DB;
+        
+        $this->resetAfterTest();
+
+        $generator = $this->getDataGenerator();
+
+        $userfrom = $generator->create_user();
+        $userto = $generator->create_user();
+
+        $message = new \core\message\message();
+        $message->component         = 'moodle';
+        $message->name              = 'instantmessage';
+        $message->userfrom          = $userfrom;
+        $message->userto            = $userto;
+        $message->subject           = 'message subject 1';
+        $message->fullmessage       = 'message body';
+        $message->fullmessageformat = FORMAT_MARKDOWN;
+        $message->fullmessagehtml   = '<p>message body</p>';
+        $message->smallmessage      = 'small message';
+        $message->notification      = '0';
+
+        $messageid = message_send($message);
+        $aftersent = time();
+
+        $actual = local::get_user_messages($userfrom->id);
+        $this->assertCount(0, $actual);
+
+        $actual = local::get_user_messages($userto->id);
+        $this->assertCount(1, $actual);
+
+        $todelete = $DB->get_record('message', ['id' => $messageid]);
+        message_delete_message($todelete, $userto->id);
+        $actual = local::get_user_messages($userto->id);
+        $this->assertCount(0, $actual);
+    }
+
+    public function test_one_message_user_deleted() {
+        global $DB;
+
+        $this->resetAfterTest();
+
+        $generator = $this->getDataGenerator();
+
+        $userfrom = $generator->create_user();
+        $userto = $generator->create_user();
+
+        $message = new \core\message\message();
+        $message->component         = 'moodle';
+        $message->name              = 'instantmessage';
+        $message->userfrom          = $userfrom;
+        $message->userto            = $userto;
+        $message->subject           = 'message subject 1';
+        $message->fullmessage       = 'message body';
+        $message->fullmessageformat = FORMAT_MARKDOWN;
+        $message->fullmessagehtml   = '<p>message body</p>';
+        $message->smallmessage      = 'small message';
+        $message->notification      = '0';
+
+        $messageid = message_send($message);
+        $aftersent = time();
+
+        $actual = local::get_user_messages($userfrom->id);
+        $this->assertCount(0, $actual);
+
+        $actual = local::get_user_messages($userto->id);
+        $this->assertCount(1, $actual);
+
+        delete_user($userfrom);
+        $actual = local::get_user_messages($userto->id);
+        $this->assertCount(0, $actual);
+    }
+
     public function test_no_grading() {
         $actual = local::grading();
         $expected = '<p>You have no submissions to grade.</p>';
@@ -842,6 +940,22 @@ class theme_snap_local_test extends \advanced_testcase {
         $this->assertEquals($user1->id, $USER->id);
         local::swap_global_user(false);
         $this->assertEquals($originaluserid, $USER->id);
+    }
+
+    public function test_current_url_path() {
+        global $PAGE;
+
+        // Note, $CFG->wwwroot is set to http://www.example.com/moodle which is ideal for this test.
+        // We want to make sure we can get the local path whilst moodle is in a subpath of the url.
+
+        $this->resetAfterTest();
+        $PAGE->set_url('/course/view.php', array('id' => 1));
+        $urlpath = $PAGE->url->get_path();
+        $expected = '/moodle/course/view.php';
+        $this->assertEquals($expected, $urlpath);
+        $localpath = local::current_url_path();
+        $expected = '/course/view.php';
+        $this->assertEquals($expected, $localpath);
     }
 
 }

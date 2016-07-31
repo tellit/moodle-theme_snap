@@ -21,7 +21,7 @@
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+defined('MOODLE_INTERNAL') || die();
 // If the embedcurrentactivity theme setting is set and a URL parameter
 // of embed is set (to true), output nothing but the activity mod content.
 // This allows the course page to 'scrape' the first page of the activity.
@@ -36,6 +36,7 @@ if ($this->page->theme->settings->embedcurrentactivity) {
 }
 
 include(__DIR__.'/header.php');
+use theme_snap\local;
 
 // By default, assume we are not on a mod page.
 $ismodpage = false;
@@ -103,7 +104,7 @@ if ($PAGE->pagetype == 'site-index') {
 <?php
 if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
     $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingsnap'], 'admin-poster');
-    echo html_writer::link($url, get_string('changecoverimage', 'theme_snap'), ['class' => 'btn btn-default btn-sm']);
+    echo html_writer::link($url, get_string('changecoverimage', 'theme_snap'), ['class' => 'btn btn-inverse btn-sm']);
 }
 ?>
 </div>
@@ -132,12 +133,10 @@ if ($hasadminbutton) {
         '/theme/index.php',
         '/user/editadvanced.php',
         '/user/profile/index.php',
-
-        '/my/indexsys.php',
         '/mnet/service/enrol/index.php',
         '/local/mrooms/view.php'
     );
-    $pagepath = $PAGE->url->get_path();
+    $pagepath = local::current_url_path();
 
     foreach ($editbuttonblacklist as $blacklisted) {
         if ($blacklisted[0] == '|' && $blacklisted[strlen($blacklisted) - 1] == '|') {

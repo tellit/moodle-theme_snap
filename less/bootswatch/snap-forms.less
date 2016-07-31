@@ -24,7 +24,7 @@
 // "I set the following fields to these values". More specifically, the error is because expand_all_fields in
 // behat_forms.php doesn't handle errors with .moreless-toggler not being visible (it handles it not being there but
 // not hidden).
-body:not(.behat-site-running) {
+body:not(.behat-site) {
     // Hide form elements.
     &#page-mod-resource-mod #id_optionssection,
     &#page-mod-url-mod #id_optionssection {
@@ -35,7 +35,7 @@ body:not(.behat-site-running) {
     #id_generalhdr .ftoggler,
     #id_general .ftoggler {
         display: none;
-    } 
+    }
 }
 
 // Hide "There are required fields in this form marked *" message.
@@ -112,12 +112,17 @@ body:not(.behat-site-running) {
 
 #id_cancel {
     .btn-link;
+    font-weight: 300;
     margin-left: 2em;
 }
 
 #fitem_id_outcomes .yui3-moodle-core_outcome-mapoutcome-content-wrapper ul {
     padding-left: 4%;
     margin-left: 0;
+}
+
+.btn .badge {
+    color: #fff;
 }
 
 // -------------------------

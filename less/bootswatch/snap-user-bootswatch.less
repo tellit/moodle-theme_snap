@@ -34,7 +34,7 @@
 // Typography
 // -------------------------
 // Reset - overwrites inline style tags
- 
+
 .news-article-message *[style],
 .snap-image-summary *[style],
 .summary-text *[style],
@@ -220,20 +220,34 @@ font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
     font-family: @font-family-serif;
 }
 
-.fixy-trigger {
-    &:hover {
-        background-color: fade(@brand-primary, 75%);
-    }
-
+#fixy-trigger {
     .message_badge_count {
         background-color: darken(@brand-primary, 8%);
     }
 }
 
-.fixy {
+.courseinfo-teachers-more {
+    &:hover {
+        border-color: @brand-primary ;
+    }
+}
 
-    .label-success {
-        color: @brand-primary;
+
+#fixy-user {
+    background-color: @brand-primary;
+}
+
+.fixy .label-success {
+    color: @brand-primary;
+}
+
+.fixy .fixy-header {
+    //background-color: @brand-primary;
+}
+
+#fixy-mobile-menu {
+    .svg-icon {
+        border: 1px solid @brand-primary;
     }
 }
 
@@ -241,21 +255,8 @@ font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
     color: @brand-primary;
 }
 
-// course management page pagination yui buttons
 #course-category-listings .listing-pagination .yui3-button,
-.paging.paging-morelink a {
-    background-color: @brand-primary;
-    border-color: @brand-primary;
-
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-        background-color: darken(@brand-primary, 8%);
-        border-color: darken(@brand-primary, 12%);
-    }
-}
-
+.paging.paging-morelink a,
 #changenumsections .increase-sections,
 #changenumsections .reduce-sections,
 input.form-submit,
@@ -265,16 +266,25 @@ input#id_submitbutton2,
 td.submit input,
 #notice .singlebutton + .singlebutton input,
 #login.fixy input[type=submit],
-button,
+button#local-joulegrader-preview-button,
+button.atto_equation_submit,
 .yui-skin-sam .yui-button,
 .yui3-button,
 .yui-button button,
-.btn,
+.felement.ftext input + button,
+.header-button-group .btn,
+.btn.btn-primary,
+.btn.btn-default,
+.button-group > button,
 input.form-submit,
 input[type="button"],
+.moodle-dialogue-content button,
+button#restrictbygroup,
+button#livelogs-pause-button,
+#page-admin-tool-monitor-managerules a > button,
 input[type="submit"],
+button[type="submit"],
 input[type="reset"],
-#page-mast .snap-login-button,
 #page-site-index .section-modchooser-link .section-modchooser-text {
   background-color: @brand-primary;
   border: 0;
@@ -299,27 +309,51 @@ input[type="reset"],
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     //transition: all 0.4s ease-in-out;
 
+
     &:hover,
     &:focus,
     &:active,
     &.active {
-        background-color: darken(@brand-primary, 8%);
+        background-color: @brand-primary;
         color: #fff;
+        border-color: @brand-primary;
         text-decoration: none;
     }
 
-    &:visited {
-        color: #fff;
-    }
 
     &[disabled] {
-        background-color: @brand-primary;
+        opacity: 0.65;
     }
 }
+
+.btn.btn-inverse {
+    background-color: @brand-primary;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: @brand-primary;
+        border-color: @brand-primary;
+    }
+}
+
+.btn.btn-success,
+.btn.btn-info,
+.btn.btn-warning,
+.btn.btn-danger,
+.btn.btn-inverse,
+.btn.btn-link {
+    font-family: @font-family-base;
+    transition: all 0.4s ease-in-out;
+    border-radius: 4px;
+}
+
 
 #id_cancel {
     color: @brand-primary;
 
+    &:focus,
     &:hover {
         color: darken(@brand-primary, 8%);
     }
@@ -382,6 +416,10 @@ input[type="reset"],
     #region-main {
         background-color: @brand-primary;
     }
+}
+
+#snap-login .subcontent.potentialidps {
+    border-top:1px solid @brand-primary;
 }
 
 /* highlight selected menu iteam logic */
@@ -479,6 +517,7 @@ a[href="#sections"] {
     }
 }
 
+.yui-bootstrapped,
 .yui-skin-sam {
     .yui3-tabview-list {
         .yui3-tab-label {

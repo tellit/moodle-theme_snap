@@ -24,6 +24,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 include_once('general_section_trait.php');
 
 trait format_section_trait {
@@ -134,10 +136,10 @@ trait format_section_trait {
         $baseurl->param('sesskey', sesskey());
 
         $controls = array();
-        
+
         if (!$isstealth && !$onsectionpage && has_capability('moodle/course:movesections', $coursecontext)) {
             $url = '#section-'.$section->section;
-            $snap_move_section = "<img class='svg-icon' src='".$this->output->pix_url('move', 'theme')."'>";
+            $snap_move_section = "<img class='svg-icon' alt='' role='presentation' src='".$this->output->pix_url('move', 'theme')."'>";
             $movestring = get_string('move', 'theme_snap', format_string($section->name));
             $controls[] = html_writer::link($url, $snap_move_section ,
             array('title' => $movestring, 'alt' => $movestring, 'class' => 'snap-move', 'data-id' => $section->section));
@@ -175,7 +177,7 @@ trait format_section_trait {
                     'class' => 'icon delete', 'alt' => $strdelete)),
                 array('title' => $strdelete));
         }
-        
+
         if ($course->format === 'topics') {
             if (!$isstealth && has_capability('moodle/course:setcurrentsection', $coursecontext)) {
                 $url = clone($baseurl);
@@ -505,10 +507,27 @@ trait format_section_trait {
         ));
 
         $required = '';
+        $defaulttitle = get_string('title', 'theme_snap');
+        $sectionnum = $course->numsections;
         if ($course->format === 'topics') {
             $required = 'required';
+        } else {
+            // Take this part of code from /course/format/weeks/lib.php on functions
+            // get_section_name($section) and get_section_dates($section).
+            $oneweekseconds = 60*60*24*7;
+            // Hack alert. We add 2 hours to avoid possible DST problems. (e.g. we go into daylight
+            // savings and the date changes.
+            $startdate = $course->startdate + (60 * 60 *2);
+            $dates = new stdClass();
+            $dates->start = $startdate + ($oneweekseconds * $sectionnum);
+            $dates->end = $dates->start + $oneweekseconds;
+            // We subtract 24 hours for display purposes.
+            $dates->end = ($dates->end - (60 * 60 * 24));
+            $dateformat = get_string('strftimedateshort');
+            $weekday = userdate($dates->start, $dateformat);
+            $endweekday = userdate($dates->end, $dateformat);
+            $datesection = $weekday.' - '.$endweekday;
         }
-
         $heading = get_string('addanewsection', 'theme_snap');
         $output = "<section id='snap-add-new-section' class='clearfix' tabindex='-1'>
         <h3>$heading</h3>";
@@ -519,7 +538,11 @@ trait format_section_trait {
         $output .= html_writer::input_hidden_params($url);
         $output .= '<div class="form-group">';
         $output .= "<label for='newsection' class='sr-only'>".get_string('title', 'theme_snap')."</label>";
-        $output .= "<input class='h3' id='newsection' type='text' maxlength='250' name='newsection' $required placeholder='".get_string('title', 'theme_snap')."'>";
+        if ($course->format === 'topics') {
+            $output .= "<input class='h3' id='newsection' type='text' maxlength='250' name='newsection' $required placeholder='".get_string('title', 'theme_snap')."'>";
+        } else {
+            $output .= "<h3>".$defaulttitle.': '.$datesection."</h3>";
+        }
         $output .= '</div>';
         $output .= '<div class="form-group">';
         $output .= "<label for='summary'>".get_string('contents', 'theme_snap')."</label>";
@@ -560,7 +583,7 @@ trait format_section_trait {
         $urlparams = array('section' => $section);
             // S Lamour Aug 2015 - show activity picker
             // moodle is adding a link around the span in a span with js - yay!! go moodle...
-            $modchooser = "<div class='snap-modchooser btn section_add_menus'>
+            $modchooser = "<div class='snap-modchooser btn btn-default section_add_menus'>
               <span class='section-modchooser-link'><span>".get_string('addresourceoractivity', 'theme_snap')."</span></span>
             </div>";
            $output = $this->courserenderer->course_modchooser($modules, $course) . $modchooser;

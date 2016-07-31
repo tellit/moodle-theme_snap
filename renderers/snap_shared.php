@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use theme_snap\local;
+
 class snap_shared extends renderer_base {
 
     /**
@@ -241,30 +243,36 @@ class snap_shared extends renderer_base {
         }
 
         // Require various strings for the command toolbox
-        $PAGE->requires->strings_for_js(array(
-            'moveleft',
+        $PAGE->requires->strings_for_js([
+            'afterresource',
+            'aftersection',
+            'clicktochangeinbrackets',
             'deletechecktype',
             'deletechecktypename',
             'edittitle',
             'edittitleinstructions',
-            'show',
-            'hide',
+            'emptydragdropregion',
             'groupsnone',
             'groupsvisible',
             'groupsseparate',
-            'clicktochangeinbrackets',
+            'hide',
             'markthistopic',
             'markedthistopic',
+            'moveleft',
             'movesection',
             'movecoursemodule',
             'movecoursesection',
             'movecontent',
+            'ok',
+            'show',
             'tocontent',
-            'emptydragdropregion',
-            'afterresource',
-            'aftersection',
-            'totopofsection',
-        ), 'moodle');
+            'totopofsection'
+        ], 'moodle');
+
+        $PAGE->requires->strings_for_js([
+            'error:failedtochangeassetvisibility',
+            'error:failedtoduplicateasset'
+        ], 'theme_snap');
 
         // Include section-specific strings for formats which support sections.
         if (course_format_uses_sections($course->format)) {
@@ -287,7 +295,7 @@ class snap_shared extends renderer_base {
     }
 
     /**
-     * Javascript required by both flexpage layout and header layout
+     * Javascript required by both standard header layout and flexpage layout
      *
      * @return void
      */
@@ -304,6 +312,7 @@ class snap_shared extends renderer_base {
             'forumpicturegroup',
             'forumreplies',
             'forumlastpost',
+            'hiddencoursestoggle',
             'loading',
             'more',
             'moving',
@@ -324,61 +333,17 @@ class snap_shared extends renderer_base {
         // the param set but that never seems to happen.
         $courseconfig->pageparams = array();
 
-        $module = array(
-            'name' => 'theme_snap_core',
-            'fullpath' => '/theme/snap/javascript/module.js'
-        );
-
-        // We want to have some theme settings available to javascript.
-        // But some theme settings may be sensitive so only pass which settings are required.
-        $required_settings = array('fixheadertotopofpage', 'nextactivitymodaldialogdelay');
-        $theme_settings = array_intersect_key((array)$PAGE->theme->settings, array_flip($required_settings));
-        
-        // We want some information about the activity to be available to javascript on mod pages
-        // There exist various pure javascript techniques for attempting to determine this infomation
-        // from the renderered HTML, but nothing beats being explicit.
-        $mod = null;
-        //Sometimes it is better to test the URL, rather than rely on the pagetype being correct
-        if (explode('-', $PAGE->pagetype)[0] == 'mod') {
-            if (is_object($PAGE->cm)) {
-                $mod = array(
-                    'modname' => $PAGE->cm->modname, 
-                    'context' => $PAGE->cm->context
-                );
-            }
-        }
-                
-        $PAGE->requires->js_init_call('M.theme_snap.core.init',
-          [$COURSE->id, $PAGE->context->id, $courseconfig, $theme_settings, $mod],
-          false,
-          $module
-        );
-
         // Are we viewing /course/view.php - note, this is different from just checking the page type.
         // We only ever want to load course.js when on site page or view.php - no point in loading it when on
         // course settings page, etc.
-        $courseviewpage = stripos($PAGE->url->out_as_local_url(), '/course/view.php') === 0;
+        $courseviewpage = local::current_url_path() === '/course/view.php';
         $pagehascoursecontent = ($PAGE->pagetype === 'site-index' || $courseviewpage);
+
+        $initvars = [$COURSE->id, $PAGE->context->id, $courseconfig, $pagehascoursecontent];
+        $PAGE->requires->js_call_amd('theme_snap/snap', 'snapInit', $initvars);
 
         // Does the page have editable course content?
         if ($pagehascoursecontent && $PAGE->user_allowed_editing()) {
-            $module = array(
-              'name' => 'theme_snap_course',
-              'fullpath' => '/theme/snap/javascript/course.js'
-            );
-
-            $movenoticehtml = '';
-            if ($PAGE->pagetype === 'site-index') {
-                $courserenderer = $PAGE->get_renderer('core', 'course');
-                $movenoticehtml = $courserenderer->snap_move_notice();
-            }
-
-            $PAGE->requires->js_init_call('M.theme_snap.course.init',
-              [$movenoticehtml],
-              true,
-              $module
-            );
-
             $canmanageacts = has_capability('moodle/course:manageactivities', context_course::instance($COURSE->id));
             if ($canmanageacts && empty($USER->editing)) {
                 $modinfo = get_fast_modinfo($COURSE);
@@ -429,6 +394,12 @@ class snap_shared extends renderer_base {
      * @return bool
      */
     public static function gradebook_accessible($context) {
+        global $COURSE;
+
+        // Ask if user has not capabilities and if course is set to not to show the grades to students.
+        if ((!has_capability('gradereport/grader:view', $context)) && ($COURSE->showgrades == 0)) {
+            return false;
+        }
 
         // Find all enabled reports.
         $reports = core_component::get_plugin_list('gradereport');

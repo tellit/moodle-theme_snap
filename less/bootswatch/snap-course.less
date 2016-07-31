@@ -53,22 +53,16 @@ section#region-main
             display: none;
         }
         #page-mast .singlebutton {
-            float: right;
-            margin-top: -3.2em; // MAGIC NUMBER
-            margin-right: -4%; // MAGIC NUMBER
             display: block;
-            input[type="submit"] {
-                background-color: @gray-light !important;
-                box-shadow: 0;
-            }
         }
     }
 }
 
 // Course page  - hide turn editing on link in admin block.
-.pagelayout-course .type_course > ul > li:first-child {
+.pagelayout-course #settingsnav .type_course > ul > li:first-child {
     display: none;
 }
+
 // Do something different to support folderview...
 #page-course-view-folderview .type_course ul > li:first-child {
     display: list-item;
@@ -241,20 +235,19 @@ li.section:focus {
     white-space: normal !important;
 }
 
-// overwrite moodle not showing title for section 0
+// Overwrite moodle not showing title for section 0.
+// Note: This is only relevant to course formats other than topics/weeks as we always spit the sectionname out without
+// the accesshide class in Snap for topics and weeks.
 #section-0 .sectionname.accesshide {
-    position: relative;
-    left: 0;
     font-weight: 300;
     font-size: @font-size-h2;
+    .reset-sr-only;
 }
 
 // except in folder view where the name is spat out twice on single pages
 // this is a folderview bug....
-
 .folderview .sectionname.accesshide {
-    position: absolute;
-    left: -10000px;
+    .sr-only;
 }
 
 .path-course-view .section .summary {
@@ -589,13 +582,6 @@ we do this by default in snap, so hide moodle version */
     background-color: rgba(0,0,0,0.2);
     color: white;
     text-transform: uppercase;
-}
-
-// tag styles for draft/group/contitional meta data
-.snap-groupinglabel,
-.snap-unread-marker,
-.sectiontag {
-    .snap-tag;
 }
 
 .sectiontag {
@@ -942,90 +928,6 @@ li.snap-resource,
 // -------------------------
 // Snap Activity
 // -------------------------
-body#page-course-view-weeks button {
-    background: none;
-    color: #999;
-    box-shadow: none;
-    padding: 0 1em;
-}
-
-h4.snap-asset-link a {
-    color: #333;
-}
-
-h4.snap-asset-link {
-    font-size: 1.1em;
-    color: #333;
-    padding-left: 2em;
-    float: left;
-    margin-top: -1px;
-}
-
-.unavailable .snap-asset-link:before {
-    background: @gray-light;
-}
-
-span.stepper-complete {
-    position: absolute;
-    left: -31px;
-    top: -15px;
-    background: @brand-success;
-    border-radius: 3em;
-    width: 63px;
-    height: 63px;
-    line-height: 2.2em;
-    color: @body-bg;
-    text-indent: 8px;
-    font-size: .7em;
-    font-feature-settings: 'lnum';
-    border: solid @body-bg 16px;
-}
-              
-span.stepper-current {
-    position: absolute;
-    left: -31px;
-    top: -15px;
-    background: @brand-info;
-    border-radius: 3em;
-    width: 63px;
-    height: 63px;
-    text-indent: 11px;
-    line-height: 2.3em;
-    color: #fff;
-    font-size: .7em;
-    font-family: @font-family-monospace;
-    font-feature-settings: 'lnum';
-    border: solid @body-bg 16px;
-}
-
-span.stepper-future {
-    position: absolute;
-    left: -31px;
-    top: -15px;
-    background: @gray;
-    border-radius: 3em;
-    width: 63px;
-    height: 63px;
-    text-indent: 11px;
-    line-height: 2.3em;
-    color: #fff;
-    font-size: .7em;
-    font-family: @font-family-monospace;
-    font-feature-settings: 'lnum';
-    border: solid @body-bg 16px;
-} 
-
-li.unavailable h4 {
-    color: @gray-light;
-}
-
-#page .course-content .content ul.section.img-text {
-    margin: 1em 0 0 .75em;
-}
-
-h2.sectionname {
-    line-height: 1em;
-}
 
 .section li.snap-activity {
     background-image: none;
@@ -1133,14 +1035,14 @@ a.snap-assignment-stage.label.label-warning {
         border-radius: 50%;
         transform: scale(0.75);
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-        
-        &:hover, 
+
+        &:hover,
         &:focus {
             transform: scale(1.04);
             transition: transform 0.3s;
         }
     }
-    
+
     .label {
         margin: 0 1%;
         padding: 0.75em;
@@ -1482,6 +1384,9 @@ span.editinstructions {
     padding-left: 0;
 }
 
+// TODO - audit for usage. A div with the id changenumsections seems to only show when the course page is in edit mode.
+// Snap no longer has an edit mode so this CSS is likely to be redundant.
+// See core format/renderer.php for markup with id of changenumsections.
 #changenumsections {
     .text-center;
 
@@ -1494,8 +1399,7 @@ span.editinstructions {
         }
 
         .accesshide {
-            position: relative;
-            left: 0;
+            .reset-sr-only;
             font-weight: 300;
         }
     }
