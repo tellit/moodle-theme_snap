@@ -26,5 +26,9 @@ $observers = array(
     array (
         'eventname' => '\core\event\course_updated',
         'callback'  => '\theme_snap\event_handlers::course_updated',
+    ),
+    array (
+        'eventname' => '\core\event\user_loggedout',
+        'callback'  => '\theme_snap\event_handlers::user_loggedout',
     )
 );

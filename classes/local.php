@@ -961,6 +961,15 @@ class local {
         }
     }
 
+    // Redirect to specific URL instead of default login page.
+    public static function logout_redirect () {
+        global $redirect;
+        $theme = \theme_config::load('snap');
+        if (!empty($theme->settings->logoutredirection)) {
+            $redirect = $theme->settings->logoutredirection;
+        }
+    }
+    
     /**
      * Get page module instance.
      *

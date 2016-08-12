@@ -4621,23 +4621,24 @@ table.boxwidthwide {
 #page-login-index .signuppanel > h2 {
   display: none;
 }
-#page-login-index #moodle-footer {
+.lang-en #moodle-footer {
   margin-top: 0;
   padding: 2em 1% 3.3em;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   font-size: .8em;
   color: #888;
 }
-#page-login-index #moodle-footer span[itemprop="name"] {
+.lang-en #moodle-footer span[itemprop="name"] {
   font-weight: bold;
   color: #fdfdfd;
 }
-#page-login-index #moodle-footer a {
+.lang-en #moodle-footer a {
   color: #888;
 }
-#page-login-index #moodle-footer ul.legal,
-#page-login-index #moodle-footer ul.social {
+.lang-en #moodle-footer ul.legal,
+.lang-en #moodle-footer ul.social {
   list-style-type: none;
+  padding-top: 2em;
 }
 /* animations */
 @keyframes snap-drop {
@@ -6181,7 +6182,6 @@ ol#chapters li.current a {
 .settingsform,
 .mform,
 #page-mod-page-view #region-main {
-  max-width: 43.5em;
   margin: 0 auto;
 }
 .quickgradingform > .mform {
@@ -8393,10 +8393,9 @@ body.hascontinuecancel.path-site #page {
   display: none;
 }
 img.cass-logo {
-  float: left;
   width: 255px;
   height: 74px;
-  margin: 0 0 0 30px;
+  margin: 0 0 0 10px;
 }
 /* Moodle error, reports, all that stuff in the footer */
 #page-footer {
@@ -10676,6 +10675,45 @@ select:-webkit-autofill {
 #fixy-my-courses .courseinfo h3 a,
 #fixy-my-courses .courseinfo a:visited {
   color: #333;
+}
+dt {
+  padding-top: 1em;
+  line-height: inherit;
+}
+.mo,
+.mn,
+.mi,
+.mfrac,
+mn,
+mo,
+mi,
+msub,
+msup {
+  font-family: "ff-meta-serif-web-pro", Georgia, serif !important;
+  font-size: .8em;
+}
+.mathjax {
+  padding: 0 0 0em 1em;
+}
+.que .formulation > p,
+.que .outcome > p,
+.que .comment > p,
+.que .formulation > ul,
+.que .outcome > ul,
+.que .comment > ul {
+  margin-bottom: inherit;
+}
+.contentafterlink {
+  display: none;
+}
+body#page-user-edit div#fitem_id_theme {
+  display: none;
+}
+body#page-course-edit div#fitem_id_theme {
+  display: none;
+}
+.triple-crown {
+  padding-top: 2em;
 }
 body {
   margin: 8px;

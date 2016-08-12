@@ -259,6 +259,15 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
     $settings->add($setting);
     
+    // Logout redirection
+    $name = 'theme_snap/logoutredirection';
+    $title = new lang_string('logoutredirection', 'theme_snap');
+    $description = new lang_string('logoutredirectiondesc', 'theme_snap');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $settings->add($setting);
+    
     // Functional Heading.
     $name = 'theme_snap/functionalheading';
     $title = new lang_string('functionalheading', 'theme_snap');
