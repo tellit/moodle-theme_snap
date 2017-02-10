@@ -2215,7 +2215,8 @@ a.thumbnail.active {
 .modal-footer:after,
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd:after,
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd:after,
-.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft:after {
+.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft:after,
+#id_s_theme_snap_resourcedisplay:after {
   clear: both;
 }
 .center-block {
@@ -5526,7 +5527,8 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 .coursebox.modal-footer,
 .coursebox.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd,
 .coursebox.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd,
-.coursebox.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft {
+.coursebox.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft,
+.coursebox#id_s_theme_snap_resourcedisplay {
   padding: 1em 4%;
   border-bottom: 1px solid #eee;
 }
