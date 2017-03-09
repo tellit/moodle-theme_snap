@@ -74,17 +74,43 @@ class local {
         global $USER;
 
         $failobj = (object) [
+            'fromcache' => false, // Useful for debugging and unit testing.
             'feedback' => false
         ];
 
-        $config = get_config('theme_snap');
-        if (empty($config->showcoursegradepersonalmenu)) {
-            // If not enabled, don't return data.
+        if (!isloggedin() || isguestuser()) {
             return $failobj;
         }
 
-        if (!isloggedin() || isguestuser()) {
-            return $failobj;
+        $config = get_config('theme_snap');
+
+        // Course cache stamp is used to invalidate user session caches if an application level event occurs -
+        // e.g. course module added, module deleted, module updated etc.
+        $coursestamp = self::course_grading_cachestamp($course->id);
+
+        // Course user cache stamp is used to invalidate user session caches if an event occurs which affects this
+        // user - e.g. A teacher adds a grade against this user.
+        $courseuserstamp = self::course_user_graded_cachestamp($course->id, $USER->id);
+
+        /** @var \cache_session $muc */
+        $muc = \cache::make('theme_snap', 'course_grades');
+        $cached = $muc->get($course->id.'_'.$USER->id);
+        if ($cached && $cached->timestamp >= $coursestamp && $cached->timestamp >= $courseuserstamp) {
+            $configchange = false;
+            if (!empty($config->showcoursegradepersonalmenu)) {
+                if (!$cached->showgrade) {
+                    $configchange = true;
+                }
+            } else {
+                if ($cached->showgrade) {
+                    $configchange = true;
+                }
+            }
+            // Only return the cached version if the related config hasn't changed.
+            if (!$configchange) {
+                $cached->fromcache = true; // Useful for debugging and unit testing.
+                return $cached;
+            }
         }
 
         // Get course context.
@@ -95,7 +121,7 @@ class local {
             return $failobj;
         }
         // Security check - are they allowed to see the grade report for the course?
-        if (!has_capability('gradereport/overview:view', $coursecontext)) {
+        if (!has_capability('gradereport/user:view', $coursecontext)) {
             return $failobj;
         }
         // See if user can view hidden grades for this course.
@@ -120,26 +146,41 @@ class local {
         ];
 
         if (!$coursegrade->is_hidden() || $canviewhidden) {
-            // Use overview grade report to get course total - this is to take hidden grade settings into account.
+            // Use user grade report to get course total - this is to take hidden grade settings into account.
             $gpr = new \grade_plugin_return(array(
                     'type' => 'report',
-                    'plugin' => 'overview',
+                    'plugin' => 'user',
                     'courseid' => $course->id,
                     'userid' => $USER->id)
             );
+            $report = new \grade_report_user($course->id, $gpr, $coursecontext, $USER->id);
+            $report->fill_table();
 
-            // Create a report instance.
-            $report = new course_total_grade($USER, $gpr, $course);
-            $coursegrade = $report->get_course_total();
-            $ignoregrades = [
-                '-',
-                '&nbsp;',
-                get_string('error')
-            ];
-            if (!in_array($coursegrade, $ignoregrades)) {
-                $feedbackobj->coursegrade = $coursegrade;
+            if (!empty($config->showcoursegradepersonalmenu)) {
+                $coursetotal = end($report->tabledata);
+                $coursegrade = $coursetotal['grade']['content'];
+                $ignoregrades = [
+                    '-',
+                    '&nbsp;',
+                    get_string('error')
+                ];
+                if (!in_array($coursegrade, $ignoregrades)) {
+                    $feedbackobj->coursegrade = $coursegrade;
+                }
+            } else {
+                foreach ($report->tabledata as $item) {
+                    if (self::item_has_grade_or_feedback($item)) {
+                        $feedbackobj->feedbackavailable = true;
+                        break;
+                    }
+                }
             }
         }
+
+        // Cache object.
+        $feedbackobj->timestamp = microtime(true);
+        $muc->set($course->id.'_'.$USER->id, $feedbackobj);
+        $feedbackobj->fromcache = false; // We set the cache, we didn't get it from the cache.
 
         return $feedbackobj;
     }
@@ -296,6 +337,23 @@ class local {
             return $ts;
         }
         return $cachestamp;
+    }
+
+    /**
+     * @param int $courseid
+     * @param bool $new
+     */
+    public static function course_grading_cachestamp($courseid, $new = false) {
+        return self::get_cachestamp(strval($courseid), 'course_grades_ts', $new);
+    }
+
+    /**
+     * @param int $courseid
+     * @param int $userid
+     * @param bool $new
+     */
+    public static function course_user_graded_cachestamp($courseid, $userid, $new = false) {
+        return self::get_cachestamp($courseid.'_'.$userid, 'course_grades_ts', $new);
     }
 
     /**
@@ -472,10 +530,8 @@ class local {
                 'completion' => self::course_completion_progress($course)
             );
 
-            if (!empty($showgrades)) {
-                $feedback = self::course_grade($course);
-                $courseinfo[$courseid]->feedback = $feedback;
-            }
+            $feedback = self::course_feedback($course);
+            $courseinfo[$courseid]->feedback = $feedback;
         }
         return $courseinfo;
     }

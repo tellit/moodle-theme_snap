@@ -1508,12 +1508,11 @@ class theme_snap_local_test extends \advanced_testcase {
         $this->assertEquals(100, $comp->progress);
     }
 
-    public function test_course_grade() {
+    /**
+     * @param string $property to check is populated in feedback objects.
+     */
+    private function course_feedback_test($property) {
         global $DB;
-
-        $this->resetAfterTest();
-
-        set_config('showcoursegradepersonalmenu', 1, 'theme_snap');
 
         // Set up.
         $generator = $this->getDataGenerator();
@@ -1528,17 +1527,25 @@ class theme_snap_local_test extends \advanced_testcase {
         $this->setUser($student);
 
         // Assert no feedback available.
-        $feedback = local::course_grade($course);
-        $this->assertTrue(empty($feedback->coursegrade)); // Can't use assertEmpty as property wont exist.
+        $feedback = local::course_feedback($course);
+        $this->assertTrue(empty($feedback->$property)); // Can't use assertEmpty as property wont exist.
 
-        // Assert feedback available is empty.
+        // Check caching is working.
+        $this->assertFalse($feedback->fromcache);
+        $feedback = local::course_feedback($course);
+        $this->assertTrue($feedback->fromcache);
+
+        // Assert feedback available is empty and cache dumped on assignment creation
         // (requires grading for feedback available).
         $params = [
             'course' => $course->id
         ];
         $cm = $this->add_assignment($params);
-        $feedback = local::course_grade($course);
-        $this->assertTrue(empty($feedback->coursegrade));
+        $feedback = local::course_feedback($course);
+        $this->assertTrue(empty($feedback->$property));
+        $this->assertFalse($feedback->fromcache);
+        $feedback = local::course_feedback($course);
+        $this->assertTrue($feedback->fromcache);
 
         // Assert feedback available does not update for current user when grading someone else's assignment.
         $assign = new \assign($cm->context, $cm, $course);
@@ -1555,9 +1562,11 @@ class theme_snap_local_test extends \advanced_testcase {
         assign_grade_item_update($assignrow, $grades);
         grade_regrade_final_grades($course->id);
 
-        $feedback = local::course_grade($course);
+        $feedback = local::course_feedback($course);
+        // Cache still not invalidated as grading was for a different user.
+        $this->assertTrue($feedback->fromcache);
         // Still no feedback avialable.
-        $this->assertTrue(empty($feedback->coursegrade));
+        $this->assertTrue(empty($feedback->$property));
 
         // Assert feedback available is populated when a teacher grades the students assignment (submission not
         // required for this test.
@@ -1574,14 +1583,25 @@ class theme_snap_local_test extends \advanced_testcase {
         $assignrow->cmidnumber = null;
         assign_grade_item_update($assignrow, $grades);
         grade_regrade_final_grades($course->id);
-        $feedback = local::course_grade($course);
+        $feedback = local::course_feedback($course);
+        // Cache should be invalidated now that a grade has been assigned to this student.
+        $this->assertFalse($feedback->fromcache);
         // Feedback should be available now.
-        $this->assertNotEmpty($feedback->coursegrade);
-
-        // Assert coursegrade property does not exist when disabled in settings.
-        set_config('showcoursegradepersonalmenu', 0, 'theme_snap');
-        $feedback = local::course_grade($course);
-        $this->assertTrue(empty($feedback->coursegrade));
+        $this->assertNotEmpty($feedback->$property);
+        $feedback = local::course_feedback($course);
+        // Cache primed again.
+        $this->assertTrue($feedback->fromcache);
     }
 
+    public function test_course_feedback_available() {
+        $this->resetAfterTest();
+        set_config('showcoursegradepersonalmenu', 0, 'theme_snap');
+        $this->course_feedback_test('feedbackavailable');
+    }
+
+    public function test_course_feedback_grade() {
+        $this->resetAfterTest();
+        set_config('showcoursegradepersonalmenu', 1, 'theme_snap');
+        $this->course_feedback_test('coursegrade');
+    }
 }
