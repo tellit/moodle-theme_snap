@@ -68,6 +68,10 @@ Snap changes manifest
 │             and applies the bootswatch
 │           
 ├───classes
+│   │   event_handlers.php
+│   │       - Added listener to user loggedout event to perform a redirect on
+│   │         logout
+│   │
 │   │   local.php
 │   │       - Added entry point function: render_completion_footer() which 
 │   │         generates HTML around data populated from the function: 
@@ -76,9 +80,16 @@ Snap changes manifest
 │   │         completion state in order to conditionally pop a completion modal
 │   │         and show a link to the next activity in the footer.
 │   │   
-│   └───C
+│   └───controller
 │           hsuforummod_controller.php
 │               - A new controller for hsuforum to generate completion data.
+│
+├───db
+│       events.php
+│           - Added listener for user logout event
+│
+│       upgrade.php
+│           - Set config defaults on upgrade
 │
 ├───javascript
 │       breadcrumb.js
