@@ -30,7 +30,7 @@ use theme_snap\admin_setting_configradiobuttons;
 
 
 $ADMIN->add('themes', new admin_category('theme_snap', 'Snap'));
-$settings = null; // Unsets the default $settings object initialised by Moodle.
+$snapsettings = null; // Unsets the default $snapsettings object initialised by Moodle.
 
 // Basic settings.
 $snapsettings = new admin_settingpage('themesettingsnap', 'Snap');
@@ -174,9 +174,10 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $snapsettings->add($setting);
 
-    $name = 'theme_snap/footerheading';
-    $title = new lang_string('footerheading', 'theme_snap');
-    $description = new lang_string('footerheadingdesc', 'theme_snap');
+    // Navigation.
+    $name = 'theme_snap/navigationheading';
+    $title = new lang_string('navigationheading', 'theme_snap');
+    $description = new lang_string('navigationheadingdesc', 'theme_snap');
     $setting = new admin_setting_heading($name, $title, $description);
     $snapsettings->add($setting);
 
@@ -187,6 +188,152 @@ if ($ADMIN->fulltree) {
     $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $snapsettings->add($setting);
+
+    
+    // Hide quiz navigation for non editors.
+    $name = 'theme_snap/hidequiznavigation';
+    $title = new lang_string('hidequiznavigation', 'theme_snap');
+    $description = new lang_string('hidequiznavigationdesc', 'theme_snap');
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // Breadcrumbs in nav bar.
+    $name = 'theme_snap/breadcrumbsinnav';
+    $title = new lang_string('breadcrumbsinnav', 'theme_snap');
+    $description = new lang_string('breadcrumbsinnavdesc', 'theme_snap');
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // Fix header to top of page
+    $name = 'theme_snap/fixheadertotopofpage';
+    $title = new lang_string('fixheadertotopofpage', 'theme_snap');
+    $description = new lang_string('fixheadertotopofpagedesc', 'theme_snap');
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // Collapse completed activities via the course renderer
+    $name = 'theme_snap/collapsecompletedactivities';
+    $title = new lang_string('collapsecompletedactivities', 'theme_snap');
+    $description = new lang_string('collapsecompletedactivitiesdesc', 'theme_snap');
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // Embed the current activity directly to the course renderer
+    $name = 'theme_snap/embedcurrentactivity';
+    $title = new lang_string('embedcurrentactivity', 'theme_snap');
+    $description = new lang_string('embedcurrentactivitydesc', 'theme_snap');
+    $default = $unchecked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // Course page redirect.
+    $name = 'theme_snap/coursepageredirect';
+    $title = new lang_string('coursepageredirect', 'theme_snap');
+    $description = new lang_string('coursepageredirectdesc', 'theme_snap');
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+       
+    // On completion, display next activity in footer on/off.
+    $name = 'theme_snap/nextactivityinfooter';
+    $title = new lang_string('nextactivityinfooter', 'theme_snap');
+    $description = new lang_string('nextactivityinfooterdesc', 'theme_snap');
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // On activity completion, popup modal dialog with link to next activity on/off.
+    $name = 'theme_snap/nextactivitymodaldialog';
+    $title = new lang_string('nextactivitymodaldialog', 'theme_snap');
+    $description = new lang_string('nextactivitymodaldialogdesc', 'theme_snap');
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // Number of seconds after completion event to continue generating the modal dialog. Default 30.
+    // Popup Modal tolerance (seconds)
+    $name = 'theme_snap/nextactivitymodaldialogtolerance';
+    $title = new lang_string('nextactivitymodaldialogtolerance', 'theme_snap');
+    $description = new lang_string('nextactivitymodaldialogtolerancedesc', 'theme_snap');
+    $default = 30;
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
+    $snapsettings->add($setting);
+    
+    // Number of milliseconds after page load to pop the completion modal. Default 2000.
+    $name = 'theme_snap/nextactivitymodaldialogdelay';
+    $title = new lang_string('nextactivitymodaldialogdelay', 'theme_snap');
+    $description = new lang_string('nextactivitymodaldialogdelaydesc', 'theme_snap');
+    $default = 2000;
+    $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
+    $snapsettings->add($setting);
+    
+    // Logout redirection
+    $name = 'theme_snap/logoutredirection';
+    $title = new lang_string('logoutredirection', 'theme_snap');
+    $description = new lang_string('logoutredirectiondesc', 'theme_snap');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $snapsettings->add($setting);
+    
+    // Functional Heading.
+    $name = 'theme_snap/functionalheading';
+    $title = new lang_string('functionalheading', 'theme_snap');
+    $description = new lang_string('functionalheadingdesc', 'theme_snap');
+    $setting = new admin_setting_heading($name, $title, $description);
+    $snapsettings->add($setting); 
+    
+    // Semantic activation for question types on/off.
+    // There is a body of knowledge that says a learner is able to answer questions better if they are presented with
+    // information about how they are intended to answer BEFORE reading the question text, as opposed to simply listing
+    // the word "Question" followed by the integer of the current question.
+    // e.g.
+    // If this setting is enabled a truefalse question type is rendered "True / False" prior to the question text rather than: "Question 1",
+    // which gives no information about how the learner is expected to answer, and really, gives no information at all.
+    
+    $name = 'theme_snap/questionsemanticactivation';
+    $title = new lang_string('questionsemanticactivation', 'theme_snap');
+    $description = new lang_string('questionsemanticactivationdesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $snapsettings->add($setting);
+    
+    // Display: "Question x of y" before each question in a quiz activity
+    $name = 'theme_snap/displayquestionxofy';
+    $title = new lang_string('displayquestionxofy', 'theme_snap');
+    $description = new lang_string('displayquestionxofydesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $snapsettings->add($setting);
+        
+    // Visual signal to indicate the first activity on/off.
+    $name = 'theme_snap/highlightfirstactivityinsection';
+    $title = new lang_string('highlightfirstactivityinsection', 'theme_snap');
+    $description = new lang_string('highlightfirstactivityinsectiondesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $snapsettings->add($setting);
+        
+    // Footer.
+    $name = 'theme_snap/footerheading';
+    $title = new lang_string('footerheading', 'theme_snap');
+    $description = new lang_string('footerheadingdesc', 'theme_snap');
+    $setting = new admin_setting_heading($name, $title, $description);
+    $snapsettings->add($setting);    
+    
 
     // Course footer on/off.
     $name = 'theme_snap/coursefootertoggle';
@@ -205,6 +352,16 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_confightmleditor($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $snapsettings->add($setting);
+
+    // Custom copyright notice.
+    $name = 'theme_snap/copyrightnotice';
+    $title = new lang_string('copyrightnotice', 'theme_snap');
+    $description = new lang_string('copyrightnoticedesc', 'theme_snap');
+    $default = '';
+    $setting = new admin_setting_confightmleditor($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $snapsettings->add($setting);
+    
 
     // Social media.
     $name = 'theme_snap/facebook';
@@ -260,6 +417,15 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');
     $snapsettings->add($setting);
 
+    // Font include.
+    $fontloader = 'theme_snap/fontloader';
+    $title = new lang_string('fontloader', 'theme_snap');
+    $description = new lang_string('fontloaderdesc', 'theme_snap');
+    $default = new lang_string('fontloaderdefault', 'theme_snap');
+    $setting = new admin_setting_configtextarea($fontloader, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $snapsettings->add($setting);
+
     // Left toc option.
     $name = 'theme_snap/leftnav';
     $title = new lang_string('leftnav', 'theme_snap');
@@ -274,6 +440,17 @@ if ($ADMIN->fulltree) {
     $description = new lang_string('customcssdesc', 'theme_snap');
     $default = '';
     $setting = new admin_setting_configtextarea($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $snapsettings->add($setting);
+
+    // CSS Post Process on/off.
+    $name = 'theme_snap/csspostprocesstoggle';
+    $title = new lang_string('csspostprocesstoggle', 'theme_snap');
+    $description = new lang_string('csspostprocesstoggledesc', 'theme_snap');
+    $checked = '1';
+    $unchecked = '0';
+    $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $snapsettings->add($setting);
 
