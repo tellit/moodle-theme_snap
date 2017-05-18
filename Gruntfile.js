@@ -38,10 +38,10 @@ module.exports = function(grunt) {
 
     // PHP strings for exec task.
     var moodleroot = 'dirname(dirname(__DIR__))',
-        configfile = moodleroot + ' . "/config.php"',
+        configfile = moodleroot + " . DIRECTORY_SEPARATOR . 'config.php'",
         decachephp = '';
 
-    decachephp += "define(\"CLI_SCRIPT\", true);";
+    decachephp += "define('CLI_SCRIPT', true);";
     decachephp += "require(" + configfile  + ");";
 
     // The previously used theme_reset_all_caches() stopped working for us, we investigated but couldn't figure out why.
@@ -121,7 +121,7 @@ module.exports = function(grunt) {
         },
         exec: {
             decache: {
-                cmd: "php -r '" + decachephp + "'",
+                cmd: 'php -r "' + decachephp + '"',
                 callback: function(error, stdout, stderror) {
                     // exec will output error messages
                     // just add one to confirm success.
