@@ -25,6 +25,22 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+global $USER, $DB;
+
+// If we're on a 'mod' page, retrieve the mod object and check it's completion state in order to conditionally 
+// pop a completion modal and show a link to the next activity in the footer.
+// Some mods should auto pop on completion, and some should display a link.
+
+echo  html_writer::start_div('completion-region');
+              
+echo \theme_snap\local::render_completion_footer(
+    $this->page->theme->settings->nextactivityinfooter, 
+    $this->page->theme->settings->nextactivitymodaldialog,
+    $this->page->theme->settings->nextactivitymodaldialogtolerance
+);
+
+echo html_writer::end_div();
+
 $inccoursefooterclass = ($PAGE->theme->settings->coursefootertoggle && strpos($PAGE->pagetype, 'course-view-') === 0) ? ' hascoursefooter' : ' nocoursefooter';
 ?>
 <footer id="moodle-footer" role="contentinfo" class="clearfix<?php echo ($inccoursefooterclass)?>">
@@ -85,19 +101,23 @@ if (!empty($PAGE->theme->settings->instagram)) {
 if(!empty($socialmedialinks)) {
     echo '<div id="snap_socialmedia_links">'.$socialmedialinks.'</div>';
 }
-?>
 
-<div id='mrooms-footer' class="helplink text-right">
-    <small>
-    <?php
+$poweredbyrunby = get_string('poweredbyrunby', 'theme_snap');
+
+if (empty($PAGE->theme->settings->copyrightnotice)) {
+    echo '<div id="mrooms-footer" class="helplink text-right">
+    <small>';
     if ($OUTPUT->page_doc_link()) {
         echo $OUTPUT->page_doc_link();
     }
-    $poweredbyrunby = get_string('poweredbyrunby', 'theme_snap');
-    ?>
-    <br/><?php echo $poweredbyrunby ?>
+
+    echo '<br/>' . $poweredbyrunby . '
     </small>
-</div>
+    </div>';
+} else {
+    echo $PAGE->theme->settings->copyrightnotice;
+}
+?>
 <!-- close mrooms footer -->
 <div id="page-footer">
 <?php echo $OUTPUT->lang_menu(); ?>

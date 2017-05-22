@@ -46,7 +46,11 @@ echo $OUTPUT->doctype();
 <?php echo $OUTPUT->standard_head_html() ?>
 <meta name="theme-color" content="<?php echo $PAGE->theme->settings->themecolor ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href='//fonts.googleapis.com/css?family=Roboto:500,100,400,300' rel='stylesheet' type='text/css'>
+<?php
+    if (!empty($PAGE->theme->settings->fontloader)) {
+        echo $PAGE->theme->settings->fontloader;
+    }
+?>
 <?php
 
 // Output course cover image?

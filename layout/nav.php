@@ -59,4 +59,9 @@ use theme_snap\renderables\bb_dashboard_link;
 
     echo html_writer::link($CFG->wwwroot, $sitefullname, $attrs);
 ?>
+<?php
+    if (!empty($PAGE->theme->settings->breadcrumbsinnav)) {
+        echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
+    }
+?>
 </header>

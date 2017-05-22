@@ -24,6 +24,7 @@ use core\event\course_module_deleted;
 use core\event\course_module_completion_updated;
 use core\event\user_deleted;
 use core\event\user_graded;
+use core\event\user_loggedout;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -124,6 +125,21 @@ class event_handlers {
     public static function course_module_completion_updated(course_module_completion_updated $event) {
         // Force an update for the specific course and user effected by this completion event.
         local::course_user_completion_cachestamp($event->courseid, $event->relateduserid, true);
+    }
+
+    /**
+     * Allow Logout redirection
+     * @param user_loggedout $event
+     */
+    public static function user_loggedout(user_loggedout $event) {
+        
+        // This event gets called for every user logout, regardless of whether snap is the active theme, or whether
+        // the site allows user themes and regardless of the user theme setting.
+        $user  = $event->get_record_snapshot('user', $event->objectid);
+
+        if (get_config('core', 'theme') == 'snap' || get_config('core', 'allowuserthemes') && $user->theme == 'snap') {
+            local::logout_redirect();
+        }
     }
 
 }

@@ -35,6 +35,7 @@ use moodle_url;
 use stdClass;
 use theme_snap\activity;
 use theme_snap\activity_meta;
+use DomDocument;
 
 require_once($CFG->dirroot . "/mod/book/locallib.php");
 require_once($CFG->libdir . "/gradelib.php");
@@ -61,6 +62,10 @@ class course_renderer extends \core_course_renderer {
         $output = '';
         if ($modulehtml = $this->course_section_cm($course, $completioninfo, $mod, $sectionreturn, $displayoptions)) {
             list($snapmodtype, $extension) = $this->get_mod_type($mod);
+
+            $modclasses = array('snap-activity');
+            
+            /*
 
             if ($mod->modname === 'resource') {
                 // Default for resources/attatchments e.g. pdf, doc, etc.
@@ -95,7 +100,7 @@ class course_renderer extends \core_course_renderer {
                     $attr['data-href'] = $modurl;
                 }
             }
-
+            */
             // Is this mod draft?
             if (!$mod->visible) {
                 $modclasses [] = 'draft';
@@ -121,10 +126,32 @@ class course_renderer extends \core_course_renderer {
             }
 
             $modclasses [] = 'snap-asset'; // Added to stop conflicts in flexpage.
+
+            // For the stepper to look nice, the final asset should not contain a left border
+            // Tag the final activity in the section with an additional class
+            $modinfo = $mod->get_modinfo();
+            $sectionindex = $mod->sectionnum;
+            $activityindex = count($modinfo->sections[$mod->sectionnum]) - 1;
+            $activityarray = $modinfo->sections[$sectionindex];
+            if (array_key_exists($activityindex, $activityarray)) {
+                if ($mod->id ==  $activityarray[$activityindex]) {
+                    $modclasses [] = 'snap-asset-last';  
+                }
+            }
+
             $modclasses [] = 'activity'; // Moodle needs this for drag n drop.
-            $modclasses [] = $mod->modname;
-            $modclasses [] = "modtype_$mod->modname";
-            $modclasses [] = $mod->extraclasses;
+
+            // Tagging an li element with a selector called 'page' results is poor CSS specificity due to
+            // the main HTML region also being tagged with 'page'. Hopefully snap people will address this
+            // in the future, but they probably don't have the same problems we do because they embed
+            // page content anyway, and don't treat it like any other course render li target.
+            if ($mod->modname == 'page') {
+                // Do nothing here
+            } else {
+                $modclasses [] = $mod->modname;
+                $modclasses [] = "modtype_$mod->modname";
+                $modclasses [] = $mod->extraclasses;
+            }
 
             $attr['data-type'] = $snapmodtype;
             $attr['class'] = implode(' ', $modclasses);
@@ -207,18 +234,109 @@ class course_renderer extends \core_course_renderer {
             $output .= '<a class="snap-move-note" href="#">'.get_string('movehere', 'theme_snap').'</a>';
         }
         // Start the div for the activity content.
-        $output .= "<div class='activityinstance'>";
+        
+        //Three states per activity:
+        //Activity is completed: $currentmodcompleted is true.
+        //Activity is current: $currentmodcompleted is false, $allpreviouscompleted is true and mod is available
+        //Activity is future: $currentmodcompleted is false, $allpreviouscompleted is false
+        $currentmodcompleted = false;
+        $allpreviouscompleted = false;
+
+        $collapsebutton = '';
+        $collapsestate = '';
+        $stepperspan = '';
+        
+        // If allow collapse/expand of activities with bootstrap, provide an id for this activityinstance and default collapse state based on completion.
+        if ($this->page->theme->settings->collapsecompletedactivities) {
+            $collapsetarget = 'collapsetarget-' . $mod->modname . '-' . $mod->instance;
+            $collapsebutton = '<button data-toggle="collapse" data-target="#' . $collapsetarget . '"><span class="glyphicon glyphicon-chevron-down"></span></button>';
+            $collapsestate = 'collapse';
+        }   
+        
+        $completiondata = $completioninfo->get_data($mod, true); 
+        if ($completioninfo->is_enabled($mod) == COMPLETION_TRACKING_MANUAL || $completioninfo->is_enabled($mod) == COMPLETION_TRACKING_AUTOMATIC) {
+            if ($completiondata->completionstate != COMPLETION_INCOMPLETE) {
+                 $currentmodcompleted = true;  
+            } 
+        }
+        
+        //If current is completed change stepper to OK (tick).
+        if ($currentmodcompleted) {
+            $stepperspan = '<span class="stepper-complete glyphicon glyphicon-ok"></span>';
+        } else {
+        
+            $allpreviouscompleted = true;
+            //Find stepper item number
+            $stepper = 1;
+            //Loop through all previous mods in section
+            //This isn't the most efficient option, but it is the least invasive to the current codebase.
+            //Non-display of labels etc might break the stepper count
+            $modinfo = $mod->get_modinfo();
+            foreach ($modinfo->sections[$mod->sectionnum] as $imodnumber) {                   
+                //Retrieve mod
+                $imod = $modinfo->cms[$imodnumber];
+                
+                //Stop when mod is current
+                if ($mod->id == $imod->id) break;
+                
+                //Note completion state of all previous
+                if ($allpreviouscompleted) {
+                    if ($completioninfo->is_enabled($imod) == COMPLETION_TRACKING_AUTOMATIC) {
+                        $icompletiondata = $completioninfo->get_data($imod, true);
+                        if ($icompletiondata->completionstate == COMPLETION_INCOMPLETE) {
+                             $allpreviouscompleted = false;  
+                        } 
+                    }
+                }
+                
+                //Increment stepper count                
+                $stepper++;
+            }
+            
+            //if current is available and the first in section that is not completed, give number and expand
+            if ($mod->available && $allpreviouscompleted) {
+                $collapsestate = 'collapse in';
+                $stepperspan = "<span class='stepper-current'>$stepper</span>";
+            } else {
+                $stepperspan = "<span class='stepper-future'>$stepper</span>";    
+            }
+        }
+                
+        $collapsecontainer = '';
+        if (empty($collapsetarget)) {
+            $collapsecontainer .= "<div class='activityinstance'>";
+        } else { 
+            $collapsecontainer .= "<div id=\"$collapsetarget\" class='activityinstance $collapsestate'>";
+        }                                       
+
+        $steppercontainer = '';
+        if (is_object($mod->url)) {
+            $steppercontainer =  '<a href="' . $mod->url->out() . '">' . $stepperspan . '</a>'; 
+        } else {
+            $steppercontainer =  $stepperspan;
+        }
+
         // Display the link to the module (or do nothing if module has no url).
         $cmname = $this->course_section_cm_name($mod, $displayoptions);
         $assetlink = '';
 
         if (!empty($cmname)) {
+
+            $activitycurrent = '';
+            if ($allpreviouscompleted && !$currentmodcompleted) {
+                $activitycurrent = ' snap-activity-current';
+            }
+
             // Activity/resource type.
             $snapmodtype = $this->get_mod_type($mod)[0];
             $assetlink = '<div class="snap-assettype">'.$snapmodtype.'</div>';
             // Asset link.
-            $assetlink .= '<h4 class="snap-asset-link">'.$cmname.'</h4>';
+            $assetlink .= '<h4 class="snap-asset-link' . $activitycurrent . '">'.$cmname.'</h4>';
         }
+
+        // Append everything together
+        // If the collapse setting isn't enabled then collapsebutton will be empty and collapsecontainer will not be tagged to be collapsable.
+        $output .= $steppercontainer . $assetlink . $collapsebutton . $collapsecontainer;
 
         // Asset content.
         $contentpart = $this->course_section_cm_text($mod, $displayoptions);
@@ -275,7 +393,46 @@ class course_renderer extends \core_course_renderer {
 
         // Build output.
         $postcontent = '<div class="snap-asset-meta" data-cmid="'.$mod->id.'">'.$assetmeta.$mod->afterlink.'</div>';
-        $output .= $assetlink.$postcontent.$contentpart.$snapcompletionmeta.$groupmeta.$completiontracking;
+if ($this->page->theme->settings->collapsecompletedactivities) {
+            if ($this->page->theme->settings->embedcurrentactivity) {
+                if (!$currentmodcompleted && $mod->available && $allpreviouscompleted) {
+                    //scrape/embed the mod page
+                    $url = new moodle_url($mod->url, array('embed'=>'1'));
+                    
+                    //$url = clone $mod->url;
+                    //$url->param('embed', '1');
+                                       
+                    //Send user cookie
+                    $context = stream_context_create(array('http' => array('header'=> 'Cookie: ' . $_SERVER['HTTP_COOKIE']."\r\n")));
+                    
+                    //Must close session prior to embed to prevent session deadlock
+                    session_write_close();
+                    
+                    //Retieve the page (Do not URL encode parameters)
+                    $contents = file_get_contents($url->out(false), false, $context);
+                    
+                    //Use a dom document to parse and correct any missing closing elements
+                    $doc = new DOMDocument();
+
+                    //We are not interested in escalating errors associated with malformed HTML
+                    //Disable PHP warning reports (but storethe current state of libxml_use_internal_errors)
+                    $libxml_previous_state = libxml_use_internal_errors(true);
+                    $doc->loadHTML($contents);
+                    $contents = $doc->saveHTML();
+                    //Clear any errors
+                    libxml_clear_errors();
+                    //Restore error reporting state
+                    libxml_use_internal_errors($libxml_previous_state);   
+                                                         
+                    $postcontent .= '<div id="current-mod-embed" class="current-mod-embed">' . $contents . '</div>';
+                }
+            }
+
+            $output .= $contentpart.$postcontent;
+        }   else {
+            //$output .= $assetlink.$contentpart.$postcontent;
+            $output .= $assetlink.$postcontent.$contentpart.$snapcompletionmeta.$groupmeta.$completiontracking;
+        }
 
         // Bail at this point if we aren't using a supported format. (Folder view is only partially supported).
         $supported = ['folderview', 'topics', 'weeks', 'site'];
@@ -828,9 +985,9 @@ class course_renderer extends \core_course_renderer {
 
         // Is this for labels or something with no other page url to point to?
         $url = $mod->url;
-        if (!$url) {
-            return $output;
-        }
+        //if (!$url) {
+        //    return $output;
+        //}
 
         // Get asset name.
         $instancename = $mod->get_formatted_name();
@@ -863,7 +1020,11 @@ class course_renderer extends \core_course_renderer {
         }
 
         if ($mod->uservisible) {
-            $output .= "<a $target  href='$url'>$activityimg<span class='instancename'>$instancename</span></a>" . $groupinglabel;
+            if (!$url) {
+                $output .= "$activityimg<span class='instancename'>$instancename</span>" . $groupinglabel;
+            } else {
+                $output .= "<a $target  href='$url'>$activityimg<span class='instancename'>$instancename</span></a>" . $groupinglabel;
+            }
         } else {
             // We may be displaying this just in order to show information
             // about visibility, without the actual link ($mod->uservisible).

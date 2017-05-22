@@ -44,7 +44,11 @@ $leftnav = !empty($PAGE->theme->settings->leftnav);
 if (!empty($coverimagecss)) : ?>
  mast-image
 <?php endif;?>">
-<div class="breadcrumb-nav" aria-label="breadcrumb"><?php echo $OUTPUT->navbar(); ?></div>
+<?php
+    if (empty($PAGE->theme->settings->breadcrumbsinnav)) {
+        echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
+    }
+?>
 
 <div id="page-mast">
 <?php

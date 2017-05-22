@@ -357,6 +357,28 @@ class shared extends \renderer_base {
         $initvars = [$coursevars, $pagehascoursecontent, get_max_upload_file_size($CFG->maxbytes), $forcepwdchange];
         $PAGE->requires->js_call_amd('theme_snap/snap', 'snapInit', $initvars);
 
+        // We want to have some theme settings available to javascript.
+        // But some theme settings may be sensitive so only pass which settings are required.
+        $required_settings = array('fixheadertotopofpage', 'nextactivitymodaldialogdelay');
+        $theme_settings = array_intersect_key((array)$PAGE->theme->settings, array_flip($required_settings));
+        
+        // We want some information about the activity to be available to javascript on mod pages
+        // There exist various pure javascript techniques for attempting to determine this infomation
+        // from the renderered HTML, but nothing beats being explicit.
+        $mod = null;
+        //Sometimes it is better to test the URL, rather than rely on the pagetype being correct
+        if (explode('-', $PAGE->pagetype)[0] == 'mod') {
+            if (is_object($PAGE->cm)) {
+                $mod = array(
+                    'modname' => $PAGE->cm->modname, 
+                    'context' => $PAGE->cm->context
+                );
+            }
+        }
+
+        $PAGE->requires->js_call_amd('theme_snap/breadcrumb', 'init');
+        $PAGE->requires->js_call_amd('theme_snap/completion', 'init', array($theme_settings, $mod));
+
         // Does the page have editable course content?
         if ($pagehascoursecontent && $PAGE->user_allowed_editing()) {
             $canmanageacts = has_capability('moodle/course:manageactivities', context_course::instance($COURSE->id));
