@@ -251,7 +251,9 @@ li.section:focus {
 .path-course-view .section .summary {
     position: relative;
     line-height: inherit;
-    padding-bottom: 1.5em;
+    padding-bottom: 1.25em;
+
+    //new to snap 3.1
     margin-bottom: 1.5em;
     .clearfix();
 
@@ -269,8 +271,8 @@ li.section:focus {
     margin: 0 auto;
     float: none;
     display: block;
-    text-align: left;
-    margin-top: -1em;
+    text-align: center;
+    margin-top: 0;
 
     a {
         display: inline-block;
@@ -439,6 +441,11 @@ li.section:focus {
     height: auto;
     width: auto;
     outline: 0;
+    overflow: visible;
+}
+
+.course-content > ul li.section.state-visible{
+    counter-reset: activity;
 }
 
 /* hide progress label with odd z-indexing */
@@ -507,10 +514,19 @@ body.format-flexpage .singlebutton {
     }
 }
 
+.section .activityinstance.collapse {
+    max-height: auto;
+    min-height: auto;
+}
+
 // -------------------------
 // Activity & Resource styles
 // -------------------------
 
+h4.snap-asset-link .instancename {
+    line-height: 1em;
+
+}
 
 // -------------------------
 //  Assets in snap.
@@ -518,13 +534,20 @@ body.format-flexpage .singlebutton {
 .section li.snap-asset {
     display: block;
     position: relative;
-    padding: 0;
-    margin: 0 auto;
+    padding: 0 0 1.55em;
+    margin: 0;
     height: auto;
     font-family: @font-family-base;
     background-color: #fff;
     border: 1px solid @gray-lighter;
+
+    //new to snap 3.1
     border-top-width: 0.3em;
+
+    box-shadow: none;  
+    background-color: transparent;
+    border-left: 1px solid #bbb;
+    border-radius: 0;
 
     // For editors add space for editong tools.
     &.snap-can-edit {
@@ -536,7 +559,7 @@ body.format-flexpage .singlebutton {
         overflow-x: hidden;
         overflow-y: auto;
         position: static;
-        padding: 0.5em 1em;
+        padding: 0;
     }
 
     .snap-assettype {
@@ -545,9 +568,9 @@ body.format-flexpage .singlebutton {
     }
 
     .activityinstance {
-        padding: 0;
+        padding: 0 2.2em 1em;
         height: auto;
-        background-color: rgba(255,255,255,0.9);
+        //background-color: rgba(255,255,255,0.9);
         .clearfix();
 
         .activityicon {
@@ -578,6 +601,12 @@ body.format-flexpage .singlebutton {
                 }
             }
         }
+
+// Override the stepper border on the final activity list item
+.section li.snap-asset-last {
+    border-left: none;
+}  
+
     }
 }
 
@@ -688,10 +717,10 @@ body.format-flexpage .singlebutton {
     display: none;
 }
 
-.modtype_book,
-.modtype_page {
-    border-bottom: 1px solid #ccc;
-}
+//.modtype_book,
+//.modtype_page {
+//    border-bottom: 1px solid #ccc;
+//}
 
 
 .snap-native.modtype_book ol.bookmod-chapters {
@@ -965,6 +994,128 @@ body.snap-resource-card li.snap-resource {
     }
 }
 
+//CASS block
+
+body#page-course-view-weeks button {
+    background: none;
+    color: #999;
+    box-shadow: none;
+    padding: 0 1em;
+}
+
+h4.snap-asset-link a {
+    color: #333;
+}
+
+h4.snap-asset-link {
+    font-size: 1.1em;
+    color: #333;
+    padding-left: 2em;
+    float: left;
+    margin-top: -1px;
+}
+
+.unavailable .snap-asset-link:before {
+    background: @gray-light;
+}
+
+span.stepper-complete {
+    position: absolute;
+    left: -31px;
+    top: -15px;
+    background: @brand-success;
+    border-radius: 3em;
+    width: 63px;
+    height: 63px;
+    line-height: 2.2em;
+    color: @body-bg;
+    text-indent: 8px;
+    font-size: .7em;
+    font-feature-settings: 'lnum';
+    border: solid @body-bg 16px;
+}
+              
+span.stepper-current {
+    position: absolute;
+    left: -31px;
+    top: -15px;
+    background: @brand-info;
+    border-radius: 3em;
+    width: 63px;
+    height: 63px;
+    text-indent: 11px;
+    line-height: 2.3em;
+    color: #fff;
+    font-size: .7em;
+    font-family: @font-family-monospace;
+    font-feature-settings: 'lnum';
+    border: solid @body-bg 16px;
+}
+
+span.stepper-future {
+    position: absolute;
+    left: -31px;
+    top: -15px;
+    background: @gray;
+    border-radius: 3em;
+    width: 63px;
+    height: 63px;
+    text-indent: 11px;
+    line-height: 2.3em;
+    color: #fff;
+    font-size: .7em;
+    font-family: @font-family-monospace;
+    font-feature-settings: 'lnum';
+    border: solid @body-bg 16px;
+} 
+
+li.unavailable h4 {
+    color: @gray-light;
+}
+
+#page .course-content .content ul.section.img-text {
+    margin: 1em 0 0 .75em;
+}
+
+h2.sectionname {
+    line-height: 1em;
+}
+
+.section li.snap-activity {
+    background-image: none;
+    width: 99%; // to allow for box-shadow faux border
+
+
+    .activityicon {
+        display: none;
+    }
+
+    .activityinstance .snap-asset-link {
+        display: block;
+        font-size: @font-size-large;
+        display: block;
+        overflow: hidden;
+        .clearfix();
+        
+    }
+}
+
+// experimental code, not used bu keeping as may...
+.section li.snap-activity {
+    &.modtype_forum {
+
+        // background-image:linear-gradient(to right,#71d5df 22%,#ffffff 22%);
+    }
+}
+
+li.snap-activity {
+    border-left: 0.3em solid #ccc;
+    border-radius: 3px;
+}
+
+
+
+
 // -------------------------
 // Editing resources/activites
 // -------------------------
@@ -1011,6 +1162,10 @@ body.snap-resource-card li.snap-resource {
 .snap-asset-meta {
     clear: both;
     padding: 0;
+}
+
+a.snap-assignment-stage.label.label-warning {
+    display: none;
 }
 
 // Activity data - e.g. Due date & Group info
@@ -1518,9 +1673,9 @@ span.editinstructions {
 // -------------------------
 
 #snap-course-footer {
-    margin: 2em auto -2em; // pull the sitewide footer up if we have a course footer
-    padding: 1em 4%;
-    background-color: #f1f0ee;
+    margin: 2em -220% 0; // pull the sitewide footer up if we have a course footer
+    padding: 1em 220%;
+    background-color: @gray-lighter;
 }
 
 #course_recent_updates {

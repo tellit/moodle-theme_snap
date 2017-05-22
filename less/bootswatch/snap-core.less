@@ -24,6 +24,7 @@
 
 html {
     -webkit-font-smoothing: auto !important;
+    background: @gray-dark; 
 }
 
 // Snap Layout yo...
@@ -116,10 +117,11 @@ table.boxwidthwide {
     }
 }
 
+
 #page-login-index {
     #region-main {
         max-width: 100%;
-        padding: 0 4% 2em;
+        padding: 0 0 2em;
     }
 
     .loginpanel h2 {
@@ -128,23 +130,47 @@ table.boxwidthwide {
         overflow: hidden;
         background: no-repeat center center;
         background-size: contain;
-        margin: 0;
+        position: relative;
+        margin: 0 auto;
+        z-index: 1;
+        height: 2.4em;
     }
 
     .loginbox {
         float: none;
-        padding: 1em 4%;
+        padding: .68em 4% 1em;
         width: 100%;
-        background-color: rgba(255,255,255,0.9);
+        background-color: @body-bg;
         margin: 2em auto;
-        max-width: 30em;
+        max-width: 31.3em;
         left: 0;
+        box-shadow: 0 12px 15px 0 rgba(0,0,0,0.5);
+        .loginform .form-input input[type="text"], .loginform .form-input input[type="password"]{
+            border-width: 0 0 1px 0;
+            box-shadow: none;
+        }
     }
 
     #loginbtn {
         display: block;
-        width: 100%;
         margin: 1em 0;
+        box-shadow: none;
+        background: none;
+        color: #b02a1a;
+        text-transform: uppercase;
+        letter-spacing: .02em;
+        font-size: .8em;
+        margin-left: -.7em;
+        font-family: @font-family-fancy;
+        &:hover{
+            background: @gray-lighter;
+            text-decoration: none;
+        }
+
+        &:active{
+            background: darken(@gray-lighter, 8%);
+            text-decoration: none;
+        }
     }
 
     // Remove first time here?
@@ -152,8 +178,23 @@ table.boxwidthwide {
         display: none;
     }
 
-    #moodle-footer {
+    .lang-en #moodle-footer {
         margin-top: 0;
+        padding: 2em 1% 3.3em;
+        font-family: @font-family-fancy;
+        font-size: .8em;
+        color: @gray-light;
+        span[itemprop="name"] {
+            font-weight: bold;
+            color: @body-bg
+        }
+        a {
+            color: @gray-light;
+        }
+        ul.legal, ul.social {
+            list-style-type: none;
+            padding-top: 2em;
+        }
     }
 }
 
@@ -225,15 +266,19 @@ html {
 }
 
 ::-moz-selection {
-    background: #fe57a1;
-    color: #fff;
+    background: @gray-lighter;
+    color: #000;
     text-shadow: none;
 }
 
 ::selection {
-    background: #fe57a1;
-    color: #fff;
+    background: @gray-lighter;
+    color: #000;
     text-shadow: none;
+}
+
+table#explaincaps > tbody > tr:nth-of-type(odd), table#defineroletable > tbody > tr:nth-of-type(odd), table.grading-report > tbody > tr:nth-of-type(odd), table#listdirectories > tbody > tr:nth-of-type(odd), table.rolecaps > tbody > tr:nth-of-type(odd), table.userenrolment > tbody > tr:nth-of-type(odd), table#form > tbody > tr:nth-of-type(odd), .ratingtable > tbody > tr:nth-of-type(odd), #report-eventlist-table table > tbody > tr:nth-of-type(odd), form#movecourses table > tbody > tr:nth-of-type(odd), #page-admin-course-index .editcourse > tbody > tr:nth-of-type(odd), table#categoryquestions > tbody > tr:nth-of-type(odd), .forumheaderlist > tbody > tr:nth-of-type(odd), table.surveytable > tbody > tr:nth-of-type(odd), table.flexible > tbody > tr:nth-of-type(odd), .generaltable > tbody > tr:nth-of-type(odd) {
+    background-color: transparent;
 }
 
 // scrollbars in ie
@@ -272,6 +317,7 @@ textarea {
 
 body {
     font-weight: 300;
+    overflow-x: hidden;
 }
 
 // GT Mod - 2015-07-09 - add .floater .cell to accommodate fixed col and header in gradebook
@@ -280,11 +326,15 @@ table,
     width: 100%;
     font-family: @font-family-base;
     font-size: @font-size-table;
+    clear: both;
 }
 
 blockquote {
     //    border-left: 5px solid @brand-primary; customisable
-    font-size: 1em;
+    font-size: .9em;
+    margin-left: 1em;
+    margin-right: 1em;
+    border: 0;
 }
 
 img {
@@ -392,6 +442,7 @@ img.icon.hide {
 
 li {
     break-inside: avoid-column;
+    line-height: 1.5em;
 }
 
 hr {
@@ -416,7 +467,7 @@ h5,
 h6,
 legend {
     line-height: 1.5;
-    margin: 0.5em 0;
+    margin: 0.44em 0 0;
 }
 
 h1 {
@@ -432,6 +483,7 @@ h1 {
 
 #region-main textarea {
     font-family: @font-family-serif;
+    white-space: nowrap;
 }
 
 // Roboto robot voice for system text
@@ -524,7 +576,7 @@ button#restrictbygroup,
 button#livelogs-pause-button,
 #page-admin-tool-monitor-managerules a > button,
 input[type="reset"] {
-    font-family: @font-family-base;
+    font-family: @font-family-sans-serif;
     background: transparent;
 
     &:hover,
@@ -705,13 +757,16 @@ input[type="reset"] {
 // Snap theme elements n componants
 // -------------------------
 
-#page-header,
-#page-login-index #page {
+#page-header {
     .bg-cover();
 }
 
+body#page-login-index #page{
+    background-color: @gray-dark;
+}
+
 #snap-home.logo {
-    display: block;
+    display: none;
     background-color: transparent;
     background-repeat: no-repeat;
     background-size: contain;
@@ -887,11 +942,10 @@ footer #moodle-footer
  ****************************/
 #mr-nav,
 #page-header,
-#region-main,
 #moodle-footer,
 #moodle-blocks {
     margin: 0 auto;
-    padding: 0 4%;
+    padding: 0;
     font-size: 1em;
 }
 
@@ -914,8 +968,9 @@ footer #moodle-footer
     width: 100%;
     z-index: 23;
     line-height: 2;
-    padding: 0.5em 0 0.5em 4%;
-    background-color: rgba(255,255,255,0.95);
+    padding: 0.5em 0 0.5em 1%;
+    background-color: #fff;
+    box-shadow: -2px 1px 4px #333;
 
     //headroom js http://wicky.nillia.ms/headroom.js/
     &.headroom--unpinned {
@@ -955,6 +1010,7 @@ footer #moodle-footer
     position: relative;
     left: 0;
     transition: all 0.4s 0s ease;
+    overflow-x: hidden;
 
     // When admin block is open
     &.offcanvas {
@@ -971,8 +1027,8 @@ footer #moodle-footer
 
 #region-main {
     font-family: @font-family-serif;
-    max-width: 60.5em;
-    padding-top: 1em;
+    padding-top: 0;
+    margin: 0 auto 0;
 }
 
 // Pages that need as much width as they can get as they
@@ -1013,24 +1069,79 @@ header#page-header
 // -------------------------
 
 #page-header {
-    padding-top: 4em;
+    padding-top: 3.8em;
     padding-bottom: 0.5em;
+    font-size: .85em;
 }
 
 // Breadcrumb - not really a breadcrumb like on the web, but some moodleything
 // -------------------------
 
-.breadcrumb-nav {
-    margin-bottom: 0;
-    float: none;
-    margin-top: -0.5em;
+.breadcrumb > li:before {
+    content: @breadcrumb-separator;
 }
 
-.breadcrumb {
-    background-color: transparent;
-    padding: 0;
-    font-size: @font-size-small;
-    display: block;
+.breadcrumb > li {
+    display: inline;
+}
+
+.admin, .path-enrol, .pagelayout-admin#page-mod-quiz-attempt #moodle-blocks{
+   .breadcrumb li:first-child:before {
+        content: '\e091 ';
+        padding-right: 1em;
+        vertical-align: top;
+        font-family: 'Glyphicons Halflings';
+        color: #000;
+    }
+} 
+    
+.path-mod .breadcrumb li:nth-child(3):before {
+    content: '\e091 ';
+    padding-right: 1em;
+    vertical-align: top;
+    font-family: 'Glyphicons Halflings';
+    color: #000;
+}
+
+.path-course .breadcrumb li:nth-child(2):before {
+    display: none;
+}
+
+.breadcrumb-nav {
+    margin-bottom: 0;
+    float: left;
+    //margin-top: -0.5em;
+}
+
+.path-course, .path-mod {
+    .breadcrumb {
+        background-color: transparent;
+        font-size: @font-size-base;
+        display: block;
+        font-family: @font-family-sans-serif;
+        &> li:last-child, &> li:nth-child(-n+2), {
+            display: none;
+        }
+    }
+} 
+ 
+.admin, .path-enrol, .pagelayout-admin {
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        font-size: @font-size-base;
+        display: block;
+        font-family: @font-family-sans-serif;
+        &> li:last-child {
+            display: none;
+        }
+    }
+} 
+
+.path-login  {
+    .breadcrumb {
+        display: none;
+    }
 }
 
 @media screen and (max-width: @screen-sm-max) {
@@ -1045,6 +1156,33 @@ header#page-header
         }
     }
 }
+
+/*
+.path-course .breadcrumb, .path-mod .breadcrumb {
+    @media screen and (max-width: @screen-md) {
+        max-width: 478px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    @media screen and (max-width: @screen-sm) {
+        max-width: 200px;
+    }
+    @media screen and (max-width: @screen-xs) {
+        max-width: 35px;
+        text-overflow: clip;
+    }
+} 
+
+// Breadcrumb for activites
+// -------------------------
+.pagelayout-incourse .breadcrumb li:nth-child(3) a, .pagelayout-course .breadcrumb li:nth-child(2) a {
+    padding: 0px 0px 0px 20%;
+    margin: 0px 0px 0px -20%;
+}
+*/
 
 // SHAME - what is this?
 // -------------------------
@@ -1063,7 +1201,6 @@ header#page-header
 				search stuff SHAME
 
  ****************************/
-
 
 
 // if the course has an image
@@ -1118,6 +1255,7 @@ header#page-header
         line-height: 1;
         font-size: 1rem;
         text-transform: uppercase;
+        color: #fff;
     }
 }
 
@@ -1149,6 +1287,16 @@ header#page-header
     padding: 0;
 }
 
+.forumpost {
+    background-color: transparent;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding: 0;
+    width: 640px;
+    float: right;
+}
+
 .form-label .form-shortname {
     display: inline;
 }
@@ -1157,7 +1305,7 @@ header#page-header
 .settingsform,
 .mform,
 #page-mod-page-view #region-main {
-    max-width: 43.5em;
+    //max-width: 43.5em;
     margin: 0 auto;
 }
 
@@ -1372,6 +1520,12 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
     padding: 0.25em 2em;
     margin-top: 1em;
 }
+
+//TODO: check
+header#mr-nav .fixy a {
+    color: #fff;
+}
+
 #mr-nav .snap-login-button {
     margin-right: 1em;
 }
@@ -1576,7 +1730,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 
 .coursebox.clearfix {
     padding: 1em 4%;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid @gray-lighter;
 }
 
 .coursebox .info .coursename {
@@ -2032,7 +2186,7 @@ ul.events-new + ul.events-underway {
     bottom: 0;
     left: 1%;
     background-color: #000;
-    color: #eee;
+    color: @gray-lighter;
     padding: 0.1em 1%;
     z-index: @zindex-navbar-fixed;
 }
@@ -2193,9 +2347,9 @@ ul.events-new + ul.events-underway {
 
 // quiz itself //
 .que {
-    border-bottom: 1px solid #999;
-    padding: 1.5em 0;
-    margin: 1em 0;
+    //border-bottom: 1px solid #999;
+    padding: 0;
+    margin: 0;
 }
 
 .que .info,
@@ -2237,6 +2391,7 @@ ul.events-new + ul.events-underway {
 
 .que .qtext {
     font-size: 1.3em;
+    margin-bottom: .5em;
 }
 
 .que.multichoice .answer .specificfeedback {
@@ -2244,7 +2399,7 @@ ul.events-new + ul.events-underway {
 }
 
 #page-mod-quiz-edit .editq div.question {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid @gray-lighter;
     border-top: 1px solid #ccc;
 }
 
@@ -2454,7 +2609,7 @@ table.boxaligncenter.generaltable.user-grade {
     }
 
     thead {
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid @gray-lighter;
     }
 
     img.icon {
@@ -2718,7 +2873,7 @@ table#user-grades tr.avg td.cell {
     }
 
     table .header[scope="col"] {
-        background-color: #fff;
+        background-color: transparent;
         font-size: 13px; // SHAME - magic number
     }
 
@@ -2938,14 +3093,13 @@ table#user-grades tr.avg td.cell {
     background-color: #eee;
     font-size: 2em;
     width: 100%;
-    padding: 1em 4% 4em;
+    padding: 2em 4% 4em;
 
     // pull buttons up into the #notice when they are placed
     // after it, rather than inside it.
-
-    &+ .continuebutton {
-        margin-top: -3em;
-    }
+    //&+ .continuebutton {
+    //    margin-top: -3em;
+    //}
 
     .buttons {
         text-align: center;
@@ -3023,14 +3177,21 @@ body.hascontinuecancel.path-site #page {
 
     #page-header {
         display: none;
+        background-image: none; 
     }
 }
 
 // next / previous nav
+
+.modtype_book, .modtype_page {
+    border-bottom: none; 
+}
+
 .section_footer {
     margin-top: 2em;
     padding: 1em 0;
-    border-top: 1px solid #eee;
+    border-top: 1px solid @gray-lighter;
+    display: none; 
 }
 
 .section_footer a {
@@ -3064,16 +3225,22 @@ body.hascontinuecancel.path-site #page {
     text-transform: uppercase;
     font-style: normal;
     color: @text-color;
+    font-weight: normal !important;
 }
 
 .nav_icon {
-    padding: 0.3em;
-    text-align: center;
+    margin-left: 0.3em;
+    border-left: 1px solid @gray-light;
+    font-size: 2.5em;
+    width: 36px;
+    float: right;
+    padding: 0.0em 0.3em 0.2em 0em;
+    line-height: 1em;
 }
 
 .next_section .nav_icon {
     margin-left: 0.3em;
-    border-left: 1px solid #eee;
+    border-left: 1px solid @gray-lighter;
     font-size: 2em;
     width: 50px;
     float: right;
@@ -3082,15 +3249,65 @@ body.hascontinuecancel.path-site #page {
 .previous_section .nav_icon {
     float: left;
     margin-right: 0.3em;
-    border-right: 1px solid #eee;
+    border-right: 1px solid @gray-lighter;
     font-size: 2em;
 }
+
+/*
+
+.next_activity_overlay {
+    background: @gray-light;
+    padding: 0;
+    margin-top: 0;
+    z-index: 50;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    h5 {
+        color: white;
+        //line-height: 1.1em;
+        //font-weight: bold;
+    }
+    button {
+        background-color: darken(@brand-primary, 2%);
+        &:active, &:focus, &:hover  {
+            background-color: darken(@brand-primary, 10%);
+        }
+    }
+}
+
+
+.next_activity_area {
+    background: #eae9e7;
+    padding: 1.94em 0 1.2em;
+    margin-top: 2.29em;
+    width: 100%;
+    position: relative;
+}
+.next_activity_link {
+    margin: 0 auto;
+    font-family: @font-family-fancy; 
+    max-width: 960px;
+    padding: 0 10px;
+}
+
+.next_activity_text {
+    text-align: right;
+}
+
+*/
+
+
 
 /* moodle dialogues */
 /* standard size */
 .moodle-dialogue-base .moodle-dialogue {
     min-width: 32%;
     padding: 0;
+    text-align: center;
     /* large size */
     &.chooserdialogue,
     &.filepicker {
@@ -3209,6 +3426,7 @@ body.hascontinuecancel.path-site #page {
 
 .file-picker .fp-repo-area {
     height: 475px;
+    clear: both;
 }
 
 .file-picker .fp-content {
@@ -3244,8 +3462,8 @@ body.hascontinuecancel.path-site #page {
 
 #moodle-footer {
     padding-top: 2em;
-    padding-bottom: 1em;
-    border-top: 1px solid #ccc;
+    padding-bottom: 3.3em;
+    //border-top: 1px solid #ccc;
     clear: both;
     color: @gray-lighter;
     background-color: @text-color;
@@ -3291,6 +3509,12 @@ body.hascontinuecancel.path-site #page {
 #site-news-forum + br {
     display: none;
 }
+
+img.cass-logo {
+    width: 255px;
+    height: 74px;
+    margin: 0 0 0 10px;
+}  
 
 /* Moodle error, reports, all that stuff in the footer */
 #page-footer {
@@ -3587,7 +3811,7 @@ table th img.iconhelp {
 
 div.editor_atto_toolbar {
     background-color: transparent;
-    border-color: #eee;
+    border-color: @gray-lighter;
     padding-bottom: 0;
 }
 
@@ -3605,7 +3829,7 @@ textarea {
 }
 
 .editor_atto_content_wrap {
-    border-color: #eee;
+    border-color: @gray-lighter;
 }
 
 // Help Atto editor select img's properly
@@ -3617,7 +3841,7 @@ textarea {
 .editor_atto_toolbar button.highlight,
 .editor_atto_toolbar button:hover {
     background-image: none;
-    background-color: #eee;
+    border-color: @gray-lighter;
 }
 
 div.editor_atto_toolbar button + button {
