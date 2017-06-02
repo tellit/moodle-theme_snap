@@ -34,7 +34,7 @@ class hsuforummod_controller extends controller_abstract {
      */
     public function require_capability($action) {
     }
-	
+
     /**
      * Get the user's completion for the current mod.
      *

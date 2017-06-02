@@ -24,6 +24,7 @@
 // Course toc & appendicies.
 // -------------------------
 #course-toc {
+	font-size: .764em;
     /* TOC heading. */
     #toc-desktop-menu-heading {
         text-transform: uppercase;
@@ -31,12 +32,13 @@
     }
 
     /* TOC list. */
-    #chapters {
-        padding: 0;
+    #chapters { 
+        padding: 0 0 0 1em;
 
         li {
-            padding-bottom: 0.3em;
-            line-height: 1;
+            padding: 0 0 0.618em 0.618em;
+            line-height: 1em;
+			min-height: 3em;
         }
 
         /* Chapter link */
@@ -44,6 +46,7 @@
             display: block;
             margin-bottom: -0.3em;
             line-height: 1.75;
+			color: @text-color;
         }
     }
 
@@ -68,13 +71,30 @@
 // -------------------------
 // Display when toc is part of page body.
 // -------------------------
-#snap-course-wrapper {
-    margin: 0 4%;
+li.snap-visible-section:before {
+    content: ">";
+    float: right;
+    line-height: 1.6em;
+    font-weight: bold;
+	padding-right: .614em;
+}
 
-    #course-toc,
+#snap-course-wrapper {
+    margin: 0 3.44%;
+
+ 
     #region-main {
-        padding-top: 1em;
+        padding-top: 3.5em;
+		font-family: @font-family-fancy;
     }
+	#course-toc{
+		    padding-top: 5.5em;
+		font-family: @font-family-fancy;
+	}
+	
+	.col-md-3 {
+    padding: 0;
+}
 
     /* TOC heading. */
     #toc-desktop-menu-heading {
@@ -92,6 +112,7 @@
 
     .toc-footer {
         padding-bottom: 2em;
+		display: none; 
 
         a {
             display: block;
@@ -104,10 +125,7 @@
         }
     }
 
-    /* Remove numbering of sections. */
-    .sectionname:before {
-        content: '';
-    }
+    
 }
 
 // -------------------------
@@ -137,23 +155,20 @@
         padding: 1em 2em 0;
         display: inline-block;
         margin: 0;
-    }
+	}}
 
     // Specific styles for numbered chapters to improve readability.
-    ol#chapters {
-        list-style-position: outside;
-
-        li {
+    ol.chapters li {
             margin-left: 2em;
+			list-style-type: decimal;
+			list-style-position: outside;
+		&:first-child {list-style-type:none;}
         }
-    }
 
-    #chapters >:first-child {
-        list-style: none;
-    }
+     
 
     // Add new section and course tools links.
-    .toc-footer {
+    .toc-footer { 
         margin-right: 4%;
         text-align: right;
 
@@ -161,7 +176,7 @@
             margin-left: 0.5em;
         }
     }
-}
+
 
 // -------------------------
 // Course search.
@@ -283,6 +298,10 @@
     .snap-footer-alert-cancel {
         margin-right: 3em;
     }
+	
+	li.snap-visible-section {
+    background: #eee;
+}
 
     #toc-mobile-menu-toggle {
         background: @gray-lighter url("[[pix:theme|burger]]") no-repeat 50% 50%;

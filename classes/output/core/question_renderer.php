@@ -27,6 +27,16 @@ namespace theme_snap\output\core;
 
 defined('MOODLE_INTERNAL') || die();
 
+use stdClass;
+use ReflectionClass;
+
+use html_writer;
+use question_attempt;
+use qbehaviour_renderer;
+use qtype_renderer;
+use question_display_options;
+
+
 /*
 use cm_info;
 use context_course;
@@ -40,7 +50,7 @@ use theme_snap\activity_meta;
 
 require_once($CFG->dirroot . "/question/engine/renderer.php");
 
-class core_question_renderer extends \core_question_renderer {
+class question_renderer extends \core_question_renderer {
 //class theme_snap_core_question_renderer extends core_question_renderer {
     
     /**
@@ -110,7 +120,7 @@ class core_question_renderer extends \core_question_renderer {
     public function question(question_attempt $qa, qbehaviour_renderer $behaviouroutput,
             qtype_renderer $qtoutput, question_display_options $options, $number) {
         
-                $output = ''; 
+        $output = ''; 
         
         // The only safe way to number questions is how the quiz_attempt class does it in the constructor.
         // Two choices:  1. Hit the DB in a renderer OR 2. Use Reflection to retrieve the protected quiz_attempt members

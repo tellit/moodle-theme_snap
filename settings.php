@@ -189,7 +189,6 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $snapsettings->add($setting);
 
-    
     // Hide quiz navigation for non editors.
     $name = 'theme_snap/hidequiznavigation';
     $title = new lang_string('hidequiznavigation', 'theme_snap');
@@ -211,6 +210,14 @@ if ($ADMIN->fulltree) {
     $title = new lang_string('fixheadertotopofpage', 'theme_snap');
     $description = new lang_string('fixheadertotopofpagedesc', 'theme_snap');
     $default = $checked;
+    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
+    $snapsettings->add($setting);
+    
+    // Show stepper count on activities for section zero
+    $name = 'theme_snap/showstepperonsectionzero';
+    $title = new lang_string('showstepperonsectionzero', 'theme_snap');
+    $description = new lang_string('showstepperonsectionzerodesc', 'theme_snap');
+    $default = $unchecked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $snapsettings->add($setting);
     

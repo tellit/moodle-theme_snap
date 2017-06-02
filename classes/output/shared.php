@@ -354,9 +354,7 @@ class shared extends \renderer_base {
         ];
 
         $forcepwdchange = (bool) get_user_preferences('auth_forcepasswordchange', false);
-        $initvars = [$coursevars, $pagehascoursecontent, get_max_upload_file_size($CFG->maxbytes), $forcepwdchange];
-        $PAGE->requires->js_call_amd('theme_snap/snap', 'snapInit', $initvars);
-
+        
         // We want to have some theme settings available to javascript.
         // But some theme settings may be sensitive so only pass which settings are required.
         $required_settings = array('fixheadertotopofpage', 'nextactivitymodaldialogdelay');
@@ -375,9 +373,10 @@ class shared extends \renderer_base {
                 );
             }
         }
-
+        
+        $initvars = [$coursevars, $pagehascoursecontent, get_max_upload_file_size($CFG->maxbytes), $forcepwdchange, $theme_settings, $mod];
+        $PAGE->requires->js_call_amd('theme_snap/snap', 'snapInit', $initvars);
         $PAGE->requires->js_call_amd('theme_snap/breadcrumb', 'init');
-        $PAGE->requires->js_call_amd('theme_snap/completion', 'init', array($theme_settings, $mod));
 
         // Does the page have editable course content?
         if ($pagehascoursecontent && $PAGE->user_allowed_editing()) {

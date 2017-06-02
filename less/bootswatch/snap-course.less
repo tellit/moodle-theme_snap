@@ -174,9 +174,6 @@ section#region-main
     padding: 0;
 }
 
-.format-weeks #chapters {
-    list-style: none;
-}
 
 .format-topics {
     li.section .sectionname:before {
@@ -539,14 +536,12 @@ h4.snap-asset-link .instancename {
     height: auto;
     font-family: @font-family-base;
     background-color: #fff;
-    border: 1px solid @gray-lighter;
+    border-left: 1px solid #bbb;
 
     //new to snap 3.1
-    border-top-width: 0.3em;
 
     box-shadow: none;  
     background-color: transparent;
-    border-left: 1px solid #bbb;
     border-radius: 0;
 
     // For editors add space for editong tools.
@@ -601,14 +596,15 @@ h4.snap-asset-link .instancename {
                 }
             }
         }
+	}}
 
 // Override the stepper border on the final activity list item
 .section li.snap-asset-last {
     border-left: none;
 }  
 
-    }
-}
+    
+
 
 
 
@@ -954,6 +950,7 @@ body.snap-resource-card li.snap-resource {
 // -------------------------
 // Snap Activity
 // -------------------------
+/*
 .section li.snap-activity {
     margin: 1em 1%;
     padding-bottom: 1em;
@@ -961,13 +958,13 @@ body.snap-resource-card li.snap-resource {
     &.modtype_forum,
     &.modtype_chat,
     &.modtype_hsuforum {
-        border-top-color: #8BC34A;
+        border-left-color: @brand-green;
     }
 
     &.modtype_assign,
     &.modtype_assignment,
     &.modtype_workshop {
-        border-top-color: #03A9F4;
+        border-left-color: @brand-purple;
     }
 
     &.modtype_choice,
@@ -976,23 +973,24 @@ body.snap-resource-card li.snap-resource {
     &.modtype_survey,
     &.modtype_questionnaire,
     &.modtype_lesson {
-        border-top-color: #FFA000;
+        border-left-color: @brand-warning;
     }
 
     &.modtype_data,
     &.modtype_glossary,
     &.modtype_wiki {
-        border-top-color: #009688;
+        border-top-color: @brand-yellow;
     }
 
     &.modtype_collaborate {
-        border-top-color: #c800a1;
+        border-top-color: @brand-info;
     }
 
     &.modtype_folder {
-        border-top-color: #fed859;
+        border-top-color: @brand-success;
     }
 }
+*/
 
 //CASS block
 
@@ -1223,7 +1221,7 @@ a.snap-assignment-stage.label.label-warning {
 .snap-completion-meta {
     // SHAME - hsuforum sets div inline block to overcome other themes moodle css...
     // We need to counteract this for snap for hsu forum for the moment.
-    display: block !important;
+    display: none !important;
     clear: both;
 }
 
@@ -1284,11 +1282,8 @@ li.draft {
 // If so - add 1.3em gutter to slat to stop overlapping.
 
 .snap-asset-completion-tracking {
-    position: absolute;
-    top: 0.5em;
-    right: 1em;
-    display: block;
-    line-height: 0;
+    display: none;
+
 }
 
 /* Completion actions */
@@ -1374,13 +1369,7 @@ form.togglecompletion {
     }
 }
 
-/* Indent text associated with activity/resource. */
-.section li.snap-activity {
-    .contentafterlink,
-    .hsuforum-recent {
-        margin-left: (38px + 9px); // icon size (38px + margin);
-    }
-}
+
 
 // -------------------------
 // Snap actions
@@ -1631,9 +1620,7 @@ span.editinstructions {
 
 /* forum unread posts button */
 .snap-asset .unread {
-    clear: both;
-    display: block;
-    background-color: transparent;
+    display: none;
 }
 
 .editing .dndupload-preview .mod-indent {
@@ -1673,8 +1660,7 @@ span.editinstructions {
 // -------------------------
 
 #snap-course-footer {
-    margin: 2em -220% 0; // pull the sitewide footer up if we have a course footer
-    padding: 1em 220%;
+    padding: 0 3.444%;
     background-color: @gray-lighter;
 }
 

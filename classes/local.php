@@ -1990,9 +1990,8 @@ class local {
             $output .= html_writer::start_span('yui3-widget-buttons');
 
             $output .= html_writer::tag('button','', array(
-                'class' => 'yui3-button closebutton', 
-                'data-dismiss' => 'modal', 
-                'onclick' => 'scrollOut(\'#activitycompletemodal\')')
+                'class' => 'yui3-button closebutton completeclose', 
+                'data-dismiss' => 'modal')
             );
             $output .= html_writer::end_span();
             
@@ -2014,14 +2013,14 @@ class local {
             $output .= html_writer::end_div();
 
             //page, book, wiki
-            if  (!in_array($mod->modname, ['page', 'book', 'wiki'])) {
-                $PAGE->requires->js_init_call('addPopCompletion', null, true);
+            if  (!in_array($mod->modname, ['page', 'book', 'wiki', 'feedback'])) {
+                $PAGE->requires->js_call_amd('theme_snap/snap', 'addPopCompletion');
             }  
         }
 
         if ($showcompletionnextactivity) {
-            if  (in_array($mod->modname, ['page', 'book', 'wiki']) && $showcompletionmodal) {
-                $output .= '<div class="next_activity_area"><div class="next_activity_overlay"><h5>Confirm as Complete</h5><button onclick="popCompletion()">I have completed this activity</button></div><div class="next_activity_link"><div class="activity-complete"><span class="activity-complete glyphicon glyphicon-ok"></span><div class="done">Activity complete</div></div><div class="next_activity_text"> <a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a></div></div></div>';
+            if  (in_array($mod->modname, ['page', 'book', 'wiki', 'feedback']) && $showcompletionmodal) {
+                $output .= '<div class="next_activity_area"><div class="next_activity_overlay"><h5>Confirm as Complete</h5><button class="completeclick">I have completed this activity</button></div><div class="next_activity_link"><div class="activity-complete"><span class="activity-complete glyphicon glyphicon-ok"></span><div class="done">Activity complete</div></div><div class="next_activity_text"> <a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a></div></div></div>';
             } else {
                 $output .= '<div class="next_activity_area"><div class="next_activity_link"><div class="activity-complete"><span class="activity-complete glyphicon glyphicon-ok"></span><div class="done">Activity complete</div></div><div class="next_activity_text"> <a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a></div></div></div>';
             }

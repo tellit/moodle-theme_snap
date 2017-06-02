@@ -36,7 +36,7 @@
 @brand-warning:         #E55302;
 @brand-danger:          #C9282D;
 @brand-info:            #00759B;
-@brand-green:         #6C953C;
+@brand-green:         	#6C953C;
 @brand-yellow:          #E2CC00;
 @brand-purple:          #8F2B8C; 
 
@@ -104,8 +104,8 @@
 // -------------------------
 // Based on 14px font-size and 1.428 line-height (~20px to start)
 
-@padding-base-vertical:          6px;
-@padding-base-horizontal:        16px;
+@padding-base-vertical:          8px;
+@padding-base-horizontal:        12px;
 
 @padding-large-vertical:         14px;
 @padding-large-horizontal:       16px;
@@ -151,31 +151,31 @@
 //
 //## For each of Bootstrap's buttons, define text, background and border color.
 
-@btn-font-weight:                300;
+@btn-font-weight:                normal;
 
-@btn-default-color:              @brand-primary;
-@btn-default-bg:                 transparent;
-@btn-default-border:             @brand-primary;
+@btn-default-color:              #fff;
+@btn-default-bg:                 @brand-primary;
+@btn-default-border:             rgba(0, 0, 0, 0.5);
 
-@btn-primary-color:              @brand-primary;
-@btn-primary-bg:                 transparent;
-@btn-primary-border:             @brand-primary;
+@btn-primary-color:              #fff;
+@btn-primary-bg:                 @brand-primary;
+@btn-primary-border:             @btn-primary-bg;
 
-@btn-success-color:              @brand-success;
-@btn-success-bg:                 transparent;
-@btn-success-border:             @brand-success;
+@btn-success-color:              #fff;
+@btn-success-bg:                 @brand-success; 
+@btn-success-border:             @btn-success-bg;
 
-@btn-info-color:                 @brand-info;
-@btn-info-bg:                    transparent;
-@btn-info-border:                @brand-info;
+@btn-info-color:                 #fff;
+@btn-info-bg:                    @brand-info;
+@btn-info-border:                @btn-info-bg;
 
-@btn-warning-color:              @brand-warning;
-@btn-warning-bg:                 transparent;
-@btn-warning-border:             @brand-warning;
+@btn-warning-color:              #fff;
+@btn-warning-bg:                 @brand-warning;
+@btn-warning-border:             @btn-warning-bg;
 
-@btn-danger-color:               @brand-danger;
-@btn-danger-bg:                  transparent;
-@btn-danger-border:              @brand-danger;
+@btn-danger-color:               #fff;
+@btn-danger-bg:                  @brand-danger;
+@btn-danger-border:              @btn-danger-bg;
 
 @btn-link-disabled-color:        @gray-light;
 
@@ -356,13 +356,13 @@
 @navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
 @navbar-collapse-max-height:       340px;
 
-@navbar-default-color:             @text-color;
-@navbar-default-bg:                @body-bg;
+@navbar-default-color:             #ddd;
+@navbar-default-bg:                @brand-primary;
 @navbar-default-border:            darken(@navbar-default-bg, 6.5%);
 
 // Navbar links
-@navbar-default-link-color:                @link-color;
-@navbar-default-link-hover-color:          @link-hover-color;
+@navbar-default-link-color:                #fff;
+@navbar-default-link-hover-color:          #fff;
 @navbar-default-link-hover-bg:             darken(@navbar-default-bg, 10%);
 @navbar-default-link-active-color:         #fff;
 @navbar-default-link-active-bg:            darken(@navbar-default-bg, 10%);
@@ -370,8 +370,8 @@
 @navbar-default-link-disabled-bg:          transparent;
 
 // Navbar brand label
-@navbar-default-brand-color:               @text-color;
-@navbar-default-brand-hover-color:         @text-color;
+@navbar-default-brand-color:               @navbar-default-link-color;
+@navbar-default-brand-hover-color:         #fff;
 @navbar-default-brand-hover-bg:            none;
 
 // Navbar toggle
@@ -412,7 +412,7 @@
 
 //=== Shared nav styles
 @nav-link-padding:                          10px 15px;
-@nav-link-hover-bg:                         #eee;
+@nav-link-hover-bg:                         @gray-lighter;
 
 @nav-disabled-link-color:                   @gray-light;
 @nav-disabled-link-hover-color:             @gray-light;
@@ -422,7 +422,7 @@
 //== Tabs
 @nav-tabs-border-color:                     @gray-light;
 
-@nav-tabs-link-hover-border-color:          #eee;
+@nav-tabs-link-hover-border-color:          @gray-lighter;
 
 @nav-tabs-active-link-hover-bg:             @body-bg;
 @nav-tabs-active-link-hover-color:          @gray;

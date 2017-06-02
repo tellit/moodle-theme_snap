@@ -4,6 +4,17 @@
 // -------------------------
 // i do not apear until you trigger me
 
+
+
+a.snap-personal-menu-more{
+	small {
+	display: none;}
+
+.svg-icon {
+    margin: 0;
+	}}
+
+
 .fixy {
     display: none;
     background-color: @gray-dark;
@@ -69,11 +80,11 @@
         color: @body-bg;
         font-weight: 500;
         line-height: 1;
-        padding: 0.5em 0 .1em;
+        padding: .5em 0 .1em 3em;
         margin: 0;
         margin-bottom: 1em;
         font-size: 1rem;
-        text-align: center;
+        text-align: left;
     }
 }
 
@@ -101,7 +112,7 @@
 // -------------------------
 
 #fixy-user {
-    padding: 1em 4%;
+    padding: 1em 3.444%;
     .clearfix();
     a,
     a .h1 {
@@ -123,7 +134,7 @@
 
 
 #fixy-content {
-    padding: 0 2%;
+    padding: 0 3.444%;
     .clearfix();
     section {
         padding: 1em 0;
@@ -309,7 +320,7 @@
     .snap-personal-menu-more {
         position: absolute;
         top: 0.9rem;
-        right: 0;
+        left: 0;
         &:hover,
         &:focus {
             .svg-icon {
@@ -560,4 +571,12 @@ button.snap-icon-toggle.favoritetoggle {
     &:focus {
         border-color: #FEC111;
     }
+}
+
+section#fixy-my-courses h2 {
+    display: none;
+}
+
+a#fixy-close {
+    padding-right: 3.444%;
 }

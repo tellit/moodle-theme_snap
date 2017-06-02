@@ -25,8 +25,18 @@
 /**
  * Main snap initialising function. 
  */
+ 
+ require.config({
+    enforceDefine: false,
+    paths: {
+        'dependency': 'TweenMax'
+        //'dependency': 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js'
+    }
+});
+
+ 
 define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'theme_snap/util', 'theme_snap/personal_menu',
-        'theme_snap/responsive_video', 'theme_snap/cover_image'],
+        'theme_snap/responsive_video', 'theme_snap/cover_image', 'TweenLite'],
     function($, bsjq, log, Headroom, util, personalMenu, responsiveVideo, coverImage) {
 
         'use strict';
@@ -285,7 +295,101 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                 lastHash = newHash;
             });
         };
+        
+        var scrollIn = function(selector) {
+            $(selector).show().animate({right: "20px", opacity: 1}, 1000);
+        };    
 
+        var scrollOut = function(selector) {
+            $(selector).animate({right: "-600px", opacity: 0.5}, 200, function(){ $(selector).hide()});
+        };
+        
+        var slideNextActivity = function() {
+            scrollIn('#activitycompletemodal');
+        };
+
+        var popCompletion = function() {        
+            $(".next_activity_overlay").fadeTo("slow", 0, function() {
+                $(this).hide();
+            });
+           
+            TweenLite.to($("#darkBackground"),  0,      {display:"block"});
+            TweenLite.to($("#darkBackground"),  0.3,    {background:"rgba(0,0,0,0.4)", force3D:true});
+            TweenLite.to($("#alertBox"),        0,      {left:"calc(50% - 150px)", top:"calc(50% - 150px)", delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0,      {display:"block", opacity: 1, delay:"0.2"});                                 
+            TweenLite.to($("#alertBox"),        0,      {display:"block", scale:0.2, opacity: 0, delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0.3,    {opacity: 1, force3D:true, delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0.3,    {scale:1, scale:1, force3D:true, delay:"0.2"});
+            TweenLite.to($("#darkBackground"),  0.2,    {backgroundColor: "rgba(0,0,0,0)", force3D:true, delay:"2"});
+            TweenLite.to($("#darkBackground"),  0.2,    {display: "none", force3D:true, delay:"2"});
+            TweenLite.to($("#alertBox"),        0.2,    {opacity: 0, display:"none", force3D:true, delay:"2", onComplete:slideNextActivity});
+
+        };
+
+        var addPopCompletion = function() {
+            if (typeof M.snapTheme.settings.nextactivitymodaldialogdelay != 'undefined') {
+                var manualPopActivities = ['page', 'book', 'wiki'];
+                if (manualPopActivities.indexOf(M.snapTheme.mod.modname) == -1) {
+
+                    //Using bootstrap modal
+                    setTimeout(
+                        function() {
+                            //$('#activitycompletemodal').modal('show');
+                            popCompletion();
+                        }, 
+                        
+                        M.snapTheme.settings.nextactivitymodaldialogdelay
+                    );
+                              
+                    //using animate slide position fixed
+                    //setTimeout(
+                    //    function() {
+                    //        popCompletion();
+                    //    },
+                    //    
+                    //    // This is currently  populated on module.js init, but could be passed directly 
+                    //    // to this function as a local parameter via js_init_call
+                    //    M.theme_snap.settings.nextactivitymodaldialogdelay
+                    //);
+                }
+            }
+        };
+        
+        var bindHsuforumCompletion = function() {
+            $(".hsuforum-reply").submit(function(event) {
+                setTimeout(
+                    function() {
+                        loadCompletion();
+                    }, 3000
+                );
+            
+            });
+        }; 
+        
+        var loadCompletion = function() {
+
+            var type = 'completion';
+            var container = $('#completion-region');
+            try {
+                $.ajax({
+                      type: "GET",
+                      async:  true,
+                      url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_' + type +'&contextid=' + M.theme_snap.mod.context.id, // M.cfg.context,
+                      success: function(data) {
+                          $('.completion-region').attr('data-content-loaded', '1');
+                          $('.completion-region').html(data.html);
+                          addPopCompletion();
+                      }
+                });
+            } catch(err) {
+                console.write(err);
+            }
+
+            //bind to the control again
+            bindHsuforumCompletion();   
+        };
+        
+        
         /**
          * Add listeners.
          *
@@ -311,61 +415,78 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                 }
             });
 
-        // Alternate up/down chevron direction based on collapsable bootstrap elements
-        $('[data-toggle="collapse"]').on('click', function() {
-            $(this).find("span.glyphicon").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-        });
-        
-        //Use headroom.js ? Check the theme setting
-        if (typeof M.theme_snap.settings.fixheadertotopofpage === 'undefined' ||
-            M.theme_snap.settings.fixheadertotopofpage == "0") {
-
-            // Show fixed header on scroll down
-            // using headroom js - http://wicky.nillia.ms/headroom.js/
-            var myElement = document.querySelector("#mr-nav");
-            // Construct an instance of Headroom, passing the element.
-            var headroom = new Headroom(myElement, {
-                "tolerance": 5,
-                "offset": 100,
-                "classes": {
-                    // when element is initialised
-                    initial: "headroom",
-                    // when scrolling up
-                    pinned: "headroom--pinned",
-                    // when scrolling down
-                    unpinned: "headroom--unpinned",
-                    // when above offset
-                    top: "headroom--top",
-                    // when below offset
-                    notTop: "headroom--not-top"
-                }
+            // Alternate up/down chevron direction based on collapsable bootstrap elements
+            $('[data-toggle="collapse"]').on('click', function() {
+                $(this).find("span.glyphicon").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
             });
-            // When not signed in always show mr-nav?
-            if (!$('.notloggedin').length) {
-                headroom.init();
+            
+            //listener for completion button click
+            //#completeclick
+            $('.completeclick').on('click', function(e) {
+                popCompletion();
+                e.preventDefault();
+            });
+            
+            //listener for completion modal close
+            //#completeclick
+            $('.completeclose').on('click', function(e) {
+                scrollOut('#activitycompletemodal');
+                e.preventDefault();
+            });
+            
+            // Use headroom.js ? Check the theme setting
+            // settings property may not exist during lazy init
+            if (typeof M.snapTheme.settings != 'undefined' && M.snapTheme.settings != null) {
+                if (typeof M.snapTheme.settings.fixheadertotopofpage === 'undefined' ||
+                    M.snapTheme.settings.fixheadertotopofpage == "0") {
+
+                    // Show fixed header on scroll down
+                    // using headroom js - http://wicky.nillia.ms/headroom.js/
+                    var myElement = document.querySelector("#mr-nav");
+                    // Construct an instance of Headroom, passing the element.
+                    var headroom = new Headroom(myElement, {
+                        "tolerance": 5,
+                        "offset": 100,
+                        "classes": {
+                            // when element is initialised
+                            initial: "headroom",
+                            // when scrolling up
+                            pinned: "headroom--pinned",
+                            // when scrolling down
+                            unpinned: "headroom--unpinned",
+                            // when above offset
+                            top: "headroom--top",
+                            // when below offset
+                            notTop: "headroom--not-top"
+                        }
+                    });
+                    // When not signed in always show mr-nav?
+                    if (!$('.notloggedin').length) {
+                        headroom.init();
+                    }
+
+                }
             }
 
-        }
+              
+            //Attach specific events for specific mod pages
+            if (typeof M.snapTheme.mod != 'undefined' && M.snapTheme.mod != null) {
+                if (M.snapTheme.mod.modname == 'hsuforum') {
+                    
+                    //posting a reply inline via hsuforum:
+                    // - Uses a YUI ajax call
+                    // - replaces the article node tagged with the hsuforum-post-target class
+                    // - this node is a child of the mod-hsuforum-posts-container div
+                    // - this node can not be easily targetted by an event listener for a change event
+                    // - can be targeted
 
-          
-        //Attach specific events for specific mod pages
-        if (typeof M.theme_snap.mod != 'undefined' && M.theme_snap.mod != null) {
-            if (M.theme_snap.mod.modname == 'hsuforum') {
-                
-                //posting a reply inline via hsuforum:
-                // - Uses a YUI ajax call
-                // - replaces the article node tagged with the hsuforum-post-target class
-                // - this node is a child of the mod-hsuforum-posts-container div
-                // - this node can not be easily targetted by an event listener for a change event
-                // - can be targeted
+                    // Unforunately can not easily attach an event to the hsuform-post-target div
+                    // bind this function to the reply form submit that adds a timer 
+                    // to lazy check completion via ajax
 
-                // Unforunately can not easily attach an event to the hsuform-post-target div
-                // bind this function to the reply form submit that adds a timer 
-                // to lazy check completion via ajax
-
-                bindHsuforumCompletion();
+                    bindHsuforumCompletion();
+                }
             }
-        }
 
             // Listener for toc search.
             var dataList = $("#toc-searchables").find('li').clone(true);
@@ -479,12 +600,28 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
              * @param {int} siteMaxBytes
              * @param {bool} forcePassChange
              */
-            snapInit: function(courseConfig, pageHasCourseContent, siteMaxBytes, forcePassChange) {
+            snapInit: function(courseConfig, pageHasCourseContent, siteMaxBytes, forcePassChange, themeSettings, mod) {
 
                 // Set up.
                 M.cfg.context = courseConfig.contextid;
-                M.snapTheme = {forcePassChange: forcePassChange};
-
+                
+                 // To hold theme settings required by javascript
+                // 1. Whether to use headroom
+                // 2. Completion modal dialog delay
+                //themeSettings
+                
+                // To hold various pieces of mod information required by javascript
+                // 1. Modname. (Different mods have different options for completion)
+                //mod
+                
+                
+                M.snapTheme = {
+                    forcePassChange: forcePassChange,
+                    settings: themeSettings,
+                    mod: mod
+                };
+                
+                
                 // General AMD modules.
                 personalMenu.init();
 
@@ -611,6 +748,14 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                         $('body').addClass('snap-js-loaded');
                     });
                 });
+            },
+            
+            addPopCompletion: function() {
+                addPopCompletion();
+            },
+            
+            popCompletion: function() {
+                popCompletion();
             }
         };
     }

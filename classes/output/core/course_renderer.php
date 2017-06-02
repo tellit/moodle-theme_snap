@@ -242,63 +242,79 @@ class course_renderer extends \core_course_renderer {
         $currentmodcompleted = false;
         $allpreviouscompleted = false;
 
+        // TODO: comment
+        // Break with style conventions to name a variable as a negative, due to it being an unusual exclusive condition
+        $sectionzeronostepper = false;
+        
         $collapsebutton = '';
         $collapsestate = '';
         $stepperspan = '';
+        
+        $sectionzeronostepper = $mod->sectionnum == "0" && !$this->page->theme->settings->showstepperonsectionzero;
         
         // If allow collapse/expand of activities with bootstrap, provide an id for this activityinstance and default collapse state based on completion.
         if ($this->page->theme->settings->collapsecompletedactivities) {
             $collapsetarget = 'collapsetarget-' . $mod->modname . '-' . $mod->instance;
             $collapsebutton = '<button data-toggle="collapse" data-target="#' . $collapsetarget . '"><span class="glyphicon glyphicon-chevron-down"></span></button>';
             $collapsestate = 'collapse';
-        }   
-        
-        $completiondata = $completioninfo->get_data($mod, true); 
-        if ($completioninfo->is_enabled($mod) == COMPLETION_TRACKING_MANUAL || $completioninfo->is_enabled($mod) == COMPLETION_TRACKING_AUTOMATIC) {
-            if ($completiondata->completionstate != COMPLETION_INCOMPLETE) {
-                 $currentmodcompleted = true;  
-            } 
-        }
-        
-        //If current is completed change stepper to OK (tick).
-        if ($currentmodcompleted) {
-            $stepperspan = '<span class="stepper-complete glyphicon glyphicon-ok"></span>';
+        }  
+
+        // If the mod is in section zero, and the theme setting disables the stepper,
+        // then collapse all mods in this section, and do not number them
+        // (Early short-cicuit)
+        // No need to check completion, all previous completed etc..        
+        if ($sectionzeronostepper) {
+            $stepperspan = "<span class='stepper-sectionzero'></span>";
         } else {
-        
-            $allpreviouscompleted = true;
-            //Find stepper item number
-            $stepper = 1;
-            //Loop through all previous mods in section
-            //This isn't the most efficient option, but it is the least invasive to the current codebase.
-            //Non-display of labels etc might break the stepper count
-            $modinfo = $mod->get_modinfo();
-            foreach ($modinfo->sections[$mod->sectionnum] as $imodnumber) {                   
-                //Retrieve mod
-                $imod = $modinfo->cms[$imodnumber];
-                
-                //Stop when mod is current
-                if ($mod->id == $imod->id) break;
-                
-                //Note completion state of all previous
-                if ($allpreviouscompleted) {
-                    if ($completioninfo->is_enabled($imod) == COMPLETION_TRACKING_AUTOMATIC) {
-                        $icompletiondata = $completioninfo->get_data($imod, true);
-                        if ($icompletiondata->completionstate == COMPLETION_INCOMPLETE) {
-                             $allpreviouscompleted = false;  
-                        } 
-                    }
-                }
-                
-                //Increment stepper count                
-                $stepper++;
+    
+            
+            $completiondata = $completioninfo->get_data($mod, true); 
+            if ($completioninfo->is_enabled($mod) == COMPLETION_TRACKING_MANUAL || $completioninfo->is_enabled($mod) == COMPLETION_TRACKING_AUTOMATIC) {
+                if ($completiondata->completionstate != COMPLETION_INCOMPLETE) {
+                     $currentmodcompleted = true;  
+                } 
             }
             
-            //if current is available and the first in section that is not completed, give number and expand
-            if ($mod->available && $allpreviouscompleted) {
-                $collapsestate = 'collapse in';
-                $stepperspan = "<span class='stepper-current'>$stepper</span>";
+            //If current is completed change stepper to OK (tick).
+            if ($currentmodcompleted) {
+                $stepperspan = '<span class="stepper-complete glyphicon glyphicon-ok"></span>';
             } else {
-                $stepperspan = "<span class='stepper-future'>$stepper</span>";    
+            
+                $allpreviouscompleted = true;
+                //Find stepper item number
+                $stepper = 1;
+                //Loop through all previous mods in section
+                //This isn't the most efficient option, but it is the least invasive to the current codebase.
+                //Non-display of labels etc might break the stepper count
+                $modinfo = $mod->get_modinfo();
+                foreach ($modinfo->sections[$mod->sectionnum] as $imodnumber) {                   
+                    //Retrieve mod
+                    $imod = $modinfo->cms[$imodnumber];
+                    
+                    //Stop when mod is current
+                    if ($mod->id == $imod->id) break;
+                    
+                    //Note completion state of all previous
+                    if ($allpreviouscompleted) {
+                        if ($completioninfo->is_enabled($imod) == COMPLETION_TRACKING_AUTOMATIC) {
+                            $icompletiondata = $completioninfo->get_data($imod, true);
+                            if ($icompletiondata->completionstate == COMPLETION_INCOMPLETE) {
+                                 $allpreviouscompleted = false;  
+                            } 
+                        }
+                    }
+                    
+                    //Increment stepper count                
+                    $stepper++;
+                }
+                
+                //if current is available and the first in section that is not completed, give number and expand
+                if ($mod->available && $allpreviouscompleted) {
+                    $collapsestate = 'collapse in';
+                    $stepperspan = "<span class='stepper-current'>$stepper</span>";
+                } else {
+                    $stepperspan = "<span class='stepper-future'>$stepper</span>";    
+                }
             }
         }
                 
