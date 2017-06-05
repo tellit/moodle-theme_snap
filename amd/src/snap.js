@@ -328,7 +328,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
 
         var addPopCompletion = function() {
             if (typeof M.snapTheme.settings.nextactivitymodaldialogdelay != 'undefined') {
-                var manualPopActivities = ['page', 'book', 'wiki'];
+                var manualPopActivities = ['page', 'book', 'wiki', 'feedback'];
                 if (manualPopActivities.indexOf(M.snapTheme.mod.modname) == -1) {
 
                     setTimeout(
