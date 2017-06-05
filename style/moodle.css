@@ -21829,6 +21829,9 @@ div#mod_quiz_navblock .content {
 .path-mod-feedback input[type="radio"] {
   display: none;
 }
+ol.breadcrumb > li {
+  padding: 0;
+}
 /**
  * Snap course swatch.
  *
