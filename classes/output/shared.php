@@ -369,7 +369,7 @@ class shared extends \renderer_base {
             if (is_object($PAGE->cm)) {
                 $mod = array(
                     'modname' => $PAGE->cm->modname, 
-                    'context' => $PAGE->cm->context
+                    'contextid' => $PAGE->cm->context->id
                 );
             }
         }

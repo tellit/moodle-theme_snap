@@ -36,7 +36,7 @@
 
  
 define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'theme_snap/util', 'theme_snap/personal_menu',
-        'theme_snap/responsive_video', 'theme_snap/cover_image', 'TweenLite'],
+        'theme_snap/responsive_video', 'theme_snap/cover_image', 'theme_snap/TweenMax'],
     function($, bsjq, log, Headroom, util, personalMenu, responsiveVideo, coverImage) {
 
         'use strict';
@@ -331,26 +331,13 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                 var manualPopActivities = ['page', 'book', 'wiki'];
                 if (manualPopActivities.indexOf(M.snapTheme.mod.modname) == -1) {
 
-                    //Using bootstrap modal
                     setTimeout(
                         function() {
-                            //$('#activitycompletemodal').modal('show');
                             popCompletion();
                         }, 
                         
                         M.snapTheme.settings.nextactivitymodaldialogdelay
                     );
-                              
-                    //using animate slide position fixed
-                    //setTimeout(
-                    //    function() {
-                    //        popCompletion();
-                    //    },
-                    //    
-                    //    // This is currently  populated on module.js init, but could be passed directly 
-                    //    // to this function as a local parameter via js_init_call
-                    //    M.theme_snap.settings.nextactivitymodaldialogdelay
-                    //);
                 }
             }
         };
@@ -367,14 +354,16 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
         }; 
         
         var loadCompletion = function() {
-
             var type = 'completion';
             var container = $('#completion-region');
             try {
+                
+                console.log(M.cfg.wwwroot + '/theme/snap/rest.php?action=get_' + type +'&contextid=' + M.snapTheme.mod.contextid);
+                
                 $.ajax({
                       type: "GET",
                       async:  true,
-                      url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_' + type +'&contextid=' + M.theme_snap.mod.context.id, // M.cfg.context,
+                      url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_' + type +'&contextid=' + M.snapTheme.mod.contextid, // M.cfg.context,
                       success: function(data) {
                           $('.completion-region').attr('data-content-loaded', '1');
                           $('.completion-region').html(data.html);
@@ -382,7 +371,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                       }
                 });
             } catch(err) {
-                console.write(err);
+                console.log(err);
             }
 
             //bind to the control again
