@@ -283,7 +283,7 @@ html {
 }
 
 ::selection {
-    background: #8F2B8C;
+    background: @brand-primary;
     color: #fff;
     text-shadow: none;
 }
@@ -421,7 +421,8 @@ img.icon.hide {
 
 li {
     break-inside: avoid-column;
-}
+	padding: 0 0 .618em 0;
+} 
 
 hr {
     margin-top: 0.75em;
@@ -925,8 +926,7 @@ footer #moodle-footer
     #region-main,
     #moodle-footer,
     #moodle-blocks {
-        padding-left: 15px;
-        padding-right: 15px;
+       padding: 0 3.444%;
     }
 }
 
@@ -940,16 +940,16 @@ footer #moodle-footer
     width: 100%;
     z-index: 23;
     padding: 0.5em 3.444%;
-    background-color: rgba(255,255,255,0.95);
-	    font-family: @font-family-fancy;
+    background-color: @modal-bg;
+	font-family: @font-family-fancy;
 	box-shadow: -2px 1px 4px #333;
-	
+
 	a#fixy-trigger {
     color: #333;
-} 
-
+}
+}
     //headroom js http://wicky.nillia.ms/headroom.js/
-    &.headroom--unpinned {
+    .headroom--unpinned {
         will-change: transform;
         animation-name: snap-rise;
         animation-timing-function: ease-in-out;
@@ -972,7 +972,7 @@ footer #moodle-footer
         // make header pink
         // background-color: #fcc !important;
     }
-}
+
 
 .bb_dashboard_link img {
     width: 1em;
@@ -1097,6 +1097,11 @@ display: none;
         }
     } } 
  
+
+#page-user-edit .breadcrumb li:nth-child(-n+1) {
+    display: none;
+}
+
     .admin, .path-enrol, .pagelayout-admin {
     .breadcrumb {
     background-color: transparent;
@@ -1301,7 +1306,7 @@ display: none;
 .forumpost .content .posting,
 .no-overflow {
     overflow: visible;
-    padding: 0;
+    padding: 0 0 6.18%;
 }
 
 .form-label .form-shortname {
@@ -2348,7 +2353,7 @@ ul.events-new + ul.events-underway {
 
 // quiz itself //
 .que {
-    border-bottom: 1px solid #999;
+    margin: 0;
 }
 
 .que .info,
@@ -2508,6 +2513,10 @@ ul.events-new + ul.events-underway {
 // Forum responsive table
 // -------------------------
 // Should the forum responsive stuff be moved to modules.less?
+tr.discussion {
+    background: transparent !important;
+}
+
 
 @media screen and (max-width: @screen-sm-max) {
     .path-mod-forum .forumheaderlist {
@@ -3423,12 +3432,16 @@ body.hascontinuecancel.path-site #page {
 
     a:not(.btn),
     a:not(.btn):hover {
-        color: #fff;
+        color: @gray-light;
     }
 
     .langmenu {
         color: #666;
     }
+}
+
+.legal > li {
+    padding: 0;
 }
 
 #page-site-index #moodle-footer {
@@ -4298,3 +4311,32 @@ label.state-visible[for="snap-coverfiles"],
     font-family: @font-family-base;
     color: @gray-dark;
 }
+
+.outcome .feedback {
+    background: #00759B;
+}
+
+.essay .notyetanswered+.submitbtns {
+    display: block;
+}
+
+.que.essay
+.qtype_essay_response.readonly{
+background-color: #fdfdfd;
+}
+
+.firstactivityinsection h4:first-child, .firstactivityinsection #region-main h2:nth-of-type(1) {
+    background: #b02a1a;
+    color: white;
+    margin: -10% -300% 1em;
+    padding: 3.32em 300% .85em;
+    line-height: 1.23em;
+}  
+.firstactivityinsection h4:first-child, .firstactivityinsection #region-main h2:first-child{
+Background: white;
+}
+
+input[name=previous] {
+    display: none;
+}
+

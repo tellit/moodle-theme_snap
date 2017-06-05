@@ -58,7 +58,7 @@
 }
 
 ul, ol {
-    padding: 0 0 0 1em;
+    padding: 0px;
     margin-bottom: 1em;
 }
 
@@ -176,8 +176,8 @@ a:hover,
 #page-mod-book-print  {
     font-family: @font-family-serif;
     max-width: 960px;
-    padding-left: 3.444%;
-    padding-right: 3.444%;  
+    padding: 0 10px 6.18%;
+     
 }
 #region-main textarea{
     width: 100%;
@@ -187,8 +187,7 @@ a:hover,
 @media screen and (min-width: 62em){
 #page-mod-hsuforum-view #region-main {
     max-width: 960px;
-    padding-left: 3.444%;
-    padding-right: 3.444%;
+    padding: 0 3.444% 6.18%;
     }
 } 
 
@@ -606,10 +605,6 @@ img.iconhelp:hover {
 // Quiz
 // -------------------------
 
-.que {
-    border-bottom: 1px solid @brand-primary;
-}
-
 #snap-changecoverimageconfirmation.disabled .ok {
     &,
     &:visited,
@@ -925,7 +920,7 @@ input[type=submit]:disabled, button:disabled {
 
 
 .que .feedback {
-    padding: 1em 310% 3.9em;
+    padding: 2em 310% 3.9em;
     color: #fff;
     margin: -1px -310%;
     font-size: 1.2em;
@@ -935,6 +930,7 @@ input[type=submit]:disabled, button:disabled {
          -o-animation: fadein 2s; /* Opera < 12.1 */
             animation: fadein 2s;
             min-height: 200px;
+	font-family: @font-family-base;
             }
             
 .generalfeedback {
@@ -1711,6 +1707,7 @@ span.activitycompletecurrentmodname {
     font-weight: bold;
     font-size: .9em;
     text-transform: uppercase;
+	border-color: transparent;
 }
 
 .activitycompletemodal-content span.glyphicon.glyphicon-arrow-right {
@@ -1723,9 +1720,17 @@ span.activitycompletecurrentmodname {
     padding: 0 0 .1em;
 }
 
-#moodle-footer a.activitycompletenextmodlink:hover, .modal-content.activitycompletemodal-content .btn:hover, .moodle-dialogue-confirm input[type="button"]:hover {
+#moodle-footer a.activitycompletenextmodlink, .modal-content.activitycompletemodal-content .btn, .moodle-dialogue-confirm input[type="button"]{
+	&:hover,&:focus{
     background: @gray-lighter;
     text-decoration: none;
+	border-color: transparent;
+	color: @brand-info;
+	}
+}
+
+.moodle-dialogue-confirm .confirmation-dialogue {
+    text-align: left;
 }
 
 span.activitycompletenextmodname {
@@ -1750,7 +1755,15 @@ span.activitycompletenextmodname {
 .moodle-dialogue-base .moodle-dialogue-wrap {
     border: none;
     -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 12px 15px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 12px 15px 0 rgba(0,0,0,0.25)
+}
+
+.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd, .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd{
+	padding: .618em 1em 0;
+}
+
+.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
+    display: none;
 }
 
 .yui3-skin-sam .yui3-widget-mask {
@@ -1921,7 +1934,7 @@ a.btn{
 }
 
 div#page-mast{
-    margin: 1%;  
+    margin: 1.618em 0;  
 }
 
 h1#fixy-profile-link {
@@ -2318,5 +2331,13 @@ h2.sectionname:before {
 
 #section-0 h2.sectionname:before {
 	content:"Introduction";
+}
+
+.row-fluid {
+    margin: 0 !important;
+}
+
+img.smallicon.navicon {
+    display: none;
 }
 

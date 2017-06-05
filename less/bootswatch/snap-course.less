@@ -537,6 +537,9 @@ h4.snap-asset-link .instancename {
     font-family: @font-family-base;
     background-color: #fff;
     border-left: 1px solid #bbb;
+	#section-0 &{
+			    border: none;
+}
 
     //new to snap 3.1
 
@@ -555,6 +558,11 @@ h4.snap-asset-link .instancename {
         overflow-y: auto;
         position: static;
         padding: 0;
+			#section-0 &{
+			    border-top: 3px solid @brand-info;
+    box-shadow: -2px 1px 4px @gray-light;
+    background: #fff;
+}
     }
 
     .snap-assettype {
@@ -565,6 +573,9 @@ h4.snap-asset-link .instancename {
     .activityinstance {
         padding: 0 2.2em 1em;
         height: auto;
+		#section-0 &{
+			padding: 1em; 
+		}
         //background-color: rgba(255,255,255,0.9);
         .clearfix();
 
@@ -1011,6 +1022,8 @@ h4.snap-asset-link {
     padding-left: 2em;
     float: left;
     margin-top: -1px;
+	#section-0 &
+	{padding: .618em 1em;}
 }
 
 .unavailable .snap-asset-link:before {
@@ -1073,6 +1086,10 @@ li.unavailable h4 {
 
 #page .course-content .content ul.section.img-text {
     margin: 1em 0 0 .75em;
+}
+
+.course-content #section-0 .content ul.section.img-text {
+    margin: 0;
 }
 
 h2.sectionname {
@@ -1620,7 +1637,18 @@ span.editinstructions {
 
 /* forum unread posts button */
 .snap-asset .unread {
-    display: none;
+    display: inline-block;
+    background: @brand-green;
+    border-radius: 1.618em;
+    padding: .618em 1em;
+    margin: 0 0 1em 0;
+    font-size: .618em;
+    line-height: 1em;
+	color: @modal-bg;
+	a {
+    color: @modal-bg;
+    font-family: @font-family-fancy;
+}
 }
 
 .editing .dndupload-preview .mod-indent {
