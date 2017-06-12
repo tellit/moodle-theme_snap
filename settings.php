@@ -30,7 +30,7 @@ use theme_cass\admin_setting_configradiobuttons;
 
 
 $ADMIN->add('themes', new admin_category('theme_cass', 'Cass'));
-$casssettings = null; // Unsets the default $casssettings object initialised by Moodle.
+$settings = null; // Unsets the default $casssettings object initialised by Moodle.
 
 // Basic settings.
 $casssettings = new admin_settingpage('themesettingcass', 'Cass');
