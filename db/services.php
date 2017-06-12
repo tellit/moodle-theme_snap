@@ -24,48 +24,48 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = [
-    'theme_snap_course_card' => [
-        'classname'     => 'theme_snap\\webservice\\ws_course_card',
+    'theme_cass_course_card' => [
+        'classname'     => 'theme_cass\\webservice\\ws_course_card',
         'methodname'    => 'service',
         'description'   => 'Course card renderable data',
         'type'          => 'read',
         'ajax'          => true,
         'loginrequired' => true
     ],
-    'theme_snap_cover_image' => [
-        'classname'     => 'theme_snap\\webservice\\ws_cover_image',
+    'theme_cass_cover_image' => [
+        'classname'     => 'theme_cass\\webservice\\ws_cover_image',
         'methodname'    => 'service',
         'description'   => 'Cover image modifier',
         'type'          => 'write',
         'ajax'          => true,
         'loginrequired' => true
     ],
-    'theme_snap_course_completion' => [
-        'classname'     => 'theme_snap\\webservice\\ws_course_completion',
+    'theme_cass_course_completion' => [
+        'classname'     => 'theme_cass\\webservice\\ws_course_completion',
         'methodname'    => 'service',
         'description'   => 'Course completion updater',
         'type'          => 'write',
         'ajax'          => true,
         'loginrequired' => true
     ],
-    'theme_snap_course_toc_chapters' => [
-        'classname'     => 'theme_snap\\webservice\\ws_course_toc_chapters',
+    'theme_cass_course_toc_chapters' => [
+        'classname'     => 'theme_cass\\webservice\\ws_course_toc_chapters',
         'methodname'    => 'service',
         'description'   => 'Get course TOC chapters',
         'type'          => 'read',
         'ajax'          => true,
         'loginrequired' => true
     ],
-    'theme_snap_course_sections' => [
-        'classname'     => 'theme_snap\\webservice\\ws_course_sections',
+    'theme_cass_course_sections' => [
+        'classname'     => 'theme_cass\\webservice\\ws_course_sections',
         'methodname'    => 'service',
         'description'   => 'Manage course sections',
         'type'          => 'write',
         'ajax'          => true,
         'loginrequired' => true
     ],
-    'theme_snap_course_module_completion' => [
-        'classname'     => 'theme_snap\\webservice\\ws_course_module_completion',
+    'theme_cass_course_module_completion' => [
+        'classname'     => 'theme_cass\\webservice\\ws_course_module_completion',
         'methodname'    => 'service',
         'description'   => 'Course module completion',
         'type'          => 'write',

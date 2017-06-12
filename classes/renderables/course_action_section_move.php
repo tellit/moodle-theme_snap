@@ -21,7 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
+namespace theme_cass\renderables;
 use context_course;
 use section_info;
 
@@ -32,7 +32,7 @@ class course_action_section_move extends course_action_section_base {
     /**
      * @var string
      */
-    public $class = 'snap-move';
+    public $class = 'cass-move';
 
     public function __construct($course, section_info $section, $onsectionpage = false) {
 
@@ -42,7 +42,7 @@ class course_action_section_move extends course_action_section_base {
         if (!$isstealth && !$onsectionpage && has_capability('moodle/course:movesections', $coursecontext)) {
             $this->url = '#section-'.$section->section;
             $sectionname = !empty($section->name) ? $section->name : get_section_name($course, $section);
-            $this->title = s(get_string('move', 'theme_snap', $sectionname));
+            $this->title = s(get_string('move', 'theme_cass', $sectionname));
         }
     }
 }

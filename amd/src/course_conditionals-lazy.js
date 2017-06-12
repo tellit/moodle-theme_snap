@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -22,7 +22,7 @@
 /**
  * Course conditionals function.
  */
-define(['jquery', 'core/ajax', 'core/notification', 'core/templates', 'theme_snap/ajax_notification'],
+define(['jquery', 'core/ajax', 'core/notification', 'core/templates', 'theme_cass/ajax_notification'],
     function($, ajax, notification, templates, ajaxNotify) {
 
         // Main function.
@@ -30,11 +30,11 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/templates', 'theme_sna
             var currentlyUnavailableSections = courseConfig.unavailablesections.map(Number),
             currentlyUnavailableMods =  courseConfig.unavailablemods.map(Number);
 
-            $(document).on( "snapModuleCompletionChange",
+            $(document).on( "cassModuleCompletionChange",
                 function() {
                     ajax.call([
                         {
-                            methodname: 'theme_snap_course_completion',
+                            methodname: 'theme_cass_course_completion',
                             args: {
                                 courseshortname: courseConfig.shortname,
                                 unavailablesections: currentlyUnavailableSections.join(','),
@@ -69,10 +69,10 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/templates', 'theme_sna
                                 updateModOrSectionHTML(response.changedmodhtml, 'module');
 
                                 // Update TOC.
-                                templates.render('theme_snap/course_toc', response.toc)
+                                templates.render('theme_cass/course_toc', response.toc)
                                     .done(function(result) {
                                         $('#course-toc').html($(result).html());
-                                        $(document).trigger('snapTOCReplaced');
+                                        $(document).trigger('cassTOCReplaced');
                                     });
 
                                 // Update current state.

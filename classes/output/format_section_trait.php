@@ -19,12 +19,12 @@
  * Code that is shared between course_format_topic_renderer.php and course_format_weeks_renderer.php
  * Used for section outputs.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\output;
+namespace theme_cass\output;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -32,11 +32,11 @@ use context_course;
 use html_writer;
 use moodle_url;
 use stdClass;
-use theme_snap\renderables\course_action_section_move;
-use theme_snap\renderables\course_action_section_visibility;
-use theme_snap\renderables\course_action_section_delete;
-use theme_snap\renderables\course_action_section_highlight;
-use theme_snap\renderables\course_section_navigation;
+use theme_cass\renderables\course_action_section_move;
+use theme_cass\renderables\course_action_section_visibility;
+use theme_cass\renderables\course_action_section_delete;
+use theme_cass\renderables\course_action_section_highlight;
+use theme_cass\renderables\course_section_navigation;
 
 trait format_section_trait {
 
@@ -179,7 +179,7 @@ trait format_section_trait {
         // We have to get the output renderer instead of using $this->output to ensure we get the non ajax version of
         // the renderer, even when via an AJAX request. The HTML returned has to be the same for all requests, even
         // ajax.
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
 
         if ($section->section != 0) {
             // Only in the non-general sections.
@@ -232,14 +232,14 @@ trait format_section_trait {
         $sectiontitle = get_section_name($course, $section);
         // Better first section title.
         if ($sectiontitle == get_string('general') && $section->section == 0) {
-            $sectiontitle = get_string('introduction', 'theme_snap');
+            $sectiontitle = get_string('introduction', 'theme_cass');
         }
 
         // Untitled topic title.
         $testemptytitle = get_string('topic').' '.$section->section;
         if ($sectiontitle == $testemptytitle && has_capability('moodle/course:update', $context)) {
             $url = new moodle_url('/course/editsection.php', array('id' => $section->id, 'sr' => $sectionreturn));
-            $o .= "<h2 class='sectionname'><a href='$url' title='".s(get_string('editcoursetopic', 'theme_snap'))."'>".get_string('defaulttopictitle', 'theme_snap')."</a></h2>";
+            $o .= "<h2 class='sectionname'><a href='$url' title='".s(get_string('editcoursetopic', 'theme_cass'))."'>".get_string('defaulttopictitle', 'theme_cass')."</a></h2>";
         } else {
             $o .= $output->heading($sectiontitle, 2, 'sectionname' . $classes);
         }
@@ -247,7 +247,7 @@ trait format_section_trait {
         // Section drop zone.
         $caneditcourse = has_capability('moodle/course:update', $context);
         if ($caneditcourse && $section->section != 0) {
-            $o .= "<a class='snap-drop section-drop' data-title='".
+            $o .= "<a class='cass-drop section-drop' data-title='".
                     s($sectiontitle)."' href='#'>_</a>";
         }
 
@@ -258,25 +258,25 @@ trait format_section_trait {
             if (!empty($sectiontoolsarray)) {
                 $sectiontools = implode(' ', $sectiontoolsarray);
                 $o .= html_writer::tag('div', $sectiontools, array(
-                    'class' => 'snap-section-editing actions',
+                    'class' => 'cass-section-editing actions',
                     'role' => 'region',
-                    'aria-label' => get_string('topicactions', 'theme_snap')
+                    'aria-label' => get_string('topicactions', 'theme_cass')
                 ));
             }
         }
 
         // Current section message.
-        $o .= '<span class="snap-current-tag">'.get_string('current', 'theme_snap').'</span>';
+        $o .= '<span class="cass-current-tag">'.get_string('current', 'theme_cass').'</span>';
 
         // Draft message.
-        $o .= '<div class="snap-draft-tag">'.get_string('draft', 'theme_snap').'</div>';
+        $o .= '<div class="cass-draft-tag">'.get_string('draft', 'theme_cass').'</div>';
 
         // Availabiliy message.
         $conditionalicon = '<img aria-hidden="true" role="presentation" class="svg-icon" src="'.$output->pix_url('conditional', 'theme').'" />';
         $conditionalmessage = $this->section_availability_message($section,
             has_capability('moodle/course:viewhiddensections', $context));
         if ($conditionalmessage !== '') {
-            $o .= '<div class="snap-conditional-tag">'.$conditionalicon.$conditionalmessage.'</div>';
+            $o .= '<div class="cass-conditional-tag">'.$conditionalicon.$conditionalmessage.'</div>';
         }
 
         // Section summary/body text.
@@ -287,10 +287,10 @@ trait format_section_trait {
 
         // Welcome message when no summary text.
         if (empty($summarytext) && $canupdatecourse) {
-            $summarytext = "<p>".get_string('defaultsummary', 'theme_snap')."</p>";
+            $summarytext = "<p>".get_string('defaultsummary', 'theme_cass')."</p>";
             if ($section->section == 0) {
                 $editorname = format_string(fullname($USER));
-                $summarytext = "<p>".get_string('defaultintrosummary', 'theme_snap', $editorname)."</p>";
+                $summarytext = "<p>".get_string('defaultintrosummary', 'theme_cass', $editorname)."</p>";
             }
         }
 
@@ -298,7 +298,7 @@ trait format_section_trait {
         if ($canupdatecourse) {
             $url = new moodle_url('/course/editsection.php', array('id' => $section->id, 'sr' => $sectionreturn));
             $icon = '<img aria-hidden="true" role="presentation" class="svg-icon" src="'.$this->output->pix_url('pencil', 'theme').'" /><br/>';
-            $o .= '<a href="'.$url.'" class="edit-summary">'.$icon.get_string('editcoursetopic', 'theme_snap'). '</a>';
+            $o .= '<a href="'.$url.'" class="edit-summary">'.$icon.get_string('editcoursetopic', 'theme_cass'). '</a>';
         }
         $o .= "</div>";
 
@@ -309,7 +309,7 @@ trait format_section_trait {
      * @param course_section_navigation $navigation
      */
     public function render_course_section_navigation(course_section_navigation $navigation) {
-        return $this->render_from_template('theme_snap/course_section_navigation', $navigation);
+        return $this->render_from_template('theme_cass/course_section_navigation', $navigation);
     }
 
 
@@ -426,14 +426,14 @@ trait format_section_trait {
             return '';
         }
 
-        $url = new moodle_url('/theme/snap/index.php', array(
+        $url = new moodle_url('/theme/cass/index.php', array(
             'sesskey'  => sesskey(),
             'action' => 'addsection',
             'contextid' => $context->id,
         ));
 
         $required = '';
-        $defaulttitle = get_string('title', 'theme_snap');
+        $defaulttitle = get_string('title', 'theme_cass');
         $sectionnum = $course->numsections;
         if ($course->format === 'topics') {
             $required = 'required';
@@ -454,8 +454,8 @@ trait format_section_trait {
             $endweekday = userdate($dates->end, $dateformat);
             $datesection = $weekday.' - '.$endweekday;
         }
-        $heading = get_string('addanewsection', 'theme_snap');
-        $output = "<section id='snap-add-new-section' class='clearfix' tabindex='-1'>
+        $heading = get_string('addanewsection', 'theme_cass');
+        $output = "<section id='cass-add-new-section' class='clearfix' tabindex='-1'>
         <h3>$heading</h3>";
         $output .= html_writer::start_tag('form', array(
             'method' => 'post',
@@ -463,22 +463,22 @@ trait format_section_trait {
         ));
         $output .= html_writer::input_hidden_params($url);
         $output .= '<div class="form-group">';
-        $output .= "<label for='newsection' class='sr-only'>".get_string('title', 'theme_snap')."</label>";
+        $output .= "<label for='newsection' class='sr-only'>".get_string('title', 'theme_cass')."</label>";
         if ($course->format === 'topics') {
-            $output .= "<input class='h3' id='newsection' type='text' maxlength='250' name='newsection' $required placeholder='".get_string('title', 'theme_snap')."'>";
+            $output .= "<input class='h3' id='newsection' type='text' maxlength='250' name='newsection' $required placeholder='".get_string('title', 'theme_cass')."'>";
         } else {
             $output .= "<h3>".$defaulttitle.': '.$datesection."</h3>";
         }
         $output .= '</div>';
         $output .= '<div class="form-group">';
-        $output .= "<label for='summary'>".get_string('contents', 'theme_snap')."</label>";
+        $output .= "<label for='summary'>".get_string('contents', 'theme_cass')."</label>";
         $output .= print_textarea(true, 10, 150, "100%",
             "auto", "summary", '', $course->id, true);
         $output .= '</div>';
         $output .= html_writer::empty_tag('input', array(
             'type' => 'submit',
             'name' => 'addtopic',
-            'value' => get_string('createsection', 'theme_snap'),
+            'value' => get_string('createsection', 'theme_cass'),
         ));
         $output .= html_writer::end_tag('form');
         $output .= '</section>';
@@ -512,23 +512,23 @@ trait format_section_trait {
             // moodle is adding a link around the span in a span with js - yay!! go moodle...
             $iconurl = $OUTPUT->pix_url('move_here', 'theme');
             $icon = '<img src="'.$iconurl.'" class="svg-icon" role="presentation" alt=""><br>';
-            $modchooser = '<div class="col-sm-6 snap-modchooser section_add_menus">
-              <span class="section-modchooser-link btn btn-link">'.$icon.'<span>'.get_string('addresourceoractivity', 'theme_snap').'</span></span>
+            $modchooser = '<div class="col-sm-6 cass-modchooser section_add_menus">
+              <span class="section-modchooser-link btn btn-link">'.$icon.'<span>'.get_string('addresourceoractivity', 'theme_cass').'</span></span>
             </div>';
            $output = $this->courserenderer->course_modchooser($modules, $course) . $modchooser;
 
            // Add zone for quick uploading of files.
            $upload = '<div class="col-sm-6">
-                <form class="snap-dropzone">
-                    <label tabindex="0" for="snap-drop-file-'.$section.'" class="snap-dropzone-label">'.get_string('dropzonelabel', 'theme_snap').'</label>
-                    <input type="file" multiple name="snap-drop-file-'.$section.'" id="snap-drop-file-'.$section.'" class="js-snap-drop-file sr-only"/>
+                <form class="cass-dropzone">
+                    <label tabindex="0" for="cass-drop-file-'.$section.'" class="cass-dropzone-label">'.get_string('dropzonelabel', 'theme_cass').'</label>
+                    <input type="file" multiple name="cass-drop-file-'.$section.'" id="cass-drop-file-'.$section.'" class="js-cass-drop-file sr-only"/>
                 </form>
                 </div>';
            return '<div class="row">'.$output.$upload.'</div>';
     }
 
     /**
-     * Always output the html for multiple sections, single section mode is not supported in Snap.
+     * Always output the html for multiple sections, single section mode is not supported in Cass.
      *
      * @param stdClass $course The course entry from DB
      * @param array $sections (argument not used)
@@ -548,7 +548,7 @@ trait format_section_trait {
      */
     public function render_course_action_section_move(course_action_section_move $action) {
         $data = $action->export_for_template($this);
-        return $this->render_from_template('theme_snap/course_action_section', $data);
+        return $this->render_from_template('theme_cass/course_action_section', $data);
     }
 
     /**
@@ -558,7 +558,7 @@ trait format_section_trait {
      */
     public function render_course_action_section_visibility(course_action_section_visibility $action) {
         $data = $action->export_for_template($this);
-        return $this->render_from_template('theme_snap/course_action_section', $data);
+        return $this->render_from_template('theme_cass/course_action_section', $data);
     }
 
     /**
@@ -568,7 +568,7 @@ trait format_section_trait {
      */
     public function render_course_action_section_highlight(course_action_section_highlight $action) {
         $data = $action->export_for_template($this);
-        return $this->render_from_template('theme_snap/course_action_section', $data);
+        return $this->render_from_template('theme_cass/course_action_section', $data);
     }
 
     /**
@@ -578,7 +578,7 @@ trait format_section_trait {
      */
     public function render_course_action_section_delete(course_action_section_delete $action) {
         $data = $action->export_for_template($this);
-        return $this->render_from_template('theme_snap/course_action_section', $data);
+        return $this->render_from_template('theme_cass/course_action_section', $data);
     }
 
 

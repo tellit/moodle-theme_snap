@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_snap\controller;
+namespace theme_cass\controller;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -22,11 +22,11 @@ defined('MOODLE_INTERNAL') || die();
  * Deadlines Controller.
  * Handles requests regarding user deadlines and other CTAs.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class snap_personal_menu_controller extends controller_abstract {
+class cass_personal_menu_controller extends controller_abstract {
     /**
      * Do any security checks needed for the passed action
      *
@@ -42,7 +42,7 @@ class snap_personal_menu_controller extends controller_abstract {
      */
     public function get_deadlines_action() {
         return json_encode(array(
-            'html' => \theme_snap\local::deadlines()
+            'html' => \theme_cass\local::deadlines()
         ));
     }
 
@@ -53,7 +53,7 @@ class snap_personal_menu_controller extends controller_abstract {
      */
     public function get_forumposts_action() {
         return json_encode(array(
-            'html' => \theme_snap\local::render_recent_forum_activity()
+            'html' => \theme_cass\local::render_recent_forum_activity()
         ));
     }
 
@@ -64,7 +64,7 @@ class snap_personal_menu_controller extends controller_abstract {
      */
     public function get_graded_action() {
         return json_encode(array(
-            'html' => \theme_snap\local::graded()
+            'html' => \theme_cass\local::graded()
         ));
     }
 
@@ -75,7 +75,7 @@ class snap_personal_menu_controller extends controller_abstract {
      */
     public function get_messages_action() {
         return json_encode(array(
-            'html' => \theme_snap\local::messages()
+            'html' => \theme_cass\local::messages()
         ));
     }
 
@@ -86,7 +86,7 @@ class snap_personal_menu_controller extends controller_abstract {
      */
     public function get_grading_action() {
         return json_encode(array(
-            'html' => \theme_snap\local::grading()
+            'html' => \theme_cass\local::grading()
         ));
     }
 
@@ -101,7 +101,7 @@ class snap_personal_menu_controller extends controller_abstract {
         if (!empty($courseids)) {
             $courseids = explode(',', $courseids);
         }
-        $courseinfo = \theme_snap\local::courseinfo($courseids);
+        $courseinfo = \theme_cass\local::courseinfo($courseids);
         return json_encode(array(
             'info' => $courseinfo
         ));
@@ -121,11 +121,11 @@ class snap_personal_menu_controller extends controller_abstract {
         ];
         if (!$loggedin) {
             if (!empty($failedactionmsg)) {
-                $return['loggedoutmsg'] = get_string('loggedoutfailmsg', 'theme_snap', $failedactionmsg);
+                $return['loggedoutmsg'] = get_string('loggedoutfailmsg', 'theme_cass', $failedactionmsg);
             } else {
-                $return['loggedoutmsg'] = get_string('loggedoutmsg', 'theme_snap');
+                $return['loggedoutmsg'] = get_string('loggedoutmsg', 'theme_cass');
             }
-            $return['loggedouttitle'] = get_string('loggedoutmsgtitle', 'theme_snap');
+            $return['loggedouttitle'] = get_string('loggedoutmsgtitle', 'theme_cass');
             $return['loggedoutcontinue'] = get_string('continue');
         }
         return json_encode($return);

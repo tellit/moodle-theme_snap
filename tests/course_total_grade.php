@@ -21,8 +21,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use theme_snap\local;
-use theme_snap\course_total_grade;
+use theme_cass\local;
+use theme_cass\course_total_grade;
 
 /**
  * Course total grade tests
@@ -30,7 +30,7 @@ use theme_snap\course_total_grade;
  * @copyright Copyright (c) 2017 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_snap_course_total_grade_test extends \advanced_testcase {
+class theme_cass_course_total_grade_test extends \advanced_testcase {
 
     /**
      * @var array
@@ -284,7 +284,7 @@ class theme_snap_course_total_grade_test extends \advanced_testcase {
             'feedback' => false
         ];
 
-        $config = get_config('theme_snap');
+        $config = get_config('theme_cass');
         if (empty($config->showcoursegradepersonalmenu)) {
             // If not enabled, don't return data.
             return $failobj;
@@ -427,7 +427,7 @@ class theme_snap_course_total_grade_test extends \advanced_testcase {
 
         // Test new overview report method.
         $title = 'New method (course_total_grade class)';
-        $newtime = $this->run_performance_test($title, 'theme_snap\local::course_grade', []);
+        $newtime = $this->run_performance_test($title, 'theme_cass\local::course_grade', []);
 
         $this->assertLessThan($legacytime, $newtime);
     }

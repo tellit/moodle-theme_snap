@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,9 +25,9 @@
 define(
     [
         'jquery',
-        'theme_snap/util',
-        'theme_snap/section_asset_management',
-        'theme_snap/course_modules'
+        'theme_cass/util',
+        'theme_cass/section_asset_management',
+        'theme_cass/course_modules'
     ],
     function($, util, sectionAssetManagement, courseModules) {
 
@@ -74,11 +74,11 @@ define(
          * Mark the section shown to user with a class in the TOC.
          */
         this.setTOCVisibleSection = function() {
-            var sectionIdSel = '.section.main.state-visible, #coursetools.state-visible, #snap-add-new-section.state-visible';
+            var sectionIdSel = '.section.main.state-visible, #coursetools.state-visible, #cass-add-new-section.state-visible';
             var currentSectionId = $(sectionIdSel).attr('id');
-            $('#chapters li').removeClass('snap-visible-section');
-            $('#chapters a[href$="' + currentSectionId + '"]').parent('li').addClass('snap-visible-section');
-            $(document).trigger('snapContentRevealed');
+            $('#chapters li').removeClass('cass-visible-section');
+            $('#chapters a[href$="' + currentSectionId + '"]').parent('li').addClass('cass-visible-section');
+            $(document).trigger('cassContentRevealed');
         };
 
         /**
@@ -95,7 +95,7 @@ define(
                 sectionSetByServer = '#' + $('.section.main.state-visible.set-by-server').attr('id');
                 $('.section.main.state-visible.set-by-server').removeClass('set-by-server');
             } else {
-                $('.course-content .section.main, #moodle-blocks,#coursetools, #snap-add-new-section').removeClass('state-visible');
+                $('.course-content .section.main, #moodle-blocks,#coursetools, #cass-add-new-section').removeClass('state-visible');
             }
 
             // We know the params at 0 is a section id.
@@ -127,7 +127,7 @@ define(
             var visibleChapters = $(
                 '.section.main.state-visible,' +
                 '#coursetools.state-visible,' +
-                '#snap-add-new-section.state-visible'
+                '#cass-add-new-section.state-visible'
             );
             if (!visibleChapters.length) {
                 if ($('.section.main.current').length) {
@@ -152,7 +152,7 @@ define(
             if (self.courseConfig.enablecompletion) {
                 require(
                     [
-                        'theme_snap/course_conditionals-lazy'
+                        'theme_cass/course_conditionals-lazy'
                     ], function(conditionals) {
                         conditionals(courseConfig);
                     }
@@ -162,7 +162,7 @@ define(
             // SL - 19th aug 2014 - check we are in a course and if so, show current section.
             if (onCoursePage()) {
                 self.showSection();
-                $(document).on('snapTOCReplaced',  function() {
+                $(document).on('cassTOCReplaced',  function() {
                     self.setTOCVisibleSection();
                 });
             }

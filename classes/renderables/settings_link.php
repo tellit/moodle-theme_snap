@@ -21,8 +21,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
-use theme_snap\local;
+namespace theme_cass\renderables;
+use theme_cass\local;
 
 defined('MOODLE_INTERNAL') || die();
 

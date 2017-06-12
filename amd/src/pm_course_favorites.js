@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -22,7 +22,7 @@
 /**
  * Course card favoriting.
  */
-define(['jquery', 'core/ajax', 'core/notification', 'core/log', 'theme_snap/model_view', 'theme_snap/ajax_notification'],
+define(['jquery', 'core/ajax', 'core/notification', 'core/log', 'theme_cass/model_view', 'theme_cass/ajax_notification'],
     function($, ajax, notification, log, mview, ajaxNotify) {
         return function(cardsHidden) {
             log.enableAll(true);
@@ -35,7 +35,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/log', 'theme_snap/mode
              * @param {jQuery} cardEl - coursecard element
              */
             var reloadCourseCardTemplate = function(renderable, cardEl) {
-                mview(cardEl, 'theme_snap/course_cards');
+                mview(cardEl, 'theme_cass/course_cards');
                 var callback = function() {
                     var button = $(cardEl).find('.favoritetoggle');
                     $(button).removeClass('ajaxing');
@@ -194,7 +194,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'core/log', 'theme_snap/mode
                 var doAjax = function() {
                     ajax.call([
                         {
-                            methodname: 'theme_snap_course_card',
+                            methodname: 'theme_cass_course_card',
                             args: {courseshortname: shortname, favorited: favorited},
                             done: function(response) {
                                 reloadCourseCardTemplate(response, cardEl);

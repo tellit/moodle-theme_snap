@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Test snap requirements manager
+ * Test cass requirements manager
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -23,15 +23,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-use theme_snap\snap_page_requirements_manager;
+use theme_cass\cass_page_requirements_manager;
 
 /**
- * Class theme_snap_snap_page_requirements_manager_test
+ * Class theme_cass_cass_page_requirements_manager_test
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_snap_snap_page_requirements_manager_test extends \advanced_testcase {
+class theme_cass_cass_page_requirements_manager_test extends \advanced_testcase {
 
     /**
      * Test clean theme does not black list M.core_completion.init.
@@ -51,14 +51,14 @@ class theme_snap_snap_page_requirements_manager_test extends \advanced_testcase 
     }
 
     /**
-     * Test snap theme black lists M.core_completion.init and excludes the code.
+     * Test cass theme black lists M.core_completion.init and excludes the code.
      */
-    public function test_js_init_call_snap() {
+    public function test_js_init_call_cass() {
         global $CFG, $PAGE;
 
         $this->resetAfterTest();
 
-        $CFG->theme = 'snap';
+        $CFG->theme = 'cass';
         $PAGE->initialise_theme_and_output();
 
         $PAGE->requires->js_init_call('M.core_completion.init');
@@ -68,7 +68,7 @@ class theme_snap_snap_page_requirements_manager_test extends \advanced_testcase 
     }
 
     /**
-     * Integration test - Test clean theme does not use snap page requirements manager.
+     * Integration test - Test clean theme does not use cass page requirements manager.
      */
     public function test_clean_theme_regular_requirements_manager() {
         global $CFG, $PAGE;
@@ -82,16 +82,16 @@ class theme_snap_snap_page_requirements_manager_test extends \advanced_testcase 
     }
 
     /**
-     * Integration test - Test snap theme uses snap page requirements manager.
+     * Integration test - Test cass theme uses cass page requirements manager.
      */
-    public function test_snap_theme_snap_requirements_manager() {
+    public function test_cass_theme_cass_requirements_manager() {
         global $CFG, $PAGE;
 
         $this->resetAfterTest();
 
-        $CFG->theme = 'snap';
+        $CFG->theme = 'cass';
 
         $PAGE->initialise_theme_and_output();
-        $this->assertInstanceOf(snap_page_requirements_manager::class, $PAGE->requires);
+        $this->assertInstanceOf(cass_page_requirements_manager::class, $PAGE->requires);
     }
 }

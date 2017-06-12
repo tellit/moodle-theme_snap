@@ -13,19 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests deleting assets in snap.
+# Tests deleting assets in cass.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @author     Guy Thomas
 # @copyright  2016 Blackboard Ltd
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, teachers can delete course resources and activities without having to reload the page.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, teachers can delete course resources and activities without having to reload the page.
 
   Background:
     Given the following config values are set as admin:
-      | theme              | snap |
+      | theme              | cass |
       | defaulthomepage    | 0    |
     And the following "courses" exist:
       | fullname | shortname | category | format |
@@ -47,39 +47,39 @@ Feature: When the moodle theme is set to Snap, teachers can delete course resour
 
   @javascript
   Scenario: In read mode, on front page, admin can cancel / confirm delete activity.
-    Given I log in as "admin" (theme_snap)
+    Given I log in as "admin" (theme_cass)
     And I click on "#admin-menu-trigger" "css_element"
     And I navigate to "Front page > Front page settings" in site administration
     And I set the following fields to these values:
       | Include a topic section | 1 |
     And I am on site homepage
     And I should see "Test assignment1"
-    When I click on ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-activity[data-type='Assignment'] a.js_snap_delete" "css_element"
+    When I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-activity[data-type='Assignment'] a.js_cass_delete" "css_element"
     Then I should see asset delete dialog
     And I cancel dialog
     Then I should not see asset delete dialog
     And I should see "Test assignment1"
-    When I click on ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-activity[data-type='Assignment'] a.js_snap_delete" "css_element"
+    When I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-activity[data-type='Assignment'] a.js_cass_delete" "css_element"
     Then I should see asset delete dialog
     When I press "Delete Assign"
     Then I should not see "Test assignment1"
 
   @javascript
   Scenario: In read mode, on course, teacher can cancel / confirm delete activity.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
-    When I click on ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-activity[data-type='Assignment'] a.js_snap_delete" "css_element"
+    When I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-activity[data-type='Assignment'] a.js_cass_delete" "css_element"
     Then I should see asset delete dialog
     And I cancel dialog
     Then I should not see asset delete dialog
     And I should see "Test assignment1"
-    When I click on ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-activity[data-type='Assignment'] a.js_snap_delete" "css_element"
+    When I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-activity[data-type='Assignment'] a.js_cass_delete" "css_element"
     Then I should see asset delete dialog
     When I press "Delete Assign"
     Then I should not see "Test assignment1" in the "#section-1" "css_element"
@@ -87,8 +87,8 @@ Feature: When the moodle theme is set to Snap, teachers can delete course resour
 
   @javascript
   Scenario: Student cannot delete activity.
-    Given I log in as "student1" (theme_snap)
+    Given I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
-    Then ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element" should not exist
-    And ".snap-activity[data-type='Assignment'] a.js_snap_delete" "css_element" should not exist
+    Then ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element" should not exist
+    And ".cass-activity[data-type='Assignment'] a.js_cass_delete" "css_element" should not exist

@@ -15,17 +15,17 @@
 #
 # Tests for personal menu course feedback in course cards.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2017 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, students and teachers can open a personal menu where they can find
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, students and teachers can open a personal menu where they can find
   a list of courses they are enrolled in with a feedback available or grade.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname        | shortname | category | groupmode | visible |
       | Course 1        | C1        | 0        | 1         | 1       |
@@ -40,8 +40,8 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
       | user     | course | role    |
       | student1 | C1     | student |
     And the following config values are set as admin:
-      | showcoursegradepersonalmenu | <showgrades> | theme_snap |
-    And I log in as "student1" (theme_snap)
+      | showcoursegradepersonalmenu | <showgrades> | theme_cass |
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
     Then I should see "Course 1"
     And "a.coursegrade" "css_element" should not exist

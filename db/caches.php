@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Cache definition for snap.
+ * Cache definition for cass.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

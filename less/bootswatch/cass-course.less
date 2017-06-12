@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Snap course swatch.
+ * Cass course swatch.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -105,13 +105,13 @@ section#region-main
     display: none !important;
 }
 .dndupload-over {
-    .snap-dropzone {
+    .cass-dropzone {
         background-color:#fafafa;
     }
 }
 
 // -------------------------
-// Special section in snap for course tools.
+// Special section in cass for course tools.
 // -------------------------
 #coursetools {
     .clearfix();
@@ -130,7 +130,7 @@ section#region-main
         border: 1px solid #eee;
         border-radius: 4px;
 
-        .snap-participant-icons,
+        .cass-participant-icons,
         img.svg-icon {
             display: block !important;
             margin: 0.3em auto;
@@ -138,12 +138,12 @@ section#region-main
         }
 
         /* Cover image used as icon. */
-        .snap-cover-icon {
+        .cass-cover-icon {
             border-radius: 100%;
         }
 
         /* User images as icons. */
-        .snap-participant-icons {
+        .cass-participant-icons {
             img {
                 .svg-icon();
                 margin: 0 0.5%;
@@ -232,7 +232,7 @@ li.section:focus {
 
 // Overwrite moodle not showing title for section 0.
 // Note: This is only relevant to course formats other than topics/weeks as we always spit the sectionname out without
-// the accesshide class in Snap for topics and weeks.
+// the accesshide class in Cass for topics and weeks.
 #section-0 .sectionname.accesshide {
     font-weight: 300;
     font-size: @font-size-h2;
@@ -250,7 +250,7 @@ li.section:focus {
     line-height: inherit;
     padding-bottom: 1.25em;
 
-    //new to snap 3.1
+    //new to cass 3.1
     margin-bottom: 1.5em;
     .clearfix();
 
@@ -259,7 +259,7 @@ li.section:focus {
     }
 }
 
-.snap-section-editing {
+.cass-section-editing {
     visibility: hidden;
     max-width: 100%;
     min-width: 0;
@@ -293,28 +293,28 @@ li.section:focus {
         background-size: 70%;
     }
 
-    .snap-move:after {
+    .cass-move:after {
         background-image: url([[pix:theme|move]]);
         background-size: 100%;
     }
 
-    .snap-visibility.snap-show:after {
+    .cass-visibility.cass-show:after {
         background-image: url([[pix:core|i/show]]);
     }
 
-    .snap-visibility.snap-hide:after {
+    .cass-visibility.cass-hide:after {
         background-image: url([[pix:core|i/hide]]);
     }
 
-    .snap-delete:after {
+    .cass-delete:after {
         background-image: url([[pix:core|t/delete]]);
     }
 
-    .snap-highlight.snap-marker:after {
+    .cass-highlight.cass-marker:after {
         background-image: url([[pix:core|i/marker]]);
     }
 
-    .snap-highlight.snap-marked:after {
+    .cass-highlight.cass-marked:after {
         background-image: url([[pix:core|i/marked]]);
     }
 
@@ -324,14 +324,14 @@ li.section:focus {
 
 }
 
-.snap-dropzone {
+.cass-dropzone {
     visibility: hidden;
 }
 
-.snap-dropzone {
+.cass-dropzone {
     text-align: center;
 
-    .snap-dropzone-label {
+    .cass-dropzone-label {
         display: block;
         cursor: pointer;
         background: transparent url("[[pix:resource|icon]]") 50% 1em no-repeat;
@@ -364,7 +364,7 @@ li.section:focus {
 }
 
 .section-modchooser-link,
-.snap-dropzone {
+.cass-dropzone {
     margin-top: 1em;
 }
 
@@ -374,18 +374,18 @@ li.section:focus {
 }
 
 // Do not show elements requiring js until js is classed as loaded.
-.snap-course-listening {
-    .snap-section-editing {
+.cass-course-listening {
+    .cass-section-editing {
         visibility: visible;
     }
 
-    .snap-dropzone {
+    .cass-dropzone {
         visibility: visible;
     }
 }
 
 // get rid of js cursor style applied to the whole commands area
-.snap-section-editing[style] {
+.cass-section-editing[style] {
     cursor: default !important;
 }
 
@@ -401,7 +401,7 @@ li.section:focus {
 
 .course-content > ul li.section,
 #coursetools,
-#snap-add-new-section {
+#cass-add-new-section {
     visibility: hidden;
     height: 0;
     width: 0;
@@ -428,8 +428,8 @@ li.section:focus {
 }
 
 .course-content > ul li.section.state-visible,
-#snap-add-new-section.state-visible,
-.editing #snap-add-new-section,
+#cass-add-new-section.state-visible,
+.editing #cass-add-new-section,
 #coursetools.state-visible,
 .editing #coursetools,
 .format-singleactivity #coursetools,
@@ -520,15 +520,15 @@ body.format-flexpage .singlebutton {
 // Activity & Resource styles
 // -------------------------
 
-h4.snap-asset-link .instancename {
+h4.cass-asset-link .instancename {
     line-height: 1em;
 
 }
 
 // -------------------------
-//  Assets in snap.
+//  Assets in cass.
 // -------------------------
-.section li.snap-asset {
+.section li.cass-asset {
     display: block;
     position: relative;
     padding: 0 0 1.55em;
@@ -541,14 +541,14 @@ h4.snap-asset-link .instancename {
 			    border: none;
 }
 
-    //new to snap 3.1
+    //new to cass 3.1
 
     box-shadow: none;  
     background-color: transparent;
     border-radius: 0;
 
     // For editors add space for editong tools.
-    &.snap-can-edit {
+    &.cass-can-edit {
         padding-bottom: 2em !important;
     }
 
@@ -565,7 +565,7 @@ h4.snap-asset-link .instancename {
 }
     }
 
-    .snap-assettype {
+    .cass-assettype {
         font-size: small;
         text-transform: uppercase;
     }
@@ -588,8 +588,8 @@ h4.snap-asset-link .instancename {
             .alakazam();
         }
 
-        // Link to the mod (headings in snap).
-        .snap-asset-link {
+        // Link to the mod (headings in cass).
+        .cass-asset-link {
             font-size: 1em;
             margin: 0;
             padding: 0.5em 0;
@@ -610,7 +610,7 @@ h4.snap-asset-link .instancename {
 	}}
 
 // Override the stepper border on the final activity list item
-.section li.snap-asset-last {
+.section li.cass-asset-last {
     border-left: none;
 }  
 
@@ -622,19 +622,19 @@ h4.snap-asset-link .instancename {
 
 /**
  * resourcelinkdetails = moodle putting filetype on screen if option selected
- * we do this by default in snap, so hide moodle version
+ * we do this by default in cass, so hide moodle version
  */
 .resourcelinkdetails {
     display: none;
 }
-/* snap has its own implimentation of these, so hide moodles */
+/* cass has its own implimentation of these, so hide moodles */
 .activityinstance .accesshide,
 .groupinglabel {
     display: none;
 }
 
 // -------------------------
-// Snap label
+// Cass label
 // -------------------------
 
 .section .activity.modtype_label.label {
@@ -656,10 +656,10 @@ h4.snap-asset-link .instancename {
 }
 
 // -------------------------
-// Snap native assets - books, page, images
+// Cass native assets - books, page, images
 // -------------------------
 
-.section li.snap-native {
+.section li.cass-native {
     border: none;
     height: auto;
     margin: 0.5em auto;
@@ -669,7 +669,7 @@ h4.snap-asset-link .instancename {
     }
 
     .activityicon,
-    .snap-assettype {
+    .cass-assettype {
         display: none;
     }
 
@@ -720,7 +720,7 @@ h4.snap-asset-link .instancename {
 // TODO - make better
 // title/link on images - css is shame
 
-.snap-native.snap-image .activityinstance .snap-asset-link a {
+.cass-native.cass-image .activityinstance .cass-asset-link a {
     display: none;
 }
 
@@ -730,19 +730,19 @@ h4.snap-asset-link .instancename {
 //}
 
 
-.snap-native.modtype_book ol.bookmod-chapters {
+.cass-native.modtype_book ol.bookmod-chapters {
     margin: 0;
 }
 
-.snap-image-image {
+.cass-image-image {
     position: relative;
 
-    .snap-image-link {
+    .cass-image-link {
         display: block;
     }
 
-    .snap-image-summary,
-    .snap-image-title {
+    .cass-image-summary,
+    .cass-image-title {
         position: absolute;
         bottom: 0;
         display: block;
@@ -752,21 +752,21 @@ h4.snap-asset-link .instancename {
         font-size: 1em;
     }
 
-    .snap-image-title {
+    .cass-image-title {
         text-align: center;
     }
 
-    .snap-image-summary {
+    .cass-image-summary {
         position: relative;
         margin-top: -3em;
     }
 }
 
 // -------------------------
-// Snap resource
+// Cass resource
 // -------------------------
 
-.section li.snap-resource {
+.section li.cass-resource {
     display: block;
     .alakazam();
 
@@ -776,7 +776,7 @@ h4.snap-asset-link .instancename {
         margin-top: 0;
     }
 
-    .snap-asset-link {
+    .cass-asset-link {
         font-size: 1em;
     }
 }
@@ -785,9 +785,9 @@ h4.snap-asset-link .instancename {
 
 
 // -------------------------
-// Snap resources as cards.
+// Cass resources as cards.
 // -------------------------
-body.snap-resource-card li.snap-resource {
+body.cass-resource-card li.cass-resource {
     height: 200px;
     width: 31%;
     margin: 1%;
@@ -816,60 +816,60 @@ body.snap-resource-card li.snap-resource {
         font-size: small;
     }
 
-    &.snap-mime-document,
-    &.snap-mime-writer,
-    &.snap-mime-oth,
-    &.snap-mime-text {
+    &.cass-mime-document,
+    &.cass-mime-writer,
+    &.cass-mime-oth,
+    &.cass-mime-text {
         border-top-color: #03A9F4;
         background-image: url([[pix:core|/f/document]]);
     }
 
-    &.snap-mime-powerpoint,
-    &.snap-mime-impress {
+    &.cass-mime-powerpoint,
+    &.cass-mime-impress {
         border-top-color: #ff7300;
         background-image: url([[pix:core|/f/powerpoint]]);
     }
 
-    &.snap-mime-spreadsheet,
-    &.snap-mime-chart,
-    &.snap-mime-database,
-    &.snap-mime-calc {
+    &.cass-mime-spreadsheet,
+    &.cass-mime-chart,
+    &.cass-mime-database,
+    &.cass-mime-calc {
         border-top-color: #009e51;
         background-image: url([[pix:core|/f/spreadsheet]]);
     }
 
     // ADOBE //
-    &.snap-mime-pdf,
-    &.snap-mime-eps,
-    &.snap-mime-flash {
+    &.cass-mime-pdf,
+    &.cass-mime-eps,
+    &.cass-mime-flash {
         border-top-color: #F44336;
         background-image: url([[pix:core|/f/pdf]]);
     }
 
-    &.snap-mime-flash {
+    &.cass-mime-flash {
         background-image: url([[pix:core|/f/flash]]);
     }
 
     // MULTIMEDIA //
-    &.snap-mime-mp3,
-    &.snap-mime-wav,
-    &.snap-mime-audio {
+    &.cass-mime-mp3,
+    &.cass-mime-wav,
+    &.cass-mime-audio {
         border-top-color: #8BC34A;
         background-image: url([[pix:core|/f/audio]]);
     }
 
-    &.snap-mime-mov,
-    &.snap-mime-wmv,
-    &.snap-mime-video,
-    &.snap-mime-quicktime,
-    &.snap-mime-mpeg,
-    &.snap-mime-avi {
+    &.cass-mime-mov,
+    &.cass-mime-wmv,
+    &.cass-mime-video,
+    &.cass-mime-quicktime,
+    &.cass-mime-mpeg,
+    &.cass-mime-avi {
         border-top-color: #55B5CC;
         background-image: url([[pix:core|/f/video]]);
     }
 
     &.modtype_lightboxgallery,
-    &.snap-mime-bmp {
+    &.cass-mime-bmp {
         border-top-color: #4ABC96;
         background-image: url([[pix:core|/f/image]]);
     }
@@ -897,26 +897,26 @@ body.snap-resource-card li.snap-resource {
     }
 
     // CODE & SYSTEM //
-    &.snap-mime-archive {
+    &.cass-mime-archive {
         border-top-color: #fed859;
         background-image: url([[pix:core|/f/archive]]);
     }
 
-    &.snap-mime-markup,
-    &.snap-mime-html,
-    &.snap-mime-sourcecode {
+    &.cass-mime-markup,
+    &.cass-mime-html,
+    &.cass-mime-sourcecode {
         border-top-color: #f0652a;
         background-image: url([[pix:core|/f/sourcecode]]);
     }
 
-    &.snap-mime-text {
+    &.cass-mime-text {
         border-top-color: #f1bf26;
     }
 }
 
 // Resources to full width on tiny screen.
 @media screen and (max-width: @screen-xs) {
-    body.snap-resource-card li.snap-resource {
+    body.cass-resource-card li.cass-resource {
         width: 99%;
         margin: 1em auto;
         height: auto;
@@ -929,10 +929,10 @@ body.snap-resource-card li.snap-resource {
             }
         }
 
-        .snap-asset-actions {
+        .cass-asset-actions {
             width: 250px;
-            .snap-asset-move,
-            .snap-edit-more-dropdown,
+            .cass-asset-move,
+            .cass-edit-more-dropdown,
             > a {
                 width: 25%;
                 text-align: left;
@@ -943,26 +943,26 @@ body.snap-resource-card li.snap-resource {
 }
 
 // -------------------------
-// Snap resources as list.
+// Cass resources as list.
 // -------------------------
-.snap-resource-list li.snap-resource {
+.cass-resource-list li.cass-resource {
     border: none;
     margin: 0 1%;
 
-    .snap-assettype {
+    .cass-assettype {
         display: none;
     }
 
-    .snap-asset-actions {
+    .cass-asset-actions {
         width: 250px;
     }
 }
 
 // -------------------------
-// Snap Activity
+// Cass Activity
 // -------------------------
 /*
-.section li.snap-activity {
+.section li.cass-activity {
     margin: 1em 1%;
     padding-bottom: 1em;
 
@@ -1012,11 +1012,11 @@ body#page-course-view-weeks button {
     padding: 0 1em;
 }
 
-h4.snap-asset-link a {
+h4.cass-asset-link a {
     color: #333;
 }
 
-h4.snap-asset-link {
+h4.cass-asset-link {
     font-size: 1.1em;
     color: #333;
     padding-left: 2em;
@@ -1026,7 +1026,7 @@ h4.snap-asset-link {
 	{padding: .618em 1em;}
 }
 
-.unavailable .snap-asset-link:before {
+.unavailable .cass-asset-link:before {
     background: @gray-light;
 }
 
@@ -1096,7 +1096,7 @@ h2.sectionname {
     line-height: 1em;
 }
 
-.section li.snap-activity {
+.section li.cass-activity {
     background-image: none;
     width: 99%; // to allow for box-shadow faux border
 
@@ -1105,7 +1105,7 @@ h2.sectionname {
         display: none;
     }
 
-    .activityinstance .snap-asset-link {
+    .activityinstance .cass-asset-link {
         display: block;
         font-size: @font-size-large;
         display: block;
@@ -1116,14 +1116,14 @@ h2.sectionname {
 }
 
 // experimental code, not used bu keeping as may...
-.section li.snap-activity {
+.section li.cass-activity {
     &.modtype_forum {
 
         // background-image:linear-gradient(to right,#71d5df 22%,#ffffff 22%);
     }
 }
 
-li.snap-activity {
+li.cass-activity {
     border-left: 0.3em solid #ccc;
     border-radius: 3px;
 }
@@ -1174,19 +1174,19 @@ li.snap-activity {
 // -------------------------
 // Activity & Resource metadata
 // -------------------------
-.snap-asset-meta {
+.cass-asset-meta {
     clear: both;
     padding: 0;
 }
 
-a.snap-assignment-stage.label.label-warning {
+a.cass-assignment-stage.label.label-warning {
     display: none;
 }
 
 // Activity data - e.g. Due date & Group info
-.snap-completion-meta,
-.snap-group-tag,
-.snap-grouping-tag {
+.cass-completion-meta,
+.cass-group-tag,
+.cass-grouping-tag {
     text-align: right;
     font-size: small;
     margin-bottom: 0.5em;
@@ -1202,7 +1202,7 @@ a.snap-assignment-stage.label.label-warning {
 }
 
 // Activity dues date.
-.snap-due-date {
+.cass-due-date {
     .label();
     font-size: 1em;
     border-left-color: white;
@@ -1210,9 +1210,9 @@ a.snap-assignment-stage.label.label-warning {
 
 
 // Conditional information styled as fauz alerts.
-.snap-conditional-tag,
-.snap-draft-tag,
-.snap-current-tag {
+.cass-conditional-tag,
+.cass-draft-tag,
+.cass-current-tag {
     font-size: small;
     font-family: @font-family-base;
     background-color: #eee;
@@ -1235,28 +1235,28 @@ a.snap-assignment-stage.label.label-warning {
     }
 }
 
-.snap-completion-meta {
+.cass-completion-meta {
     // SHAME - hsuforum sets div inline block to overcome other themes moodle css...
-    // We need to counteract this for snap for hsu forum for the moment.
+    // We need to counteract this for cass for hsu forum for the moment.
     display: none !important;
     clear: both;
 }
 
 // hide draft tag, unless asset has class draft (can be added by js)
-.snap-draft-tag,
-.snap-current-tag {
+.cass-draft-tag,
+.cass-current-tag {
     display: none !important; // SHAME - overcome bad overspecificity...
     font-size: small;
 }
 
 // show draft tag if parent has draft or class.
-.hidden .content .snap-draft-tag,
-.snap-asset.draft .snap-draft-tag {
+.hidden .content .cass-draft-tag,
+.cass-asset.draft .cass-draft-tag {
     display: block !important; // SHAME - overcome bad overspecificity...
 }
 
 // Show current tag if parent has current class.
-.current .snap-current-tag {
+.current .cass-current-tag {
     display: block !important; // SHAME - overcome bad overspecificity...
     color: white;
     background-color: @brand-success;
@@ -1298,7 +1298,7 @@ li.draft {
 // TODO - in course_renderer figure out if completion tracking enabled.
 // If so - add 1.3em gutter to slat to stop overlapping.
 
-.snap-asset-completion-tracking {
+.cass-asset-completion-tracking {
     display: none;
 
 }
@@ -1389,11 +1389,11 @@ form.togglecompletion {
 
 
 // -------------------------
-// Snap actions
+// Cass actions
 // -------------------------
 
 // All the editing options in one region.
-.snap-asset-actions {
+.cass-asset-actions {
     visibility: hidden;
     position: absolute;
     bottom: 0;
@@ -1401,8 +1401,8 @@ form.togglecompletion {
     width: 250px;
 
     & > a,
-    .snap-edit-more-dropdown,
-    .snap-asset-move {
+    .cass-edit-more-dropdown,
+    .cass-asset-move {
         display: inline-block !important;
         padding: 0.3em 7%;
         text-align: center;
@@ -1444,14 +1444,14 @@ form.togglecompletion {
     }
 }
 // Only show these actions once all listeners applied.
-.snap-course-listening {
-    .snap-asset-actions {
+.cass-course-listening {
+    .cass-asset-actions {
         visibility: visible;
     }
 }
 
-.snap-resource {
-    .snap-asset-actions {
+.cass-resource {
+    .cass-asset-actions {
         width: 100%;
         & > a,
         & > a:hover,
@@ -1460,7 +1460,7 @@ form.togglecompletion {
             color: #fff;
         }
         & > a,
-        .snap-edit-more-dropdown,
+        .cass-edit-more-dropdown,
         label {
             padding: 0.3em 7%;
             text-align: center;
@@ -1488,7 +1488,7 @@ form.togglecompletion {
     display: inline-block;
 }
 /*  actions at the footer of an element */
-.section .snap-asset .actions {
+.section .cass-asset .actions {
     clear: both;
     float: none;
     width: 100%;
@@ -1524,7 +1524,7 @@ form.togglecompletion {
 }
 
 // draghandle
-.section .snap-asset .editing_move {
+.section .cass-asset .editing_move {
     padding: 0 2%;
 }
 
@@ -1538,7 +1538,7 @@ div.commands ul.menubar {
 }
 
 // i know. SHAME selector :(
-.jsenabled .snap-asset .moodle-actionmenu[data-enhance] .toggle-display.textmenu {
+.jsenabled .cass-asset .moodle-actionmenu[data-enhance] .toggle-display.textmenu {
     text-decoration: none;
     padding: 0.5em 1em;
     margin: 0;
@@ -1576,7 +1576,7 @@ div.commands ul.menubar {
 // -------------------------
 // hide to start, and set some defaults
 
-.editing .snap-asset {
+.editing .cass-asset {
     .actions .menu {
         position: relative;
         display: block;
@@ -1636,7 +1636,7 @@ span.editinstructions {
 }
 
 /* forum unread posts button */
-.snap-asset .unread {
+.cass-asset .unread {
     display: inline-block;
     background: @brand-green;
     border-radius: 1.618em;
@@ -1663,7 +1663,7 @@ span.editinstructions {
 }
 
 // TODO - audit for usage. A div with the id changenumsections seems to only show when the course page is in edit mode.
-// Snap no longer has an edit mode so this CSS is likely to be redundant.
+// Cass no longer has an edit mode so this CSS is likely to be redundant.
 // See core format/renderer.php for markup with id of changenumsections.
 #changenumsections {
     .text-center;
@@ -1687,7 +1687,7 @@ span.editinstructions {
 // Course footer.
 // -------------------------
 
-#snap-course-footer {
+#cass-course-footer {
     padding: 0 3.444%;
     background-color: @gray-lighter;
 }
@@ -1805,7 +1805,7 @@ span.editinstructions {
 
 
 // -------------------------
-// Moving things in snap
+// Moving things in cass
 // -------------------------
 @keyframes fadeup {
    0%{
@@ -1855,12 +1855,12 @@ span.editinstructions {
 }
 
 .section-drop,
-.snap-move-note {
+.cass-move-note {
     background: transparent url("[[pix:theme|move_here]]") no-repeat 50% 80%;
     background-size: 2.5em 2.5em;
 }
 
-.snap-move-section {
+.cass-move-section {
     .section-drop {
         display: block;
 
@@ -1870,7 +1870,7 @@ span.editinstructions {
     }
 }
 
-#snap-footer-alert {
+#cass-footer-alert {
     position: fixed;
     z-index:1;
     bottom:0;
@@ -1889,14 +1889,14 @@ span.editinstructions {
         width: 1em;
         height: 1em;
     }
-    &.snap-footer-alert-visible {
+    &.cass-footer-alert-visible {
         padding:0.5em 0;
         max-height: 200px;
         z-index: 2;
     }
 }
 
-.snap-footer-alert-title{
+.cass-footer-alert-title{
     text-transform: capitalize;
     color: #fff !important;
     display: inline-block;
@@ -1908,7 +1908,7 @@ span.editinstructions {
     width: 68.2%;
 }
 
-.snap-footer-alert-cancel {
+.cass-footer-alert-cancel {
     float: right;
     margin-right: 4%;
     color: #fff !important;
@@ -1928,22 +1928,22 @@ span.editinstructions {
 
 
 // Body class when moving
-.snap-move-inprogress {
+.cass-move-inprogress {
     // The asset we are moving
-    .snap-moving,
-    .snap-modchooser,
+    .cass-moving,
+    .cass-modchooser,
     .edit-summary,
-    .snap-asset-actions .snap-edit-asset,
-    .snap-asset-actions .snap-edit-more-dropdown,
-    .snap-section-editing,
-    .snap-modchooser,
-    .snap-dropzone {
+    .cass-asset-actions .cass-edit-asset,
+    .cass-asset-actions .cass-edit-more-dropdown,
+    .cass-section-editing,
+    .cass-modchooser,
+    .cass-dropzone {
       display:none !important;
     }
 
-    &.snap-move-section {
-        .snap-asset-actions,
-        .snap-asset .togglecompletion {
+    &.cass-move-section {
+        .cass-asset-actions,
+        .cass-asset .togglecompletion {
             display: none !important;
         }
     }
@@ -1953,9 +1953,9 @@ span.editinstructions {
     }
 }
 
-.snap-asset {
+.cass-asset {
     &.movefinished {
-        & + li.snap-resource {
+        & + li.cass-resource {
 
         }
         animation: fadein 0.5s;
@@ -1964,21 +1964,21 @@ span.editinstructions {
     }
 }
 
-.snap-move-note, .snap-drop.asset-drop {
+.cass-move-note, .cass-drop.asset-drop {
     display: none;
 }
 // Show when moving
 // Asset dropzones.
-.snap-move-asset {
-      .snap-asset:not(.asset-moving) {
+.cass-move-asset {
+      .cass-asset:not(.asset-moving) {
           border: 2px dashed @gray-light;
       }
 
-      .snap-resource:not(.asset-moving) {
+      .cass-resource:not(.asset-moving) {
           border: 2px dashed white;
       }
 
-      .snap-asset:not(.asset-moving) .snap-move-note {
+      .cass-asset:not(.asset-moving) .cass-move-note {
           position: absolute;
           top: 0;
           bottom: 0;
@@ -1991,7 +1991,7 @@ span.editinstructions {
           display: block;
       }
 
-      .snap-drop.asset-drop {
+      .cass-drop.asset-drop {
           display: block;
           clear: both;
           border: 2px dashed @gray-light;
@@ -2003,7 +2003,7 @@ span.editinstructions {
       }
 }
 
-#snap-light-box {
+#cass-light-box {
     display: none;
     position: fixed;
     box-sizing: border-box;
@@ -2019,7 +2019,7 @@ span.editinstructions {
         display: block;
     }
 
-    #snap-light-box-close {
+    #cass-light-box-close {
         position: absolute;
         z-index: 2;
         top: 0.5em;
@@ -2035,13 +2035,13 @@ span.editinstructions {
     }
 }
 
-#snap-light-box-content {
+#cass-light-box-content {
     width: 100%;
     padding: 1em 4%;
 }
 
 @media screen and (min-width: @screen-sm) {
-  .snap-lightbox-description {
+  .cass-lightbox-description {
       overflow-y: auto;
       max-height: 80vh;
   }

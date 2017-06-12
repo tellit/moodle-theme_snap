@@ -13,19 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests deleting sections in snap.
+# Tests deleting sections in cass.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @author     Guy Thomas
 # @copyright  2016 Blackboard Ltd
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, teachers can delete sections without having to reload the page.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, teachers can delete sections without having to reload the page.
 
   Background:
     Given the following config values are set as admin:
-      | theme              | snap |
+      | theme              | cass |
       | defaulthomepage    | 0    |
     And the following "courses" exist:
       | fullname | shortname | category | format |
@@ -45,7 +45,7 @@ Feature: When the moodle theme is set to Snap, teachers can delete sections with
 
   @javascript
   Scenario: In read mode, on course, teacher can cancel / confirm delete activity.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
 
     And I follow "Topic 1"
@@ -59,12 +59,12 @@ Feature: When the moodle theme is set to Snap, teachers can delete sections with
 
     And I follow "Topic one"
     Then "#section-1" "css_element" should exist
-    When I click on "#section-1 .snap-section-editing.actions a.snap-delete" "css_element"
+    When I click on "#section-1 .cass-section-editing.actions a.cass-delete" "css_element"
     Then I should see section delete dialog
     And I cancel dialog
     Then I should not see section delete dialog
     And I should see "Topic one"
-    When I click on "#section-1 .snap-section-editing.actions a.snap-delete" "css_element"
+    When I click on "#section-1 .cass-section-editing.actions a.cass-delete" "css_element"
     Then I should see section delete dialog
     When I press "Delete Section"
     Then I should not see "Topic one" in the "#section-1" "css_element"
@@ -73,7 +73,7 @@ Feature: When the moodle theme is set to Snap, teachers can delete sections with
 
   @javascript
   Scenario: Student cannot delete section.
-    Given I log in as "student1" (theme_snap)
+    Given I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
-    Then "#section-1 .snap-section-editing.actions a.snap-delete" "css_element" should not exist
+    Then "#section-1 .cass-section-editing.actions a.cass-delete" "css_element" should not exist

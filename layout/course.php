@@ -17,7 +17,7 @@
 /**
  * Layout - course.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -68,7 +68,7 @@ if ($tocformat && !$leftnav) {
 </div>
 <?php
 if ($tocformat && $leftnav) {
-    echo '<div id="snap-course-wrapper">';
+    echo '<div id="cass-course-wrapper">';
     echo '<div class="row">';
     echo '<div class="col-md-3">';
     echo $OUTPUT->course_toc();
@@ -80,7 +80,7 @@ if ($tocformat && $leftnav) {
 <?php
 echo $OUTPUT->course_content_header();
 $output = $PAGE->get_renderer('core', 'course');
-echo $output->snap_footer_alert();
+echo $output->cass_footer_alert();
 echo $OUTPUT->main_content();
 echo $OUTPUT->course_content_footer();
 ?>
@@ -97,7 +97,7 @@ if ($tocformat && $leftnav) {
 if ($coursemainpage) {
     $coursefooter = $OUTPUT->course_footer();
     if (!empty($coursefooter)) { ?>
-    <footer role=contentinfo id=snap-course-footer class=row><?php echo $coursefooter ?></footer>
+    <footer role=contentinfo id=cass-course-footer class=row><?php echo $coursefooter ?></footer>
     <?php
     }
 } ?>

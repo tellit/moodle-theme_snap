@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_snap;
+namespace theme_cass;
 use core\event\course_updated;
 use core\event\course_deleted;
 use core\event\course_completion_updated;
@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Event handlers.
  *
- * This class contains all the event handlers used by Snap.
+ * This class contains all the event handlers used by Cass.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -65,7 +65,7 @@ class event_handlers {
         global $DB;
 
         $select = ['courseid' => $event->objectid];
-        $DB->delete_records('theme_snap_course_favorites', $select);
+        $DB->delete_records('theme_cass_course_favorites', $select);
     }
 
     /**
@@ -79,7 +79,7 @@ class event_handlers {
         global $DB;
 
         $select = ['userid' => $event->objectid];
-        $DB->delete_records('theme_snap_course_favorites', $select);
+        $DB->delete_records('theme_cass_course_favorites', $select);
     }
 
     /**
@@ -133,11 +133,11 @@ class event_handlers {
      */
     public static function user_loggedout(user_loggedout $event) {
         
-        // This event gets called for every user logout, regardless of whether snap is the active theme, or whether
+        // This event gets called for every user logout, regardless of whether cass is the active theme, or whether
         // the site allows user themes and regardless of the user theme setting.
         $user  = $event->get_record_snapshot('user', $event->objectid);
 
-        if (get_config('core', 'theme') == 'snap' || get_config('core', 'allowuserthemes') && $user->theme == 'snap') {
+        if (get_config('core', 'theme') == 'cass' || get_config('core', 'allowuserthemes') && $user->theme == 'cass') {
             local::logout_redirect();
         }
     }

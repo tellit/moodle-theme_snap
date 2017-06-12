@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_snap\controller;
+namespace theme_cass\controller;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * HSUForum Controller.
   *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -44,7 +44,7 @@ class hsuforummod_controller extends controller_abstract {
         global $PAGE;
 
         return json_encode(array('html' => 
-            \theme_snap\local::render_completion_footer(
+            \theme_cass\local::render_completion_footer(
                 $PAGE->theme->settings->nextactivityinfooter, 
                 $PAGE->theme->settings->nextactivitymodaldialog,
                 $PAGE->theme->settings->nextactivitymodaldialogtolerance

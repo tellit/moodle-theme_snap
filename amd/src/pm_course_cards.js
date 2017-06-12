@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -23,9 +23,9 @@
  * Personal menu course cards.
  */
 define(['jquery', 'core/log', 'core/templates',
-    'theme_snap/pm_course_cards_hidden', 'theme_snap/pm_course_favorites',
-    'theme_snap/model_view', 'theme_snap/ajax_notification', 'theme_snap/util',
-    'theme_snap/appear'],
+    'theme_cass/pm_course_cards_hidden', 'theme_cass/pm_course_favorites',
+    'theme_cass/model_view', 'theme_cass/ajax_notification', 'theme_cass/util',
+    'theme_cass/appear'],
     function($, log, templates, cardsHidden, courseFavorites, mview, ajaxNotify, util, appear) {
 
         var CourseCards = function() {
@@ -39,13 +39,13 @@ define(['jquery', 'core/log', 'core/templates',
              */
             this.applyCourseInfo = function(crsinfo) {
                 // Pre-load template or it will get loaded multiple times with a detriment on performance.
-                templates.render('theme_snap/course_cards', [])
+                templates.render('theme_cass/course_cards', [])
                     .done(function() {
                         for (var i in crsinfo) {
                             var info = crsinfo[i];
                             log.debug('applying course data for courseid ' + info.course);
                             var cardEl = $('.courseinfo[data-courseid="' + info.course + '"]');
-                            mview(cardEl, 'theme_snap/course_cards');
+                            mview(cardEl, 'theme_cass/course_cards');
                             $(cardEl).trigger('modelUpdate', info);
                         }
                     });
@@ -66,7 +66,7 @@ define(['jquery', 'core/log', 'core/templates',
                 $.ajax({
                     type: "GET",
                     async: true,
-                    url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_courseinfo&contextid=' + M.cfg.context,
+                    url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_courseinfo&contextid=' + M.cfg.context,
                     data: courseiddata,
                     success: function(data) {
                         if (ajaxNotify.ifErrorShowBestMsg(data)) {

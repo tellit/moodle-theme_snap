@@ -17,7 +17,7 @@
 /**
  * Theme plugin version definition.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,4 +28,4 @@ $plugin->version   = 2016121310;
 $plugin->requires  = 2016120500;
 $plugin->release   = '3.2.2';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->component = 'theme_snap';
+$plugin->component = 'theme_cass';

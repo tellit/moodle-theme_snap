@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/* exported snapInit */
+/* exported cassInit */
 /* eslint no-invalid-this: "warn"*/
 
 /**
- * Main snap initialising function. 
+ * Main cass initialising function. 
  */
  
  require.config({
@@ -35,8 +35,8 @@
 });
 
  
-define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'theme_snap/util', 'theme_snap/personal_menu',
-        'theme_snap/responsive_video', 'theme_snap/cover_image', 'theme_snap/TweenMax'],
+define(['jquery', 'theme_cass/bootstrap', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_cass/personal_menu',
+        'theme_cass/responsive_video', 'theme_cass/cover_image', 'theme_cass/TweenMax'],
     function($, bsjq, log, Headroom, util, personalMenu, responsiveVideo, coverImage) {
 
         'use strict';
@@ -44,7 +44,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
         // Use bootstrap modified jquery (tooltips).
         $ = bsjq;
 
-        M.theme_snap = M.theme_snap || {};
+        M.theme_cass = M.theme_cass || {};
 
         /**
          * master switch for logging
@@ -114,7 +114,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                 // OK we have some errors - lets shove them in the footer.
                 $(msgs).addClass('php-debug-footer');
                 var errorcont = $('<div id="footer-error-cont"><h3>' +
-                    M.util.get_string('debugerrors', 'theme_snap') +
+                    M.util.get_string('debugerrors', 'theme_cass') +
                     '</h3><hr></div>');
                 $('#page-footer').append(errorcont);
                 $('#footer-error-cont').append(msgs);
@@ -124,7 +124,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                 $('#mr-nav').addClass('errors-found');
                 // Lets add an error link to the header.
                 var errorlink = $('<a class="footer-error-link btn btn-danger" href="#footer-error-cont">' +
-                    M.util.get_string('problemsfound', 'theme_snap') + ' <span class="badge">' + (msgs.length) + '</span></a>');
+                    M.util.get_string('problemsfound', 'theme_cass') + ' <span class="badge">' + (msgs.length) + '</span></a>');
                 $('#page-header').append(errorlink);
             }
         };
@@ -202,15 +202,15 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
          */
         var setForumStrings = function() {
             $('.path-mod-forum tr.discussion td.topic.starter').attr('data-cellname',
-                M.util.get_string('forumtopic', 'theme_snap'));
+                M.util.get_string('forumtopic', 'theme_cass'));
             $('.path-mod-forum tr.discussion td.picture:not(\'.group\')').attr('data-cellname',
-                M.util.get_string('forumauthor', 'theme_snap'));
+                M.util.get_string('forumauthor', 'theme_cass'));
             $('.path-mod-forum tr.discussion td.picture.group').attr('data-cellname',
-                M.util.get_string('forumpicturegroup', 'theme_snap'));
+                M.util.get_string('forumpicturegroup', 'theme_cass'));
             $('.path-mod-forum tr.discussion td.replies').attr('data-cellname',
-                M.util.get_string('forumreplies', 'theme_snap'));
+                M.util.get_string('forumreplies', 'theme_cass'));
             $('.path-mod-forum tr.discussion td.lastpost').attr('data-cellname',
-                M.util.get_string('forumlastpost', 'theme_snap'));
+                M.util.get_string('forumlastpost', 'theme_cass'));
         };
 
         /**
@@ -267,7 +267,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
          */
         var bodyClasses = function() {
             var extraclasses = [];
-            if ($('#notice.snap-continue-cancel').length) {
+            if ($('#notice.cass-continue-cancel').length) {
                 extraclasses.push('hascontinuecancel');
             }
             $('body').addClass(extraclasses.join(' '));
@@ -327,16 +327,16 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
         };
 
         var addPopCompletion = function() {
-            if (typeof M.snapTheme.settings.nextactivitymodaldialogdelay != 'undefined') {
+            if (typeof M.cassTheme.settings.nextactivitymodaldialogdelay != 'undefined') {
                 var manualPopActivities = ['page', 'book', 'wiki', 'feedback'];
-                if (manualPopActivities.indexOf(M.snapTheme.mod.modname) == -1) {
+                if (manualPopActivities.indexOf(M.cassTheme.mod.modname) == -1) {
 
                     setTimeout(
                         function() {
                             popCompletion();
                         }, 
                         
-                        M.snapTheme.settings.nextactivitymodaldialogdelay
+                        M.cassTheme.settings.nextactivitymodaldialogdelay
                     );
                 }
             }
@@ -358,12 +358,12 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
             var container = $('#completion-region');
             try {
                 
-                console.log(M.cfg.wwwroot + '/theme/snap/rest.php?action=get_' + type +'&contextid=' + M.snapTheme.mod.contextid);
+                console.log(M.cfg.wwwroot + '/theme/cass/rest.php?action=get_' + type +'&contextid=' + M.cassTheme.mod.contextid);
                 
                 $.ajax({
                       type: "GET",
                       async:  true,
-                      url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_' + type +'&contextid=' + M.snapTheme.mod.contextid, // M.cfg.context,
+                      url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_' + type +'&contextid=' + M.cassTheme.mod.contextid, // M.cfg.context,
                       success: function(data) {
                           $('.completion-region').attr('data-content-loaded', '1');
                           $('.completion-region').html(data.html);
@@ -425,9 +425,9 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
             
             // Use headroom.js ? Check the theme setting
             // settings property may not exist during lazy init
-            if (typeof M.snapTheme.settings != 'undefined' && M.snapTheme.settings != null) {
-                if (typeof M.snapTheme.settings.fixheadertotopofpage === 'undefined' ||
-                    M.snapTheme.settings.fixheadertotopofpage == "0") {
+            if (typeof M.cassTheme.settings != 'undefined' && M.cassTheme.settings != null) {
+                if (typeof M.cassTheme.settings.fixheadertotopofpage === 'undefined' ||
+                    M.cassTheme.settings.fixheadertotopofpage == "0") {
 
                     // Show fixed header on scroll down
                     // using headroom js - http://wicky.nillia.ms/headroom.js/
@@ -459,8 +459,8 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
 
               
             //Attach specific events for specific mod pages
-            if (typeof M.snapTheme.mod != 'undefined' && M.snapTheme.mod != null) {
-                if (M.snapTheme.mod.modname == 'hsuforum') {
+            if (typeof M.cassTheme.mod != 'undefined' && M.cassTheme.mod != null) {
+                if (M.cassTheme.mod.modname == 'hsuforum') {
                     
                     //posting a reply inline via hsuforum:
                     // - Uses a YUI ajax call
@@ -555,7 +555,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                         $news.focus();
                         $news.attr('aria-expanded', 'false');
                     }
-                    $(document).trigger('snapContentRevealed');
+                    $(document).trigger('cassContentRevealed');
                 });
                 e.preventDefault();
             });
@@ -583,13 +583,13 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
          */
         return {
             /**
-             * Snap initialise function.
+             * Cass initialise function.
              * @param {object} courseConfig
              * @param {bool} pageHasCourseContent
              * @param {int} siteMaxBytes
              * @param {bool} forcePassChange
              */
-            snapInit: function(courseConfig, pageHasCourseContent, siteMaxBytes, forcePassChange, themeSettings, mod) {
+            cassInit: function(courseConfig, pageHasCourseContent, siteMaxBytes, forcePassChange, themeSettings, mod) {
 
                 // Set up.
                 M.cfg.context = courseConfig.contextid;
@@ -604,7 +604,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                 //mod
                 
                 
-                M.snapTheme = {
+                M.cassTheme = {
                     forcePassChange: forcePassChange,
                     settings: themeSettings,
                     mod: mod
@@ -618,7 +618,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                 if (pageHasCourseContent) {
                     require(
                         [
-                            'theme_snap/course-lazy'
+                            'theme_cass/course-lazy'
                         ], function(CourseLibAmd) {
                             // Instantiate course lib.
                             var courseLib = new CourseLibAmd(courseConfig);
@@ -639,11 +639,11 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
 
                     coverImage(courseConfig.shortname, siteMaxBytes);
 
-                    if ($('body').hasClass('snap-fixy-open')) {
+                    if ($('body').hasClass('cass-fixy-open')) {
                         personalMenu.update();
                     }
 
-                    // SL - 19th aug 2014 - resposive video and snap search in exceptions.
+                    // SL - 19th aug 2014 - resposive video and cass search in exceptions.
                     // SHAME - make section name creation mandatory
                     if ($('#page-course-editsection.format-topics').length) {
                         var usedefaultname = document.getElementById('id_usedefaultname'),
@@ -695,10 +695,10 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                         ];
                         vital = vital.join();
 
-                        $('#mform1 > fieldset').not(vital).wrapAll('<div class="snap-form-advanced col-md-4" />');
+                        $('#mform1 > fieldset').not(vital).wrapAll('<div class="cass-form-advanced col-md-4" />');
 
                         // Add expand all to advanced column
-                        $(".snap-form-advanced").append($(".collapsible-actions"));
+                        $(".cass-form-advanced").append($(".collapsible-actions"));
 
                         // Sanitize required input into a single fieldset
                         var main_form = $("#mform1 fieldset:first");
@@ -710,7 +710,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
                             $(append_to).append(content);
                             $(required[i]).remove();
                         }
-                        $(main_form).wrap('<div class="snap-form-required col-md-8" />');
+                        $(main_form).wrap('<div class="cass-form-required col-md-8" />');
 
                         var description = $("#mform1 fieldset:first .fitem_feditor:not(.required)");
 
@@ -734,7 +734,7 @@ define(['jquery', 'theme_snap/bootstrap', 'core/log', 'theme_snap/headroom', 'th
 
                     $(window).on('load', function() {
                         // Add a class to the body to show js is loaded.
-                        $('body').addClass('snap-js-loaded');
+                        $('body').addClass('cass-js-loaded');
                     });
                 });
             },

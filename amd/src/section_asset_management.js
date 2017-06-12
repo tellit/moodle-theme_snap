@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification',
-    'theme_snap/util', 'theme_snap/ajax_notification', 'theme_snap/footer_alert'],
+    'theme_cass/util', 'theme_cass/ajax_notification', 'theme_cass/footer_alert'],
     function($, log, ajax, templates, notification, util, ajaxNotify, footerAlert) {
 
     return {
@@ -64,13 +64,13 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              * Moving has stopped, clean up.
              */
             var stopMoving = function() {
-                $('body').removeClass('snap-move-inprogress');
-                $('body').removeClass('snap-move-section');
-                $('body').removeClass('snap-move-asset');
+                $('body').removeClass('cass-move-inprogress');
+                $('body').removeClass('cass-move-section');
+                $('body').removeClass('cass-move-asset');
                 footerAlert.hideAndReset();
                 $('.section-moving').removeClass('section-moving');
                 $('.asset-moving').removeClass('asset-moving');
-                $('.js-snap-asset-move').removeAttr('checked');
+                $('.js-cass-asset-move').removeAttr('checked');
                 movingObjects = [];
             };
 
@@ -81,7 +81,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                 var actname = $(movingObject).find('.instancename').html();
 
                 footerAlert.removeAjaxLoading();
-                footerAlert.setTitle(M.util.get_string('movefailed', 'theme_snap', actname));
+                footerAlert.setTitle(M.util.get_string('movefailed', 'theme_cass', actname));
                 // Stop moving in 2 seconds so that the user has time to see the failed moving notice.
                 window.setTimeout(function() {
                     // Don't pass in target, we want to abort the move!
@@ -95,12 +95,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             var updateMovingMessage = function() {
                 var title;
                 if (movingObjects.length === 1) {
-                    var assetname = $(movingObjects[0]).find('.snap-asset-link .instancename').html();
+                    var assetname = $(movingObjects[0]).find('.cass-asset-link .instancename').html();
                     assetname = assetname || M.str.label.pluginname;
-                    title = M.util.get_string('moving', 'theme_snap', assetname);
+                    title = M.util.get_string('moving', 'theme_cass', assetname);
 
                 } else {
-                    title = M.util.get_string('movingcount', 'theme_snap', movingObjects.length);
+                    title = M.util.get_string('movingcount', 'theme_cass', movingObjects.length);
                 }
                 footerAlert.setTitle(title);
             };
@@ -126,7 +126,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                 if ($(container).find('.loadingstat').length === 0) {
                     var darkclass = dark ? ' spinner-dark' : '';
                     $(container).append('<div class="loadingstat spinner-three-quarters' + darkclass +
-                        '">' + M.util.get_string('loading', 'theme_snap') + '</div>');
+                        '">' + M.util.get_string('loading', 'theme_cass') + '</div>');
                 }
             };
 
@@ -273,7 +273,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         previous: previous,
                         next: next
                     };
-                    templates.render('theme_snap/course_section_navigation', navigation)
+                    templates.render('theme_cass/course_section_navigation', navigation)
                         .done(function(result) {
                             $('#section-' + sectionNum + ' .section_footer').replaceWith(result);
                         });
@@ -321,7 +321,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         log.debug('Skipping ajax request, one already in progress');
                         return;
                     }
-                    var delProgress = M.util.get_string('deletingsection', 'theme_snap', sectionName);
+                    var delProgress = M.util.get_string('deletingsection', 'theme_cass', sectionName);
 
                     footerAlert.setTitle(delProgress);
                     footerAlert.addAjaxLoading('');
@@ -339,7 +339,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     // Make ajax call.
                     var ajaxPromises = ajax.call([
                         {
-                            methodname: 'theme_snap_course_sections',
+                            methodname: 'theme_cass_course_sections',
                             args: params
                         }
                     ], true, true);
@@ -348,10 +348,10 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     promiseHandler(ajaxPromises[0], {
                         done: function(response) {
                             // Update TOC.
-                            promiseHandler(templates.render('theme_snap/course_toc', response.toc), {
+                            promiseHandler(templates.render('theme_cass/course_toc', response.toc), {
                                     done: function(result) {
                                         $('#course-toc').html($(result).html());
-                                        $(document).trigger('snapTOCReplaced');
+                                        $(document).trigger('cassTOCReplaced');
                                         // Remove section from DOM.
                                         section.remove();
                                         updateSections();
@@ -380,7 +380,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
 
                 var delTitle = M.util.get_string('confirm', 'moodle');
                 var delConf = M.util.get_string('confirmdeletesection', 'moodle', sectionName);
-                var ok = M.util.get_string('deletesectionconfirm', 'theme_snap');
+                var ok = M.util.get_string('deletesectionconfirm', 'theme_cass');
                 var cancel = M.util.get_string('cancel', 'moodle');
                 notification.confirm(delTitle, delConf, ok, cancel, doDelete);
             };
@@ -392,7 +392,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              */
             var assetDelete = function(e, el) {
                 e.preventDefault();
-                var asset = $($(el).parents('.snap-asset')[0]);
+                var asset = $($(el).parents('.cass-asset')[0]);
                 var cmid = Number(asset[0].id.replace('module-', ''));
                 var instanceName = asset.find('.instancename').text();
                 var params = {
@@ -412,10 +412,10 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                 if (instanceName.trim() !== '') {
                     plugindata.name = instanceName;
                     delConf = M.util.get_string('deletechecktypename', 'moodle', plugindata);
-                    delProgress = M.util.get_string('deletingassetname', 'theme_snap', plugindata);
+                    delProgress = M.util.get_string('deletingassetname', 'theme_cass', plugindata);
                 } else {
                     delConf = M.util.get_string('deletechecktype', 'moodle', plugindata);
-                    delProgress = M.util.get_string('deletingasset', 'theme_snap', plugindata.type);
+                    delProgress = M.util.get_string('deletingasset', 'theme_cass', plugindata.type);
                 }
 
                 /**
@@ -464,7 +464,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
 
 
                 var delTitle = M.util.get_string('confirm', 'moodle');
-                var ok = M.util.get_string('deleteassetconfirm', 'theme_snap', plugindata.type);
+                var ok = M.util.get_string('deleteassetconfirm', 'theme_cass', plugindata.type);
                 var cancel = M.util.get_string('cancel', 'moodle');
                 notification.confirm(delTitle, delConf, ok, cancel, doDelete);
             };
@@ -479,16 +479,16 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             var assetShowHide = function(e, el, show) {
                 e.preventDefault();
                 var courserest = M.cfg.wwwroot + '/course/rest.php';
-                var parent = $($(el).parents('.snap-asset')[0]);
+                var parent = $($(el).parents('.cass-asset')[0]);
 
                 var id = parent.attr('id').replace('module-', '');
 
-                addAjaxLoading($(parent).find('.snap-meta'), true);
+                addAjaxLoading($(parent).find('.cass-meta'), true);
 
                 var courseid = courseLib.courseConfig.id;
 
-                var errMessage = M.util.get_string('error:failedtochangeassetvisibility', 'theme_snap');
-                var errAction = M.util.get_string('action:changeassetvisibility', 'theme_snap');
+                var errMessage = M.util.get_string('error:failedtochangeassetvisibility', 'theme_cass');
+                var errAction = M.util.get_string('action:changeassetvisibility', 'theme_cass');
 
                 $.ajax({
                     type: "POST",
@@ -496,7 +496,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     url: courserest,
                     dataType: 'html',
                     complete: function() {
-                        parent.find('.snap-meta .loadingstat').remove();
+                        parent.find('.cass-meta .loadingstat').remove();
                     },
                     error: function(response) {
                         ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage);
@@ -540,7 +540,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
 
                 params.id = Number(movingObject.id.replace('module-', ''));
 
-                if (target && !$(target).hasClass('snap-drop')) {
+                if (target && !$(target).hasClass('cass-drop')) {
                     params.beforeId = Number($(target)[0].id.replace('module-', ''));
                 } else {
                     params.beforeId = 0;
@@ -592,13 +592,13 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     // Update TOC chapters.
                     ajax.call([
                         {
-                            methodname: 'theme_snap_course_toc_chapters',
+                            methodname: 'theme_cass_course_toc_chapters',
                             args: {
                                 courseshortname: courseLib.courseConfig.shortname
                             },
                             done: function(response) {
                                 // Update TOC.
-                                templates.render('theme_snap/course_toc_chapters', response.chapters)
+                                templates.render('theme_cass/course_toc_chapters', response.chapters)
                                     .done(function(result) {
                                         // Update chapters.
                                         $('#chapters').replaceWith(result);
@@ -631,34 +631,34 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              * Listen for edit action clicks, hide, show, duplicate, etc..
              */
             var assetEditListeners = function() {
-                $(document).on('click', '.snap-asset-actions .js_snap_hide', function(e) {
+                $(document).on('click', '.cass-asset-actions .js_cass_hide', function(e) {
                     assetShowHide(e, this, false);
                 });
 
-                $(document).on('click', '.snap-asset-actions .js_snap_show', function(e) {
+                $(document).on('click', '.cass-asset-actions .js_cass_show', function(e) {
                     assetShowHide(e, this, true);
                 });
 
-                $(document).on('click', '.snap-asset-actions .js_snap_delete', function(e) {
+                $(document).on('click', '.cass-asset-actions .js_cass_delete', function(e) {
                     assetDelete(e, this);
                 });
 
-                $(document).on('click', '.snap-section-editing.actions .snap-delete', function(e) {
+                $(document).on('click', '.cass-section-editing.actions .cass-delete', function(e) {
                     sectionDelete(e, this);
                 });
 
-                $(document).on('click', '.snap-asset-actions .js_snap_duplicate', function(e) {
+                $(document).on('click', '.cass-asset-actions .js_cass_duplicate', function(e) {
                     e.preventDefault();
-                    var parent = $($(this).parents('.snap-asset')[0]);
+                    var parent = $($(this).parents('.cass-asset')[0]);
                     var id = parent.attr('id').replace('module-', '');
-                    addAjaxLoading($(parent).find('.snap-meta'), true);
+                    addAjaxLoading($(parent).find('.cass-meta'), true);
 
                     var courseid = courseLib.courseConfig.id;
 
                     var courserest = M.cfg.wwwroot + '/course/rest.php';
 
-                    var errAction = M.util.get_string('action:duplicateasset', 'theme_snap');
-                    var errMessage = M.util.get_string('error:failedtoduplicateasset', 'theme_snap');
+                    var errAction = M.util.get_string('action:duplicateasset', 'theme_cass');
+                    var errMessage = M.util.get_string('error:failedtoduplicateasset', 'theme_cass');
 
                     $.ajax({
                         type: "POST",
@@ -666,7 +666,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         url: courserest,
                         dataType: 'json',
                         complete: function() {
-                            parent.find('.snap-meta .loadingstat').remove();
+                            parent.find('.cass-meta .loadingstat').remove();
                         },
                         error: function(data) {
                             ajaxNotify.ifErrorShowBestMsg(data, errAction, errMessage);
@@ -697,7 +697,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              */
             var sectionActionListener = function(action, onComplete) {
 
-                $('#region-main').on('click', '.snap-section-editing.actions .snap-' + action, function(e) {
+                $('#region-main').on('click', '.cass-section-editing.actions .cass-' + action, function(e) {
 
                     e.stopPropagation();
                     e.preventDefault();
@@ -727,12 +727,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     }
                     ajaxing = true;
 
-                    var toggler = action === 'visibility' ? 'snap-show' : 'snap-marker';
+                    var toggler = action === 'visibility' ? 'cass-show' : 'cass-marker';
                     var toggle = $(this).hasClass(toggler) ? 1 : 0;
 
                     var sectionNumber = parentSectionNumber(this);
-                    var sectionActionsSelector = '#section-' + sectionNumber + ' .snap-section-editing';
-                    var actionSelector = sectionActionsSelector + ' .snap-' + action;
+                    var sectionActionsSelector = '#section-' + sectionNumber + ' .cass-section-editing';
+                    var actionSelector = sectionActionsSelector + ' .cass-' + action;
 
                     // Add spinner.
                     addAjaxLoading(sectionActionsSelector, true);
@@ -740,7 +740,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     // Make ajax call.
                     var ajaxPromises = ajax.call([
                         {
-                            methodname: 'theme_snap_course_sections',
+                            methodname: 'theme_cass_course_sections',
                             args: {
                                 courseshortname: courseLib.courseConfig.shortname,
                                 action: action,
@@ -756,15 +756,15 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         done: function(response) {
 
                             // Update section action and then reload TOC.
-                            promiseHandler(templates.render('theme_snap/course_action_section', response.actionmodel), {
+                            promiseHandler(templates.render('theme_cass/course_action_section', response.actionmodel), {
                                 done: function(result) {
                                     $(actionSelector).replaceWith(result);
                                     $(actionSelector).focus();
                                     // Update TOC.
-                                    promiseHandler(templates.render('theme_snap/course_toc', response.toc), {
+                                    promiseHandler(templates.render('theme_cass/course_toc', response.toc), {
                                             done: function(result) {
                                                 $('#course-toc').html($(result).html());
-                                                $(document).trigger('snapTOCReplaced');
+                                                $(document).trigger('cassTOCReplaced');
                                                 if (onComplete && typeof (onComplete) === 'function') {
                                                     onComplete(sectionNumber, toggle);
                                                 }
@@ -787,11 +787,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         fail: function(response) {
                             var errMessage, errAction;
                             if (action === 'visibility') {
-                                errMessage = M.util.get_string('error:failedtochangesectionvisibility', 'theme_snap');
-                                errAction = M.util.get_string('action:changesectionvisibility', 'theme_snap');
+                                errMessage = M.util.get_string('error:failedtochangesectionvisibility', 'theme_cass');
+                                errAction = M.util.get_string('action:changesectionvisibility', 'theme_cass');
                             } else {
-                                errMessage = M.util.get_string('error:failedtohighlightsection', 'theme_snap');
-                                errAction = M.util.get_string('action:highlightsectionvisibility', 'theme_snap');
+                                errMessage = M.util.get_string('error:failedtohighlightsection', 'theme_cass');
+                                errAction = M.util.get_string('action:highlightsectionvisibility', 'theme_cass');
                             }
                             ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage);
                             // Cancel spinner on fail only (nested functions take care of spinner).
@@ -854,11 +854,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              */
             var moveSectionListener = function() {
                 // Listen clicks on move links.
-                $("#region-main").on('click', '.snap-section-editing.actions .snap-move', function(e) {
+                $("#region-main").on('click', '.cass-section-editing.actions .cass-move', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
 
-                    $('body').addClass('snap-move-inprogress');
+                    $('body').addClass('cass-move-inprogress');
                     footerAlertShowMove();
 
                     // Moving a section.
@@ -874,19 +874,19 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     $('.section-moving').removeClass('section-moving');
                     section.addClass('section-moving');
                     $('a[href="#section-' + sectionNumber + '"]').parent('li').addClass('section-moving');
-                    $('body').addClass('snap-move-section');
+                    $('body').addClass('cass-move-section');
 
-                    var title = M.util.get_string('moving', 'theme_snap', sectionName);
+                    var title = M.util.get_string('moving', 'theme_cass', sectionName);
                     footerAlert.setTitle(title);
 
                     $('.section-drop').each(function() {
-                        var sectionDropMsg = M.util.get_string('movingdropsectionhelp', 'theme_snap',
+                        var sectionDropMsg = M.util.get_string('movingdropsectionhelp', 'theme_cass',
                             {moving: sectionName, before: $(this).data('title')}
                         );
                         $(this).html(sectionDropMsg);
                     });
 
-                    footerAlert.setSrNotice(M.util.get_string('movingstartedhelp', 'theme_snap', sectionName));
+                    footerAlert.setSrNotice(M.util.get_string('movingstartedhelp', 'theme_cass', sectionName));
                 });
             };
 
@@ -896,19 +896,19 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             var addAfterDrops = function() {
                 if (document.body.id === "page-site-index") {
                     $('#region-main .sitetopic ul.section').append(
-                        '<li class="snap-drop asset-drop">' +
+                        '<li class="cass-drop asset-drop">' +
                         '<div class="asset-wrapper">' +
                         '<a href="#">' +
-                        M.util.get_string('movehere', 'theme_snap') +
+                        M.util.get_string('movehere', 'theme_cass') +
                         '</a>' +
                         '</div>' +
                         '</li>');
                 } else {
                     $('li.section .content ul.section').append(
-                        '<li class="snap-drop asset-drop">' +
+                        '<li class="cass-drop asset-drop">' +
                         '<div class="asset-wrapper">' +
                         '<a href="#">' +
-                        M.util.get_string('movehere', 'theme_snap') +
+                        M.util.get_string('movehere', 'theme_cass') +
                         '</a>' +
                         '</div>' +
                         '</li>');
@@ -919,25 +919,25 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              * Add listener for move checkbox.
              */
             var assetMoveListener = function() {
-                $("#region-main").on('change', '.js-snap-asset-move', function(e) {
+                $("#region-main").on('change', '.js-cass-asset-move', function(e) {
                     e.stopPropagation();
 
-                    var asset = $(this).parents('.snap-asset')[0];
+                    var asset = $(this).parents('.cass-asset')[0];
 
                     // Make sure after drop is at the end of section.
                     var section = $(asset).parents('ul.section')[0];
-                    var afterdrop = $(section).find('li.snap-drop.asset-drop');
+                    var afterdrop = $(section).find('li.cass-drop.asset-drop');
                     $(section).append(afterdrop);
 
                     if (movingObjects.length === 0) {
                         // Moving asset - activity or resource.
                         // Initiate move.
-                        var assetname = $(asset).find('.snap-asset-link .instancename').html();
+                        var assetname = $(asset).find('.cass-asset-link .instancename').html();
 
                         log.debug('Moving this asset', assetname);
 
                         var classes = $(asset).attr('class'),
-                            regex = /(?=snap-mime)([a-z0-9\-]*)/;
+                            regex = /(?=cass-mime)([a-z0-9\-]*)/;
                         var assetclasses = regex.exec(classes);
                         classes = '';
                         if (assetclasses) {
@@ -945,10 +945,10 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         }
                         log.debug('Moving this class', classes);
                         $(asset).addClass('asset-moving');
-                        $(asset).find('.js-snap-asset-move').prop('checked', 'checked');
+                        $(asset).find('.js-cass-asset-move').prop('checked', 'checked');
 
-                        $('body').addClass('snap-move-inprogress');
-                        $('body').addClass('snap-move-asset');
+                        $('body').addClass('cass-move-inprogress');
+                        $('body').addClass('cass-move-asset');
                     }
 
                     if ($(this).prop('checked')) {
@@ -974,19 +974,19 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              * When an asset or drop zone is clicked, execute move.
              */
             var movePlaceListener = function() {
-                $(document).on('click', '.snap-move-note, .snap-drop', function(e) {
-                    log.debug('Snap drop clicked', e);
+                $(document).on('click', '.cass-move-note, .cass-drop', function(e) {
+                    log.debug('Cass drop clicked', e);
                     if (movingObjects) {
                         e.stopPropagation();
                         e.preventDefault();
-                        if ($('body').hasClass('snap-move-section')) {
+                        if ($('body').hasClass('cass-move-section')) {
                             ajaxReqMoveSection(this);
                         } else {
                             var target;
-                            if ($(this).hasClass('snap-drop')) {
+                            if ($(this).hasClass('cass-drop')) {
                                 target = this;
                             } else {
-                                target = $(this).closest('.snap-asset');
+                                target = $(this).closest('.cass-asset');
                             }
                             ajaxReqMoveAsset(target);
                         }
@@ -1005,7 +1005,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                 movePlaceListener();
                 assetEditListeners();
                 addAfterDrops();
-                $('body').addClass('snap-course-listening');
+                $('body').addClass('cass-course-listening');
             };
 
             /**

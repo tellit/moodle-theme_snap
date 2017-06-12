@@ -1,8 +1,8 @@
-M.theme_snap.dndupload = M.course_dndupload;
+M.theme_cass.dndupload = M.course_dndupload;
 
 var main_init = M.course_dndupload.init;
 
-M.theme_snap.dndupload.init = function(Y, options) {
+M.theme_cass.dndupload.init = function(Y, options) {
 
     var self = this;
     this.init = main_init;
@@ -23,8 +23,8 @@ M.theme_snap.dndupload.init = function(Y, options) {
 
     this.init(Y, options);
 
-    $('.js-snap-drop-file').change(function() {
-        var sectionnumber = $(this).attr('id').replace('snap-drop-file-', '');
+    $('.js-cass-drop-file').change(function() {
+        var sectionnumber = $(this).attr('id').replace('cass-drop-file-', '');
         var section = Y.one('#section-'+sectionnumber);
 
         var file;

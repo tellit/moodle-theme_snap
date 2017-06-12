@@ -13,25 +13,25 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for Snap personal menu.
+# Tests for Cass personal menu.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, students and teachers can find in their personal menu a list of deadlines
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, students and teachers can find in their personal menu a list of deadlines
   for activities and the submission / attempt status thereof.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
       | allowcoursethemes | 1 |
     And the following "courses" exist:
       | fullname | shortname | category | groupmode | theme |
       | Course 1 | C1 | 0 | 1 | |
-      | Course 2 | C2 | 0 | 1 | snap |
+      | Course 2 | C2 | 0 | 1 | cass |
     And the following "users" exist:
       | username | firstname | lastname | email |
       | teacher1 | Teacher | 1 | teacher1@example.com |
@@ -48,10 +48,10 @@ Feature: When the moodle theme is set to Snap, students and teachers can find in
       | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate                      |
       | assign   | C1     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | the timestamp of tomorrow    |
       | assign   | C1     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | the timestamp of next week   |
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
-    And I should see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:first-of-type" "css_element"
-    And I should see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:nth-of-type(2)" "css_element"
+    And I should see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
+    And I should see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:nth-of-type(2)" "css_element"
     And I follow "Course 1"
     And I follow "Topic 1"
     And I wait until "#section-1" "css_element" is visible
@@ -64,9 +64,9 @@ Feature: When the moodle theme is set to Snap, students and teachers can find in
     And I press "Submit assignment"
     And I press "Continue"
     And I open the personal menu
-    And I should see "Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:first-of-type" "css_element"
-    And I should not see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:first-of-type" "css_element"
-    And I should see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:nth-of-type(2)" "css_element"
+    And I should see "Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
+    And I should not see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
+    And I should see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:nth-of-type(2)" "css_element"
 
   @javascript
   Scenario: Teacher sees no submission status data against deadlines.
@@ -74,15 +74,15 @@ Feature: When the moodle theme is set to Snap, students and teachers can find in
       | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate                      |
       | assign   | C1     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | the timestamp of tomorrow    |
       | assign   | C1     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | the timestamp of next week   |
-    And I log in as "teacher1" (theme_snap)
+    And I log in as "teacher1" (theme_cass)
     And I open the personal menu
-    And I should not see "Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:first-of-type" "css_element"
-    And I should not see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:first-of-type" "css_element"
-    And I should not see "Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:nth-of-type(2)" "css_element"
-    And I should not see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:nth-of-type(2)" "css_element"
+    And I should not see "Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
+    And I should not see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
+    And I should not see "Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:nth-of-type(2)" "css_element"
+    And I should not see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:nth-of-type(2)" "css_element"
 
   @javascript
-  Scenario: Student sees correct submission status when the platform theme is different from snap and the course is forced to snap
+  Scenario: Student sees correct submission status when the platform theme is different from cass and the course is forced to cass
     Given the following config values are set as admin:
       | theme | clean |
     Given the following "activities" exist with relative dates:
@@ -102,6 +102,6 @@ Feature: When the moodle theme is set to Snap, students and teachers can find in
     And I press "Submit assignment"
     And I press "Continue"
     And I open the personal menu
-    And I should see "Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:first-of-type" "css_element"
-    And I should not see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:first-of-type" "css_element"
-    And I should see "Not Submitted" in the "#snap-personal-menu-deadlines div.snap-media-object:nth-of-type(2)" "css_element"
+    And I should see "Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
+    And I should not see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
+    And I should see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:nth-of-type(2)" "css_element"

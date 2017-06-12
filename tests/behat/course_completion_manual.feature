@@ -15,20 +15,20 @@
 #
 # Tests for manual completion.
 #
-# @package   theme_snap
+# @package   theme_cass
 # @author    Guy Thomas <gthomas@moodlerooms.com>
 # @copyright Copyright (c) 2016 Blackboard Inc.
 # @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
+@theme @theme_cass
 Feature: Manual completion updates page wihout reload.
 
   Background:
     Given the following config values are set as admin:
       | enablecompletion | 1 |
       | enableavailability | 1 |
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname | shortname | format | category | groupmode | enablecompletion |
       | Course 1 | C1        | topics | 0        | 1         | 1                |
@@ -49,7 +49,7 @@ Feature: Manual completion updates page wihout reload.
   @javascript
   # Done as one scenario for best performance.
   Scenario: Assignment module is manually marked complete and releases restricted activities / sections.
-    Given I log in as "admin" (theme_snap)
+    Given I log in as "admin" (theme_cass)
     And I am on the course main page for "C1"
     # Restrict the second assign module to only be accessible after the first assign module is marked complete.
     And I restrict course asset "Test assignment2" by completion of "Test assignment1"
@@ -63,9 +63,9 @@ Feature: Manual completion updates page wihout reload.
     And I click on "#section-2 .edit-summary" "css_element"
     And I set the field "name" to "Topic 2"
     And I apply asset completion restriction "Test assignment3" to section
-    And I log out (theme_snap)
+    And I log out (theme_cass)
     # Log in as student to test manual completion releases restrictions.
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     And I should see availability info "Not available unless: The activity Test assignment1 is marked complete" in "asset" "Test assignment2"
     When I follow "Topic 1"

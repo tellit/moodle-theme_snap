@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -22,7 +22,7 @@
 /**
  * Course card favoriting.
  */
-define(['jquery', 'core/log', 'core/yui', 'theme_snap/pm_course_cards', 'theme_snap/util', 'theme_snap/ajax_notification'],
+define(['jquery', 'core/log', 'core/yui', 'theme_cass/pm_course_cards', 'theme_cass/util', 'theme_cass/ajax_notification'],
     function($, log, Y, courseCards, util, ajaxNotify) {
 
         /**
@@ -52,7 +52,7 @@ define(['jquery', 'core/log', 'core/yui', 'theme_snap/pm_course_cards', 'theme_s
                  *
                  */
                 var loadAjaxInfo = function(type) {
-                    var container = $('#snap-personal-menu-' + type);
+                    var container = $('#cass-personal-menu-' + type);
                     if ($(container).length) {
                         var cache_key = M.cfg.sesskey + 'personal-menu-' + type;
                         try {
@@ -66,7 +66,7 @@ define(['jquery', 'core/log', 'core/yui', 'theme_snap/pm_course_cards', 'theme_s
                             $.ajax({
                                 type: "GET",
                                 async: true,
-                                url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_' + type + '&contextid=' + M.cfg.context,
+                                url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_' + type + '&contextid=' + M.cfg.context,
                                 success: function(data) {
                                     if (ajaxNotify.ifErrorShowBestMsg(data)) {
                                         return;
@@ -95,25 +95,25 @@ define(['jquery', 'core/log', 'core/yui', 'theme_snap/pm_course_cards', 'theme_s
                 loadAjaxInfo('messages');
                 loadAjaxInfo('forumposts');
 
-                if ($('#snap-personal-menu-badges').length) {
-                    if (typeof(M.snap_message_badge) === 'undefined') {
-                        // When M.snap_message_badge is available then trigger personal menu update.
+                if ($('#cass-personal-menu-badges').length) {
+                    if (typeof(M.cass_message_badge) === 'undefined') {
+                        // When M.cass_message_badge is available then trigger personal menu update.
                         util.whenTrue(
                             function() {
-                                return typeof(M.snap_message_badge) != 'undefined';
+                                return typeof(M.cass_message_badge) != 'undefined';
                             },
                             function() {
-                                // We can't rely on snapUpdatePersonalMenu here because it might have been triggered prior to
+                                // We can't rely on cassUpdatePersonalMenu here because it might have been triggered prior to
                                 // the badge code being loaded.
                                 // So let's just call init_overlay instead.
-                                M.snap_message_badge.init_overlay(Y);
+                                M.cass_message_badge.init_overlay(Y);
                             }, true);
                     } else {
-                        M.snap_message_badge.init_overlay(Y);
+                        M.cass_message_badge.init_overlay(Y);
                     }
                 }
 
-                $(document).trigger('snapUpdatePersonalMenu');
+                $(document).trigger('cassUpdatePersonalMenu');
             };
 
             /**
@@ -122,8 +122,8 @@ define(['jquery', 'core/log', 'core/yui', 'theme_snap/pm_course_cards', 'theme_s
             var applyListeners = function() {
                 // On clicking personal menu trigger.
                 $(document).on("click", ".js-personal-menu-trigger", function(event) {
-                    $('body').toggleClass('snap-fixy-open');
-                    if ($('.snap-fixy-open #primary-nav').is(':visible')) {
+                    $('body').toggleClass('cass-fixy-open');
+                    if ($('.cass-fixy-open #primary-nav').is(':visible')) {
                         self.update();
                     }
                     event.preventDefault();

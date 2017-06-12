@@ -13,20 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for Snap personal menu.
+# Tests for Cass personal menu.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap @_bug_phantomjs
-Feature: When the moodle theme is set to Snap, students and teachers can open a personal menu which shows a
+@theme @theme_cass @_bug_phantomjs
+Feature: When the moodle theme is set to Cass, students and teachers can open a personal menu which shows a
   grades / grading column showing them things that have recently had feedback or have recently been submitted.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname | shortname | category | groupmode |
       | Course 1 | C1 | 0 | 1 |
@@ -45,11 +45,11 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
       | activity | course | idnumber | name                 | intro                       | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment1 | Test assignment description 1 | 1 |
       | assign   | C1     | assign2  | Test assignment2 | Test assignment description 2 | 1 |
-    And I log in as "teacher1" (theme_snap)
+    And I log in as "teacher1" (theme_cass)
     And I open the personal menu
    Then I should see "You have no submissions to grade."
     And I follow "Log out"
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
     And I should see "You have no recent feedback."
     And I should see "Feedback"
@@ -61,7 +61,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
       | assign   | C1     | assign1  | Test assignment1 | Test assignment description 1 | 1 | 1 | 1 |
       | assign   | C1     | assign2  | Test assignment2 | Test assignment description 2 | 1 | 1 | 1 |
 
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
     And I should see "Feedback"
     And I follow "Course 1"
@@ -84,22 +84,22 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     And I press "Save changes"
     And I press "Submit assignment"
     And I press "Continue"
-    And I log out (theme_snap)
-    And I log in as "teacher1" (theme_snap)
+    And I log out (theme_cass)
+    And I log in as "teacher1" (theme_cass)
     And I open the personal menu
-    And I wait until "#snap-personal-menu-grading[data-content-loaded=\"1\"]" "css_element" is visible
-    # The above waits until the snap personal menu column is loaded.
+    And I wait until "#cass-personal-menu-grading[data-content-loaded=\"1\"]" "css_element" is visible
+    # The above waits until the cass personal menu column is loaded.
    Then I should see "1 of 1 Submitted, 1 Ungraded"
     And I grade the assignment "Test assignment1" in course "C1" as follows:
       | username | grade | feedback                 |
       | student1 | 50    | I'm the teacher feedback |
     And I close the personal menu
     And I open the personal menu
-    And I wait until "#snap-personal-menu-grading[data-content-loaded=\"1\"]" "css_element" is visible
-    # The above waits until the snap personal menu column is loaded.
+    And I wait until "#cass-personal-menu-grading[data-content-loaded=\"1\"]" "css_element" is visible
+    # The above waits until the cass personal menu column is loaded.
    Then I should see "You have no submissions to grade."
     And I follow "Log out"
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
-    And I should see "Test assignment1" in the "#snap-personal-menu-graded" "css_element"
+    And I should see "Test assignment1" in the "#cass-personal-menu-graded" "css_element"
     And I should see "Feedback"

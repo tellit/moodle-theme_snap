@@ -13,20 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for single section to be overriden with normal behaviour in Snap.
+# Tests for single section to be overriden with normal behaviour in Cass.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, courses in single section per page mode are forced to operate with all
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, courses in single section per page mode are forced to operate with all
   sections displayed at the same time.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "users" exist:
       | username | firstname | lastname | email |
       | teacher1 | Teacher | 1 | teacher1@example.com |
@@ -47,21 +47,21 @@ Feature: When the moodle theme is set to Snap, courses in single section per pag
   Scenario: All users see course pages rendered in regular mode even when course single section per page mode set.
 
     # Test with admin user.
-    Given I log in as "admin" (theme_snap)
+    Given I log in as "admin" (theme_cass)
    Then I can see course "C1" in all sections mode
-    And I log out (theme_snap)
+    And I log out (theme_cass)
 
     # Test with editing teacher.
-    And I log in as "teacher1" (theme_snap)
+    And I log in as "teacher1" (theme_cass)
     Then I can see course "C1" in all sections mode
-    And I log out (theme_snap)
+    And I log out (theme_cass)
 
     # Test widh non editing teacher.
-    And I log in as "teacher2" (theme_snap)
+    And I log in as "teacher2" (theme_cass)
     Then I can see course "C1" in all sections mode
-    And I log out (theme_snap)
+    And I log out (theme_cass)
 
     # Test with student.
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     Then I can see course "C1" in all sections mode
-    And I log out (theme_snap)
+    And I log out (theme_cass)

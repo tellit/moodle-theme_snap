@@ -16,13 +16,13 @@
 
 /**
  * Renderable for course section navigation.
- * @package   theme_snap
+ * @package   theme_cass
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
+namespace theme_cass\renderables;
 
 use context_course;
 
@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Renderable class for course section navigation.
- * @package   theme_snap
+ * @package   theme_cass
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -73,7 +73,7 @@ class course_section_navigation implements \renderable {
                 $sectiontitle = get_section_name($course, $sections[$target]);
                 // Better first section title.
                 if ($sectiontitle === get_string('general')) {
-                    $sectiontitle = get_string('introduction', 'theme_snap');
+                    $sectiontitle = get_string('introduction', 'theme_cass');
                 }
 
                 $this->previous = new course_section_navigation_link($target, $extraclasses, $sectiontitle);
@@ -94,7 +94,7 @@ class course_section_navigation implements \renderable {
                 $sectiontitle = get_section_name($course, $sections[$target]);
                 // Better first section title.
                 if ($sectiontitle == get_string('general')) {
-                    $sectiontitle = get_string('introduction', 'theme_snap');
+                    $sectiontitle = get_string('introduction', 'theme_cass');
                 }
 
                 $this->next = new course_section_navigation_link($target, $extraclasses, $sectiontitle);

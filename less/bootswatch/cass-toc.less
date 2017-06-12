@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Snap Table of contents.
+ * Cass Table of contents.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2017 Blackboard Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -51,13 +51,13 @@
     }
 
     /* Section currently displayed. */
-    .snap-visible-section a {
+    .cass-visible-section a {
         color: @text-color;
         text-decoration: none;
     }
 
     /* Completed section icon. */
-    .snap-section-complete {
+    .cass-section-complete {
         width: 1.3em;
         height: 1.3em;
     }
@@ -71,7 +71,7 @@
 // -------------------------
 // Display when toc is part of page body.
 // -------------------------
-li.snap-visible-section:before {
+li.cass-visible-section:before {
     content: ">";
     float: right;
     line-height: 1.6em;
@@ -79,7 +79,7 @@ li.snap-visible-section:before {
 	padding-right: .614em;
 }
 
-#snap-course-wrapper {
+#cass-course-wrapper {
     margin: 0 3.44%;
 
  
@@ -280,7 +280,7 @@ li.snap-visible-section:before {
 // -------------------------
 // Course search in left toc.
 // -------------------------
-#snap-course-wrapper {
+#cass-course-wrapper {
     #toc-search-results {
         left: -0.7em;
     }
@@ -295,11 +295,11 @@ li.snap-visible-section:before {
 
 @media screen and (max-width: @screen-md-min) {
     // Small screen moving cancel link.
-    .snap-footer-alert-cancel {
+    .cass-footer-alert-cancel {
         margin-right: 3em;
     }
 	
-	li.snap-visible-section {
+	li.cass-visible-section {
     background: #eee;
 }
 

@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 
-namespace theme_snap;
+namespace theme_cass;
 
 use html_writer;
-use \theme_snap\user_forums;
-use \theme_snap\course_total_grade;
+use \theme_cass\user_forums;
+use \theme_cass\course_total_grade;
 
 require_once($CFG->dirroot.'/calendar/lib.php');
 require_once($CFG->libdir.'/completionlib.php');
@@ -30,11 +30,11 @@ require_once($CFG->dirroot.'/mod/forum/lib.php');
 require_once($CFG->dirroot.'/lib/enrollib.php');
 
 /**
- * General local snap functions.
+ * General local cass functions.
  *
  * Added to a class purely for the convenience of auto loading.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -77,7 +77,7 @@ class local {
             'feedback' => false
         ];
 
-        $config = get_config('theme_snap');
+        $config = get_config('theme_cass');
         if (empty($config->showcoursegradepersonalmenu)) {
             // If not enabled, don't return data.
             return $failobj;
@@ -183,7 +183,7 @@ class local {
 
     /**
      * This has been taken directly from the moodle_page class but modified to work independently.
-     * It's used by config.php so that hacks can be targetted at just the snap theme.
+     * It's used by config.php so that hacks can be targetted at just the cass theme.
      * Work out the theme this page should use.
      *
      * This depends on numerous $CFG settings, and the properties of this page.
@@ -283,7 +283,7 @@ class local {
      */
     protected static function get_cachestamp($key, $cache, $new = false) {
         $key = strval($key);
-        $muc = \cache::make('theme_snap', $cache);
+        $muc = \cache::make('theme_cass', $cache);
         $cachestamp = $muc->get($key);
         if (!$cachestamp || $new) {
             if (defined('PHPUNIT_TEST') && PHPUNIT_TEST) {
@@ -356,7 +356,7 @@ class local {
         $courseuserstamp = self::course_user_completion_cachestamp($course->id, $USER->id);
 
         /** @var \cache_session $muc */
-        $muc = \cache::make('theme_snap', 'course_completion_progress');
+        $muc = \cache::make('theme_cass', 'course_completion_progress');
         $cached = $muc->get($course->id.'_'.$USER->id);
         if ($cached && $cached->timestamp >= $coursestamp && $cached->timestamp >= $courseuserstamp) {
             $cached->fromcache = true; // Useful for debugging and unit testing.
@@ -458,7 +458,7 @@ class local {
             return $courseinfo;
         }
 
-        $showgrades = get_config('theme_snap', 'showcoursegradepersonalmenu');
+        $showgrades = get_config('theme_cass', 'showcoursegradepersonalmenu');
 
         foreach ($courseids as $courseid) {
             if (!isset($courses[$courseid])) {
@@ -591,10 +591,10 @@ class local {
 
         $messages = self::get_user_messages($USER->id);
         if (empty($messages)) {
-            return '<p>' . get_string('nomessages', 'theme_snap') . '</p>';
+            return '<p>' . get_string('nomessages', 'theme_cass') . '</p>';
         }
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $o = '';
         foreach ($messages as $message) {
             $url = new \moodle_url('/message/index.php', array(
@@ -615,13 +615,13 @@ class local {
             $meta = self::relative_time($message->timecreated);
             $unreadclass = '';
             if ($message->unread) {
-                $unreadclass = ' snap-unread';
-                $meta .= " <span class=snap-unread-marker>".get_string('unread', 'theme_snap')."</span>";
+                $unreadclass = ' cass-unread';
+                $meta .= " <span class=cass-unread-marker>".get_string('unread', 'theme_cass')."</span>";
             }
 
             $info = '<p>'.format_string($message->smallmessage).'</p>';
 
-            $o .= $output->snap_media_object($url, $frompicture, $fromname, $meta, $info, $unreadclass);
+            $o .= $output->cass_media_object($url, $frompicture, $fromname, $meta, $info, $unreadclass);
         }
         return $o;
     }
@@ -801,10 +801,10 @@ class local {
 
         $events = self::upcoming_deadlines($USER->id);
         if (empty($events)) {
-            return '<p>' . get_string('nodeadlines', 'theme_snap') . '</p>';
+            return '<p>' . get_string('nodeadlines', 'theme_cass') . '</p>';
         }
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $o = '';
         foreach ($events as $event) {
             if (!empty($event->modulename)) {
@@ -818,20 +818,20 @@ class local {
                 $modimage = \html_writer::img($modimageurl, $modname);
                 $deadline = $event->timestart + $event->timeduration;
                 if ($event->modulename === 'quiz' || $event->modulename === 'lesson') {
-                    $override = \theme_snap\activity::instance_activity_dates($event->courseid, $cm);
+                    $override = \theme_cass\activity::instance_activity_dates($event->courseid, $cm);
                     $deadline = $override->timeclose;
                 }
                 $meta = $output->friendly_datetime($deadline);
                 // Add completion meta data for students (exclude anyone who can grade them).
                 if (!has_capability('mod/assign:grade', $cm->context)) {
-                    /** @var \theme_snap_core_course_renderer $courserenderer */
+                    /** @var \theme_cass_core_course_renderer $courserenderer */
                     $courserenderer = $PAGE->get_renderer('core', 'course', RENDERER_TARGET_GENERAL);
                     $activitymeta = activity::module_meta($cm);
-                    $meta .= '<div class="snap-completion-meta">' .
+                    $meta .= '<div class="cass-completion-meta">' .
                             $courserenderer->submission_cta($cm, $activitymeta) .
                             '</div>';
                 }
-                $o .= $output->snap_media_object($cm->url, $modimage, $eventtitle, $meta, '');
+                $o .= $output->cass_media_object($cm->url, $modimage, $eventtitle, $meta, '');
             }
         }
         return $o;
@@ -847,7 +847,7 @@ class local {
     public static function graded($onlyactive = true) {
         global $USER, $PAGE;
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $grades = activity::events_graded($onlyactive);
 
         $o = '';
@@ -883,16 +883,16 @@ class local {
             $gradetitle = $cm->name. '<small><br>' .$course->fullname. '</small>';
 
             $releasedon = isset($grade->timemodified) ? $grade->timemodified : $grade->timecreated;
-            $meta = get_string('released', 'theme_snap', $output->friendly_datetime($releasedon));
+            $meta = get_string('released', 'theme_cass', $output->friendly_datetime($releasedon));
 
             $grade = new \grade_grade(array('itemid' => $grade->itemid, 'userid' => $USER->id));
             if (!$grade->is_hidden() || $canviewhiddengrade) {
-                $o .= $output->snap_media_object($url, $modimage, $gradetitle, $meta, '');
+                $o .= $output->cass_media_object($url, $modimage, $gradetitle, $meta, '');
             }
         }
 
         if (empty($o)) {
-            return '<p>'. get_string('nograded', 'theme_snap') . '</p>';
+            return '<p>'. get_string('nograded', 'theme_cass') . '</p>';
         }
         return $o;
     }
@@ -903,10 +903,10 @@ class local {
         $grading = self::all_ungraded($USER->id);
 
         if (empty($grading)) {
-            return '<p>' . get_string('nograding', 'theme_snap') . '</p>';
+            return '<p>' . get_string('nograding', 'theme_cass') . '</p>';
         }
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $out = '';
         foreach ($grading as $ungraded) {
             $modinfo = get_fast_modinfo($ungraded->course);
@@ -919,20 +919,20 @@ class local {
 
             $ungradedtitle = $cm->name. '<small><br>' .$course->fullname. '</small>';
 
-            $xungraded = get_string('xungraded', 'theme_snap', $ungraded->ungraded);
+            $xungraded = get_string('xungraded', 'theme_cass', $ungraded->ungraded);
 
-            $function = '\theme_snap\activity::'.$cm->modname.'_num_submissions';
+            $function = '\theme_cass\activity::'.$cm->modname.'_num_submissions';
 
             $a['completed'] = call_user_func($function, $ungraded->course, $ungraded->instanceid);
             $a['participants'] = (self::course_participant_count($ungraded->course, $cm->modname));
-            $xofysubmitted = get_string('xofysubmitted', 'theme_snap', $a);
+            $xofysubmitted = get_string('xofysubmitted', 'theme_cass', $a);
             $meta = $xofysubmitted.', '.$xungraded.'<br>';
 
             if (!empty($ungraded->closetime)) {
                 $meta .= $output->friendly_datetime($ungraded->closetime);
             }
 
-            $out .= $output->snap_media_object($cm->url, $modimage, $ungradedtitle, $meta, '');
+            $out .= $output->cass_media_object($cm->url, $modimage, $ungradedtitle, $meta, '');
         }
 
         return $out;
@@ -979,7 +979,7 @@ class local {
 
         $grading = [];
         foreach ($mods as $mod) {
-            $class = '\theme_snap\activity';
+            $class = '\theme_cass\activity';
             $method = $mod.'_ungraded';
             if (method_exists($class, $method)) {
                 $grading = array_merge($grading, call_user_func([$class, $method], $courseids, $since));
@@ -1077,12 +1077,12 @@ class local {
 
 
     /**
-     * Make url based on file for theme_snap components only.
+     * Make url based on file for theme_cass components only.
      *
      * @param stored_file $file
      * @return \moodle_url | bool
      */
-    private static function snap_pluginfile_url($file) {
+    private static function cass_pluginfile_url($file) {
         if (!$file) {
             return false;
         } else {
@@ -1143,7 +1143,7 @@ class local {
      */
     public static function course_card_clean_up($context) {
         $fs = get_file_storage();
-        $fs->delete_area_files($context->id, 'theme_snap', 'coursecard');
+        $fs->delete_area_files($context->id, 'theme_cass', 'coursecard');
     }
 
     /**
@@ -1170,13 +1170,13 @@ class local {
             }
             $id = $originalfile->get_id();
             $fs = get_file_storage();
-            $cardimage = $fs->get_file($context->id, 'theme_snap', 'coursecard', 0, '/', 'course-card-'.$id.'-'.$filename);
+            $cardimage = $fs->get_file($context->id, 'theme_cass', 'coursecard', 0, '/', 'course-card-'.$id.'-'.$filename);
             if ($cardimage) {
                 return $cardimage;
             }
             $filespec = array(
                 'contextid' => $context->id,
-                'component' => 'theme_snap',
+                'component' => 'theme_cass',
                 'filearea' => 'coursecard',
                 'itemid' => 0,
                 'filepath' => '/',
@@ -1198,7 +1198,7 @@ class local {
     public static function course_card_image_url($courseid) {
         $context = \context_course::instance($courseid);
         $fs = get_file_storage();
-        $cardimages = $fs->get_area_files($context->id, 'theme_snap', 'coursecard', 0, "itemid, filepath, filename", false);
+        $cardimages = $fs->get_area_files($context->id, 'theme_cass', 'coursecard', 0, "itemid, filepath, filename", false);
         if ($cardimages) {
             /** @var \stored_file $cardimage */
             $cardimage = end($cardimages);
@@ -1206,12 +1206,12 @@ class local {
                 // The current card image has a bad name (from old code), so get rid of it.
                 self::course_card_clean_up($context);
             } else {
-                return self::snap_pluginfile_url($cardimage);
+                return self::cass_pluginfile_url($cardimage);
             }
         }
         $originalfile = self::get_course_firstimage($courseid);
         $cardimage = self::set_course_card_image($context, $originalfile);
-        return self::snap_pluginfile_url($cardimage);
+        return self::cass_pluginfile_url($cardimage);
     }
 
     /**
@@ -1231,7 +1231,7 @@ class local {
             }
         }
 
-        $files = $fs->get_area_files($contextid, 'theme_snap', 'coverimage', 0, "itemid, filepath, filename", false);
+        $files = $fs->get_area_files($contextid, 'theme_cass', 'coverimage', 0, "itemid, filepath, filename", false);
         if (!$files) {
             return false;
         }
@@ -1264,7 +1264,7 @@ class local {
         if (!$file) {
             $file = self::process_coverimage(\context_course::instance($courseid));
         }
-        return self::snap_pluginfile_url($file);
+        return self::cass_pluginfile_url($file);
     }
 
     /**
@@ -1284,7 +1284,7 @@ class local {
      */
     public static function site_coverimage_url() {
         $file = self::site_coverimage();
-        return self::snap_pluginfile_url($file);
+        return self::cass_pluginfile_url($file);
     }
 
     /**
@@ -1293,14 +1293,14 @@ class local {
      * @return stored_file | bool (false)
      */
     public static function site_coverimage_original() {
-        $theme = \theme_config::load('snap');
+        $theme = \theme_config::load('cass');
         $filename = $theme->settings->poster;
         if ($filename) {
             if (substr($filename, 0, 1) != '/') {
                 $filename = '/'.$filename;
             }
             $syscontextid = \context_system::instance()->id;
-            $fullpath = '/'.$syscontextid.'/theme_snap/poster/0'.$filename;
+            $fullpath = '/'.$syscontextid.'/theme_cass/poster/0'.$filename;
             $fs = get_file_storage();
             return $fs->get_file_by_hash(sha1($fullpath));
         } else {
@@ -1361,7 +1361,7 @@ class local {
         }
 
         $fs = get_file_storage();
-        $fs->delete_area_files($context->id, 'theme_snap', 'coverimage');
+        $fs->delete_area_files($context->id, 'theme_cass', 'coverimage');
 
         if (!$originalfile) {
             return false;
@@ -1373,7 +1373,7 @@ class local {
 
         $filespec = array(
             'contextid' => $context->id,
-            'component' => 'theme_snap',
+            'component' => 'theme_cass',
             'filearea' => 'coverimage',
             'itemid' => 0,
             'filepath' => '/',
@@ -1660,7 +1660,7 @@ class local {
         if (count($sqls) > 1) {
             $sql .= "\n".' ORDER BY modified DESC';
         }
-        $sql = '-- Snap sql'."\n"."SELECT * FROM ($sql) x";
+        $sql = '-- Cass sql'."\n"."SELECT * FROM ($sql) x";
         $posts = $DB->get_records_sql($sql, $params, 0, $limit);
 
         $activities = [];
@@ -1719,10 +1719,10 @@ class local {
         global $PAGE;
         $activities = self::recent_forum_activity();
         if (empty($activities)) {
-            return '<p>' . get_string('noforumposts', 'theme_snap') . '</p>';
+            return '<p>' . get_string('noforumposts', 'theme_cass') . '</p>';
         }
         $activities = array_slice($activities, 0, 10);
-        $renderer = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $renderer = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         return $renderer->recent_forum_activity($activities);
     }
 
@@ -1743,7 +1743,7 @@ class local {
     // Redirect to specific URL instead of default login page.
     public static function logout_redirect () {
         global $redirect;
-        $theme = \theme_config::load('snap');
+        $theme = \theme_config::load('cass');
         if (!empty($theme->settings->logoutredirection)) {
             $redirect = $theme->settings->logoutredirection;
         }
@@ -1777,7 +1777,7 @@ class local {
               
         // Short-circuit if we are not on a mod page, and allow restful access
         $pagepath = explode('-', $PAGE->pagetype);
-        if ($PAGE->pagetype == 'admin' || $pagepath[0] != 'mod' && $PAGE->pagetype != 'theme-snap-rest') {
+        if ($PAGE->pagetype == 'admin' || $pagepath[0] != 'mod' && $PAGE->pagetype != 'theme-cass-rest') {
             return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
         }
         
@@ -1909,7 +1909,7 @@ class local {
         return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
     }
     
-    // \theme_snap\local::render_completion($this);
+    // \theme_cass\local::render_completion($this);
     /**
      * Render mod completion
      * 
@@ -1944,10 +1944,10 @@ class local {
 
         if ($nextmod) {
             // 'You released the next activity '
-            $completiontext = get_string('nextactivitydesc', 'theme_snap');
+            $completiontext = get_string('nextactivitydesc', 'theme_cass');
             
             // 'Next Activity'
-            $forwardlinktext = get_string('nextactivity', 'theme_snap');
+            $forwardlinktext = get_string('nextactivity', 'theme_cass');
             $forwardlinkname = $nextmod->name;
             $forwardlinkurl =  $nextmod->url;
             
@@ -1956,10 +1956,10 @@ class local {
             // is to return to the course page.
             
             // 'Course page '
-            $completiontext = get_string('coursepagedesc', 'theme_snap');
+            $completiontext = get_string('coursepagedesc', 'theme_cass');
             
             // 'To course page'
-            $forwardlinktext = get_string('coursepage', 'theme_snap');
+            $forwardlinktext = get_string('coursepage', 'theme_cass');
             $courseurl = new \moodle_url('/course/view.php', ['id' => $COURSE->id], 'section-' . $mod->sectionnum);        
             $forwardlinkurl =  $courseurl;
             $forwardlinkname = $COURSE->fullname;
@@ -1977,7 +1977,7 @@ class local {
                 
             $output .= html_writer::span(
                     html_writer::span('', 'activity-complete glyphicon glyphicon-ok') .
-                    html_writer::span(get_string('activitycomplete', 'theme_snap'), 'activity-complete-text')
+                    html_writer::span(get_string('activitycomplete', 'theme_cass'), 'activity-complete-text')
                 , 'boxStyle', array('id' => 'alertBox')
             );
 
@@ -1995,7 +1995,7 @@ class local {
             );
             $output .= html_writer::end_span();
             
-            $output .= html_writer::tag('h4', get_string('continuenextactivity', 'theme_snap'), array('class' => 'modal-title activitycompletemodal-title'));
+            $output .= html_writer::tag('h4', get_string('continuenextactivity', 'theme_cass'), array('class' => 'modal-title activitycompletemodal-title'));
             
             $output .= html_writer::tag('p', $completiontext .
                        html_writer::span($forwardlinkname, 'activitycompletenextmodname'));
@@ -2014,7 +2014,7 @@ class local {
 
             //page, book, wiki
             if  (!in_array($mod->modname, ['page', 'book', 'wiki', 'feedback'])) {
-                $PAGE->requires->js_call_amd('theme_snap/snap', 'addPopCompletion');
+                $PAGE->requires->js_call_amd('theme_cass/cass', 'addPopCompletion');
             }  
         }
 

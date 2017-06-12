@@ -17,7 +17,7 @@
 /**
  * Steps definitions for behat theme.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @category  test
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -35,12 +35,12 @@ use Behat\Gherkin\Node\TableNode,
 /**
  * Choice activity definitions.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @category  test
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class behat_theme_snap extends behat_base {
+class behat_theme_cass extends behat_base {
 
     /**
      * Checks if running in a Joule system, skips the test if not.
@@ -70,11 +70,11 @@ class behat_theme_snap extends behat_base {
     /**
      * Logs in the user. There should exist a user with the same value as username and password.
      *
-     * @Given /^I log in as "(?P<username_string>(?:[^"]|\\")*)" \(theme_snap\)$/
+     * @Given /^I log in as "(?P<username_string>(?:[^"]|\\")*)" \(theme_cass\)$/
      * @param string $username
      * @param bool $andkeepmenuopen
      */
-    public function i_log_in_with_snap_as($username, $andkeepmenuopen = false) {
+    public function i_log_in_with_cass_as($username, $andkeepmenuopen = false) {
         global $DB;
         $user = $DB->get_record('user', ['username' => $username]);
         if (empty($user)) {
@@ -104,7 +104,7 @@ class behat_theme_snap extends behat_base {
 
         $forcepasschange = get_user_preferences('auth_forcepasswordchange', null, $user);
         if (!$andkeepmenuopen && empty($forcepasschange)) {
-            $showfixyonlogin = get_config('theme_snap', 'personalmenulogintoggle');
+            $showfixyonlogin = get_config('theme_cass', 'personalmenulogintoggle');
             if ($showfixyonlogin) {
                 $general->i_click_on('#fixy-close', 'css_element');
             }
@@ -119,36 +119,36 @@ class behat_theme_snap extends behat_base {
      * @param string $username
      */
     public function i_log_in_and_keep_personal_menu_open($username) {
-        $this->i_log_in_with_snap_as($username, true);
+        $this->i_log_in_with_cass_as($username, true);
     }
 
     protected function upload_file($fixturefilename, $selector) {
         global $CFG;
         $fixturefilename = clean_param($fixturefilename, PARAM_FILE);
-        // $filepath = $CFG->themedir.'/snap/tests/fixtures/'.$fixturefilename;
-        $filepath = $CFG->dirroot.'/theme/snap/tests/fixtures/'.$fixturefilename;
+        // $filepath = $CFG->themedir.'/cass/tests/fixtures/'.$fixturefilename;
+        $filepath = $CFG->dirroot.'/theme/cass/tests/fixtures/'.$fixturefilename;
         $file = $this->find('css', $selector);
         $file->attachFile($filepath);
     }
 
     /**
-     * @param string $fixturefilename this is a filename relative to the snap fixtures folder.
+     * @param string $fixturefilename this is a filename relative to the cass fixtures folder.
      * @param int $section
      *
      * @Given /^I upload file "(?P<fixturefilename_string>(?:[^"]|\\")*)" to section (?P<section_int>(?:\d+))$/
      */
     public function i_upload_file($fixturefilename, $section = 1) {
-        $this->upload_file($fixturefilename, '#snap-drop-file-'.$section);
+        $this->upload_file($fixturefilename, '#cass-drop-file-'.$section);
     }
 
     /**
-     * @param string $fixturefilename this is a filename relative to the snap fixtures folder.
+     * @param string $fixturefilename this is a filename relative to the cass fixtures folder.
      *
      * @Given /^I upload cover image "(?P<fixturefilename_string>(?:[^"]|\\")*)"$/
      */
     public function i_upload_cover_image($fixturefilename) {
-        $this->upload_file($fixturefilename, '#snap-coverfiles');
-        $this->getSession()->executeScript('jQuery( "#snap-coverfiles" ).trigger( "change" );');
+        $this->upload_file($fixturefilename, '#cass-coverfiles');
+        $this->getSession()->executeScript('jQuery( "#cass-coverfiles" ).trigger( "change" );');
     }
 
     /**
@@ -207,7 +207,7 @@ class behat_theme_snap extends behat_base {
     /**
      * @param string
      * @return array
-     * @Given  /^I log out \(theme_snap\)$/
+     * @Given  /^I log out \(theme_cass\)$/
      */
     public function i_log_out() {
         $this->i_open_the_personal_menu();
@@ -242,7 +242,7 @@ class behat_theme_snap extends behat_base {
         if (!$node->isVisible()) {
             /* @var $generalcontext behat_general */
             $generalcontext = behat_context_helper::get('behat_general');
-            $generalcontext->i_click_on('.snap-my-courses-menu', 'css_element');
+            $generalcontext->i_click_on('.cass-my-courses-menu', 'css_element');
         }
     }
 
@@ -453,7 +453,7 @@ class behat_theme_snap extends behat_base {
         $datetime = strtotime($date);
         $this->i_go_to_course_section($section);
         $this->click_visible_link('Edit section');
-        $this->i_wait_until_is_visible('.snap-form-advanced', 'css_element');
+        $this->i_wait_until_is_visible('.cass-form-advanced', 'css_element');
         $this->execute('behat_forms::i_set_the_field_to', ['name', 'Topic '.$date.' '.$section]);
         $this->add_date_restriction($datetime, 'Save changes');
     }
@@ -521,7 +521,7 @@ class behat_theme_snap extends behat_base {
      * @Given /^I should see availability info "(?P<str>(?:[^"]|\\")*)"$/
      */
     public function i_see_availabilityinfo($str, $baseselector = '') {
-        $nodes = $this->find_all('xpath', $baseselector.'//div[contains(@class, \'snap-conditional-tag\')]');
+        $nodes = $this->find_all('xpath', $baseselector.'//div[contains(@class, \'cass-conditional-tag\')]');
         foreach ($nodes as $node) {
             /** @var NodeElement $node */
             if ($node->getText() === $str) {
@@ -544,13 +544,13 @@ class behat_theme_snap extends behat_base {
         if ($type === 'section') {
             $baseselector = '//li[@id="section-'.$elementstr.'"]';
         } else if ($type === 'asset') {
-            $baseselector = '(//li[contains(@class, \'snap-asset\')]'. // Selection when editing teacher.
-                '//h4[contains(@class, \'snap-asset-link\')]'.
+            $baseselector = '(//li[contains(@class, \'cass-asset\')]'. // Selection when editing teacher.
+                '//h4[contains(@class, \'cass-asset-link\')]'.
                 '//span[contains(text(), \''.$elementstr.'\')]'.
                 '/parent::a/parent::h4/parent::div'.
                 '|'.
-                '//li[contains(@class, \'snap-asset\')]'. // Selection when anyone else.
-                '//h4[contains(@class, \'snap-asset-link\')]'.
+                '//li[contains(@class, \'cass-asset\')]'. // Selection when anyone else.
+                '//h4[contains(@class, \'cass-asset-link\')]'.
                 '//*[contains(text(),  \''.$elementstr.'\')]'.
                 '/parent::h4/parent::div)';
         } else {
@@ -578,7 +578,7 @@ class behat_theme_snap extends behat_base {
      */
     public function i_dont_see_availabilityinfo($str, $baseselector = '') {
         try {
-            $nodes = $this->find_all('xpath', $baseselector.'//div[contains(@class, \'snap-conditional-tag\')]');
+            $nodes = $this->find_all('xpath', $baseselector.'//div[contains(@class, \'cass-conditional-tag\')]');
         } catch (Exception $e) {
             if (empty($nodes)) {
                 return;
@@ -665,7 +665,7 @@ class behat_theme_snap extends behat_base {
      */
     public function i_should_see_available_from_in_asset($date, $nthasset, $section) {
         $nthasset = intval($nthasset);
-        $elementselector = '#section-'.$section.' li.snap-asset:nth-of-type('.$nthasset.')';
+        $elementselector = '#section-'.$section.' li.cass-asset:nth-of-type('.$nthasset.')';
         return $this->i_should_see_available_from_in_element($date, $elementselector, 'css_element');
     }
 
@@ -678,7 +678,7 @@ class behat_theme_snap extends behat_base {
      */
     public function i_should_not_see_available_from_in_asset($date, $nthasset, $section) {
         $nthasset = intval($nthasset);
-        $elementselector = '#section-'.$section.' li.snap-asset:nth-of-type('.$nthasset.')';
+        $elementselector = '#section-'.$section.' li.cass-asset:nth-of-type('.$nthasset.')';
         return $this->i_should_not_see_available_from_in_element($date, $elementselector, 'css_element');
     }
 
@@ -689,7 +689,7 @@ class behat_theme_snap extends behat_base {
      * @Given /^I should see available from date of "(?P<date_string>(?:[^"]|\\")*)" in section (?P<section_int>(?:\d+))$/
      */
     public function i_should_see_available_from_in_section($date, $section) {
-        $elementselector = '#section-'.$section.' > div.content > .snap-conditional-tag';
+        $elementselector = '#section-'.$section.' > div.content > .cass-conditional-tag';
         return $this->i_should_see_available_from_in_element($date, $elementselector, 'css_element');
     }
 
@@ -700,7 +700,7 @@ class behat_theme_snap extends behat_base {
      * @Given /^I should not see available from date of "(?P<date_string>(?:[^"]|\\")*)" in section (?P<section_int>(?:\d+))$/
      */
     public function i_should_not_see_available_from_in_section($date, $section) {
-        $elementselector = '#section-'.$section.' > div.content > .snap-conditional-tag';
+        $elementselector = '#section-'.$section.' > div.content > .cass-conditional-tag';
         return $this->i_should_not_see_available_from_in_element($date, $elementselector, 'css_element');
     }
 
@@ -885,7 +885,7 @@ class behat_theme_snap extends behat_base {
     /**
      * Sends a message to the specified user from the logged user. The user full name should contain the first and last names.
      *
-     * @Given /^I send "(?P<message_contents_string>(?:[^"]|\\")*)" message to "(?P<user_full_name_string>(?:[^"]|\\")*)" user \(theme_snap\)$/
+     * @Given /^I send "(?P<message_contents_string>(?:[^"]|\\")*)" message to "(?P<user_full_name_string>(?:[^"]|\\")*)" user \(theme_cass\)$/
      * @param string $messagecontent
      * @param string $userfullname
      */
@@ -1107,7 +1107,7 @@ class behat_theme_snap extends behat_base {
      * MDL-55288 - changes to core function in behat_filepicker.php required to support settings.php.
      * Deletes the specified file or folder from the specified filemanager field.
      *
-     * @Given /^I delete "(?P<file_or_folder_name_string>(?:[^"]|\\")*)" from "(?P<filemanager_field_string>(?:[^"]|\\")*)" filemanager \(theme_snap\)$/
+     * @Given /^I delete "(?P<file_or_folder_name_string>(?:[^"]|\\")*)" from "(?P<filemanager_field_string>(?:[^"]|\\")*)" filemanager \(theme_cass\)$/
      * @throws ExpectationException Thrown by behat_base::find
      * @param string $name
      * @param string $filemanagerelement
@@ -1343,7 +1343,7 @@ class behat_theme_snap extends behat_base {
      */
     public function the_course_format_is_set_to($shortname, $format) {
         global $DB;
-        $service = theme_snap\services\course::service();
+        $service = theme_cass\services\course::service();
         $course = $service->coursebyshortname($shortname, 'id');
         $DB->set_field('course', 'format', $format, ['id' => intval($course->id)]);
     }
@@ -1355,7 +1355,7 @@ class behat_theme_snap extends behat_base {
      */
     public function the_course_format_is_set_to_and_configured($shortname, $format, TableNode $data) {
         global $DB;
-        $service = theme_snap\services\course::service();
+        $service = theme_cass\services\course::service();
         $course = $service->coursebyshortname($shortname, 'id');
         $DB->set_field('course', 'format', $format, ['id' => intval($course->id)]);
         $row = $data->getRowsHash();
@@ -1372,7 +1372,7 @@ class behat_theme_snap extends behat_base {
      * @param string $shortname
      */
     public function i_am_on_course_page($shortname) {
-        $service = theme_snap\services\course::service();
+        $service = theme_cass\services\course::service();
         $course = $service->coursebyshortname($shortname, 'id');
         $this->getSession()->visit($this->locate_path('/course/view.php?id='.$course->id));
     }
@@ -1382,7 +1382,7 @@ class behat_theme_snap extends behat_base {
      * @param string $shortname
      */
     public function i_am_on_course_subpage($subpage, $shortname) {
-        $service = theme_snap\services\course::service();
+        $service = theme_cass\services\course::service();
         $course = $service->coursebyshortname($shortname, 'id');
         $this->getSession()->visit($this->locate_path('/course/'.$subpage.'.php?id='.$course->id));
     }
@@ -1446,7 +1446,7 @@ class behat_theme_snap extends behat_base {
     public function the_teacher_role_is_removed_for($shortname, $username) {
         global $DB;
 
-        $service = theme_snap\services\course::service();
+        $service = theme_cass\services\course::service();
         $course = $service->coursebyshortname($shortname, 'id');
 
         $page = new moodle_page();
@@ -1625,15 +1625,15 @@ class behat_theme_snap extends behat_base {
         $this->getSession()->getDriver()->mouseOver('//a[@id="admin-menu-trigger"]');
         $this->ensure_element_is_visible('div.tooltip', 'css_element');
         $this->execute("behat_general::assert_element_contains_text",
-            array(get_string('admin', 'theme_snap'), 'div.tooltip', 'css_element')
+            array(get_string('admin', 'theme_cass'), 'div.tooltip', 'css_element')
         );
     }
 
     /**
-     * @Given /^I am on the snap jquery bootstrap test page$/
+     * @Given /^I am on the cass jquery bootstrap test page$/
      */
-    public function i_am_on_the_snap_jquery_bootstrap_test_page() {
-        $this->getSession()->visit($this->locate_path('/theme/snap/tests/fixtures/test_jquery_bootstrap.php'));
+    public function i_am_on_the_cass_jquery_bootstrap_test_page() {
+        $this->getSession()->visit($this->locate_path('/theme/cass/tests/fixtures/test_jquery_bootstrap.php'));
     }
 
 }

@@ -15,17 +15,17 @@
 #
 # Tests for availability of course tools section.
 #
-# @package   theme_snap
+# @package   theme_cass
 # @author    Guy Thomas <gthomas@moodlerooms.com>
 # @copyright Copyright (c) 2016 Blackboard Inc.
 # @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, a course tools section is available.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, a course tools section is available.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
       | defaulthomepage | 0 |
     And the following "courses" exist:
       | fullname | shortname | category | format |

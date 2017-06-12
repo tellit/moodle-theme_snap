@@ -15,18 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap page requirements manager.
+ * Cass page requirements manager.
  * Required for blacklisting core javascript / css.
  * @author    Guy Thomas
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap;
+namespace theme_cass;
 
 require_once($CFG->dirroot.'/lib/outputrequirementslib.php');
 
-class snap_page_requirements_manager extends \page_requirements_manager {
+class cass_page_requirements_manager extends \page_requirements_manager {
     /**
      * Ensure that the specified JavaScript function is called from an inline script
      * from page footer.
@@ -51,12 +51,12 @@ class snap_page_requirements_manager extends \page_requirements_manager {
 
     /**
      * If the $PAGE requirement manager has already been utilised we need to copy those requirements into
-     * the snap_page_requirements_manager.
+     * the cass_page_requirements_manager.
      */
     public function copy_page_requirements() {
         global $PAGE;
 
-        // Modify $PAGE to use snap requirements manager.
+        // Modify $PAGE to use cass requirements manager.
         $requires = new \ReflectionProperty($PAGE, '_requires');
         $requires->setAccessible(true);
 
@@ -70,14 +70,14 @@ class snap_page_requirements_manager extends \page_requirements_manager {
                 continue;
             }
 
-            $snapmanprop = new \ReflectionProperty($this, $pname);
+            $cassmanprop = new \ReflectionProperty($this, $pname);
             // if the property is private or protected  set accessible, after the copy reset to not accessible.
-            $isprotected = $snapmanprop->isPrivate() || $snapmanprop->isProtected();
+            $isprotected = $cassmanprop->isPrivate() || $cassmanprop->isProtected();
             if ($isprotected) {
-                $snapmanprop->setAccessible(true);
+                $cassmanprop->setAccessible(true);
             }
-            $snapmanprop->setValue($this, $pval);
-            $snapmanprop->setAccessible(!$isprotected);
+            $cassmanprop->setValue($this, $pval);
+            $cassmanprop->setAccessible(!$isprotected);
         }
         $requires->setValue($PAGE, $this);
         $requires->setAccessible(false);

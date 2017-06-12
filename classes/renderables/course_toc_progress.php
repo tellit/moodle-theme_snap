@@ -21,9 +21,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
+namespace theme_cass\renderables;
 
-use theme_snap\output\shared;
+use theme_cass\output\shared;
 
 class course_toc_progress {
 

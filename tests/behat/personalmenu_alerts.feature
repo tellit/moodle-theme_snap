@@ -13,21 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for Snap personal menu alerts.
+# Tests for Cass personal menu alerts.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, students and teachers can open a personal menu that shows things that
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, students and teachers can open a personal menu that shows things that
   have recently happened (depending on how the message outputs have been configured).
 
   Background:
     Given I am using Joule
     And the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following config values are set as admin:
       | message_provider_moodle_instantmessage_loggedoff | badge | message |
     And the following "courses" exist:
@@ -47,8 +47,8 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     Given the message processor "badge" is disabled
     And I change viewport size to "large"
     And the following config values are set as admin:
-      | personalmenulogintoggle | 0 | theme_snap |
-    And I log in as "student1" (theme_snap)
+      | personalmenulogintoggle | 0 | theme_cass |
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
     # The alerts section should not be present if the message processor is not enabled.
     Then ".alert_stream" "css_element" should not exist
@@ -58,9 +58,9 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     Then ".alert_stream" "css_element" should exist
     And I wait until ".message_badge_empty" "css_element" is visible
     Then I should see "You have no unread alerts."
-    And I send "Test message!" message to "Teacher 1" user (theme_snap)
-    And I log out (theme_snap)
-    And I log in as "teacher1" (theme_snap)
+    And I send "Test message!" message to "Teacher 1" user (theme_cass)
+    And I log out (theme_cass)
+    And I log in as "teacher1" (theme_cass)
     And ".message_badge_count" "css_element" should exist
     And I open the personal menu
     And I wait until ".message_badge_message_text" "css_element" is visible
@@ -74,13 +74,13 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     # The alerts section should not be present if the message processor is not enabled.
     Then ".alert_stream" "css_element" should not exist
     And the message processor "badge" is enabled
-    And I log out (theme_snap)
+    And I log out (theme_cass)
     And I log in as "student1", keeping the personal menu open
     Then ".alert_stream" "css_element" should exist
     And I wait until ".message_badge_empty" "css_element" is visible
     Then I should see "You have no unread alerts."
-    And I send "Test message!" message to "Teacher 1" user (theme_snap)
-    And I log out (theme_snap)
+    And I send "Test message!" message to "Teacher 1" user (theme_cass)
+    And I log out (theme_cass)
     And I log in as "teacher1", keeping the personal menu open
     And I wait until ".message_badge_message_text" "css_element" is visible
     And I should see "New message from Student 1"
@@ -89,7 +89,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
   Scenario: Alerts are visible in personal menu when user is on course page warning no guest access.
     Given the message processor "badge" is enabled
     And the following config values are set as admin:
-      | personalmenulogintoggle | 0 | theme_snap |
+      | personalmenulogintoggle | 0 | theme_cass |
     And the following "users" exist:
       | username | firstname | lastname | email |
       | student2 | Student | 2 | student1@example.com |

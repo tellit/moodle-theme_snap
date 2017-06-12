@@ -15,18 +15,18 @@
 #
 # Tests for html5 file upload direct to course.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, teachers can upload files as resources directly to the current
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, teachers can upload files as resources directly to the current
   course section from a simple file input element in either read or edit mode.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1 | 0 | topics |
@@ -42,24 +42,24 @@ Feature: When the moodle theme is set to Snap, teachers can upload files as reso
 
   @javascript
   Scenario: In read mode, teacher uploads file.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
-    And "#snap-drop-file-1" "css_element" should exist
+    And "#cass-drop-file-1" "css_element" should exist
     And I upload file "test_text_file.txt" to section 1
     And I upload file "test_mp3_file.mp3" to section 1
-    Then ".snap-resource[data-type='text']" "css_element" should exist
-    And ".snap-resource[data-type='mp3']" "css_element" should exist
+    Then ".cass-resource[data-type='text']" "css_element" should exist
+    And ".cass-resource[data-type='mp3']" "css_element" should exist
     # Make sure image uploads do not suffer from annoying prompt for label handler.
     And I upload file "testgif.gif" to section 1
     Then I should not see "Add image to course page"
     And I should not see "Create file resource"
-    And I should see "testgif" in the "#section-1 .snap-image-image .snap-image-title" "css_element"
+    And I should see "testgif" in the "#section-1 .cass-image-image .cass-image-title" "css_element"
 
   @javascript
   Scenario: Student cannot upload file.
-    Given I log in as "student1" (theme_snap)
+    Given I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
-    Then "#snap-drop-file" "css_element" should not exist
+    Then "#cass-drop-file" "css_element" should not exist

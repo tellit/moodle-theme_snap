@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -31,15 +31,15 @@ define(['jquery', 'core/templates'],
              * Initialising function.
              */
             (function() {
-                containerEl = $('#snap-footer-alert');
+                containerEl = $('#cass-footer-alert');
 
                 // If the move notice html was not output to the dom via php, then we need to add it here via js.
                 // This is necessary for the front page which does not have a renderer that we can override.
                 if (containerEl.length === 0) {
-                    templates.render('theme_snap/footer_alert', {})
+                    templates.render('theme_cass/footer_alert', {})
                         .done(function(result) {
                             $('#region-main').append(result);
-                            containerEl = $('#snap-footer-alert');
+                            containerEl = $('#cass-footer-alert');
                         });
                 }
             })();
@@ -49,7 +49,7 @@ define(['jquery', 'core/templates'],
              * @param {string} titleHTML
              */
             this.setTitle = function(titleHTML) {
-                $('.snap-footer-alert-title').html(titleHTML);
+                $('.cass-footer-alert-title').html(titleHTML);
                 this.setSrNotice('');
                     // Focus on container so that it get's red out for accessibility reasons.
                 containerEl.focus();
@@ -67,8 +67,8 @@ define(['jquery', 'core/templates'],
              * Add AJAX loading spinner.
              */
             this.addAjaxLoading = function(str) {
-                str = !str ? M.util.get_string('loading', 'theme_snap') : str;
-                var titleEl = $('.snap-footer-alert-title');
+                str = !str ? M.util.get_string('loading', 'theme_cass') : str;
+                var titleEl = $('.cass-footer-alert-title');
                 if (titleEl.find('.loadingstat').length === 0) {
                     titleEl.append('<span class="loadingstat spinner-three-quarters' +
                         '">' + str + '</span>');
@@ -86,12 +86,12 @@ define(['jquery', 'core/templates'],
              * Show footer alert.
              */
             this.show = function(onCancel) {
-                containerEl.addClass('snap-footer-alert-visible');
+                containerEl.addClass('cass-footer-alert-visible');
                 if (typeof(onCancel) === 'function') {
-                    $('.snap-footer-alert-cancel').click(onCancel);
-                    $('.snap-footer-alert-cancel').addClass('state-visible');
+                    $('.cass-footer-alert-cancel').click(onCancel);
+                    $('.cass-footer-alert-cancel').addClass('state-visible');
                 } else {
-                    $('.snap-footer-alert-cancel').removeClass('state-visible');
+                    $('.cass-footer-alert-cancel').removeClass('state-visible');
                 }
             };
 
@@ -99,8 +99,8 @@ define(['jquery', 'core/templates'],
              * Hide footer alert.
              */
             this.hide = function() {
-                containerEl.removeClass('snap-footer-alert-visible');
-                $('.snap-footer-alert-cancel').removeClass('state-visible');
+                containerEl.removeClass('cass-footer-alert-visible');
+                $('.cass-footer-alert-cancel').removeClass('state-visible');
             };
 
             /**

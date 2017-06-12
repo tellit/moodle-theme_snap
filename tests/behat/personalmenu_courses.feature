@@ -13,19 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for courses in the Snap personal menu.
+# Tests for courses in the Cass personal menu.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, students and teachers can open a personal menu with a list of courses
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, students and teachers can open a personal menu with a list of courses
   they are enrolled in to give them easy access.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname        | shortname | category | groupmode | visible |
       | Course 1        | C1        | 0        | 1         | 1       |
@@ -41,7 +41,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
       | user  | course | role    |
       | user1 | C1     | student |
       | user1 | Hidden | teacher |
-    And I log in as "user1" (theme_snap)
+    And I log in as "user1" (theme_cass)
     And I open the personal menu
     Then I should see "Course 1"
     And I should not see "Courses you are enrolled in will be shown here"
@@ -54,7 +54,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
 
   @javascript
   Scenario: User with no course enrolments sees a message
-    Given I log in as "student2" (theme_snap)
+    Given I log in as "student2" (theme_cass)
     When I open the personal menu
     Then I should see "Courses you are enrolled in will be shown here"
     And I should not see "Hidden courses"
@@ -64,7 +64,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     Given the following "course enrolments" exist:
       | user     | course | role    |
       | student2 | Hidden | student |
-    And I log in as "student2" (theme_snap)
+    And I log in as "student2" (theme_cass)
     When I open the personal menu
     Then I should see "Courses you are enrolled in will be shown here"
     And I should not see "Course Hidden"
@@ -75,7 +75,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     Given the following "course enrolments" exist:
       | user     | course | role    | timeend    |
       | student2 | Hidden | student | 1466172659 |
-    And I log in as "student2" (theme_snap)
+    And I log in as "student2" (theme_cass)
     When I open the personal menu
     Then I should see "Courses you are enrolled in will be shown here"
     And I should not see "Course Hidden"
@@ -89,7 +89,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     And the following "course enrolments" exist:
       | user     | course | role    | timeend    |
       | teacher1 | Hidden | teacher | 1466172659 |
-    And I log in as "teacher1" (theme_snap)
+    And I log in as "teacher1" (theme_cass)
     When I open the personal menu
     Then I should see "Courses you are enrolled in will be shown here"
     And I should not see "Course Hidden"
@@ -103,7 +103,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     And the following "course enrolments" exist:
       | user     | course | role    |
       | teacher1 | Hidden | teacher |
-    And I log in as "teacher1" (theme_snap)
+    And I log in as "teacher1" (theme_cass)
     When I open the personal menu
     Then I should see "Course Hidden"
     And I should not see "Courses you are enrolled in will be shown here"
@@ -122,7 +122,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
       | teacher1 | C1      | teacher |
       | teacher1 | Hidden  | teacher |
       | teacher1 | Hidden2 | teacher |
-    And I log in as "teacher1" (theme_snap)
+    And I log in as "teacher1" (theme_cass)
     When I open the personal menu
     Then I should see "Course 1"
     And I should not see "Courses you are enrolled in will be shown here"

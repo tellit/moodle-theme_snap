@@ -17,7 +17,7 @@
 /**
  * Language strings
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://opensource.org/licenses/gpl-3.0.html GNU Public License
  */
@@ -55,7 +55,7 @@ $string['card'] = 'Card';
 $string['changecoverimage'] = 'Change cover image';
 $string['changefullname'] = 'Change site name';
 $string['chapters'] = 'Chapters';
-$string['choosereadme'] = '<div class="clearfix"><div class="theme_screenshot"><h2>Snap</h2><img class=img-polaroid src="snap/pix/screenshot.jpg" />';
+$string['choosereadme'] = '<div class="clearfix"><div class="theme_screenshot"><h2>Cass</h2><img class=img-polaroid src="cass/pix/screenshot.jpg" />';
 $string['close'] = 'Close';
 $string['collapsecompletedactivities'] = 'Collapse completed activities on course page';
 $string['collapsecompletedactivitiesdesc'] = 'When enabled, completed activities on the course page are collapsed';
@@ -69,7 +69,7 @@ $string['courses'] = 'Courses';
 $string['coursecontacts'] = 'Course Contacts';
 $string['coursefootertoggle'] = 'Show Course Footer';
 $string['coursefootertoggledesc'] = 'The Course Footer shows useful information to users on a course page including course contacts, course description and recent activity in the course.';
-$string['courseformatnotification'] = 'The current course format you are using is not fully supported by the Snap theme. For the best experience Moodlerooms recommends using the Topics or Weekly course formats with the Snap theme. The course format can be changed in the <a href="{$a}">course settings</a>.';
+$string['courseformatnotification'] = 'The current course format you are using is not fully supported by the Cass theme. For the best experience Moodlerooms recommends using the Topics or Weekly course formats with the Cass theme. The course format can be changed in the <a href="{$a}">course settings</a>.';
 $string['coursefixydefaulttext'] = 'You are currently not enrolled in any courses.<br>Courses you are enrolled in will be shown here.';
 $string['coursegrade'] = 'Course grade :';
 $string['coursenavigation'] = 'Course navigation';
@@ -186,7 +186,7 @@ $string['help'] = 'Help';
 $string['helpwithlogin'] = 'Help with login';
 $string['helpwithloginandguest'] = 'Help with login / guest access';
 $string['hidenavblock'] = 'Hide default Moodle navigation block';
-$string['hidenavblockdesc'] = "In Snap we recommend hiding the default Moodle navigation block. ";
+$string['hidenavblockdesc'] = "In Cass we recommend hiding the default Moodle navigation block. ";
 $string['hiddencoursestoggle'] = 'Hidden courses ({$a})';
 $string['hidequiznavigation'] = "Hide quiz navigation for non editors. ";
 $string['hidequiznavigationdesc'] = "When this setting is enabled, the quiz navigation output is not generated for non editors.";
@@ -255,7 +255,7 @@ $string['personalmenu'] = 'Personal menu features';
 $string['personalmenulogintoggle'] = 'Show personal menu on login';
 $string['personalmenulogintoggledesc'] = 'Opens the personal menu immediately after login';
 $string['pld'] = 'PLD';
-$string['pluginname'] = 'Snap';
+$string['pluginname'] = 'Cass';
 $string['poster'] = 'Cover image';
 $string['posterdesc'] = 'A large image for the front page of your site. The image should exclude text. Images of 1280px width by 500px height or larger (up to 2000px in width) work best. Optimising your image for the web will speed up the page load time.';
 $string['poweredbyrunby'] = 'Built with <a href="http://moodlerooms.com/" target="_blank">Moodlerooms</a>'

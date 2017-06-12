@@ -17,9 +17,9 @@
 require_once __DIR__ . '/coursepageredirect.php';
 
 /**
- * Standard library functions for snap theme.
+ * Standard library functions for cass theme.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,9 +32,9 @@ require_once __DIR__ . '/coursepageredirect.php';
  * @throws coding_exception
  * @throws dml_exception
  */
-function theme_snap_process_site_coverimage() {
+function theme_cass_process_site_coverimage() {
     $context = \context_system::instance();
-    \theme_snap\local::process_coverimage($context);
+    \theme_cass\local::process_coverimage($context);
     theme_reset_all_caches();
 }
 
@@ -45,11 +45,11 @@ function theme_snap_process_site_coverimage() {
  * @param theme_config $theme
  * @return string
  */
-function theme_snap_process_css($css, theme_config $theme) {
+function theme_cass_process_css($css, theme_config $theme) {
 
     // Set the background image for the logo.
     $logo = $theme->setting_file_url('logo', 'logo');
-    $css = theme_snap_set_logo($css, $logo);
+    $css = theme_cass_set_logo($css, $logo);
 
     // Set the custom css.
     if (!empty($theme->settings->customcss)) {
@@ -57,10 +57,10 @@ function theme_snap_process_css($css, theme_config $theme) {
     } else {
         $customcss = null;
     }
-    $css = theme_snap_set_customcss($css, $customcss);
+    $css = theme_cass_set_customcss($css, $customcss);
 
     // Set bootswatch.
-    $css = theme_snap_set_bootswatch($css, theme_snap_get_bootswatch_variables($theme));
+    $css = theme_cass_set_bootswatch($css, theme_cass_get_bootswatch_variables($theme));
 
     return $css;
 }
@@ -72,12 +72,12 @@ function theme_snap_process_css($css, theme_config $theme) {
  * @param string $logo The URL of the logo.
  * @return string The parsed CSS
  */
-function theme_snap_set_logo($css, $logo) {
+function theme_cass_set_logo($css, $logo) {
     $tag = '/**setting:logo**/';
     if (is_null($logo)) {
         $replacement = '';
     } else {
-        $replacement = "#snap-home.logo {background-image: url($logo);} #page-login-index .loginpanel h2{background-image: url($logo);}";
+        $replacement = "#cass-home.logo {background-image: url($logo);} #page-login-index .loginpanel h2{background-image: url($logo);}";
     }
     $css = str_replace($tag, $replacement, $css);
     return $css;
@@ -90,7 +90,7 @@ function theme_snap_set_logo($css, $logo) {
  * @param string $customcss The custom CSS to add.
  * @return string The CSS which now contains our custom CSS.
  */
-function theme_snap_set_customcss($css, $customcss) {
+function theme_cass_set_customcss($css, $customcss) {
     $tag = '/**setting:customcss**/';
     $replacement = $customcss;
     if (is_null($replacement)) {
@@ -106,7 +106,7 @@ function theme_snap_set_customcss($css, $customcss) {
  * @param theme_config $theme
  * @return array
  */
-function theme_snap_get_bootswatch_variables(theme_config $theme) {
+function theme_cass_get_bootswatch_variables(theme_config $theme) {
     $settings['brand-primary'] = !empty($theme->settings->themecolor) ? $theme->settings->themecolor : '#3bcedb';
     $userfontsans  = $theme->settings->headingfont;
     if (empty($userfontsans) || in_array($userfontsans, ['Roboto', '"Roboto"'])) {
@@ -136,12 +136,12 @@ function theme_snap_get_bootswatch_variables(theme_config $theme) {
  * @param string $css The original CSS.
  * @param array $variables The bootswatch variables
  * @return string
- * @see theme_snap_get_bootswatch_variables
+ * @see theme_cass_get_bootswatch_variables
  */
-function theme_snap_set_bootswatch($css, array $variables) {
+function theme_cass_set_bootswatch($css, array $variables) {
     global $CFG;
 
-    $tag = '/**setting:snap-user-bootswatch**/';
+    $tag = '/**setting:cass-user-bootswatch**/';
     if (strpos($css, $tag) === false) {
         return $css; // Avoid doing work when tag is not present.
     }
@@ -149,8 +149,8 @@ function theme_snap_set_bootswatch($css, array $variables) {
 
     try {
         $parser = new Less_Parser();
-        $parser->parseFile(__DIR__.'/less/bootswatch/snap-variables.less', $CFG->wwwroot.'/');
-        $parser->parseFile(__DIR__.'/less/bootswatch/snap-user-bootswatch.less', $CFG->wwwroot.'/');
+        $parser->parseFile(__DIR__.'/less/bootswatch/cass-variables.less', $CFG->wwwroot.'/');
+        $parser->parseFile(__DIR__.'/less/bootswatch/cass-user-bootswatch.less', $CFG->wwwroot.'/');
         if (!empty($variables)) {
             $parser->ModifyVars($variables);
         }
@@ -173,7 +173,7 @@ function theme_snap_set_bootswatch($css, array $variables) {
  * @param $options
  * @return bool
  */
-function theme_snap_send_file($context, $filearea, $args, $forcedownload, $options) {
+function theme_cass_send_file($context, $filearea, $args, $forcedownload, $options) {
     $revision = array_shift($args);
     if ($revision < 0) {
         $lifetime = 0;
@@ -183,7 +183,7 @@ function theme_snap_send_file($context, $filearea, $args, $forcedownload, $optio
 
     $filename = end($args);
     $contextid = $context->id;
-    $fullpath = "/$contextid/theme_snap/$filearea/0/$filename";
+    $fullpath = "/$contextid/theme_cass/$filearea/0/$filename";
     $fs = get_file_storage();
     $file = $fs->get_file_by_hash(sha1($fullpath));
 
@@ -207,23 +207,23 @@ function theme_snap_send_file($context, $filearea, $args, $forcedownload, $optio
  * @param array $options
  * @return bool
  */
-function theme_snap_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function theme_cass_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
 
     if ($context->contextlevel == CONTEXT_SYSTEM && in_array($filearea, ['logo', 'favicon', 'fs_one_image', 'fs_two_image', 'fs_three_image'])) {
-        $theme = theme_config::load('snap');
+        $theme = theme_config::load('cass');
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     } else if (($context->contextlevel == CONTEXT_SYSTEM || $context->contextlevel == CONTEXT_COURSE)
         && $filearea == 'coverimage' || $filearea == 'coursecard') {
-        theme_snap_send_file($context, $filearea, $args, $forcedownload, $options);
+        theme_cass_send_file($context, $filearea, $args, $forcedownload, $options);
     } else {
         send_file_not_found();
     }
 }
 
-function theme_snap_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
+function theme_cass_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
     global $PAGE;
 
-    if ($PAGE->theme->name === 'snap') {
+    if ($PAGE->theme->name === 'cass') {
         if ($iscurrentuser) {
             $str = get_strings(['preferences']);
             if (isset($tree->nodes['editprofile'])) {

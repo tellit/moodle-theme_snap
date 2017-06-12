@@ -17,7 +17,7 @@
 /**
  * Layout - default.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -75,7 +75,7 @@ if ($ismodpage && $this->page->theme->settings->highlightfirstactivityinsection)
     }               
 }
 
-use theme_snap\local;
+use theme_cass\local;
 
 ?>
 <!-- moodle js hooks -->
@@ -108,7 +108,7 @@ if ($PAGE->pagetype == 'site-index') {
 </div>
 <?php
 if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
-    $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingsnap'], 'admin-poster');
+    $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingcass'], 'admin-poster');
     echo $OUTPUT->cover_image_selector();
 }
 ?>
@@ -170,7 +170,7 @@ echo $OUTPUT->course_content_footer();
 
 if (stripos($PAGE->bodyclasses, 'format-singleactivity') !== false ) {
     // Shared renderer is only loaded if required at this point.
-    $output = \theme_snap\output\shared::course_tools();
+    $output = \theme_cass\output\shared::course_tools();
     if (!empty($output)) {
         echo $output;
     }

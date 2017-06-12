@@ -19,7 +19,7 @@
  * This layout is baed on a moodle site index.php file but has been adapted to show news items in a different
  * way.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,7 +33,7 @@ global $USER, $DB;
 
 echo  html_writer::start_div('completion-region');
               
-echo \theme_snap\local::render_completion_footer(
+echo \theme_cass\local::render_completion_footer(
     $this->page->theme->settings->nextactivityinfooter, 
     $this->page->theme->settings->nextactivitymodaldialog,
     $this->page->theme->settings->nextactivitymodaldialogtolerance
@@ -45,13 +45,13 @@ $inccoursefooterclass = ($PAGE->theme->settings->coursefootertoggle && strpos($P
 ?>
 <footer id="moodle-footer" role="contentinfo" class="clearfix<?php echo ($inccoursefooterclass)?>">
 <?php
-/* snap custom footer */
+/* cass custom footer */
 
 /* custom footer edit button - always shown */
 $footnote = empty($PAGE->theme->settings->footnote) ? '' : $PAGE->theme->settings->footnote;
 if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
-    $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingsnap'], 'admin-footnote');
-    $link = html_writer::link($url, get_string('editcustomfooter', 'theme_snap'), ['class' => 'btn btn-inverse btn-sm']);
+    $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingcass'], 'admin-footnote');
+    $link = html_writer::link($url, get_string('editcustomfooter', 'theme_cass'), ['class' => 'btn btn-inverse btn-sm']);
     $footnote .= '<p class="text-right">'.$link.'</p>';
 }
 
@@ -59,7 +59,7 @@ if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
 $custommenu = $OUTPUT->custom_menu();
 if (!empty($custommenu) && $this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
     $url = new moodle_url('/admin/settings.php', ['section' => 'themesettings'], 'id_s__custommenuitems');
-    $link = html_writer::link($url, get_string('editcustommenu', 'theme_snap'), ['class' => 'btn btn-inverse btn-sm']);
+    $link = html_writer::link($url, get_string('editcustommenu', 'theme_cass'), ['class' => 'btn btn-inverse btn-sm']);
     $custommenu .= '<p class="text-right">'.$link.'</p>';
 }
 
@@ -99,10 +99,10 @@ if (!empty($PAGE->theme->settings->instagram)) {
     $socialmedialinks .= $this->social_menu_link('instagram', $PAGE->theme->settings->instagram);
 }
 if(!empty($socialmedialinks)) {
-    echo '<div id="snap_socialmedia_links">'.$socialmedialinks.'</div>';
+    echo '<div id="cass_socialmedia_links">'.$socialmedialinks.'</div>';
 }
 
-$poweredbyrunby = get_string('poweredbyrunby', 'theme_snap');
+$poweredbyrunby = get_string('poweredbyrunby', 'theme_cass');
 
 if (empty($PAGE->theme->settings->copyrightnotice)) {
     echo '<div id="mrooms-footer" class="helplink text-right">

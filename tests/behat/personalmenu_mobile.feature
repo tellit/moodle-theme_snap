@@ -13,20 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for Snap personal menu on mobile devices.
+# Tests for Cass personal menu on mobile devices.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, students and teachers can open a personal menu which works responsively
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, students and teachers can open a personal menu which works responsively
   on mobile devices.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname | shortname | category | groupmode |
       | Course 1 | C1 | 0 | 1 |
@@ -42,7 +42,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
   @javascript
   Scenario Outline: Teacher / Student can view personal menu on a mobile device.
     Given I change window size to "320x480"
-    And I log in as "<user>" (theme_snap)
+    And I log in as "<user>" (theme_cass)
     And I open the personal menu
     And I follow "Deadlines" in the mobile personal menu
     Then I should see "You have no upcoming deadlines."
@@ -70,7 +70,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
     Given I am using Joule
     And I change window size to "320x480"
     And the message processor "badge" is enabled
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
     And I follow "Deadlines" in the mobile personal menu
     Then I should see "You have no upcoming deadlines."
@@ -92,33 +92,33 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
   Scenario Outline: Mobile menu icons (excluding alerts) only appear when enabled.
     Given I change window size to "320x480"
     And the following config values are set as admin:
-      | <toggle> | 0 | theme_snap |
-    And I log in as "student1" (theme_snap)
+      | <toggle> | 0 | theme_cass |
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
     Then "a[href='<href>']" "css_element" should not exist
     And the following config values are set as admin:
-      | <toggle> | 1 | theme_snap |
+      | <toggle> | 1 | theme_cass |
     And I reload the page
     And I open the personal menu
     Then "a[href='<href>']" "css_element" should exist
     Examples:
     | toggle           | href                           |
-    | deadlinestoggle  | #snap-personal-menu-deadlines  |
-    | feedbacktoggle   | #snap-personal-menu-graded     |
-    | messagestoggle   | #snap-personal-menu-messages   |
-    | forumpoststoggle | #snap-personal-menu-forumposts |
+    | deadlinestoggle  | #cass-personal-menu-deadlines  |
+    | feedbacktoggle   | #cass-personal-menu-graded     |
+    | messagestoggle   | #cass-personal-menu-messages   |
+    | forumpoststoggle | #cass-personal-menu-forumposts |
 
   @javascript
   Scenario: Alerts mobile menu icon only appears when alerts enabled.
     Given I am using Joule
     And I change window size to "320x480"
     And the message processor "badge" is disabled
-    And I log in as "student1" (theme_snap)
+    And I log in as "student1" (theme_cass)
     And I open the personal menu
-    Then "a[href='#snap-personal-menu-badges']" "css_element" should not exist
+    Then "a[href='#cass-personal-menu-badges']" "css_element" should not exist
     And the message processor "badge" is enabled
     And I reload the page
     And I open the personal menu
-    Then "a[href='#snap-personal-menu-badges']" "css_element" should exist
+    Then "a[href='#cass-personal-menu-badges']" "css_element" should exist
 
 

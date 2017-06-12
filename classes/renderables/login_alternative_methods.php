@@ -21,7 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
+namespace theme_cass\renderables;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -36,12 +36,12 @@ class login_alternative_methods implements \renderable {
         $authsequence = get_enabled_auth_plugins(true);
         $potentialidps = [];
         foreach ($authsequence as $authname) {
-            if (isset($SESSION->snapwantsurl)) {
-                $urltogo = $SESSION->snapwantsurl;
+            if (isset($SESSION->casswantsurl)) {
+                $urltogo = $SESSION->casswantsurl;
             } else {
                 $urltogo = $CFG->wwwroot.'/';
             }
-            unset($SESSION->snapwantsurl);
+            unset($SESSION->casswantsurl);
 
             $authplugin = get_auth_plugin($authname);
             $potentialidps = array_merge($potentialidps, $authplugin->loginpage_idp_list($urltogo));

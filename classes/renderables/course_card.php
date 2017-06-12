@@ -21,10 +21,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
+namespace theme_cass\renderables;
 
-use theme_snap\services\course;
-use theme_snap\local;
+use theme_cass\services\course;
+use theme_cass\local;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -136,7 +136,7 @@ class course_card implements \renderable {
         $this->published = (bool)$this->course->visible;
         $this->favorited = $this->service->favorited($this->courseid);
         $togglestrkey = !$this->favorited ? 'favorite' : 'favorited';
-        $this->toggletitle = get_string($togglestrkey, 'theme_snap', $this->fullname);
+        $this->toggletitle = get_string($togglestrkey, 'theme_cass', $this->fullname);
         $this->apply_contact_avatars();
         $this->apply_image_css();
     }

@@ -15,18 +15,18 @@
 #
 # Tests for personal menu display on initial login.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @author     2016 Guy Thomas <gthomas@moodlerooms.com>
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap,
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass,
           users can open and close the personal menu,
           and optionally open the personal menu on login
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | 1        | teacher1@example.com |
@@ -35,14 +35,14 @@ Feature: When the moodle theme is set to Snap,
   @javascript
   Scenario: User opens and closes login menu using call-to-action button on site homepage
     Given I click on "#page-mast .js-personal-menu-trigger" "css_element"
-    Then "#snap-login" "css_element" should be visible
+    Then "#cass-login" "css_element" should be visible
     And I follow "Cancel"
-    Then "#snap-login" "css_element" should not be visible
+    Then "#cass-login" "css_element" should not be visible
 
   @javascript
   Scenario: User logs in and does not see the primary menu, if option turned off
     Given the following config values are set as admin:
-      | personalmenulogintoggle | 0 | theme_snap |
+      | personalmenulogintoggle | 0 | theme_cass |
     Given I follow "Log in"
     And I set the field "username" to "teacher1"
     And I set the field "password" to "teacher1"

@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Snap user swatch.
+ * Cass user swatch.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,7 +25,7 @@
 //
 //  1. Bootstrap 3 (less/bootstrap3/*.less)
 //  2. Moodle overrides of Bootstrap  (less/moodle/*.less)
-//  3. Snap theme (less/bootswatch/snap-*.less)
+//  3. Cass theme (less/bootswatch/cass-*.less)
 //
 // And in that order, this file will try to follow the order  and
 // general format of the sources that it overrides to make it
@@ -36,16 +36,16 @@
 // Reset - overwrites inline style tags
 
 .news-article-message *[style],
-.snap-image-summary *[style],
+.cass-image-summary *[style],
 .summary-text *[style],
 .summary p[style],
 .summary div[style],
 .sitetopic p[style],
 .sitetopic div[style],
-.snap-activity .contentafterlink *[style],
+.cass-activity .contentafterlink *[style],
 .signuppanel *[style],
 .signuppanel .text_to_html *[style],
-.snap-lightbox-description *[style] {
+.cass-lightbox-description *[style] {
     color: inherit !important;
     font-size: inherit !important;
     line-height: inherit !important;
@@ -91,7 +91,7 @@ a,
         outline: 0;
     }
 }
-.js-snap-asset-move:focus + label .svg-icon {
+.js-cass-asset-move:focus + label .svg-icon {
     outline: 3px solid @brand-primary;
 }
 
@@ -121,7 +121,7 @@ a:hover,
     }
 }
 
-.section li.snap-native .activityinstance .snap-asset-link a {
+.section li.cass-native .activityinstance .cass-asset-link a {
     color: @brand-primary;
     &:visited {
         color: @brand-primary;
@@ -132,7 +132,7 @@ a:hover,
         color: darken(@brand-primary, 8%);
     }
 }
-.snap-asset-link a {
+.cass-asset-link a {
     color: @text-color;
     &:focus,
     &:hover {
@@ -140,9 +140,9 @@ a:hover,
     }
 }
 
-.snap-due-date {
+.cass-due-date {
     background-color: @brand-primary;
-    &.snap-date-overdue {
+    &.cass-date-overdue {
         background-color: @brand-danger;
     }
 }
@@ -172,7 +172,7 @@ a:hover,
 .user-grade td.feedbacktext,
 // moodle applies to .text_to_html class for teachers description in the footer
 #course_teachers .text_to_html,
-.snap-lightbox-description,
+.cass-lightbox-description,
 #page-mod-book-print  {
     font-family: @font-family-serif;
     max-width: 960px;
@@ -200,7 +200,7 @@ legend,
 .form_autocomplete_selection,
 .form_autocomplete_suggestions,
 .collapsibleregioncaption,
-.snap-featured-course-title {
+.cass-featured-course-title {
     font-family: @font-family-serif;
 	color: #000;
 }
@@ -218,7 +218,7 @@ h6, .h6, {
 }
 
 .pagemod-readmore,
-.snap-action-icon,
+.cass-action-icon,
 #coursetools-list a {
     font-family: @font-family-base;
 }
@@ -245,7 +245,7 @@ h6, .h6, {
 // Elements
 // -------------------------
 
-.snap-media-body p {
+.cass-media-body p {
     font-family: @font-family-serif;
 }
 
@@ -280,7 +280,7 @@ h6, .h6, {
     }
 }
 
-.snap-unread-marker {
+.cass-unread-marker {
     color: @brand-primary;
 }
 #page-mod-quiz-review .arrow_link,
@@ -341,7 +341,7 @@ input[type="reset"],
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     //transition: all 0.4s ease-in-out;
     
-    //New to snap 3.1
+    //New to cass 3.1
     color: @body-bg;
     border-color: @brand-primary;
     border-radius: 4px;
@@ -424,7 +424,7 @@ input[type="reset"],
 #page-login-index #page,
 .news-article-image,
 .news-article-preview,
-#snap-footer-alert,
+#cass-footer-alert,
 #toc-mobile-menu-toggle {
     background-color: @brand-primary;
 }
@@ -452,7 +452,7 @@ input[type="reset"],
     }
 }
 
-#snap-login .subcontent.potentialidps {
+#cass-login .subcontent.potentialidps {
     border-top: 1px solid @brand-primary;
 }
 
@@ -470,8 +470,8 @@ a[href="#sections"] {
 }
 
 // Catch all for mods we do not have colours for.
-li.snap-resource,
-li.snap-activity {
+li.cass-resource,
+li.cass-activity {
     border-top-color: @brand-primary
 }
 
@@ -605,7 +605,7 @@ img.iconhelp:hover {
 // Quiz
 // -------------------------
 
-#snap-changecoverimageconfirmation.disabled .ok {
+#cass-changecoverimageconfirmation.disabled .ok {
     &,
     &:visited,
     &:hover,
@@ -1599,20 +1599,20 @@ iframe {
 //  Course page
 // -------------------------
 
-.snap-assettype {
+.cass-assettype {
 display: none;
 }
 
-.activity.modtype_hsuforum .snap-media-body, {
+.activity.modtype_hsuforum .cass-media-body, {
 color: @text-color;
 width: initial;
 }
 
-.section li.snap-asset .activityinstance .snap-asset-link a {
+.section li.cass-asset .activityinstance .cass-asset-link a {
 color: @text-color;
 }
 
-.section li.snap-asset .activityinstance .snap-asset-link a:hover {
+.section li.cass-asset .activityinstance .cass-asset-link a:hover {
 text-decoration: underline;
 }
 
@@ -1797,13 +1797,13 @@ span.activitycompletenextmodname {
 
 
 
-.section li.snap-asset:last-child {
+.section li.cass-asset:last-child {
     border-left: none;
 }
 
 
 
-.snap-course-listening
+.cass-course-listening
     #region-main{
     /*width: calc(~"81%" - unit(@coursenav, px)); */    
     float: right;
@@ -1941,7 +1941,7 @@ h1#fixy-profile-link {
     margin: .5em 0 0;
 }
 
-h4.snap-asset-link.snap-activity-current {
+h4.cass-asset-link.cass-activity-current {
     font-weight: bold;
 }
 
@@ -1995,7 +1995,7 @@ h4.snap-asset-link.snap-activity-current {
 }
 
 @media (min-width: 62em) {
-	#region-main .snap-activity.modtype_hsuforum .snap-media-object {
+	#region-main .cass-activity.modtype_hsuforum .cass-media-object {
 	    padding: 0 1em 1em 0;
 		width: 33%;
 }}
@@ -2016,7 +2016,7 @@ h4.snap-asset-link.snap-activity-current {
 display: none;
 }
 
-.snap-media-body p {
+.cass-media-body p {
     display: none;
 }
 

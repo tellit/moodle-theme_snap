@@ -13,18 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for toggle course section highlighting in non edit mode in snap.
+# Tests for toggle course section highlighting in non edit mode in cass.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  2016 Guy Thomas <gthomas@moodlerooms.com>
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, teachers can toggle the currently higlighted course sections.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, teachers can toggle the currently higlighted course sections.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1        | 0        | topics |
@@ -40,48 +40,48 @@ Feature: When the moodle theme is set to Snap, teachers can toggle the currently
 
   @javascript
   Scenario: In read mode, teacher toggles section as current and student sees appropriate status.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 2"
     Then "#section-2" "css_element" should exist
-    And "#chapters li:nth-of-type(3).snap-visible-section" "css_element" should exist
+    And "#chapters li:nth-of-type(3).cass-visible-section" "css_element" should exist
 
-    And I click on "#section-2 .snap-highlight.snap-marker" "css_element"
-    And I wait until "#section-2 .snap-highlight.snap-marked" "css_element" exists
+    And I click on "#section-2 .cass-highlight.cass-marker" "css_element"
+    And I wait until "#section-2 .cass-highlight.cass-marked" "css_element" exists
     # Note: nth-of-type(3) corresponds to the second section in the TOC.
     And I should see "Current" in the "#chapters li:nth-of-type(3)" "css_element"
-    And "#chapters li:nth-of-type(3).snap-visible-section" "css_element" should exist
-    And I log out (theme_snap)
-    And I log in as "student1" (theme_snap)
+    And "#chapters li:nth-of-type(3).cass-visible-section" "css_element" should exist
+    And I log out (theme_cass)
+    And I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     Then I should see "Current" in the "#chapters li:nth-of-type(3)" "css_element"
-    And I log out (theme_snap)
-    And I log in as "teacher1" (theme_snap)
+    And I log out (theme_cass)
+    And I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 2"
-    Given I click on "#section-2 .snap-highlight.snap-marked" "css_element"
-    And I wait until "#section-2 .snap-highlight.snap-marker" "css_element" exists
+    Given I click on "#section-2 .cass-highlight.cass-marked" "css_element"
+    And I wait until "#section-2 .cass-highlight.cass-marker" "css_element" exists
     Then I should not see "Current" in the "#chapters li:nth-of-type(3)" "css_element"
-    And "#chapters li:nth-of-type(3).snap-visible-section" "css_element" should exist
-    And I log out (theme_snap)
-    And I log in as "student1" (theme_snap)
+    And "#chapters li:nth-of-type(3).cass-visible-section" "css_element" should exist
+    And I log out (theme_cass)
+    And I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     Then I should not see "Current" in the "#chapters li:nth-of-type(3)" "css_element"
 
   @javascript
   Scenario: Teacher loses teacher capability whilst course open and receives the correct error message when trying to
   highlight section.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And the editing teacher role is removed from course "C1" for "teacher1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
-    And I click on "#section-1 .snap-highlight.snap-marker" "css_element"
+    And I click on "#section-1 .cass-highlight.cass-marker" "css_element"
     Then I should see "Failed to highlight section"
 
   @javascript
   Scenario: Student cannot mark section current.
-    Given I log in as "student1" (theme_snap)
+    Given I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 2"
-    Then "#section-2 .snap-highlight" "css_element" should not exist
+    Then "#section-2 .cass-highlight" "css_element" should not exist

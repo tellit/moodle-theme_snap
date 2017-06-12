@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,8 +27,8 @@ define(
     [
         'jquery',
         'core/ajax',
-        'theme_snap/util',
-        'theme_snap/ajax_notification'
+        'theme_cass/util',
+        'theme_cass/ajax_notification'
     ],
     function($, ajax, util, ajaxNotify) {
 
@@ -39,8 +39,8 @@ define(
          */
         var updateModCompletion = function(module, completionhtml) {
             // Update completion tracking icon.
-            module.find('.snap-asset-completion-tracking').html(completionhtml);
-            $(document).trigger('snapModuleCompletionChange', module);
+            module.find('.cass-asset-completion-tracking').html(completionhtml);
+            $(document).trigger('cassModuleCompletionChange', module);
         };
 
         /**
@@ -58,12 +58,12 @@ define(
 
                 var id = $(form).find('input[name="id"]').val();
                 var completionState = $(form).find('input[name="completionstate"]').val();
-                var module = $(form).parents('li.snap-asset').first();
+                var module = $(form).parents('li.cass-asset').first();
                 form.addClass('ajaxing');
 
                 ajax.call([
                     {
-                        methodname: 'theme_snap_course_module_completion',
+                        methodname: 'theme_cass_course_module_completion',
                         args: {id: id, completionstate: completionState},
                         done: function(response) {
                             form.removeClass('ajaxing');
@@ -113,7 +113,7 @@ define(
          * Page mod toggle content.
          */
         var listenPageModuleReadMore = function() {
-            var pageToggleSelector = ".modtype_page .instancename,.pagemod-readmore,.pagemod-content .snap-action-icon";
+            var pageToggleSelector = ".modtype_page .instancename,.pagemod-readmore,.pagemod-content .cass-action-icon";
             $(document).on("click", pageToggleSelector, function(e) {
                 var pageMod = $(this).closest('.modtype_page');
                 util.scrollToElement(pageMod);
@@ -126,7 +126,7 @@ define(
                 if (pageModContent.data('content-loaded') == 1) {
                     // Content is already available so reveal it immediately.
                     revealPageMod(pageMod);
-                    var readPageUrl = M.cfg.wwwroot + '/theme/snap/rest.php?action=read_page&contextid=' +
+                    var readPageUrl = M.cfg.wwwroot + '/theme/cass/rest.php?action=read_page&contextid=' +
                         readmore.data('pagemodcontext');
                     if (!isexpanded) {
                         $.ajax({
@@ -146,9 +146,9 @@ define(
                     if (!isexpanded) {
                         // Content is not available so request it.
                         pageMod.find('.contentafterlink').prepend(
-                            '<div class="ajaxstatus alert alert-info">' + M.str.theme_snap.loading + '</div>'
+                            '<div class="ajaxstatus alert alert-info">' + M.str.theme_cass.loading + '</div>'
                         );
-                        var getPageUrl = M.cfg.wwwroot + '/theme/snap/rest.php?action=get_page&contextid=' +
+                        var getPageUrl = M.cfg.wwwroot + '/theme/cass/rest.php?action=get_page&contextid=' +
                             readmore.data('pagemodcontext');
                         $.ajax({
                             type: "GET",
@@ -186,15 +186,15 @@ define(
              * @returns {*|jQuery|HTMLElement}
              */
             var lightbox = function(appendto, onclose) {
-                var lbox = $('#snap-light-box');
+                var lbox = $('#cass-light-box');
                 if (lbox.length === 0) {
-                    $(appendto).append('<div id="snap-light-box" tabindex="-1">' +
-                        '<div id="snap-light-box-content"></div>' +
-                        '<a id="snap-light-box-close" class="pull-right snap-action-icon" href="#">' +
+                    $(appendto).append('<div id="cass-light-box" tabindex="-1">' +
+                        '<div id="cass-light-box-content"></div>' +
+                        '<a id="cass-light-box-close" class="pull-right cass-action-icon" href="#">' +
                         '<i class="icon icon-close"></i><small>Close</small>' +
                         '</a>' +
                         '</div>');
-                    $('#snap-light-box-close').click(function(e) {
+                    $('#cass-light-box-close').click(function(e) {
                         e.preventDefault();
                         e.stopPropagation();
                         lightboxclose();
@@ -202,7 +202,7 @@ define(
                             onclose();
                         }
                     });
-                    lbox = $('#snap-light-box');
+                    lbox = $('#cass-light-box');
                 }
                 return lbox;
             };
@@ -226,7 +226,7 @@ define(
                 appendto = appendto ? appendto : $('body');
                 var lbox = lightbox(appendto, onclose);
                 if (content) {
-                    var contentdiv = $('#snap-light-box-content');
+                    var contentdiv = $('#cass-light-box-content');
                     contentdiv.html('');
                     contentdiv.append(content);
                 }
@@ -235,7 +235,7 @@ define(
 
             var appendto = $('body');
             var spinner = '<div class="loadingstat three-quarters">' +
-                Y.Escape.html(M.util.get_string('loading', 'theme_snap')) +
+                Y.Escape.html(M.util.get_string('loading', 'theme_cass')) +
                 '</div>';
             lightboxopen(spinner, appendto, function() {
                 $(resourcemod).attr('tabindex', '-1').focus();
@@ -245,7 +245,7 @@ define(
             $.ajax({
                 type: "GET",
                 async: true,
-                url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_media&contextid=' + $(resourcemod).data('modcontext'),
+                url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_media&contextid=' + $(resourcemod).data('modcontext'),
                 success: function(data) {
                     if (ajaxNotify.ifErrorShowBestMsg(data)) {
                         return;
@@ -254,9 +254,9 @@ define(
 
                     updateModCompletion($(resourcemod), data.completionhtml);
 
-                    $(document).trigger('snapContentRevealed');
+                    $(document).trigger('cassContentRevealed');
 
-                    $('#snap-light-box').focus();
+                    $('#cass-light-box').focus();
                 }
             });
 
@@ -276,26 +276,26 @@ define(
                 });
 
                 // Make lightbox for list display of resources.
-                $(document).on('click', '.js-snap-media .snap-asset-link a', function(e) {
-                    lightboxMedia($(this).closest('.snap-resource'));
+                $(document).on('click', '.js-cass-media .cass-asset-link a', function(e) {
+                    lightboxMedia($(this).closest('.cass-resource'));
                     e.preventDefault();
                 });
 
                 // Make resource cards clickable.
-                $(document).on('click', '.snap-resource-card .snap-resource', function(e) {
+                $(document).on('click', '.cass-resource-card .cass-resource', function(e) {
                     var trigger = $(e.target),
                         hreftarget = '_self',
-                        link = $(trigger).closest('.snap-resource').find('.snap-asset-link a'),
+                        link = $(trigger).closest('.cass-resource').find('.cass-asset-link a'),
                         href = '';
                     if (link.length > 0) {
                         href = $(link).attr('href');
                     }
 
                     // Excludes any clicks in the actions menu, on links or forms.
-                    var selector = '.snap-asset-completion-tracking, .snap-asset-actions, .contentafterlink a';
+                    var selector = '.cass-asset-completion-tracking, .cass-asset-actions, .contentafterlink a';
                     var withintarget = $(trigger).closest(selector).length;
                     if (!withintarget) {
-                        if ($(this).hasClass('js-snap-media')) {
+                        if ($(this).hasClass('js-cass-media')) {
                             lightboxMedia(this);
                         } else {
                             if (href === '') {

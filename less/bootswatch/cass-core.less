@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * Snap core swatch.
+ * Cass core swatch.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,7 +27,7 @@ html {
     background: @gray-dark; 
 }
 
-// Snap Layout yo...
+// Cass Layout yo...
 // -------------------------
 // SHAME -  all that fun moodle reset css
 // -------------------------
@@ -233,14 +233,14 @@ table.boxwidthwide {
   margin-right: -50vw;
 }
 
-// 100% with standard snap 4% gutter.
+// 100% with standard cass 4% gutter.
 .full-width-pad {
     .full-width();
     padding: 0 3.443%;
 }
 
 /* animations */
-@keyframes snap-drop {
+@keyframes cass-drop {
     0% {
         transform: matrix(1, 0, 0, 1, 0, -600);
     }
@@ -250,7 +250,7 @@ table.boxwidthwide {
     }
 }
 
-@keyframes snap-rise {
+@keyframes cass-rise {
     0% {
         transform: matrix(1, 0, 0, 1, 0, 0);
     }
@@ -261,7 +261,7 @@ table.boxwidthwide {
 }
 
 // -------------------------
-// Baseline boilerplate for snap
+// Baseline boilerplate for cass
 // -------------------------
 // better border box layout
 
@@ -622,7 +622,7 @@ input[type="reset"] {
     }
 }
 
-// Snap specific, for white buttons on brand color backgrounds.
+// Cass specific, for white buttons on brand color backgrounds.
 .btn.btn-inverse {
 
     &,
@@ -678,7 +678,7 @@ input[type="reset"] {
 }
 
 // -------------------------
-// Snap theme helper classes
+// Cass theme helper classes
 // -------------------------
 
 .published-status {
@@ -712,7 +712,7 @@ input[type="reset"] {
     margin: 0.1em auto;
 }
 
-#snap-footer-alert .icon-close:before,
+#cass-footer-alert .icon-close:before,
 .fixy .icon-close:before {
     background: transparent url("[[pix:theme|close_x_white]]") no-repeat 50% 50%;
 }
@@ -732,7 +732,7 @@ input[type="reset"] {
 }
 
 // -------------------------
-// Snap theme elements n componants
+// Cass theme elements n componants
 // -------------------------
 
 #page-header,
@@ -740,12 +740,12 @@ input[type="reset"] {
     .bg-cover();
 }
 
-#snap-home.logo {
+#cass-home.logo {
 display: none;
 
 }
 
-.snap-media-object {
+.cass-media-object {
     .clearfix();
     font-weight: 500;
     padding: 0.5em 0;
@@ -766,7 +766,7 @@ display: none;
     }
 
     // media o content
-    .snap-media-body {
+    .cass-media-body {
         overflow: hidden;
 
         // for fixy - need to re-visit when we re-use more widley
@@ -810,14 +810,14 @@ display: none;
     }
 
     // standard media o meta - status, date
-    .snap-media-meta {
+    .cass-media-meta {
         display: block;
         font-size: small;
         color: @gray-light;
     }
 
     // unread tag
-    .snap-unread-marker {
+    .cass-unread-marker {
         color: @brand-warning;
     }
 
@@ -894,7 +894,7 @@ read button has been removed and the message text is visible
 
 // End of message badge alerts
 // -------------------------
-// Layout of moodle/snap DOM structure
+// Layout of moodle/cass DOM structure
 // -------------------------
 /***************
 THE DOM LOOKS LIKE THIS :
@@ -951,7 +951,7 @@ footer #moodle-footer
     //headroom js http://wicky.nillia.ms/headroom.js/
     .headroom--unpinned {
         will-change: transform;
-        animation-name: snap-rise;
+        animation-name: cass-rise;
         animation-timing-function: ease-in-out;
         animation-duration: 0.4s;
         animation-fill-mode: forwards;
@@ -961,7 +961,7 @@ footer #moodle-footer
 
         // firefox no like this animation :(
         /*
-        animation-name: snap-drop;
+        animation-name: cass-drop;
         animation-timing-function: cubic-bezier(.694, .0482, .335, 1);
         animation-duration: 0.33s;
         */
@@ -1265,7 +1265,7 @@ display: none;
 }
 
 /* SHAME - button to toggle actions, e.g. close */
-.snap-action-icon {
+.cass-action-icon {
     padding: 0.5em;
     font-size: 1.5em;
     line-height: 1;
@@ -1498,7 +1498,7 @@ display: none;
     position: relative;
     }
 
-    #snap-coverimagecontrol {
+    #cass-coverimagecontrol {
         position: absolute;
         bottom: 1em;
         right: 4%;
@@ -1527,12 +1527,12 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
     display: inline;
 }
 
-#page-mast .snap-login-button {
+#page-mast .cass-login-button {
     display: inline-block;
     padding: 0.25em 2em;
     margin-top: 1em;
 }
-#mr-nav .snap-login-button {
+#mr-nav .cass-login-button {
     margin-right: 1em;
 }
 
@@ -2862,7 +2862,7 @@ table#user-grades tr.avg td.cell {
     // display: none;
 }
 
-// TODO short term fix for Snap disappearing header interfering with scrolling Gradebook
+// TODO short term fix for Cass disappearing header interfering with scrolling Gradebook
 #page-grade-report-grader-index header#mr-nav {
     animation-name: none;
 }
@@ -3135,11 +3135,11 @@ body.hascontinuecancel.path-site #page {
 }
 
 // hard code some specific uses here till MDL-45655 fixes them
-// and allows us to add the snap-continue-cancel class
+// and allows us to add the cass-continue-cancel class
 // the hardcodeded ones here have the button inside the div
 
 #page-admin-purgecaches #notice,
-#notice.snap-continue-cancel {
+#notice.cass-continue-cancel {
     min-height: 800px;
     position: absolute;
     padding: 10% 4%;
@@ -3150,8 +3150,8 @@ body.hascontinuecancel.path-site #page {
 
 // Override for odd little notice when deleting questions.
 #page-user-policy #notice,
-#page-blocks-conduit-view #notice.snap-continue-cancel,
-#page-mod-quiz-edit div.container #notice.snap-continue-cancel {
+#page-blocks-conduit-view #notice.cass-continue-cancel,
+#page-mod-quiz-edit div.container #notice.cass-continue-cancel {
     color: @text-color;
     background-color: @body-bg;
     font-size: @font-size-base;
@@ -3159,7 +3159,7 @@ body.hascontinuecancel.path-site #page {
 }
 
 #page-user-policy #notice,
-#page-blocks-conduit-view #notice.snap-continue-cancel {
+#page-blocks-conduit-view #notice.cass-continue-cancel {
     position: relative;
     margin: 0;
     padding: 0;
@@ -3589,7 +3589,7 @@ http://css-spinners.com/css/spinner/three-quarters.css
     }
 }
 
-// yui-bs overrides (note SNAP specific)
+// yui-bs overrides (note CASS specific)
 .yui-bootstrapped {
 
     // stop yui menu from being completely unusable on mobile device
@@ -3819,7 +3819,7 @@ div.editor_atto_toolbar div.atto_group {
     max-width: 100%;
 }
 
-#page-admin-setting-themesettingsnap{
+#page-admin-setting-themesettingcass{
 
     .admin_colourpicker {
     display: block;
@@ -3853,21 +3853,21 @@ div.editor_atto_toolbar div.atto_group {
 }
 
 /* Feature spots. */
-#snap-feature-spots {
+#cass-feature-spots {
     padding: 2em 4%;
     .text-center();
 
-    .snap-feature-spots-heading {
+    .cass-feature-spots-heading {
         padding-top: 0;
         margin-top: 0;
     }
 
-    .snap-feature-image {
+    .cass-feature-image {
         max-width: 200px;
     }
 }
 
-#page-admin-setting-themesnapfeaturespots {
+#page-admin-setting-themecassfeaturespots {
 
     #admin-fs_heading {
         input {
@@ -3917,7 +3917,7 @@ div.editor_atto_toolbar div.atto_group {
 }
 
 /* Featured courses admin page. */
-#page-admin-setting-themesnapfeaturedcourses {
+#page-admin-setting-themecassfeaturedcourses {
 
     #admin-fc_heading {
         input {
@@ -3955,7 +3955,7 @@ div.editor_atto_toolbar div.atto_group {
 
 /* Featured courses section. */
 @media screen and (min-width: @screen-sm-min) {
-    #snap-featured-courses .row div {
+    #cass-featured-courses .row div {
         /* Center and restrict width for when only one course */
         max-width: 50%;
         margin: 0 auto;
@@ -3963,13 +3963,13 @@ div.editor_atto_toolbar div.atto_group {
 }
 
 /* Featured course container. */
-#snap-featured-courses {
+#cass-featured-courses {
     width: 100%;
     padding: 2em 4%;
 }
 
 /* Featured course link. */
-.snap-featured-course {
+.cass-featured-course {
     display: block;
     height: 300px;
     position: relative;
@@ -3984,14 +3984,14 @@ div.editor_atto_toolbar div.atto_group {
         0 3px 1px -2px rgba(0, 0, 0, 0.2),
         0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
-        .snap-featured-course-title {
+        .cass-featured-course-title {
             text-decoration: underline;
         }
     }
 }
 
 /* Featured course title. */
-.snap-featured-course-title {
+.cass-featured-course-title {
     display: block;
     min-height: 25%;
     width: 100%;
@@ -4003,7 +4003,7 @@ div.editor_atto_toolbar div.atto_group {
 
 
 
-#page-admin-setting-themesettingsnap #id_s_theme_snap_customcss {
+#page-admin-setting-themesettingcass #id_s_theme_cass_customcss {
     font-family: @font-family-monospace;
 }
 
@@ -4056,14 +4056,14 @@ td.mceIframeContainer > iframe {
     max-width:100%;
 }
 
-body.gecko .snap-form-required > fieldset,
-body.gecko .snap-form-advanced > fieldset {
+body.gecko .cass-form-required > fieldset,
+body.gecko .cass-form-advanced > fieldset {
     display: table-cell;
     max-width:100%;
 }
 
-body.ie .snap-form-required > fieldset,
-body.ie .snap-form-advanced > fieldset {
+body.ie .cass-form-required > fieldset,
+body.ie .cass-form-advanced > fieldset {
     table-layout: fixed;
     max-width:100%;
 }
@@ -4108,7 +4108,7 @@ td.mceToolbar {
 }
 
 // General toggle icons.
-button.snap-icon-toggle {
+button.cass-icon-toggle {
     &, &:hover, &:visited, &:link, &:active, &:focus {
         color: @brand-primary;
         background: none;
@@ -4122,7 +4122,7 @@ button.snap-icon-toggle {
 }
 
 // Cover image control.
-#snap-coverimagecontrol {
+#cass-coverimagecontrol {
     float: right;
     margin-left: 1em;
     display: inline-block;
@@ -4134,12 +4134,12 @@ button.snap-icon-toggle {
     }
 }
 
-#snap-changecoverimageconfirmation {
+#cass-changecoverimageconfirmation {
     position: relative;
     display: inline-block;
 }
 
-#snap-coverfiles {
+#cass-coverfiles {
     display: block;
     position: absolute;
     top: 0;
@@ -4147,20 +4147,20 @@ button.snap-icon-toggle {
     opacity: 0;
 }
 
-label[for="snap-coverfiles"],
-#snap-changecoverimageconfirmation button{
+label[for="cass-coverfiles"],
+#cass-changecoverimageconfirmation button{
     position: relative;
     display: none;
     top: -0.5em;
 }
 
-label.state-visible[for="snap-coverfiles"],
-#snap-changecoverimageconfirmation.state-visible button{
+label.state-visible[for="cass-coverfiles"],
+#cass-changecoverimageconfirmation.state-visible button{
     display: inline-block;
     cursor: pointer;
 }
 
-label.state-visible[for="snap-coverfiles"] {
+label.state-visible[for="cass-coverfiles"] {
     span {
         padding: 1em;
         .hidden-xs();
@@ -4175,12 +4175,12 @@ label.state-visible[for="snap-coverfiles"] {
     }
 }
 
-#snap-coverfiles {
+#cass-coverfiles {
     cursor: pointer;
 }
 
-label.state-visible[for="snap-coverfiles"],
-#snap-changecoverimageconfirmation .ok {
+label.state-visible[for="cass-coverfiles"],
+#cass-changecoverimageconfirmation .ok {
     .spinner-three-quarters {
         width: 1em;
         height: 1em;
@@ -4189,7 +4189,7 @@ label.state-visible[for="snap-coverfiles"],
     }
 }
 
-#snap-changecoverimageconfirmation.disabled .ok {
+#cass-changecoverimageconfirmation.disabled .ok {
     &,
     &:visited,
     &:hover,
@@ -4209,7 +4209,7 @@ label.state-visible[for="snap-coverfiles"],
     background-color: rgba(255, 255, 255, 0.9);
 }
 
-#snap-coverimagecontrol.snap-js-enabled {
+#cass-coverimagecontrol.cass-js-enabled {
     opacity: 1;
 }
 

@@ -7,13 +7,13 @@
 // because a small, but reasonable amount of work has already been done to generate the current page)
 
 // Detail:
-// It doesn't make sense, when using the snap theme, to use either of the following:
+// It doesn't make sense, when using the cass theme, to use either of the following:
 // - The moodle core site index
 // - The moodle core dashboard (i.e. the 'my' page)
 
 // This is because:
 // - Students don't care about a site index. Students want to be on their course pages.
-// - Under snap, students don't need a separate dashboard because of the primary nav popup menu
+// - Under cass, students don't need a separate dashboard because of the primary nav popup menu
 
 // We have added a setting: 'coursepageredirect' to avoid the core site index and core dashboard page
 // if a relevant course can be found for the user
@@ -40,7 +40,7 @@ if (!isloggedin()) return;
 // Function parameter default is $USER. 
 if (isguestuser()) return;
 
-// Do nothing for admin user. Allow admin user to access site-index and my-index under snap.
+// Do nothing for admin user. Allow admin user to access site-index and my-index under cass.
 // Function parameter default is $USER.    
 if (is_siteadmin()) return;
    
@@ -105,7 +105,7 @@ if (!empty($USER->enrol)) {
 
 // Check enrolled courses 'Enrolled' won't always be populated.
 // Could change this to be dependant on whether $USER->enrol is populated.
-$enrollments = theme_snap_enrol_get_my_courses();
+$enrollments = theme_cass_enrol_get_my_courses();
 if (!empty($enrollments)) {
     foreach ($enrollments as $enrollment) {
         if ($enrollment->timecreated > $coursetime) {
@@ -192,7 +192,7 @@ return;
 // to use a DISTINCT subquery, and in this use case it is more appropriate to retain 
 // this flattened data anyway. (Two timestamps will exist for the course user enrolment)
 
-function theme_snap_enrol_get_my_courses() {
+function theme_cass_enrol_get_my_courses() {
     global $DB, $USER;
     
     $params = array();

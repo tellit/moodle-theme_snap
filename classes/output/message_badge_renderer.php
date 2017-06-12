@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap message badge renderer.
+ * Cass message badge renderer.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\output;
+namespace theme_cass\output;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -41,7 +41,7 @@ class message_badge_renderer extends \message_badge_renderer {
     public function get_js_module() {
         return array(
             'name'     => 'message_badge',
-            'fullpath' => '/theme/snap/javascript/badge.js',
+            'fullpath' => '/theme/cass/javascript/badge.js',
             'requires' => array(
                 'base',
                 'node',
@@ -55,8 +55,8 @@ class message_badge_renderer extends \message_badge_renderer {
                 array('ok', 'moodle'),
                 array('erroroccur', 'debug'),
                 array('genericasyncfail', 'message_badge'),
-                array('loading', 'theme_snap'),
-                array('messageread', 'theme_snap'),
+                array('loading', 'theme_cass'),
+                array('messageread', 'theme_cass'),
                 array('close', 'form'), // For help icons.
             )
         );
@@ -99,7 +99,7 @@ class message_badge_renderer extends \message_badge_renderer {
         $total      = $repo->count_user_unread_messages($userid);
 
         $PAGE->requires->js_init_call(
-            'M.snap_message_badge.init_badge',
+            'M.cass_message_badge.init_badge',
             array($forwardurl->out(false), $COURSE->id),
             false,
             $this->get_js_module()

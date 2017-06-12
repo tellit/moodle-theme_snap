@@ -17,25 +17,25 @@
 /**
  * Local Tests
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\tests;
+namespace theme_cass\tests;
 
-use theme_snap\local;
-use theme_snap\user_forums;
+use theme_cass\local;
+use theme_cass\user_forums;
 use core_component;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_snap_recent_forum_activity_test extends \advanced_testcase {
+class theme_cass_recent_forum_activity_test extends \advanced_testcase {
 
     /**
      * @var stdClass
@@ -409,7 +409,7 @@ class theme_snap_recent_forum_activity_test extends \advanced_testcase {
 
         $end = microtime(true);
 
-        if (get_class($this) === "theme_snap\\tests\\theme_snap_recent_forum_activity_test") {
+        if (get_class($this) === "theme_cass\\tests\\theme_cass_recent_forum_activity_test") {
             mtrace('Recent '.$ftype.' activity test - sql mode');
         } else {
             mtrace('Recent '.$ftype.' activity test - non-sql mode');

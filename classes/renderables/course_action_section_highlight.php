@@ -21,7 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
+namespace theme_cass\renderables;
 use context_course;
 use section_info;
 
@@ -32,7 +32,7 @@ class course_action_section_highlight extends course_action_section_base {
     /**
      * @var string
      */
-    public $class = 'snap-highlight';
+    public $class = 'cass-highlight';
 
     /**
      * course_action_section_highlight constructor.
@@ -64,12 +64,12 @@ class course_action_section_highlight extends course_action_section_base {
                     $this->title = get_string('markedthistopic');
                     $url->param('marker', 0);
                     $this->url = $url;
-                    $this->class.= ' snap-marked';
+                    $this->class.= ' cass-marked';
                 } else {
                     $this->title = get_string('markthistopic');
                     $url->param('marker', $section->section);
                     $this->url = $url;
-                    $this->class.= ' snap-marker';
+                    $this->class.= ' cass-marker';
                 }
             }
         }

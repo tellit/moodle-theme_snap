@@ -13,18 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for course favoriting in the Snap personal menu.
+# Tests for course favoriting in the Cass personal menu.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, students and teachers favorite courses in the personal menu.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, students and teachers favorite courses in the personal menu.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     And the following "courses" exist:
       | fullname | shortname | category | groupmode | visible |
       | Course 1 | C1        | 0        | 1         | 1       |
@@ -47,7 +47,7 @@ Feature: When the moodle theme is set to Snap, students and teachers favorite co
 
   @javascript
   Scenario: User can favorite / unfavorite courses.
-    Given I log in as "student1" (theme_snap)
+    Given I log in as "student1" (theme_cass)
     And I open the personal menu
     Then Favorite toggle exists for course "C1"
     And Favorite toggle exists for course "C2"
@@ -61,8 +61,8 @@ Feature: When the moodle theme is set to Snap, students and teachers favorite co
     Then Course card "C3" appears before "C1"
     And Course card "C1" appears before "C2"
     # Log out and log in as teacher (make sure they can't see students favorites)
-    And I log out (theme_snap)
-    And I log in as "teacher1" (theme_snap)
+    And I log out (theme_cass)
+    And I log in as "teacher1" (theme_cass)
     And I open the personal menu
     Then Favorite toggle exists for course "C1"
     And Favorite toggle exists for course "C2"
@@ -101,7 +101,7 @@ Feature: When the moodle theme is set to Snap, students and teachers favorite co
       | teacher2 | H1     | editingteacher |
       | teacher2 | H2     | editingteacher |
       | teacher2 | H3     | editingteacher |
-    Given I log in as "teacher2" (theme_snap)
+    Given I log in as "teacher2" (theme_cass)
     When I open the personal menu
     Then Favorite toggle exists for course "H1"
     And Favorite toggle exists for course "H2"

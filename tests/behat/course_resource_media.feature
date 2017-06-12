@@ -15,19 +15,19 @@
 #
 # Tests for inline resource media.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @author     2015 Guy Thomas <gthomas@moodlerooms.com>
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, clicking on a resource with a media file mime type will open the
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, clicking on a resource with a media file mime type will open the
   resource inline.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
-      | thememobile | snap |
+      | theme | cass |
+      | thememobile | cass |
       | enablecompletion | 1 |
     And the following "courses" exist:
       | fullname | shortname | category | groupmode | enablecompletion |
@@ -43,24 +43,24 @@ Feature: When the moodle theme is set to Snap, clicking on a resource with a med
 
   @javascript
   Scenario: MP3 opens inline and marked as completed.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
-    And "#snap-drop-file-1" "css_element" should exist
+    And "#cass-drop-file-1" "css_element" should exist
     And I upload file "test_mp3_file.mp3" to section 1
-    Then ".snap-resource[data-type='mp3']" "css_element" should exist
-    Then ".snap-resource[data-type='mp3']" "css_element" should exist
-    And I click on ".snap-edit-asset" "css_element"
+    Then ".cass-resource[data-type='mp3']" "css_element" should exist
+    Then ".cass-resource[data-type='mp3']" "css_element" should exist
+    And I click on ".cass-edit-asset" "css_element"
     And I set the following fields to these values:
       | Completion tracking | 2 |
       | Student must view this activity to complete it | 1 |
     And I click on "#id_submitbutton2" "css_element"
     And "span.autocompletion img[title='Not completed: test mp3 file']" "css_element" should exist
-    And I click on ".snap-resource[data-type='mp3'] .snap-asset-link a" "css_element"
-    And I wait until "#snap-light-box" "css_element" is visible
-   Then "#snap-light-box" "css_element" should exist
-    And I click on "#snap-light-box-close" "css_element"
-   Then "#snap-light-box" "css_element" should not exist
+    And I click on ".cass-resource[data-type='mp3'] .cass-asset-link a" "css_element"
+    And I wait until "#cass-light-box" "css_element" is visible
+   Then "#cass-light-box" "css_element" should exist
+    And I click on "#cass-light-box-close" "css_element"
+   Then "#cass-light-box" "css_element" should not exist
     And "span.autocompletion img[title='Not completed: test mp3 file']" "css_element" should not exist
     And "span.autocompletion img[title='Completed: test mp3 file']" "css_element" should exist

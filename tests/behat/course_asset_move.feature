@@ -13,24 +13,24 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for toggle course section visibility in non edit mode in snap.
+# Tests for toggle course section visibility in non edit mode in cass.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  2015 Guy Thomas <gthomas@moodlerooms.com>
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, teachers can move course resources and activities without using drag and drop.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, teachers can move course resources and activities without using drag and drop.
 
   Background:
-    Given I log in as "admin" (theme_snap)
+    Given I log in as "admin" (theme_cass)
     And I navigate to "Front page > Front page settings" in site administration
     And I set the following fields to these values:
       | Include a topic section | 1 |
-    And I log out (theme_snap)
+    And I log out (theme_cass)
     Given the following config values are set as admin:
-      | theme           | snap |
+      | theme           | cass |
       | defaulthomepage | 0    |
     And the following "courses" exist:
       | fullname | shortname | category | format |
@@ -52,53 +52,53 @@ Feature: When the moodle theme is set to Snap, teachers can move course resource
 
   @javascript
   Scenario: In read mode, on front page, admin moves activity.
-    Given I log in as "admin" (theme_snap)
-    And I click on ".snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment1\"']" "css_element"
+    Given I log in as "admin" (theme_cass)
+    And I click on ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment1\"']" "css_element"
     Then I should see "Moving \"Test assignment1\""
-    And I click on "#region-main .sitetopic ul.section li.snap-drop.asset-drop div.asset-wrapper" "css_element"
-    Then ".snap-activity.modtype_assign" "css_element" should appear after ".snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment2\"']" "css_element"
+    And I click on "#region-main .sitetopic ul.section li.cass-drop.asset-drop div.asset-wrapper" "css_element"
+    Then ".cass-activity.modtype_assign" "css_element" should appear after ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment2\"']" "css_element"
 
   @javascript
   Scenario: In read mode, on course, teacher moves activity.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
-    And I click on ".snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment1\"']" "css_element"
+    And I click on ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment1\"']" "css_element"
     Then I should see "Moving \"Test assignment1\""
-    And I click on "li#section-1 li.snap-drop.asset-drop div.asset-wrapper" "css_element"
-    Then ".snap-activity.modtype_assign" "css_element" should appear after ".snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment2\"']" "css_element"
+    And I click on "li#section-1 li.cass-drop.asset-drop div.asset-wrapper" "css_element"
+    Then ".cass-activity.modtype_assign" "css_element" should appear after ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment2\"']" "css_element"
 
   @javascript
   Scenario: In read mode, on course, teacher moves activity to a different section.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
-    And I click on ".snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment1\"']" "css_element"
+    And I click on ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment1\"']" "css_element"
     Then I should see "Moving \"Test assignment1\""
     And I follow "Topic 2"
-    And I click on "li#section-2 li.snap-drop.asset-drop div.asset-wrapper" "css_element"
-    Then "li#section-2 .snap-activity.modtype_assign" "css_element" should appear before "li.snap-drop.asset-drop" "css_element"
+    And I click on "li#section-2 li.cass-drop.asset-drop div.asset-wrapper" "css_element"
+    Then "li#section-2 .cass-activity.modtype_assign" "css_element" should appear before "li.cass-drop.asset-drop" "css_element"
 
   @javascript
   Scenario: In read mode, on course, teacher moves two activities to a different section.
-    Given I log in as "teacher1" (theme_snap)
+    Given I log in as "teacher1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
-    And I click on ".snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment1\"']" "css_element"
+    And I click on ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment1\"']" "css_element"
     Then I should see "Moving \"Test assignment1\""
-    And I click on ".snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment2\"']" "css_element"
+    And I click on ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment2\"']" "css_element"
     Then I should see "Moving 2 objects"
     And I follow "Topic 2"
-    And I click on "li#section-2 li.snap-drop.asset-drop div.asset-wrapper" "css_element"
-    Then "li#section-2 .snap-activity.modtype_assign" "css_element" should appear before "li.snap-drop.asset-drop" "css_element"
-    And "li#section-2 .snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment1\"']" "css_element" should appear before "li#section-2 .snap-activity.modtype_assign .snap-asset-move img[title='Move \"Test assignment2\"']" "css_element"
+    And I click on "li#section-2 li.cass-drop.asset-drop div.asset-wrapper" "css_element"
+    Then "li#section-2 .cass-activity.modtype_assign" "css_element" should appear before "li.cass-drop.asset-drop" "css_element"
+    And "li#section-2 .cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment1\"']" "css_element" should appear before "li#section-2 .cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment2\"']" "css_element"
 
   @javascript
   Scenario: Student cannot move activity.
-    Given I log in as "student1" (theme_snap)
+    Given I log in as "student1" (theme_cass)
     And I am on the course main page for "C1"
     And I follow "Topic 1"
-    Then ".snap-activity.modtype_assign .js-snap-asset-move" "css_element" should not exist
+    Then ".cass-activity.modtype_assign .js-cass-asset-move" "css_element" should not exist

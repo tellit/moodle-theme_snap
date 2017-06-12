@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap course management renderer.
+ * Cass course management renderer.
  * Overrides core course management renderer.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\output\core_course;
+namespace theme_cass\output\core_course;
 
 defined('MOODLE_INTERNAL') || die();
 

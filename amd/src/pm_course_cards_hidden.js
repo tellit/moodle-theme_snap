@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -66,7 +66,7 @@ define(['jquery'], function($) {
          */
         this.updateToggleCount = function() {
             var count = $('#fixy-hidden-courses .courseinfo').length;
-            var hiddenCourseStr = M.util.get_string('hiddencoursestoggle', 'theme_snap', count);
+            var hiddenCourseStr = M.util.get_string('hiddencoursestoggle', 'theme_cass', count);
             $('#js-toggle-hidden-courses').html(hiddenCourseStr);
             if (count === 0) {
                 $('.header-hidden-courses').removeClass('state-visible');

@@ -13,20 +13,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for course progress in the Snap personal menu.
+# Tests for course progress in the Cass personal menu.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, students and teachers can open a personal menu which features a
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, students and teachers can open a personal menu which features a
   list of courses they are enrolled in with a progress bar indication completion (if completion tracking is enabled).
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
       | enablecompletion   | 1 |
       | enableavailability | 1 |
     And the following "courses" exist:
@@ -44,7 +44,7 @@ Feature: When the moodle theme is set to Snap, students and teachers can open a 
   @javascript
   Scenario Outline: Completion progress shows only when enabled and with tracked activities
     Given completion tracking is "Enabled" for course "C1"
-    And I log in as "<username>" (theme_snap)
+    And I log in as "<username>" (theme_cass)
     And I am on the course main page for "C1"
     And I should not see "Progress: 0 / 0"
     And the following "activities" exist:

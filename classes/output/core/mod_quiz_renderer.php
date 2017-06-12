@@ -15,22 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap course renderer.
+ * Cass course renderer.
  * Overrides core course renderer.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\output\core;
+namespace theme_cass\output\core;
  
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/quiz/renderer.php');
 
 class mod_quiz_renderer extends \mod_quiz_renderer {
-//class theme_snap_mod_quiz_renderer extends mod_quiz_renderer {   
+//class theme_cass_mod_quiz_renderer extends mod_quiz_renderer {   
     
     /**
      * Outputs the navigation block panel

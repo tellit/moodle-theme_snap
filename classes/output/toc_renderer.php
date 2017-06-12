@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap TOC renderer.
+ * Cass TOC renderer.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\output;
+namespace theme_cass\output;
 
-use theme_snap\renderables\course_toc;
+use theme_cass\renderables\course_toc;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -36,7 +36,7 @@ class toc_renderer extends \core_renderer {
      */
     public function course_toc() {
         $coursetoc = new course_toc();
-        return $this->render_from_template('theme_snap/course_toc', $coursetoc);
+        return $this->render_from_template('theme_cass/course_toc', $coursetoc);
     }
 
     /**
@@ -47,6 +47,6 @@ class toc_renderer extends \core_renderer {
     public function get_course_image() {
         global $COURSE;
 
-        return \theme_snap\local::course_coverimage_url($COURSE->id);
+        return \theme_cass\local::course_coverimage_url($COURSE->id);
     }
 }

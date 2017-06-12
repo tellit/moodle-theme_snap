@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap course renderer.
+ * Cass course renderer.
  * Overrides core course renderer.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\output\core;
+namespace theme_cass\output\core;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -44,14 +44,14 @@ use context_module;
 use html_writer;
 use moodle_url;
 use stdClass;
-use theme_snap\activity;
-use theme_snap\activity_meta;
+use theme_cass\activity;
+use theme_cass\activity_meta;
 */
 
 require_once($CFG->dirroot . "/question/engine/renderer.php");
 
 class question_renderer extends \core_question_renderer {
-//class theme_snap_core_question_renderer extends core_question_renderer {
+//class theme_cass_core_question_renderer extends core_question_renderer {
     
     /**
      * Generate the information bit of the question display that contains the
@@ -92,8 +92,8 @@ class question_renderer extends \core_question_renderer {
         $questiontype = $qa->get_question()->qtype;
                 
         $languagestring = 'questionsemanticactivation-' . $questiontype->name();
-        if (get_string_manager()->string_exists($languagestring, 'theme_snap')) {
-            $title =  get_string($languagestring, 'theme_snap');
+        if (get_string_manager()->string_exists($languagestring, 'theme_cass')) {
+            $title =  get_string($languagestring, 'theme_cass');
         }
         
         if (empty($title)) $title = $questiontype->menu_name();
@@ -139,7 +139,7 @@ class question_renderer extends \core_question_renderer {
             $a = new stdClass();
             $a->x = $number;
             $a->y = count($questionattempts);
-            $output .= html_writer::tag('div', get_string('questionxofy', 'theme_snap', $a), array('class' => 'progress'));
+            $output .= html_writer::tag('div', get_string('questionxofy', 'theme_cass', $a), array('class' => 'progress'));
         }
 
         $output .= parent::question($qa, $behaviouroutput, $qtoutput, $options, $number);

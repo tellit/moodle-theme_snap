@@ -25,19 +25,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-use \theme_snap\local;
-use \theme_snap\activity;
+use \theme_cass\local;
+use \theme_cass\activity;
 
 global $CFG;
 require_once($CFG->dirroot . '/mod/assign/tests/base_test.php');
 
 /**
- * Unit tests for theme snap that rely on mod/assign present in course.
+ * Unit tests for theme cass that rely on mod/assign present in course.
  *
  * @copyright  1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_snap_assign_test extends mod_assign_base_testcase {
+class theme_cass_assign_test extends mod_assign_base_testcase {
 
     public function test_assign_reopened_and_resubmitted() {
         $this->setUser($this->editingteachers[0]);
@@ -191,7 +191,7 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $cm = $modinfo->instances['quiz'][$quiz1->id];
         $cm2 = $modinfo->instances['quiz'][$quiz2->id];
         $this->setUser($this->students[0]);
-        $override = \theme_snap\activity::instance_activity_dates($this->course->id, $cm);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
 
         $this->assertEmpty($override->timeopenover);
         $this->assertEmpty($override->timecloseover);
@@ -200,8 +200,8 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         // User override.
         $DB->insert_record('quiz_overrides', array('quiz' => $quiz1->id, 'userid' => $this->students[0]->id,
             'timeclose' => $reference + $day));
-        $override = \theme_snap\activity::instance_activity_dates($this->course->id, $cm);
-        $override2 = \theme_snap\activity::instance_activity_dates($this->course->id, $cm2);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
+        $override2 = \theme_cass\activity::instance_activity_dates($this->course->id, $cm2);
         $this->assertEquals($override->timecloseover, $reference + $day);
         $this->assertEquals($override->timeclose, $override->timecloseover);
         $this->assertEquals($override2->timeclose, $quiz2->timeclose);
@@ -210,7 +210,7 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $groups = groups_get_user_groups($this->course->id);
         $DB->insert_record('quiz_overrides', array('quiz' => $quiz1->id, 'groupid' => (int) $groups[0][0],
             'timeopen' => $reference + $day, 'timeclose' => $reference + (3 * $day)));
-        $override = \theme_snap\activity::instance_activity_dates($this->course->id, $cm);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
 
         // Returned override should be user instead of group.
         $this->assertEquals($override->timecloseover, $reference + $day);
@@ -218,7 +218,7 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
 
         // Deleting the user override should bring the group override as result.
         $DB->delete_records('quiz_overrides', array ('userid' => $this->students[0]->id, 'quiz' => $quiz1->id));
-        $override = \theme_snap\activity::instance_activity_dates($this->course->id, $cm);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
         $this->assertEquals($override->timeclose, $reference + (3 * $day));
 
         // Second group override.
@@ -226,7 +226,7 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $this->getDataGenerator()->create_group_member(array('userid' => $this->students[0], 'groupid' => $group2->id));
         $DB->insert_record('quiz_overrides', array('quiz' => $quiz1->id, 'groupid' => $group2->id,
             'timeopen' => $reference + (2 * $day), 'timeclose' => $reference + (7 * $day)));
-        $override = \theme_snap\activity::instance_activity_dates($this->course->id, $cm);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
 
         // Values should match max and min values between the groups records.
         $this->assertEquals($override->timeclose, $reference + (7 * $day));
@@ -235,10 +235,10 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         // Switching to a user without group
         $nogroupuser = $this->getDataGenerator()->create_user();
         $this->setUser($nogroupuser);
-        $override = \theme_snap\activity::instance_activity_dates($this->course->id, $cm);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
         $this->assertEquals($override->timeclose, $quiz1->timeclose);
         $this->assertEmpty($override->timecloseover);
-        $override = \theme_snap\activity::instance_activity_dates($this->course->id, $cm2);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm2);
         $this->assertEquals($override->timeclose, $quiz2->timeclose);
         $this->assertEmpty($override->timecloseover);
 

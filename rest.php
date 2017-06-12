@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap AJAX handler
+ * Cass AJAX handler
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use theme_snap\controller\kernel;
-use theme_snap\controller\router;
+use theme_cass\controller\kernel;
+use theme_cass\controller\router;
 
 define('AJAX_SCRIPT', true);
 define('NO_DEBUG_DISPLAY', true);
@@ -52,7 +52,7 @@ $PAGE->set_context($context);
 if ($course !== null) {
     $PAGE->set_course($course);
 }
-$PAGE->set_url('/theme/snap/rest.php', array('action' => $action, 'contextid' => $context->id));
+$PAGE->set_url('/theme/cass/rest.php', array('action' => $action, 'contextid' => $context->id));
 
 if ($cm !== null) {
     $PAGE->set_cm($cm);
@@ -71,10 +71,10 @@ foreach ($contfiles as $contfile) {
     if (preg_match($pattern, $contfile) !== 1) {
         continue;
     } else {
-        $classname = '\\theme_snap\\controller\\'.str_ireplace('.php', '', $contfile);
+        $classname = '\\theme_cass\\controller\\'.str_ireplace('.php', '', $contfile);
         if (class_exists($classname)) {
             $rc = new ReflectionClass($classname);
-            if ($rc->isSubclassOf('\\theme_snap\\controller\\controller_abstract')) {
+            if ($rc->isSubclassOf('\\theme_cass\\controller\\controller_abstract')) {
                 $router->add_controller(new $classname());
             }
         }

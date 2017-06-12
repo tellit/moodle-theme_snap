@@ -21,7 +21,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap;
+namespace theme_cass;
 
 use course_grade;
 use context_user;

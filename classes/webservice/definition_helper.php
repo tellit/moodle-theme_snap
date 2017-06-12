@@ -22,7 +22,7 @@
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace theme_snap\webservice;
+namespace theme_cass\webservice;
 use external_single_structure;
 use external_multiple_structure;
 use external_value;
@@ -84,7 +84,7 @@ class definition_helper {
      * @param string $classname
      */
     private function get_definition_from_cache($classname) {
-        $cache = cache::make('theme_snap', 'webservicedefinitions');
+        $cache = cache::make('theme_cass', 'webservicedefinitions');
         $data = $cache->get($classname);
         return unserialize($data);
     }
@@ -95,7 +95,7 @@ class definition_helper {
      * @param external_value[] $definition
      */
     private function cache_definition($classname, $definition) {
-        $cache = cache::make('theme_snap', 'webservicedefinitions');
+        $cache = cache::make('theme_cass', 'webservicedefinitions');
         $cache->set($classname, serialize($definition));
     }
 

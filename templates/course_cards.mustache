@@ -15,18 +15,18 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
- @package   theme_snap
+ @package   theme_cass
  @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 }}
 <div data-hidden="{{^published}}true{{/published}}{{#published}}false{{/published}}" data-courseid="{{courseid}}" data-model="{{model}}" data-href="{{{url}}}" data-shortname="{{shortname}}" class="courseinfo{{#favorited}} favorited{{/favorited}}" style="{{imagecss}}" tab-index="-1"{{#lazyloadimageurl}} data-image-url="{{.}}"{{/lazyloadimageurl}}>
-    <button class="snap-icon-toggle favoritetoggle" title="{{toggletitle}}" aria-pressed="{{#favorited}}true{{/favorited}}{{^favorited}}false{{/favorited}}"></button>
+    <button class="cass-icon-toggle favoritetoggle" title="{{toggletitle}}" aria-pressed="{{#favorited}}true{{/favorited}}{{^favorited}}false{{/favorited}}"></button>
     <div class="courseinfo-body">
         <h3><a class="coursefullname" href="{{{url}}}">{{fullname}}</a></h3>
         <div class=dynamicinfo>
             {{#feedback}}
                 {{#coursegrade}}
-                    <div class="coursegrade">{{#str}}coursegrade, theme_snap{{/str}} <a href="{{feedbackurl}}">{{coursegrade}}</a></div>
+                    <div class="coursegrade">{{#str}}coursegrade, theme_cass{{/str}} <a href="{{feedbackurl}}">{{coursegrade}}</a></div>
                 {{/coursegrade}}
             {{/feedback}}
             {{#completion.render}}
@@ -35,7 +35,7 @@
             {{/completion.render}}
         </div>
         <div class="courseinfo-teachers">
-            <h4 class="sr-only">{{# str }} coursecontacts, theme_snap {{/ str }}</h4>
+            <h4 class="sr-only">{{# str }} coursecontacts, theme_cass {{/ str }}</h4>
             <div class="courseinfo-teachers-visible">
                 {{#visibleavatars}}
                     {{{.}}}
@@ -53,7 +53,7 @@
         </div>
         {{^published}}
         <small class="published-status text-warning">
-            {{# str }} notpublished, theme_snap {{/ str }}
+            {{# str }} notpublished, theme_cass {{/ str }}
         </small>
         {{/published}}
     </div>

@@ -2197,8 +2197,8 @@ a.thumbnail.active {
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd:after,
 .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft:before,
 .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft:after,
-#id_s_theme_snap_resourcedisplay:before,
-#id_s_theme_snap_resourcedisplay:after,
+#id_s_theme_cass_resourcedisplay:before,
+#id_s_theme_cass_resourcedisplay:after,
 #page-user-profile .userprofile .profile_tree:before,
 #page-user-profile .userprofile .profile_tree:after,
 .path-course.path-user .userprofile .profile_tree:before,
@@ -2216,7 +2216,7 @@ a.thumbnail.active {
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd:after,
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd:after,
 .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft:after,
-#id_s_theme_snap_resourcedisplay:after,
+#id_s_theme_cass_resourcedisplay:after,
 #page-user-profile .userprofile .profile_tree:after,
 .path-course.path-user .userprofile .profile_tree:after {
   clear: both;
@@ -3954,23 +3954,23 @@ a.disabled {
   display: inline-block;
 }
 /**
- * Snap variables.
+ * Cass variables.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 /**
- * Main swatch - includes all snap swatch files.
+ * Main swatch - includes all cass swatch files.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 /**
  * Moodle blocks.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -4173,9 +4173,9 @@ body.path-site .block.block_settings {
   padding-top: 2em;
 }
 /**
- * Snap core swatch.
+ * Cass core swatch.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -4361,7 +4361,7 @@ table.boxwidthwide {
   padding: 0 3.443%;
 }
 /* animations */
-@keyframes snap-drop {
+@keyframes cass-drop {
   0% {
     transform: matrix(1, 0, 0, 1, 0, -600);
   }
@@ -4369,7 +4369,7 @@ table.boxwidthwide {
     transform: matrix(1, 0, 0, 1, 0, 0);
   }
 }
-@keyframes snap-rise {
+@keyframes cass-rise {
   0% {
     transform: matrix(1, 0, 0, 1, 0, 0);
   }
@@ -4866,7 +4866,7 @@ fieldset[disabled] #page-site-index .section-modchooser-link .section-modchooser
   width: 1em;
   margin: 0.1em auto;
 }
-#snap-footer-alert .icon-close:before,
+#cass-footer-alert .icon-close:before,
 .fixy .icon-close:before {
   background: transparent url("[[pix:theme|close_x_white]]") no-repeat 50% 50%;
 }
@@ -4887,34 +4887,34 @@ fieldset[disabled] #page-site-index .section-modchooser-link .section-modchooser
   background-position: center top;
   background-size: cover;
 }
-#snap-home.logo {
+#cass-home.logo {
   display: none;
 }
-.snap-media-object {
+.cass-media-object {
   font-weight: 500;
   padding: 0.5em 0;
 }
-.snap-media-object:before,
-.snap-media-object:after {
+.cass-media-object:before,
+.cass-media-object:after {
   content: " ";
   display: table;
 }
-.snap-media-object:after {
+.cass-media-object:after {
   clear: both;
 }
-.snap-media-object:before,
-.snap-media-object:after {
+.cass-media-object:before,
+.cass-media-object:after {
   content: " ";
   display: table;
 }
-.snap-media-object:after {
+.cass-media-object:after {
   clear: both;
 }
-.snap-media-object > a:focus {
+.cass-media-object > a:focus {
   display: block;
 }
-.snap-media-object > a > img,
-.snap-media-object > img {
+.cass-media-object > a > img,
+.cass-media-object > img {
   float: left;
   display: block;
   width: 36px;
@@ -4922,41 +4922,41 @@ fieldset[disabled] #page-site-index .section-modchooser-link .section-modchooser
   vertical-align: baseline;
   margin-right: .614em;
 }
-.snap-media-object .snap-media-body {
+.cass-media-object .cass-media-body {
   overflow: hidden;
 }
-.snap-media-object .snap-media-body p {
+.cass-media-object .cass-media-body p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
 }
-.snap-media-object .snap-media-body .text_to_html {
+.cass-media-object .cass-media-body .text_to_html {
   line-height: 1.3em;
 }
-.snap-media-object .snap-media-body a:hover,
-.snap-media-object .snap-media-body a:focus {
+.cass-media-object .cass-media-body a:hover,
+.cass-media-object .cass-media-body a:focus {
   text-decoration: underline;
 }
-.snap-media-object .snap-media-body .label {
+.cass-media-object .cass-media-body .label {
   font-size: small;
 }
-.snap-media-object h3 {
+.cass-media-object h3 {
   color: inherit;
   font-size: 1rem;
   font-weight: 500;
   margin: 0;
 }
-.snap-media-object h3 small {
+.cass-media-object h3 small {
   color: inherit;
   opacity: 0.9;
 }
-.snap-media-object .snap-media-meta {
+.cass-media-object .cass-media-meta {
   display: block;
   font-size: small;
   color: #AFA79F;
 }
-.snap-media-object .snap-unread-marker {
+.cass-media-object .cass-unread-marker {
   color: #E55302;
 }
 @media screen and (min-width: 480px) {
@@ -5061,14 +5061,14 @@ footer #moodle-footer
 }
 .headroom--unpinned {
   will-change: transform;
-  animation-name: snap-rise;
+  animation-name: cass-rise;
   animation-timing-function: ease-in-out;
   animation-duration: 0.4s;
   animation-fill-mode: forwards;
 }
 .headroom--pinned {
   /*
-        animation-name: snap-drop;
+        animation-name: cass-drop;
         animation-timing-function: cubic-bezier(.694, .0482, .335, 1);
         animation-duration: 0.33s;
         */
@@ -5291,7 +5291,7 @@ ol.breadcrumb a {
   margin: 0.1em;
 }
 /* SHAME - button to toggle actions, e.g. close */
-.snap-action-icon {
+.cass-action-icon {
   padding: 0.5em;
   font-size: 1.5em;
   line-height: 1;
@@ -5299,7 +5299,7 @@ ol.breadcrumb a {
   display: block;
   text-align: center;
 }
-.snap-action-icon small {
+.cass-action-icon small {
   display: block;
   text-align: center;
   line-height: 1;
@@ -5467,7 +5467,7 @@ ol.breadcrumb a {
   margin: 0;
   position: relative;
 }
-#page-site-index #snap-coverimagecontrol {
+#page-site-index #cass-coverimagecontrol {
   position: absolute;
   bottom: 1em;
   right: 4%;
@@ -5491,12 +5491,12 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 .path-course #page-mast h1 {
   display: inline;
 }
-#page-mast .snap-login-button {
+#page-mast .cass-login-button {
   display: inline-block;
   padding: 0.25em 2em;
   margin-top: 1em;
 }
-#mr-nav .snap-login-button {
+#mr-nav .cass-login-button {
   margin-right: 1em;
 }
 @media screen and (min-width: 768px) {
@@ -5687,7 +5687,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 .coursebox.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd,
 .coursebox.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd,
 .coursebox.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft,
-.coursebox#id_s_theme_snap_resourcedisplay,
+.coursebox#id_s_theme_cass_resourcedisplay,
 .coursebox#page-user-profile .userprofile .profile_tree,
 .coursebox.path-course.path-user .userprofile .profile_tree {
   padding: 1em 4%;
@@ -7191,7 +7191,7 @@ body.hascontinuecancel.path-site #page {
   overflow: hidden;
 }
 #page-admin-purgecaches #notice,
-#notice.snap-continue-cancel {
+#notice.cass-continue-cancel {
   min-height: 800px;
   position: absolute;
   padding: 10% 4%;
@@ -7200,15 +7200,15 @@ body.hascontinuecancel.path-site #page {
   z-index: 13;
 }
 #page-user-policy #notice,
-#page-blocks-conduit-view #notice.snap-continue-cancel,
-#page-mod-quiz-edit div.container #notice.snap-continue-cancel {
+#page-blocks-conduit-view #notice.cass-continue-cancel,
+#page-mod-quiz-edit div.container #notice.cass-continue-cancel {
   color: #333;
   background-color: #fdfdfd;
   font-size: 20px;
   left: 0;
 }
 #page-user-policy #notice,
-#page-blocks-conduit-view #notice.snap-continue-cancel {
+#page-blocks-conduit-view #notice.cass-continue-cancel {
   position: relative;
   margin: 0;
   padding: 0;
@@ -7742,22 +7742,22 @@ div.editor_atto_toolbar div.atto_group {
 #page-message-index div.singleselect {
   max-width: 100%;
 }
-#page-admin-setting-themesettingsnap {
+#page-admin-setting-themesettingcass {
   /* Subtitle textarea. */
 }
-#page-admin-setting-themesettingsnap .admin_colourpicker {
+#page-admin-setting-themesettingcass .admin_colourpicker {
   display: block;
   float: left;
   height: 40px;
   width: 30px;
   margin: 1px 4px;
 }
-#page-admin-setting-themesettingsnap .loadingicon,
-#page-admin-setting-themesettingsnap .colourdialogue,
-#page-admin-setting-themesettingsnap .previewcolour {
+#page-admin-setting-themesettingcass .loadingicon,
+#page-admin-setting-themesettingcass .colourdialogue,
+#page-admin-setting-themesettingcass .previewcolour {
   display: none;
 }
-#page-admin-setting-themesettingsnap .currentcolour {
+#page-admin-setting-themesettingcass .currentcolour {
   /* size is set with a style tag so need to !important to override */
   height: 30px !important;
   width: 30px !important;
@@ -7765,22 +7765,22 @@ div.editor_atto_toolbar div.atto_group {
   border: none;
   margin-left: 0;
 }
-#page-admin-setting-themesettingsnap #admin-subtitle textarea {
+#page-admin-setting-themesettingcass #admin-subtitle textarea {
   height: 5em;
 }
 /* Feature spots. */
-#snap-feature-spots {
+#cass-feature-spots {
   padding: 2em 4%;
   text-align: center;
 }
-#snap-feature-spots .snap-feature-spots-heading {
+#cass-feature-spots .cass-feature-spots-heading {
   padding-top: 0;
   margin-top: 0;
 }
-#snap-feature-spots .snap-feature-image {
+#cass-feature-spots .cass-feature-image {
   max-width: 200px;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_heading input {
+#page-admin-setting-themecassfeaturespots #admin-fs_heading input {
   font-weight: 300;
   line-height: 1.5;
   color: #333;
@@ -7791,23 +7791,23 @@ div.editor_atto_toolbar div.atto_group {
   color: #000;
   text-align: center;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_heading input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_heading input .small {
+#page-admin-setting-themecassfeaturespots #admin-fs_heading input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_heading input .small {
   font-weight: normal;
   line-height: 1;
   color: #AFA79F;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_heading input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_heading input .small {
+#page-admin-setting-themecassfeaturespots #admin-fs_heading input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_heading input .small {
   font-size: 75%;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_heading .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_heading .form-shortname {
+#page-admin-setting-themecassfeaturespots #admin-fs_heading .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_heading .form-shortname {
   display: none;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title input,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title input,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title input {
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title input,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title input,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title input {
   font-weight: 300;
   line-height: 1.5;
   color: #333;
@@ -7817,82 +7817,82 @@ div.editor_atto_toolbar div.atto_group {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   color: #000;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title input .small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title input .small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title input .small {
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title input .small,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title input .small,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title input .small {
   font-weight: normal;
   line-height: 1;
   color: #AFA79F;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title input small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title input .small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title input .small,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title input .small {
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title input small,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title input .small,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title input .small,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title input .small {
   font-size: 75%;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_image,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_image,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_image,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_text,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_text,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_text {
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_image,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_image,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_image,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_text,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_text,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_text {
   float: left;
   width: 33.3%;
   margin: 0;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_image .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_image .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_image .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_text .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_text .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_text .form-defaultinfo,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_image .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_image .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_image .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_text .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_text .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_text .form-shortname,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_image .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_image .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_image .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_text .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_text .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_text .fp-btn-download,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_title .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_title .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_image .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_image .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_image .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_text .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_two_text .dndupload-message,
-#page-admin-setting-themesnapfeaturespots #admin-fs_three_text .dndupload-message {
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_image .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_image .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_image .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_text .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_text .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_text .form-defaultinfo,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_image .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_image .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_image .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_text .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_text .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_text .form-shortname,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_image .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_image .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_image .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_text .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_text .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_text .fp-btn-download,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_title .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_title .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_image .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_image .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_image .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_text .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_two_text .dndupload-message,
+#page-admin-setting-themecassfeaturespots #admin-fs_three_text .dndupload-message {
   display: none;
 }
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_image,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_title,
-#page-admin-setting-themesnapfeaturespots #admin-fs_one_text {
+#page-admin-setting-themecassfeaturespots #admin-fs_one_image,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_title,
+#page-admin-setting-themecassfeaturespots #admin-fs_one_text {
   clear: left;
 }
 /* Featured courses admin page. */
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_heading input {
+#page-admin-setting-themecassfeaturedcourses #admin-fc_heading input {
   font-weight: 300;
   line-height: 1.5;
   color: #333;
@@ -7903,67 +7903,67 @@ div.editor_atto_toolbar div.atto_group {
   color: #000;
   text-align: center;
 }
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_heading input small,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_heading input .small {
+#page-admin-setting-themecassfeaturedcourses #admin-fc_heading input small,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_heading input .small {
   font-weight: normal;
   line-height: 1;
   color: #AFA79F;
 }
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_heading input small,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_heading input .small {
+#page-admin-setting-themecassfeaturedcourses #admin-fc_heading input small,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_heading input .small {
   font-size: 75%;
 }
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_heading .form-shortname {
+#page-admin-setting-themecassfeaturedcourses #admin-fc_heading .form-shortname {
   display: none;
 }
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_one,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_two,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_three,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_four,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_five,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_six,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_seven,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_eight {
+#page-admin-setting-themecassfeaturedcourses #admin-fc_one,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_two,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_three,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_four,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_five,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_six,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_seven,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_eight {
   width: 50%;
   float: left;
   padding: 1em;
 }
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_one .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_two .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_three .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_four .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_five .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_six .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_seven .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_eight .form-defaultinfo,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_one .form-shortname,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_two .form-shortname,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_three .form-shortname,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_four .form-shortname,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_five .form-shortname,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_six .form-shortname,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_seven .form-shortname,
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_eight .form-shortname {
+#page-admin-setting-themecassfeaturedcourses #admin-fc_one .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_two .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_three .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_four .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_five .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_six .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_seven .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_eight .form-defaultinfo,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_one .form-shortname,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_two .form-shortname,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_three .form-shortname,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_four .form-shortname,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_five .form-shortname,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_six .form-shortname,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_seven .form-shortname,
+#page-admin-setting-themecassfeaturedcourses #admin-fc_eight .form-shortname {
   display: none;
 }
-#page-admin-setting-themesnapfeaturedcourses #admin-fc_browse_all {
+#page-admin-setting-themecassfeaturedcourses #admin-fc_browse_all {
   clear: both;
 }
 /* Featured courses section. */
 @media screen and (min-width: 768px) {
-  #snap-featured-courses .row div {
+  #cass-featured-courses .row div {
     /* Center and restrict width for when only one course */
     max-width: 50%;
     margin: 0 auto;
   }
 }
 /* Featured course container. */
-#snap-featured-courses {
+#cass-featured-courses {
   width: 100%;
   padding: 2em 4%;
 }
 /* Featured course link. */
-.snap-featured-course {
+.cass-featured-course {
   display: block;
   height: 300px;
   position: relative;
@@ -7973,15 +7973,15 @@ div.editor_atto_toolbar div.atto_group {
   background-size: cover;
   transition: all 0.4s ease-in-out;
 }
-.snap-featured-course:hover {
+.cass-featured-course:hover {
   transform: scale(1.03);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
-.snap-featured-course:hover .snap-featured-course-title {
+.cass-featured-course:hover .cass-featured-course-title {
   text-decoration: underline;
 }
 /* Featured course title. */
-.snap-featured-course-title {
+.cass-featured-course-title {
   display: block;
   min-height: 25%;
   width: 100%;
@@ -7990,7 +7990,7 @@ div.editor_atto_toolbar div.atto_group {
   bottom: 0;
   padding: 0.5em 4%;
 }
-#page-admin-setting-themesettingsnap #id_s_theme_snap_customcss {
+#page-admin-setting-themesettingcass #id_s_theme_cass_customcss {
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 .path-grade-report-grader .gradeparent .heading.floating {
@@ -8022,13 +8022,13 @@ div.editor_atto_toolbar div.atto_group {
 td.mceIframeContainer > iframe {
   max-width: 100%;
 }
-body.gecko .snap-form-required > fieldset,
-body.gecko .snap-form-advanced > fieldset {
+body.gecko .cass-form-required > fieldset,
+body.gecko .cass-form-advanced > fieldset {
   display: table-cell;
   max-width: 100%;
 }
-body.ie .snap-form-required > fieldset,
-body.ie .snap-form-advanced > fieldset {
+body.ie .cass-form-required > fieldset,
+body.ie .cass-form-advanced > fieldset {
   table-layout: fixed;
   max-width: 100%;
 }
@@ -8059,62 +8059,62 @@ td.mceToolbar {
   overflow: hidden;
   max-width: 81%;
 }
-button.snap-icon-toggle,
-button.snap-icon-toggle:hover,
-button.snap-icon-toggle:visited,
-button.snap-icon-toggle:link,
-button.snap-icon-toggle:active,
-button.snap-icon-toggle:focus {
+button.cass-icon-toggle,
+button.cass-icon-toggle:hover,
+button.cass-icon-toggle:visited,
+button.cass-icon-toggle:link,
+button.cass-icon-toggle:active,
+button.cass-icon-toggle:focus {
   color: #b02a1a;
   background: none;
   border: none;
   box-shadow: none;
   outline: none;
 }
-button.snap-icon-toggle:focus {
+button.cass-icon-toggle:focus {
   border: 2px solid #b02a1a;
 }
-#snap-coverimagecontrol {
+#cass-coverimagecontrol {
   float: right;
   margin-left: 1em;
   display: inline-block;
   opacity: 0;
   transition: all 0.4s ease-in-out;
 }
-#snap-coverimagecontrol .btn {
+#cass-coverimagecontrol .btn {
   border-color: transparent;
 }
-#snap-changecoverimageconfirmation {
+#cass-changecoverimageconfirmation {
   position: relative;
   display: inline-block;
 }
-#snap-coverfiles {
+#cass-coverfiles {
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
 }
-label[for="snap-coverfiles"],
-#snap-changecoverimageconfirmation button {
+label[for="cass-coverfiles"],
+#cass-changecoverimageconfirmation button {
   position: relative;
   display: none;
   top: -0.5em;
 }
-label.state-visible[for="snap-coverfiles"],
-#snap-changecoverimageconfirmation.state-visible button {
+label.state-visible[for="cass-coverfiles"],
+#cass-changecoverimageconfirmation.state-visible button {
   display: inline-block;
   cursor: pointer;
 }
-label.state-visible[for="snap-coverfiles"] span {
+label.state-visible[for="cass-coverfiles"] span {
   padding: 1em;
 }
 @media (max-width: 767px) {
-  label.state-visible[for="snap-coverfiles"] span {
+  label.state-visible[for="cass-coverfiles"] span {
     display: none !important;
   }
 }
-label.state-visible[for="snap-coverfiles"]:before {
+label.state-visible[for="cass-coverfiles"]:before {
   content: '';
   background: transparent url("[[pix:theme|camera]]") no-repeat;
   display: inline-block;
@@ -8122,21 +8122,21 @@ label.state-visible[for="snap-coverfiles"]:before {
   height: 1.5em;
   width: 1.5em;
 }
-#snap-coverfiles {
+#cass-coverfiles {
   cursor: pointer;
 }
-label.state-visible[for="snap-coverfiles"] .spinner-three-quarters,
-#snap-changecoverimageconfirmation .ok .spinner-three-quarters {
+label.state-visible[for="cass-coverfiles"] .spinner-three-quarters,
+#cass-changecoverimageconfirmation .ok .spinner-three-quarters {
   width: 1em;
   height: 1em;
   border-width: 0.25em;
   margin-left: 0.5em;
 }
-#snap-changecoverimageconfirmation.disabled .ok,
-#snap-changecoverimageconfirmation.disabled .ok:visited,
-#snap-changecoverimageconfirmation.disabled .ok:hover,
-#snap-changecoverimageconfirmation.disabled .ok:active,
-#snap-changecoverimageconfirmation.disabled .ok:focus {
+#cass-changecoverimageconfirmation.disabled .ok,
+#cass-changecoverimageconfirmation.disabled .ok:visited,
+#cass-changecoverimageconfirmation.disabled .ok:hover,
+#cass-changecoverimageconfirmation.disabled .ok:active,
+#cass-changecoverimageconfirmation.disabled .ok:focus {
   color: #fff;
   border-color: #fff;
 }
@@ -8147,7 +8147,7 @@ label.state-visible[for="snap-coverfiles"] .spinner-three-quarters,
 #page-header.mast-image .alert-warning {
   background-color: rgba(255, 255, 255, 0.9);
 }
-#snap-coverimagecontrol.snap-js-enabled {
+#cass-coverimagecontrol.cass-js-enabled {
   opacity: 1;
 }
 #page-badges-criteria .statusbox,
@@ -8292,9 +8292,9 @@ ol.breadcrumb > li {
   padding: 0;
 }
 /**
- * Snap course swatch.
+ * Cass course swatch.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -8353,7 +8353,7 @@ section#region-main
 .dndupload-preview {
   display: none !important;
 }
-.dndupload-over .snap-dropzone {
+.dndupload-over .cass-dropzone {
   background-color: #fafafa;
 }
 #coursetools:before,
@@ -8400,37 +8400,37 @@ section#region-main
   /* Cover image used as icon. */
   /* User images as icons. */
 }
-#coursetools-list a .snap-participant-icons,
+#coursetools-list a .cass-participant-icons,
 #coursetools-list a img.svg-icon {
   display: block !important;
   margin: 0.3em auto;
 }
-#coursetools-list a .snap-participant-icons:before,
+#coursetools-list a .cass-participant-icons:before,
 #coursetools-list a img.svg-icon:before,
-#coursetools-list a .snap-participant-icons:after,
+#coursetools-list a .cass-participant-icons:after,
 #coursetools-list a img.svg-icon:after {
   content: " ";
   display: table;
 }
-#coursetools-list a .snap-participant-icons:after,
+#coursetools-list a .cass-participant-icons:after,
 #coursetools-list a img.svg-icon:after {
   clear: both;
 }
-#coursetools-list a .snap-participant-icons:before,
+#coursetools-list a .cass-participant-icons:before,
 #coursetools-list a img.svg-icon:before,
-#coursetools-list a .snap-participant-icons:after,
+#coursetools-list a .cass-participant-icons:after,
 #coursetools-list a img.svg-icon:after {
   content: " ";
   display: table;
 }
-#coursetools-list a .snap-participant-icons:after,
+#coursetools-list a .cass-participant-icons:after,
 #coursetools-list a img.svg-icon:after {
   clear: both;
 }
-#coursetools-list a .snap-cover-icon {
+#coursetools-list a .cass-cover-icon {
   border-radius: 100%;
 }
-#coursetools-list a .snap-participant-icons img {
+#coursetools-list a .cass-participant-icons img {
   width: 2rem;
   height: 2rem;
   margin: 0 0.3rem;
@@ -8532,7 +8532,7 @@ li.section:focus {
 .path-course-view .section .summary p {
   margin-bottom: 1.6em;
 }
-.snap-section-editing {
+.cass-section-editing {
   visibility: hidden;
   max-width: 100%;
   min-width: 0;
@@ -8544,7 +8544,7 @@ li.section:focus {
   text-align: center;
   margin-top: 0;
 }
-.snap-section-editing a {
+.cass-section-editing a {
   display: inline-block;
   border-radius: 100%;
   width: 2em;
@@ -8552,10 +8552,10 @@ li.section:focus {
   padding: 0.1em 0.3em;
   text-align: center;
 }
-.snap-section-editing a:hover {
+.cass-section-editing a:hover {
   background-color: #eae9e7;
 }
-.snap-section-editing a:after {
+.cass-section-editing a:after {
   content: ' ';
   width: 100%;
   display: inline-block;
@@ -8564,35 +8564,35 @@ li.section:focus {
   background-repeat: no-repeat;
   background-size: 70%;
 }
-.snap-section-editing .snap-move:after {
+.cass-section-editing .cass-move:after {
   background-image: url([[pix:theme|move]]);
   background-size: 100%;
 }
-.snap-section-editing .snap-visibility.snap-show:after {
+.cass-section-editing .cass-visibility.cass-show:after {
   background-image: url([[pix:core|i/show]]);
 }
-.snap-section-editing .snap-visibility.snap-hide:after {
+.cass-section-editing .cass-visibility.cass-hide:after {
   background-image: url([[pix:core|i/hide]]);
 }
-.snap-section-editing .snap-delete:after {
+.cass-section-editing .cass-delete:after {
   background-image: url([[pix:core|t/delete]]);
 }
-.snap-section-editing .snap-highlight.snap-marker:after {
+.cass-section-editing .cass-highlight.cass-marker:after {
   background-image: url([[pix:core|i/marker]]);
 }
-.snap-section-editing .snap-highlight.snap-marked:after {
+.cass-section-editing .cass-highlight.cass-marked:after {
   background-image: url([[pix:core|i/marked]]);
 }
-.snap-section-editing .loadingstat {
+.cass-section-editing .loadingstat {
   margin-left: 1em;
 }
-.snap-dropzone {
+.cass-dropzone {
   visibility: hidden;
 }
-.snap-dropzone {
+.cass-dropzone {
   text-align: center;
 }
-.snap-dropzone .snap-dropzone-label {
+.cass-dropzone .cass-dropzone-label {
   display: block;
   cursor: pointer;
   background: transparent url("[[pix:resource|icon]]") 50% 1em no-repeat;
@@ -8601,8 +8601,8 @@ li.section:focus {
   border: 3px dashed #eee;
   border-radius: 4px;
 }
-.snap-dropzone .snap-dropzone-label:hover,
-.snap-dropzone .snap-dropzone-label:focus {
+.cass-dropzone .cass-dropzone-label:hover,
+.cass-dropzone .cass-dropzone-label:focus {
   border-color: #eae9e7;
 }
 .section-modchooser-link {
@@ -8619,20 +8619,20 @@ li.section:focus {
   display: block;
 }
 .section-modchooser-link,
-.snap-dropzone {
+.cass-dropzone {
   margin-top: 1em;
 }
 /* Landing page does not have renderer, so markup is different. */
 #page-site-index .section-modchooser-link {
   border-color: white;
 }
-.snap-course-listening .snap-section-editing {
+.cass-course-listening .cass-section-editing {
   visibility: visible;
 }
-.snap-course-listening .snap-dropzone {
+.cass-course-listening .cass-dropzone {
   visibility: visible;
 }
-.snap-section-editing[style] {
+.cass-section-editing[style] {
   cursor: default !important;
 }
 .course-content ul li.section.main {
@@ -8642,7 +8642,7 @@ li.section:focus {
 }
 .course-content > ul li.section,
 #coursetools,
-#snap-add-new-section {
+#cass-add-new-section {
   visibility: hidden;
   height: 0;
   width: 0;
@@ -8661,8 +8661,8 @@ li.section:focus {
   display: block;
 }
 .course-content > ul li.section.state-visible,
-#snap-add-new-section.state-visible,
-.editing #snap-add-new-section,
+#cass-add-new-section.state-visible,
+.editing #cass-add-new-section,
 #coursetools.state-visible,
 .editing #coursetools,
 .format-singleactivity #coursetools,
@@ -8735,10 +8735,10 @@ body.format-flexpage .singlebutton {
   max-height: auto;
   min-height: auto;
 }
-h4.snap-asset-link .instancename {
+h4.cass-asset-link .instancename {
   line-height: 1em;
 }
-.section li.snap-asset {
+.section li.cass-asset {
   display: block;
   position: relative;
   padding: 0 0 1.55em;
@@ -8751,52 +8751,52 @@ h4.snap-asset-link .instancename {
   background-color: transparent;
   border-radius: 0;
 }
-#section-0 .section li.snap-asset {
+#section-0 .section li.cass-asset {
   border: none;
 }
-.section li.snap-asset.snap-can-edit {
+.section li.cass-asset.cass-can-edit {
   padding-bottom: 2em !important;
 }
-.section li.snap-asset .asset-wrapper {
+.section li.cass-asset .asset-wrapper {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   position: static;
   padding: 0;
 }
-#section-0 .section li.snap-asset .asset-wrapper {
+#section-0 .section li.cass-asset .asset-wrapper {
   border-top: 3px solid #00759B;
   box-shadow: -2px 1px 4px #AFA79F;
   background: #fff;
 }
-.section li.snap-asset .snap-assettype {
+.section li.cass-asset .cass-assettype {
   font-size: small;
   text-transform: uppercase;
 }
-.section li.snap-asset .activityinstance {
+.section li.cass-asset .activityinstance {
   padding: 0 2.2em 1em;
   height: auto;
 }
-#section-0 .section li.snap-asset .activityinstance {
+#section-0 .section li.cass-asset .activityinstance {
   padding: 1em;
 }
-.section li.snap-asset .activityinstance:before,
-.section li.snap-asset .activityinstance:after {
+.section li.cass-asset .activityinstance:before,
+.section li.cass-asset .activityinstance:after {
   content: " ";
   display: table;
 }
-.section li.snap-asset .activityinstance:after {
+.section li.cass-asset .activityinstance:after {
   clear: both;
 }
-.section li.snap-asset .activityinstance:before,
-.section li.snap-asset .activityinstance:after {
+.section li.cass-asset .activityinstance:before,
+.section li.cass-asset .activityinstance:after {
   content: " ";
   display: table;
 }
-.section li.snap-asset .activityinstance:after {
+.section li.cass-asset .activityinstance:after {
   clear: both;
 }
-.section li.snap-asset .activityinstance .activityicon {
+.section li.cass-asset .activityinstance .activityicon {
   float: left;
   width: 38px;
   height: 38px;
@@ -8804,31 +8804,31 @@ h4.snap-asset-link .instancename {
   margin-right: 0.5em;
   transition: all 0.4s ease-in-out;
 }
-.section li.snap-asset .activityinstance .snap-asset-link {
+.section li.cass-asset .activityinstance .cass-asset-link {
   font-size: 1em;
   margin: 0;
   padding: 0.5em 0;
   transition: all 0.4s ease-in-out;
 }
-.section li.snap-asset .activityinstance .snap-asset-link a:hover,
-.section li.snap-asset .activityinstance .snap-asset-link a:focus {
+.section li.cass-asset .activityinstance .cass-asset-link a:hover,
+.section li.cass-asset .activityinstance .cass-asset-link a:focus {
   text-decoration: none;
 }
-.section li.snap-asset .activityinstance .snap-asset-link a:hover .activityicon,
-.section li.snap-asset .activityinstance .snap-asset-link a:focus .activityicon {
+.section li.cass-asset .activityinstance .cass-asset-link a:hover .activityicon,
+.section li.cass-asset .activityinstance .cass-asset-link a:focus .activityicon {
   transform: scale(1.25);
 }
-.section li.snap-asset-last {
+.section li.cass-asset-last {
   border-left: none;
 }
 /**
  * resourcelinkdetails = moodle putting filetype on screen if option selected
- * we do this by default in snap, so hide moodle version
+ * we do this by default in cass, so hide moodle version
  */
 .resourcelinkdetails {
   display: none;
 }
-/* snap has its own implimentation of these, so hide moodles */
+/* cass has its own implimentation of these, so hide moodles */
 .activityinstance .accesshide,
 .groupinglabel {
   display: none;
@@ -8864,41 +8864,41 @@ h4.snap-asset-link .instancename {
 .section .activity.modtype_label.label .activityinstance {
   padding: 0;
 }
-.section li.snap-native {
+.section li.cass-native {
   border: none;
   height: auto;
   margin: 0.5em auto;
 }
-.section li.snap-native .asset-wrapper {
+.section li.cass-native .asset-wrapper {
   padding: 0;
 }
-.section li.snap-native .activityicon,
-.section li.snap-native .snap-assettype {
+.section li.cass-native .activityicon,
+.section li.cass-native .cass-assettype {
   display: none;
 }
-.section li.snap-native .instancename {
+.section li.cass-native .instancename {
   font-size: 1.3em;
 }
-.section li.snap-native .contentafterlink {
+.section li.cass-native .contentafterlink {
   font-size: 1em;
   padding-bottom: 1em;
 }
-.section li.snap-native .summary-figure {
+.section li.cass-native .summary-figure {
   text-align: center;
 }
-.section li.snap-native .pagemod-content {
+.section li.cass-native .pagemod-content {
   display: none;
   clear: both;
   padding: 1em 0;
 }
-.section li.snap-native .pagemod-content:focus {
+.section li.cass-native .pagemod-content:focus {
   outline: 0;
 }
-.section li.snap-native .summary-text + h6 {
+.section li.cass-native .summary-text + h6 {
   clear: left;
 }
-.section li.snap-native.state-expanded .summary-text,
-.section li.snap-native.state-expanded .summary-figure {
+.section li.cass-native.state-expanded .summary-text,
+.section li.cass-native.state-expanded .summary-figure {
   display: none;
 }
 @media screen and (min-width: 768px) {
@@ -8908,20 +8908,20 @@ h4.snap-asset-link .instancename {
     padding-right: 4%;
   }
 }
-.snap-native.snap-image .activityinstance .snap-asset-link a {
+.cass-native.cass-image .activityinstance .cass-asset-link a {
   display: none;
 }
-.snap-native.modtype_book ol.bookmod-chapters {
+.cass-native.modtype_book ol.bookmod-chapters {
   margin: 0;
 }
-.snap-image-image {
+.cass-image-image {
   position: relative;
 }
-.snap-image-image .snap-image-link {
+.cass-image-image .cass-image-link {
   display: block;
 }
-.snap-image-image .snap-image-summary,
-.snap-image-image .snap-image-title {
+.cass-image-image .cass-image-summary,
+.cass-image-image .cass-image-title {
   position: absolute;
   bottom: 0;
   display: block;
@@ -8930,26 +8930,26 @@ h4.snap-asset-link .instancename {
   padding: 0 4%;
   font-size: 1em;
 }
-.snap-image-image .snap-image-title {
+.cass-image-image .cass-image-title {
   text-align: center;
 }
-.snap-image-image .snap-image-summary {
+.cass-image-image .cass-image-summary {
   position: relative;
   margin-top: -3em;
 }
-.section li.snap-resource {
+.section li.cass-resource {
   display: block;
   transition: all 0.4s ease-in-out;
 }
-.section li.snap-resource .activityinstance .activityicon {
+.section li.cass-resource .activityinstance .activityicon {
   height: 1.5em;
   width: 1.5em;
   margin-top: 0;
 }
-.section li.snap-resource .snap-asset-link {
+.section li.cass-resource .cass-asset-link {
   font-size: 1em;
 }
-body.snap-resource-card li.snap-resource {
+body.cass-resource-card li.cass-resource {
   height: 200px;
   width: 31%;
   margin: 1%;
@@ -8960,148 +8960,148 @@ body.snap-resource-card li.snap-resource {
   background-position: 50% 70%;
   background-size: 38px auto;
 }
-body.snap-resource-card li.snap-resource:hover {
+body.cass-resource-card li.cass-resource:hover {
   background-size: 50px auto;
 }
-body.snap-resource-card li.snap-resource .asset-wrapper {
+body.cass-resource-card li.cass-resource .asset-wrapper {
   cursor: pointer;
 }
-body.snap-resource-card li.snap-resource .asset-wrapper:before,
-body.snap-resource-card li.snap-resource .asset-wrapper:after {
+body.cass-resource-card li.cass-resource .asset-wrapper:before,
+body.cass-resource-card li.cass-resource .asset-wrapper:after {
   content: " ";
   display: table;
 }
-body.snap-resource-card li.snap-resource .asset-wrapper:after {
+body.cass-resource-card li.cass-resource .asset-wrapper:after {
   clear: both;
 }
-body.snap-resource-card li.snap-resource .asset-wrapper:before,
-body.snap-resource-card li.snap-resource .asset-wrapper:after {
+body.cass-resource-card li.cass-resource .asset-wrapper:before,
+body.cass-resource-card li.cass-resource .asset-wrapper:after {
   content: " ";
   display: table;
 }
-body.snap-resource-card li.snap-resource .asset-wrapper:after {
+body.cass-resource-card li.cass-resource .asset-wrapper:after {
   clear: both;
 }
-body.snap-resource-card li.snap-resource .activityicon {
+body.cass-resource-card li.cass-resource .activityicon {
   display: none;
 }
-body.snap-resource-card li.snap-resource .contentafterlink {
+body.cass-resource-card li.cass-resource .contentafterlink {
   font-size: small;
 }
-body.snap-resource-card li.snap-resource.snap-mime-document,
-body.snap-resource-card li.snap-resource.snap-mime-writer,
-body.snap-resource-card li.snap-resource.snap-mime-oth,
-body.snap-resource-card li.snap-resource.snap-mime-text {
+body.cass-resource-card li.cass-resource.cass-mime-document,
+body.cass-resource-card li.cass-resource.cass-mime-writer,
+body.cass-resource-card li.cass-resource.cass-mime-oth,
+body.cass-resource-card li.cass-resource.cass-mime-text {
   border-top-color: #03A9F4;
   background-image: url([[pix:core|/f/document]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-powerpoint,
-body.snap-resource-card li.snap-resource.snap-mime-impress {
+body.cass-resource-card li.cass-resource.cass-mime-powerpoint,
+body.cass-resource-card li.cass-resource.cass-mime-impress {
   border-top-color: #ff7300;
   background-image: url([[pix:core|/f/powerpoint]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-spreadsheet,
-body.snap-resource-card li.snap-resource.snap-mime-chart,
-body.snap-resource-card li.snap-resource.snap-mime-database,
-body.snap-resource-card li.snap-resource.snap-mime-calc {
+body.cass-resource-card li.cass-resource.cass-mime-spreadsheet,
+body.cass-resource-card li.cass-resource.cass-mime-chart,
+body.cass-resource-card li.cass-resource.cass-mime-database,
+body.cass-resource-card li.cass-resource.cass-mime-calc {
   border-top-color: #009e51;
   background-image: url([[pix:core|/f/spreadsheet]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-pdf,
-body.snap-resource-card li.snap-resource.snap-mime-eps,
-body.snap-resource-card li.snap-resource.snap-mime-flash {
+body.cass-resource-card li.cass-resource.cass-mime-pdf,
+body.cass-resource-card li.cass-resource.cass-mime-eps,
+body.cass-resource-card li.cass-resource.cass-mime-flash {
   border-top-color: #F44336;
   background-image: url([[pix:core|/f/pdf]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-flash {
+body.cass-resource-card li.cass-resource.cass-mime-flash {
   background-image: url([[pix:core|/f/flash]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-mp3,
-body.snap-resource-card li.snap-resource.snap-mime-wav,
-body.snap-resource-card li.snap-resource.snap-mime-audio {
+body.cass-resource-card li.cass-resource.cass-mime-mp3,
+body.cass-resource-card li.cass-resource.cass-mime-wav,
+body.cass-resource-card li.cass-resource.cass-mime-audio {
   border-top-color: #8BC34A;
   background-image: url([[pix:core|/f/audio]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-mov,
-body.snap-resource-card li.snap-resource.snap-mime-wmv,
-body.snap-resource-card li.snap-resource.snap-mime-video,
-body.snap-resource-card li.snap-resource.snap-mime-quicktime,
-body.snap-resource-card li.snap-resource.snap-mime-mpeg,
-body.snap-resource-card li.snap-resource.snap-mime-avi {
+body.cass-resource-card li.cass-resource.cass-mime-mov,
+body.cass-resource-card li.cass-resource.cass-mime-wmv,
+body.cass-resource-card li.cass-resource.cass-mime-video,
+body.cass-resource-card li.cass-resource.cass-mime-quicktime,
+body.cass-resource-card li.cass-resource.cass-mime-mpeg,
+body.cass-resource-card li.cass-resource.cass-mime-avi {
   border-top-color: #55B5CC;
   background-image: url([[pix:core|/f/video]]);
 }
-body.snap-resource-card li.snap-resource.modtype_lightboxgallery,
-body.snap-resource-card li.snap-resource.snap-mime-bmp {
+body.cass-resource-card li.cass-resource.modtype_lightboxgallery,
+body.cass-resource-card li.cass-resource.cass-mime-bmp {
   border-top-color: #4ABC96;
   background-image: url([[pix:core|/f/image]]);
 }
-body.snap-resource-card li.snap-resource.modtype_url {
+body.cass-resource-card li.cass-resource.modtype_url {
   border-top-color: #999;
   background-image: url([[pix:core|/f/url]]);
 }
-body.snap-resource-card li.snap-resource.modtype_imscp,
-body.snap-resource-card li.snap-resource.modtype_scorm {
+body.cass-resource-card li.cass-resource.modtype_imscp,
+body.cass-resource-card li.cass-resource.modtype_scorm {
   border-top-color: #F7981D;
   background-image: url([[pix:core|/f/book]]);
 }
-body.snap-resource-card li.snap-resource.modtype_imscp,
-body.snap-resource-card li.snap-resource.modtype_scorm {
+body.cass-resource-card li.cass-resource.modtype_imscp,
+body.cass-resource-card li.cass-resource.modtype_scorm {
   background-image: url([[pix:core|/f/scorm]]);
 }
-body.snap-resource-card li.snap-resource.modtype_folder {
+body.cass-resource-card li.cass-resource.modtype_folder {
   border-top-color: #fed859;
   background-image: url([[pix:core|/f/folder]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-archive {
+body.cass-resource-card li.cass-resource.cass-mime-archive {
   border-top-color: #fed859;
   background-image: url([[pix:core|/f/archive]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-markup,
-body.snap-resource-card li.snap-resource.snap-mime-html,
-body.snap-resource-card li.snap-resource.snap-mime-sourcecode {
+body.cass-resource-card li.cass-resource.cass-mime-markup,
+body.cass-resource-card li.cass-resource.cass-mime-html,
+body.cass-resource-card li.cass-resource.cass-mime-sourcecode {
   border-top-color: #f0652a;
   background-image: url([[pix:core|/f/sourcecode]]);
 }
-body.snap-resource-card li.snap-resource.snap-mime-text {
+body.cass-resource-card li.cass-resource.cass-mime-text {
   border-top-color: #f1bf26;
 }
 @media screen and (max-width: 480px) {
-  body.snap-resource-card li.snap-resource {
+  body.cass-resource-card li.cass-resource {
     width: 99%;
     margin: 1em auto;
     height: auto;
     background-image: none !important;
   }
-  body.snap-resource-card li.snap-resource .activityinstance {
+  body.cass-resource-card li.cass-resource .activityinstance {
     width: 75%;
   }
-  body.snap-resource-card li.snap-resource .activityinstance .activityicon {
+  body.cass-resource-card li.cass-resource .activityinstance .activityicon {
     display: inline;
   }
-  body.snap-resource-card li.snap-resource .snap-asset-actions {
+  body.cass-resource-card li.cass-resource .cass-asset-actions {
     width: 250px;
   }
-  body.snap-resource-card li.snap-resource .snap-asset-actions .snap-asset-move,
-  body.snap-resource-card li.snap-resource .snap-asset-actions .snap-edit-more-dropdown,
-  body.snap-resource-card li.snap-resource .snap-asset-actions > a {
+  body.cass-resource-card li.cass-resource .cass-asset-actions .cass-asset-move,
+  body.cass-resource-card li.cass-resource .cass-asset-actions .cass-edit-more-dropdown,
+  body.cass-resource-card li.cass-resource .cass-asset-actions > a {
     width: 25%;
     text-align: left;
     padding: 0;
   }
 }
-.snap-resource-list li.snap-resource {
+.cass-resource-list li.cass-resource {
   border: none;
   margin: 0 1%;
 }
-.snap-resource-list li.snap-resource .snap-assettype {
+.cass-resource-list li.cass-resource .cass-assettype {
   display: none;
 }
-.snap-resource-list li.snap-resource .snap-asset-actions {
+.cass-resource-list li.cass-resource .cass-asset-actions {
   width: 250px;
 }
 /*
-.section li.snap-activity {
+.section li.cass-activity {
     margin: 1em 1%;
     padding-bottom: 1em;
 
@@ -9147,20 +9147,20 @@ body#page-course-view-weeks button {
   box-shadow: none;
   padding: 0 1em;
 }
-h4.snap-asset-link a {
+h4.cass-asset-link a {
   color: #333;
 }
-h4.snap-asset-link {
+h4.cass-asset-link {
   font-size: 1.1em;
   color: #333;
   padding-left: 2em;
   float: left;
   margin-top: -1px;
 }
-#section-0 h4.snap-asset-link {
+#section-0 h4.cass-asset-link {
   padding: .618em 1em;
 }
-.unavailable .snap-asset-link:before {
+.unavailable .cass-asset-link:before {
   background: #AFA79F;
 }
 span.stepper-complete {
@@ -9222,35 +9222,35 @@ li.unavailable h4 {
 h2.sectionname {
   line-height: 1em;
 }
-.section li.snap-activity {
+.section li.cass-activity {
   background-image: none;
   width: 99%;
 }
-.section li.snap-activity .activityicon {
+.section li.cass-activity .activityicon {
   display: none;
 }
-.section li.snap-activity .activityinstance .snap-asset-link {
+.section li.cass-activity .activityinstance .cass-asset-link {
   font-size: 25px;
   display: block;
   overflow: hidden;
 }
-.section li.snap-activity .activityinstance .snap-asset-link:before,
-.section li.snap-activity .activityinstance .snap-asset-link:after {
+.section li.cass-activity .activityinstance .cass-asset-link:before,
+.section li.cass-activity .activityinstance .cass-asset-link:after {
   content: " ";
   display: table;
 }
-.section li.snap-activity .activityinstance .snap-asset-link:after {
+.section li.cass-activity .activityinstance .cass-asset-link:after {
   clear: both;
 }
-.section li.snap-activity .activityinstance .snap-asset-link:before,
-.section li.snap-activity .activityinstance .snap-asset-link:after {
+.section li.cass-activity .activityinstance .cass-asset-link:before,
+.section li.cass-activity .activityinstance .cass-asset-link:after {
   content: " ";
   display: table;
 }
-.section li.snap-activity .activityinstance .snap-asset-link:after {
+.section li.cass-activity .activityinstance .cass-asset-link:after {
   clear: both;
 }
-li.snap-activity {
+li.cass-activity {
   border-left: 0.3em solid #ccc;
   border-radius: 3px;
 }
@@ -9281,82 +9281,82 @@ li.snap-activity {
 #page-site-index .sitetopic > a .iconsmall {
   display: none;
 }
-.snap-asset-meta {
+.cass-asset-meta {
   clear: both;
   padding: 0;
 }
-a.snap-assignment-stage.label.label-warning {
+a.cass-assignment-stage.label.label-warning {
   display: none;
 }
-.snap-completion-meta,
-.snap-group-tag,
-.snap-grouping-tag {
+.cass-completion-meta,
+.cass-group-tag,
+.cass-grouping-tag {
   text-align: right;
   font-size: small;
   margin-bottom: 0.5em;
 }
-.snap-completion-meta a,
-.snap-group-tag a,
-.snap-grouping-tag a {
+.cass-completion-meta a,
+.cass-group-tag a,
+.cass-grouping-tag a {
   padding: 0.5em;
   font-weight: 500;
 }
-.snap-completion-meta a + a,
-.snap-group-tag a + a,
-.snap-grouping-tag a + a {
+.cass-completion-meta a + a,
+.cass-group-tag a + a,
+.cass-grouping-tag a + a {
   border-left: 1px solid;
 }
-.snap-due-date {
+.cass-due-date {
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
   border-radius: 0;
   font-weight: normal;
   font-size: 1em;
   border-left-color: white;
 }
-.snap-due-date[href]:visited {
+.cass-due-date[href]:visited {
   color: #fff;
 }
-.snap-conditional-tag,
-.snap-draft-tag,
-.snap-current-tag {
+.cass-conditional-tag,
+.cass-draft-tag,
+.cass-current-tag {
   font-size: small;
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
   background-color: #eee;
   margin: 0.5em 0;
   padding: 0.5em;
 }
-.snap-conditional-tag .availabilityinfo,
-.snap-draft-tag .availabilityinfo,
-.snap-current-tag .availabilityinfo {
+.cass-conditional-tag .availabilityinfo,
+.cass-draft-tag .availabilityinfo,
+.cass-current-tag .availabilityinfo {
   display: inline;
   margin-left: 0.5em;
 }
-.snap-conditional-tag ul,
-.snap-draft-tag ul,
-.snap-current-tag ul {
+.cass-conditional-tag ul,
+.cass-draft-tag ul,
+.cass-current-tag ul {
   margin: 0 !important;
   list-style: none;
   padding: 0;
 }
-.snap-conditional-tag strong,
-.snap-draft-tag strong,
-.snap-current-tag strong {
+.cass-conditional-tag strong,
+.cass-draft-tag strong,
+.cass-current-tag strong {
   font-weight: normal;
 }
-.snap-completion-meta {
+.cass-completion-meta {
   display: none !important;
   clear: both;
 }
-.snap-draft-tag,
-.snap-current-tag {
+.cass-draft-tag,
+.cass-current-tag {
   display: none !important;
   font-size: small;
 }
-.hidden .content .snap-draft-tag,
-.snap-asset.draft .snap-draft-tag {
+.hidden .content .cass-draft-tag,
+.cass-asset.draft .cass-draft-tag {
   display: block !important;
 }
-.current .snap-current-tag {
+.current .cass-current-tag {
   display: block !important;
   color: white;
   background-color: #E2CC00;
@@ -9382,7 +9382,7 @@ li.draft .editing_show {
 .section.hidden li.draft .activityinstance {
   opacity: 1;
 }
-.snap-asset-completion-tracking {
+.cass-asset-completion-tracking {
   display: none;
 }
 /* Completion actions */
@@ -9461,32 +9461,32 @@ form.togglecompletion.ajaxing:after {
 form.togglecompletion.ajaxing div {
   display: none;
 }
-.snap-asset-actions {
+.cass-asset-actions {
   visibility: hidden;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 250px;
 }
-.snap-asset-actions > a,
-.snap-asset-actions .snap-edit-more-dropdown,
-.snap-asset-actions .snap-asset-move {
+.cass-asset-actions > a,
+.cass-asset-actions .cass-edit-more-dropdown,
+.cass-asset-actions .cass-asset-move {
   display: inline-block !important;
   padding: 0.3em 7%;
   text-align: center;
   width: 33%;
   cursor: pointer;
 }
-.snap-asset-actions > a:hover .svg-icon,
-.snap-asset-actions .snap-edit-more-dropdown:hover .svg-icon,
-.snap-asset-actions .snap-asset-move:hover .svg-icon,
-.snap-asset-actions > a:focus .svg-icon,
-.snap-asset-actions .snap-edit-more-dropdown:focus .svg-icon,
-.snap-asset-actions .snap-asset-move:focus .svg-icon {
+.cass-asset-actions > a:hover .svg-icon,
+.cass-asset-actions .cass-edit-more-dropdown:hover .svg-icon,
+.cass-asset-actions .cass-asset-move:hover .svg-icon,
+.cass-asset-actions > a:focus .svg-icon,
+.cass-asset-actions .cass-edit-more-dropdown:focus .svg-icon,
+.cass-asset-actions .cass-asset-move:focus .svg-icon {
   transform: scale(1.1);
   border-color: #AFA79F;
 }
-.snap-asset-actions .svg-icon {
+.cass-asset-actions .svg-icon {
   border-radius: 100%;
   border: 1px solid white;
   width: 1.75em;
@@ -9494,33 +9494,33 @@ form.togglecompletion.ajaxing div {
   background-color: white;
   transition: all 0.4s ease-in-out;
 }
-.snap-asset-actions input[type=checkbox]:checked + .svg-icon {
+.cass-asset-actions input[type=checkbox]:checked + .svg-icon {
   background-color: #E2CC00 !important;
 }
-.snap-asset-actions .dropdown-menu {
+.cass-asset-actions .dropdown-menu {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   border: 0;
   padding: 0;
 }
-.snap-asset-actions .dropdown-menu a {
+.cass-asset-actions .dropdown-menu a {
   font-weight: inherit;
   font-size: 0.8em;
 }
-.snap-course-listening .snap-asset-actions {
+.cass-course-listening .cass-asset-actions {
   visibility: visible;
 }
-.snap-resource .snap-asset-actions {
+.cass-resource .cass-asset-actions {
   width: 100%;
 }
-.snap-resource .snap-asset-actions > a,
-.snap-resource .snap-asset-actions > a:hover,
-.snap-resource .snap-asset-actions div > a,
-.snap-resource .snap-asset-actions div > a:hover {
+.cass-resource .cass-asset-actions > a,
+.cass-resource .cass-asset-actions > a:hover,
+.cass-resource .cass-asset-actions div > a,
+.cass-resource .cass-asset-actions div > a:hover {
   color: #fff;
 }
-.snap-resource .snap-asset-actions > a,
-.snap-resource .snap-asset-actions .snap-edit-more-dropdown,
-.snap-resource .snap-asset-actions label {
+.cass-resource .cass-asset-actions > a,
+.cass-resource .cass-asset-actions .cass-edit-more-dropdown,
+.cass-resource .cass-asset-actions label {
   padding: 0.3em 7%;
   text-align: center;
   width: 33%;
@@ -9538,7 +9538,7 @@ form.togglecompletion.ajaxing div {
   display: inline-block;
 }
 /*  actions at the footer of an element */
-.section .snap-asset .actions {
+.section .cass-asset .actions {
   clear: both;
   float: none;
   position: absolute;
@@ -9548,30 +9548,30 @@ form.togglecompletion.ajaxing div {
   width: 100%;
   overflow: hidden;
 }
-.section .snap-asset .actions:before,
-.section .snap-asset .actions:after {
+.section .cass-asset .actions:before,
+.section .cass-asset .actions:after {
   content: " ";
   display: table;
 }
-.section .snap-asset .actions:after {
+.section .cass-asset .actions:after {
   clear: both;
 }
-.section .snap-asset .actions:before,
-.section .snap-asset .actions:after {
+.section .cass-asset .actions:before,
+.section .cass-asset .actions:after {
   content: " ";
   display: table;
 }
-.section .snap-asset .actions:after {
+.section .cass-asset .actions:after {
   clear: both;
 }
-.section .snap-asset .actions .moodle-actionmenu {
+.section .cass-asset .actions .moodle-actionmenu {
   width: 100%;
   max-width: 320px;
 }
-.section .snap-asset .actions .moodle-actionmenu .menubar {
+.section .cass-asset .actions .moodle-actionmenu .menubar {
   text-align: right;
 }
-.section .snap-asset .actions .moodle-actionmenu > ul {
+.section .cass-asset .actions .moodle-actionmenu > ul {
   margin: 0;
 }
 /* add bg colour for actions when editing */
@@ -9582,13 +9582,13 @@ form.togglecompletion.ajaxing div {
 .action-menu-shown .actions {
   background-color: transparent;
 }
-.section .snap-asset .editing_move {
+.section .cass-asset .editing_move {
   padding: 0 2%;
 }
 div.commands ul.menubar {
   margin: 0;
 }
-.jsenabled .snap-asset .moodle-actionmenu[data-enhance] .toggle-display.textmenu {
+.jsenabled .cass-asset .moodle-actionmenu[data-enhance] .toggle-display.textmenu {
   text-decoration: none;
   padding: 0.5em 1em;
   margin: 0;
@@ -9612,7 +9612,7 @@ div.commands ul.menubar {
 .action-menu-shown .moodle-actionmenu > ul > li {
   display: block;
 }
-.editing .snap-asset .actions .menu {
+.editing .cass-asset .actions .menu {
   position: relative;
   display: block;
   visibility: hidden;
@@ -9628,16 +9628,16 @@ div.commands ul.menubar {
   transform-origin: 100% 100%;
   transition: transform 0.3s;
 }
-.editing .snap-asset.action-menu-shown .actions .editing_move,
-.editing .snap-asset.action-menu-shown .actions [class*='group'] {
+.editing .cass-asset.action-menu-shown .actions .editing_move,
+.editing .cass-asset.action-menu-shown .actions [class*='group'] {
   display: none;
 }
-.editing .snap-asset.action-menu-shown .actions .menu[style] {
+.editing .cass-asset.action-menu-shown .actions .menu[style] {
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
 }
-.editing .snap-asset.action-menu-shown .actions .menu {
+.editing .cass-asset.action-menu-shown .actions .menu {
   visibility: visible;
   transform: scale(1);
   transition: transform 0.3s;
@@ -9658,7 +9658,7 @@ span.editinstructions {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
 }
 /* forum unread posts button */
-.snap-asset .unread {
+.cass-asset .unread {
   display: inline-block;
   background: #6C953C;
   border-radius: 1.618em;
@@ -9668,7 +9668,7 @@ span.editinstructions {
   line-height: 1em;
   color: #fff;
 }
-.snap-asset .unread a {
+.cass-asset .unread a {
   color: #fff;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
@@ -9768,7 +9768,7 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   border: initial;
   font-weight: 300;
 }
-#snap-course-footer {
+#cass-course-footer {
   padding: 0 3.444%;
   background-color: #eae9e7;
 }
@@ -9875,17 +9875,17 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   display: none;
 }
 .section-drop,
-.snap-move-note {
+.cass-move-note {
   background: transparent url("[[pix:theme|move_here]]") no-repeat 50% 80%;
   background-size: 2.5em 2.5em;
 }
-.snap-move-section .section-drop {
+.cass-move-section .section-drop {
   display: block;
 }
-.snap-move-section .section-drop:hover {
+.cass-move-section .section-drop:hover {
   border-color: #E2CC00;
 }
-#snap-footer-alert {
+#cass-footer-alert {
   position: fixed;
   z-index: 1;
   bottom: 0;
@@ -9899,17 +9899,17 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   overflow: hidden;
   transition: all 0.4s ease-in-out;
 }
-#snap-footer-alert .spinner-three-quarters {
+#cass-footer-alert .spinner-three-quarters {
   margin-left: 1em;
   width: 1em;
   height: 1em;
 }
-#snap-footer-alert.snap-footer-alert-visible {
+#cass-footer-alert.cass-footer-alert-visible {
   padding: 0.5em 0;
   max-height: 200px;
   z-index: 2;
 }
-.snap-footer-alert-title {
+.cass-footer-alert-title {
   text-transform: capitalize;
   color: #fff !important;
   display: inline-block;
@@ -9920,53 +9920,53 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   margin-left: 4%;
   width: 68.2%;
 }
-.snap-footer-alert-cancel {
+.cass-footer-alert-cancel {
   float: right;
   margin-right: 4%;
   color: #fff !important;
   opacity: 0.8;
   visibility: hidden;
 }
-.snap-footer-alert-cancel:hover {
+.cass-footer-alert-cancel:hover {
   color: #fff;
   opacity: 1;
 }
-.snap-footer-alert-cancel.state-visible {
+.cass-footer-alert-cancel.state-visible {
   visibility: visible;
 }
-.snap-move-inprogress .snap-moving,
-.snap-move-inprogress .snap-modchooser,
-.snap-move-inprogress .edit-summary,
-.snap-move-inprogress .snap-asset-actions .snap-edit-asset,
-.snap-move-inprogress .snap-asset-actions .snap-edit-more-dropdown,
-.snap-move-inprogress .snap-section-editing,
-.snap-move-inprogress .snap-modchooser,
-.snap-move-inprogress .snap-dropzone {
+.cass-move-inprogress .cass-moving,
+.cass-move-inprogress .cass-modchooser,
+.cass-move-inprogress .edit-summary,
+.cass-move-inprogress .cass-asset-actions .cass-edit-asset,
+.cass-move-inprogress .cass-asset-actions .cass-edit-more-dropdown,
+.cass-move-inprogress .cass-section-editing,
+.cass-move-inprogress .cass-modchooser,
+.cass-move-inprogress .cass-dropzone {
   display: none !important;
 }
-.snap-move-inprogress.snap-move-section .snap-asset-actions,
-.snap-move-inprogress.snap-move-section .snap-asset .togglecompletion {
+.cass-move-inprogress.cass-move-section .cass-asset-actions,
+.cass-move-inprogress.cass-move-section .cass-asset .togglecompletion {
   display: none !important;
 }
-.snap-move-inprogress .actions {
+.cass-move-inprogress .actions {
   display: none;
 }
-.snap-asset.movefinished {
+.cass-asset.movefinished {
   animation: fadein 0.5s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
-.snap-move-note,
-.snap-drop.asset-drop {
+.cass-move-note,
+.cass-drop.asset-drop {
   display: none;
 }
-.snap-move-asset .snap-asset:not(.asset-moving) {
+.cass-move-asset .cass-asset:not(.asset-moving) {
   border: 2px dashed #AFA79F;
 }
-.snap-move-asset .snap-resource:not(.asset-moving) {
+.cass-move-asset .cass-resource:not(.asset-moving) {
   border: 2px dashed white;
 }
-.snap-move-asset .snap-asset:not(.asset-moving) .snap-move-note {
+.cass-move-asset .cass-asset:not(.asset-moving) .cass-move-note {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -9978,7 +9978,7 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   padding: 1em;
   display: block;
 }
-.snap-move-asset .snap-drop.asset-drop {
+.cass-move-asset .cass-drop.asset-drop {
   display: block;
   clear: both;
   border: 2px dashed #AFA79F;
@@ -9988,7 +9988,7 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   text-align: center;
   cursor: pointer;
 }
-#snap-light-box {
+#cass-light-box {
   display: none;
   position: fixed;
   box-sizing: border-box;
@@ -10000,35 +10000,35 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   z-index: 1000000;
   overflow-y: scroll;
 }
-#snap-light-box.state-visible {
+#cass-light-box.state-visible {
   display: block;
 }
-#snap-light-box #snap-light-box-close {
+#cass-light-box #cass-light-box-close {
   position: absolute;
   z-index: 2;
   top: 0.5em;
   right: 0.5em;
 }
-#snap-light-box .icon-close:before {
+#cass-light-box .icon-close:before {
   background: transparent url([[pix:theme|close_x]]) no-repeat 50% 50%;
 }
-#snap-light-box .resourcecontent audio {
+#cass-light-box .resourcecontent audio {
   margin: 1em auto;
 }
-#snap-light-box-content {
+#cass-light-box-content {
   width: 100%;
   padding: 1em 4%;
 }
 @media screen and (min-width: 768px) {
-  .snap-lightbox-description {
+  .cass-lightbox-description {
     overflow-y: auto;
     max-height: 80vh;
   }
 }
 /**
- * Snap Table of contents.
+ * Cass Table of contents.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2017 Blackboard Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -10059,60 +10059,60 @@ fieldset[disabled] a#changenumsections .reduce-sections {
   line-height: 1.75;
   color: #333;
 }
-#course-toc .snap-visible-section a {
+#course-toc .cass-visible-section a {
   color: #333;
   text-decoration: none;
 }
-#course-toc .snap-section-complete {
+#course-toc .cass-section-complete {
   width: 1.3em;
   height: 1.3em;
 }
 #course-toc .text + .text:before {
   content: " · ";
 }
-li.snap-visible-section:before {
+li.cass-visible-section:before {
   content: ">";
   float: right;
   line-height: 1.6em;
   font-weight: bold;
   padding-right: .614em;
 }
-#snap-course-wrapper {
+#cass-course-wrapper {
   margin: 0 3.44%;
   /* TOC heading. */
   /* TOC list. */
 }
-#snap-course-wrapper #region-main {
+#cass-course-wrapper #region-main {
   padding-top: 3.5em;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
-#snap-course-wrapper #course-toc {
+#cass-course-wrapper #course-toc {
   padding-top: 5.5em;
   font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 }
-#snap-course-wrapper .col-md-3 {
+#cass-course-wrapper .col-md-3 {
   padding: 0;
 }
-#snap-course-wrapper #toc-desktop-menu-heading {
+#cass-course-wrapper #toc-desktop-menu-heading {
   padding: 1em 0;
   border-bottom: 1px solid #eae9e7;
 }
-#snap-course-wrapper #chapters {
+#cass-course-wrapper #chapters {
   padding-left: 0;
   list-style: none;
 }
-#snap-course-wrapper #chapters li {
+#cass-course-wrapper #chapters li {
   margin-left: 0;
 }
-#snap-course-wrapper .toc-footer {
+#cass-course-wrapper .toc-footer {
   padding-bottom: 2em;
   display: none;
 }
-#snap-course-wrapper .toc-footer a {
+#cass-course-wrapper .toc-footer a {
   display: block;
   padding: 0.5em 0;
 }
-#snap-course-wrapper .toc-footer a img {
+#cass-course-wrapper .toc-footer a img {
   width: 1.5em;
   height: 1.5em;
 }
@@ -10223,17 +10223,17 @@ li.snap-visible-section:before {
 #page-header #toc-search-results {
   right: 0.8em;
 }
-#snap-course-wrapper #toc-search-results {
+#cass-course-wrapper #toc-search-results {
   left: -0.7em;
 }
 #toc-mobile-menu-toggle {
   display: none;
 }
 @media screen and (max-width: 992px) {
-  .snap-footer-alert-cancel {
+  .cass-footer-alert-cancel {
     margin-right: 3em;
   }
-  li.snap-visible-section {
+  li.cass-visible-section {
     background: #eee;
   }
   #toc-mobile-menu-toggle {
@@ -10295,42 +10295,42 @@ li.snap-visible-section:before {
   border-left: 0.3em solid;
   padding-left: 0.3em;
 }
-a.snap-personal-menu-more small {
+a.cass-personal-menu-more small {
   display: none;
 }
-a.snap-personal-menu-more .svg-icon {
+a.cass-personal-menu-more .svg-icon {
   margin: 0;
 }
 .fixy {
   display: none;
   background-color: #333;
 }
-.snap-fixy-open #primary-nav,
-.snap-fixy-open #snap-login {
+.cass-fixy-open #primary-nav,
+.cass-fixy-open #cass-login {
   display: block;
 }
-.snap-fixy-open #page,
-.snap-fixy-open #moodle-footer,
-.snap-fixy-open #fixy-trigger,
-.snap-fixy-open .bb_dashboard_link,
-.snap-fixy-open #admin-menu-trigger,
-.snap-fixy-open #newmessageoverlay,
-.snap-fixy-open #snap-home,
-.snap-fixy-open .skiplinks {
+.cass-fixy-open #page,
+.cass-fixy-open #moodle-footer,
+.cass-fixy-open #fixy-trigger,
+.cass-fixy-open .bb_dashboard_link,
+.cass-fixy-open #admin-menu-trigger,
+.cass-fixy-open #newmessageoverlay,
+.cass-fixy-open #cass-home,
+.cass-fixy-open .skiplinks {
   display: none;
 }
-.snap-my-courses-menu {
+.cass-my-courses-menu {
   display: inline;
   border: none;
   position: relative;
   padding: 1rem 1rem 1rem 0;
 }
-.snap-my-courses-menu .userpicture {
+.cass-my-courses-menu .userpicture {
   height: 2em;
   width: 2em;
   margin-left: 1rem;
 }
-.snap-my-courses-menu .message_badge_count {
+.cass-my-courses-menu .message_badge_count {
   position: absolute;
   padding-top: 0;
   background-image: none;
@@ -10367,12 +10367,12 @@ a.snap-personal-menu-more .svg-icon {
     margin-top: 1rem;
   }
 }
-.notloggedin header .snap-login-button {
+.notloggedin header .cass-login-button {
   margin-right: 4%;
 }
 .fixy-inner {
   margin: 0 auto;
-  animation-name: snap-drop;
+  animation-name: cass-drop;
   animation-iteration-count: once;
   animation-timing-function: ease-in-out;
   animation-duration: 0.3s;
@@ -10433,13 +10433,13 @@ a.snap-personal-menu-more .svg-icon {
 #fixy-content section {
   padding: 1em 0;
 }
-#snap-login.fixy input {
+#cass-login.fixy input {
   display: block;
   width: 92%;
   max-width: 23rem;
 }
-#snap-login.fixy input[type='text'],
-#snap-login.fixy input[type='password'] {
+#cass-login.fixy input[type='text'],
+#cass-login.fixy input[type='password'] {
   margin: 0 auto 0.5em;
   padding: 0 0.5em;
   background-color: #fff;
@@ -10447,18 +10447,18 @@ a.snap-personal-menu-more .svg-icon {
   border: 0;
   box-shadow: none;
 }
-#snap-login.fixy input:focus {
+#cass-login.fixy input:focus {
   outline: none;
 }
-#snap-login.fixy input[type='submit'] {
+#cass-login.fixy input[type='submit'] {
   margin: 0 auto 3.5em;
 }
-#snap-login.fixy h1 {
+#cass-login.fixy h1 {
   color: #fff;
   padding: 1rem 4%;
   margin: 0;
 }
-#snap-login.fixy label {
+#cass-login.fixy label {
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: 0.1em;
@@ -10470,10 +10470,10 @@ a.snap-personal-menu-more .svg-icon {
   width: 92%;
   max-width: 23rem;
 }
-#snap-login.fixy .fixy-inner {
+#cass-login.fixy .fixy-inner {
   min-height: 100vh;
 }
-#snap-login.fixy .subcontent.potentialidps {
+#cass-login.fixy .subcontent.potentialidps {
   width: auto;
   text-align: center;
 }
@@ -10580,16 +10580,16 @@ a.snap-personal-menu-more .svg-icon {
 #fixy-my-courses {
   position: relative;
 }
-.callstoaction section .snap-personal-menu-more,
-#fixy-my-courses .snap-personal-menu-more {
+.callstoaction section .cass-personal-menu-more,
+#fixy-my-courses .cass-personal-menu-more {
   position: absolute;
   top: 0.9rem;
   left: 0;
 }
-.callstoaction section .snap-personal-menu-more:hover .svg-icon,
-#fixy-my-courses .snap-personal-menu-more:hover .svg-icon,
-.callstoaction section .snap-personal-menu-more:focus .svg-icon,
-#fixy-my-courses .snap-personal-menu-more:focus .svg-icon {
+.callstoaction section .cass-personal-menu-more:hover .svg-icon,
+#fixy-my-courses .cass-personal-menu-more:hover .svg-icon,
+.callstoaction section .cass-personal-menu-more:focus .svg-icon,
+#fixy-my-courses .cass-personal-menu-more:focus .svg-icon {
   border: 1px solid #fff;
   transform: scale(1.1);
 }
@@ -10601,10 +10601,10 @@ a.snap-personal-menu-more .svg-icon {
   width: 36px;
   height: 36px;
 }
-.fixy .callstoaction #snap-personal-menu-deadlines,
-.fixy .callstoaction #snap-personal-menu-graded,
-.fixy .callstoaction #snap-personal-menu-grading,
-.fixy .callstoaction #snap-personal-menu-messages {
+.fixy .callstoaction #cass-personal-menu-deadlines,
+.fixy .callstoaction #cass-personal-menu-graded,
+.fixy .callstoaction #cass-personal-menu-grading,
+.fixy .callstoaction #cass-personal-menu-messages {
   min-height: 50px;
 }
 #fixy-hidden-courses {
@@ -10780,11 +10780,11 @@ a.snap-personal-menu-more .svg-icon {
 .header-hidden-courses.state-visible {
   display: inherit;
 }
-button.snap-icon-toggle.favoritetoggle {
+button.cass-icon-toggle.favoritetoggle {
   border-radius: 100%;
   border: 2px solid transparent;
 }
-button.snap-icon-toggle.favoritetoggle:focus {
+button.cass-icon-toggle.favoritetoggle:focus {
   border-color: #FEC111;
 }
 section#fixy-my-courses h2 {
@@ -10794,9 +10794,9 @@ a#fixy-close {
   padding-right: 3.444%;
 }
 /**
- * Snap core swatch.
+ * Cass core swatch.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -10822,10 +10822,10 @@ input[type="radio"] {
   width: 100%;
   margin: 0;
 }
-#snap-add-new-section .editor_atto_content {
+#cass-add-new-section .editor_atto_content {
   min-height: 250px !important;
 }
-#snap-add-new-section .editor_atto_wrap {
+#cass-add-new-section .editor_atto_wrap {
   margin-bottom: 1em;
 }
 .editor_atto_notification {
@@ -10920,16 +10920,16 @@ fieldset[disabled] #id_cancel:focus {
 .btn .badge {
   color: #fff;
 }
-.snap-form-required #id_name,
-.snap-form-required #id_externalurl,
-.snap-form-required #id_toolurl,
-.snap-form-required #id_sessionname {
+.cass-form-required #id_name,
+.cass-form-required #id_externalurl,
+.cass-form-required #id_toolurl,
+.cass-form-required #id_sessionname {
   width: 100%;
 }
-.snap-form-required select {
+.cass-form-required select {
   max-width: 30em;
 }
-.snap-form-required .editor_atto_content {
+.cass-form-required .editor_atto_content {
   min-height: 250px !important;
 }
 @media (min-width: 992px) {
@@ -10954,27 +10954,27 @@ fieldset[disabled] #id_cancel:focus {
   #id_name .small {
     font-size: 75%;
   }
-  .snap-form-required #fgroup_id_buttonar {
+  .cass-form-required #fgroup_id_buttonar {
     margin-top: 25px;
   }
-  .snap-form-advanced fieldset.collapsible legend a.fheader {
+  .cass-form-advanced fieldset.collapsible legend a.fheader {
     margin-left: -6px;
   }
-  .snap-form-advanced legend {
+  .cass-form-advanced legend {
     font-size: 1em;
   }
-  .snap-form-advanced select {
+  .cass-form-advanced select {
     max-width: 300px;
   }
-  .snap-form-advanced .collapsible-actions {
+  .cass-form-advanced .collapsible-actions {
     text-align: left;
   }
-  .snap-form-advanced .collapsible-actions .collapseexpand {
+  .cass-form-advanced .collapsible-actions .collapseexpand {
     margin-left: -6px;
   }
 }
 @media (max-width: 991px) {
-  .snap-form-required #fgroup_id_buttonar {
+  .cass-form-required #fgroup_id_buttonar {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -10988,20 +10988,20 @@ fieldset[disabled] #id_cancel:focus {
   }
 }
 @media (max-width: 767px) {
-  .snap-form-required #id_cancel {
+  .cass-form-required #id_cancel {
     margin-left: 0;
   }
-  .snap-form-required #id_submitbutton2 + #id_submitbutton {
+  .cass-form-required #id_submitbutton2 + #id_submitbutton {
     display: none;
   }
 }
-#id_s_theme_snap_resourcedisplay {
+#id_s_theme_cass_resourcedisplay {
   margin-left: -15px;
   margin-right: -15px;
   max-width: 100%;
 }
-#s_theme_snap_resourcedisplay_list,
-#s_theme_snap_resourcedisplay_card {
+#s_theme_cass_resourcedisplay_list,
+#s_theme_cass_resourcedisplay_card {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -11009,24 +11009,24 @@ fieldset[disabled] #id_cancel:focus {
   text-align: center;
 }
 @media (min-width: 768px) {
-  #s_theme_snap_resourcedisplay_list,
-  #s_theme_snap_resourcedisplay_card {
+  #s_theme_cass_resourcedisplay_list,
+  #s_theme_cass_resourcedisplay_card {
     float: left;
     width: 50%;
   }
 }
-#s_theme_snap_resourcedisplay_list + br,
-#s_theme_snap_resourcedisplay_card + br {
+#s_theme_cass_resourcedisplay_list + br,
+#s_theme_cass_resourcedisplay_card + br {
   display: none;
 }
-#s_theme_snap_resourcedisplay_list:before,
-#s_theme_snap_resourcedisplay_card:before {
+#s_theme_cass_resourcedisplay_list:before,
+#s_theme_cass_resourcedisplay_card:before {
   display: block;
 }
-#s_theme_snap_resourcedisplay_list:before {
+#s_theme_cass_resourcedisplay_list:before {
   content: url("[[pix:theme|list]]");
 }
-#s_theme_snap_resourcedisplay_card:before {
+#s_theme_cass_resourcedisplay_card:before {
   content: url("[[pix:theme|cards]]");
 }
 /**
@@ -11352,7 +11352,7 @@ fieldset[disabled] .path-admin-tool-lp [data-region="filtercompetencies"] button
 /**
  * Moodle user profile page.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2017 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -11496,23 +11496,23 @@ fieldset[disabled] .path-admin-tool-lp [data-region="filtercompetencies"] button
   list-style-type: none;
 }
 /**
- * Snap user swatch.
+ * Cass user swatch.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 .news-article-message *[style],
-.snap-image-summary *[style],
+.cass-image-summary *[style],
 .summary-text *[style],
 .summary p[style],
 .summary div[style],
 .sitetopic p[style],
 .sitetopic div[style],
-.snap-activity .contentafterlink *[style],
+.cass-activity .contentafterlink *[style],
 .signuppanel *[style],
 .signuppanel .text_to_html *[style],
-.snap-lightbox-description *[style] {
+.cass-lightbox-description *[style] {
   color: inherit !important;
   font-size: inherit !important;
   line-height: inherit !important;
@@ -11550,7 +11550,7 @@ a:hover,
 .dropdown-toggle:hover {
   outline: 0;
 }
-.js-snap-asset-move:focus + label .svg-icon {
+.js-cass-asset-move:focus + label .svg-icon {
   outline: 3px solid #b02a1a;
 }
 a:focus,
@@ -11572,27 +11572,27 @@ a:hover,
 #fixy-my-courses .courseinfo a:hover {
   color: #8c2215;
 }
-.section li.snap-native .activityinstance .snap-asset-link a {
+.section li.cass-native .activityinstance .cass-asset-link a {
   color: #b02a1a;
 }
-.section li.snap-native .activityinstance .snap-asset-link a:visited {
+.section li.cass-native .activityinstance .cass-asset-link a:visited {
   color: #b02a1a;
 }
-.section li.snap-native .activityinstance .snap-asset-link a:focus,
-.section li.snap-native .activityinstance .snap-asset-link a:hover {
+.section li.cass-native .activityinstance .cass-asset-link a:focus,
+.section li.cass-native .activityinstance .cass-asset-link a:hover {
   color: #8c2215;
 }
-.snap-asset-link a {
+.cass-asset-link a {
   color: #333;
 }
-.snap-asset-link a:focus,
-.snap-asset-link a:hover {
+.cass-asset-link a:focus,
+.cass-asset-link a:hover {
   color: #8c2215;
 }
-.snap-due-date {
+.cass-due-date {
   background-color: #b02a1a;
 }
-.snap-due-date.snap-date-overdue {
+.cass-due-date.cass-date-overdue {
   background-color: #C9282D;
 }
 #dateselector-calendar-panel .yui3-calendar-day {
@@ -11612,7 +11612,7 @@ a:hover,
 #course_about,
 .user-grade td.feedbacktext,
 #course_teachers .text_to_html,
-.snap-lightbox-description,
+.cass-lightbox-description,
 #page-mod-book-print {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
   max-width: 960px;
@@ -11639,7 +11639,7 @@ legend,
 .form_autocomplete_selection,
 .form_autocomplete_suggestions,
 .collapsibleregioncaption,
-.snap-featured-course-title {
+.cass-featured-course-title {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
   color: #000;
 }
@@ -11658,7 +11658,7 @@ h6,
   color: #000;
 }
 .pagemod-readmore,
-.snap-action-icon,
+.cass-action-icon,
 #coursetools-list a {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
 }
@@ -11667,7 +11667,7 @@ h6,
 .nav-pills > li.active > a:focus {
   background-color: #b02a1a;
 }
-.snap-media-body p {
+.cass-media-body p {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
 }
 #fixy-trigger .message_badge_count {
@@ -11688,7 +11688,7 @@ h6,
 #fixy-mobile-menu .svg-icon {
   border: 1px solid #b02a1a;
 }
-.snap-unread-marker {
+.cass-unread-marker {
   color: #b02a1a;
 }
 #page-mod-quiz-review .arrow_link,
@@ -12072,7 +12072,7 @@ input[type="reset"][disabled],
 #page-login-index #page,
 .news-article-image,
 .news-article-preview,
-#snap-footer-alert,
+#cass-footer-alert,
 #toc-mobile-menu-toggle {
   background-color: #b02a1a;
 }
@@ -12090,7 +12090,7 @@ input[type="reset"][disabled],
 #page-mod-survey-save #region-main {
   background-color: #b02a1a;
 }
-#snap-login .subcontent.potentialidps {
+#cass-login .subcontent.potentialidps {
   border-top: 1px solid #b02a1a;
 }
 /* highlight selected menu iteam logic */
@@ -12104,8 +12104,8 @@ a[href="#sections"] {
   color: #b02a1a;
   background-color: transparent;
 }
-li.snap-resource,
-li.snap-activity {
+li.cass-resource,
+li.cass-activity {
   border-top-color: #b02a1a;
 }
 .yui-skin-sam .yuimenu a.yuimenuitemlabel:hover,
@@ -12213,11 +12213,11 @@ img.iconhelp:hover {
 .dropdown-menu > li > a:focus {
   background-color: #b02a1a;
 }
-#snap-changecoverimageconfirmation.disabled .ok,
-#snap-changecoverimageconfirmation.disabled .ok:visited,
-#snap-changecoverimageconfirmation.disabled .ok:hover,
-#snap-changecoverimageconfirmation.disabled .ok:active,
-#snap-changecoverimageconfirmation.disabled .ok:focus {
+#cass-changecoverimageconfirmation.disabled .ok,
+#cass-changecoverimageconfirmation.disabled .ok:visited,
+#cass-changecoverimageconfirmation.disabled .ok:hover,
+#cass-changecoverimageconfirmation.disabled .ok:active,
+#cass-changecoverimageconfirmation.disabled .ok:focus {
   color: #fff;
   border-color: #fff;
   background-color: #b02a1a;
@@ -13047,17 +13047,17 @@ iframe {
   top: 2px;
   padding-right: .4em;
 }
-.snap-assettype {
+.cass-assettype {
   display: none;
 }
-.activity.modtype_hsuforum .snap-media-body {
+.activity.modtype_hsuforum .cass-media-body {
   color: #333;
   width: initial;
 }
-.section li.snap-asset .activityinstance .snap-asset-link a {
+.section li.cass-asset .activityinstance .cass-asset-link a {
   color: #333;
 }
-.section li.snap-asset .activityinstance .snap-asset-link a:hover {
+.section li.cass-asset .activityinstance .cass-asset-link a:hover {
   text-decoration: underline;
 }
 .activitycompletemodal {
@@ -13201,10 +13201,10 @@ span.activitycompletenextmodname {
   padding: 3.32em 300% .85em;
   line-height: 1.23em;
 }
-.section li.snap-asset:last-child {
+.section li.cass-asset:last-child {
   border-left: none;
 }
-.snap-course-listening #region-main {
+.cass-course-listening #region-main {
   /*width: calc(~"81%" - unit(@coursenav, px)); */
   float: right;
   margin: 0 calc(50% - 25%) 0 0;
@@ -13214,22 +13214,22 @@ span.activitycompletenextmodname {
   width: 100%;
 }
 @media screen and (max-width: 1200px) {
-  .snap-course-listening #region-main {
+  .cass-course-listening #region-main {
     margin: 0 calc(50% - 25%) 0 0;
   }
 }
 @media screen and (max-width: 992px) {
-  .snap-course-listening #region-main {
+  .cass-course-listening #region-main {
     margin: 0;
     width: 100%;
     max-width: 100%;
   }
 }
-.snap-course-listening #region-main #page-header {
+.cass-course-listening #region-main #page-header {
   min-width: 312.2px;
   float: left;
 }
-.snap-course-listening #region-main h2.sectionname {
+.cass-course-listening #region-main h2.sectionname {
   font-size: 3.15em;
   padding-bottom: 1em;
   color: #000;
@@ -13322,7 +13322,7 @@ div#page-mast {
 h1#fixy-profile-link {
   margin: .5em 0 0;
 }
-h4.snap-asset-link.snap-activity-current {
+h4.cass-asset-link.cass-activity-current {
   font-weight: bold;
 }
 .boxStyle {
@@ -13369,7 +13369,7 @@ h4.snap-asset-link.snap-activity-current {
   background: #e2cc00;
 }
 @media (min-width: 62em) {
-  #region-main .snap-activity.modtype_hsuforum .snap-media-object {
+  #region-main .cass-activity.modtype_hsuforum .cass-media-object {
     padding: 0 1em 1em 0;
     width: 33%;
   }
@@ -13386,7 +13386,7 @@ h4.snap-asset-link.snap-activity-current {
 .activityinstance .instancename {
   display: none;
 }
-.snap-media-body p {
+.cass-media-body p {
   display: none;
 }
 .path-mod #page-header {
@@ -13582,8 +13582,8 @@ body#page-course-edit div#fitem_id_theme {
 #page-mod-forum-post .row.maincontent.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd,
 #page-mod-forum-discuss .row.maincontent.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft,
 #page-mod-forum-post .row.maincontent.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft,
-#page-mod-forum-discuss .row.maincontent#id_s_theme_snap_resourcedisplay,
-#page-mod-forum-post .row.maincontent#id_s_theme_snap_resourcedisplay,
+#page-mod-forum-discuss .row.maincontent#id_s_theme_cass_resourcedisplay,
+#page-mod-forum-post .row.maincontent#id_s_theme_cass_resourcedisplay,
 #page-mod-forum-discuss .row.maincontent#page-user-profile .userprofile .profile_tree,
 #page-mod-forum-post .row.maincontent#page-user-profile .userprofile .profile_tree,
 #page-mod-forum-discuss .row.maincontent.path-course.path-user .userprofile .profile_tree,
@@ -13695,12 +13695,12 @@ img.smallicon.navicon {
   transition: none !important;
   animation-name: none !important;
 }
-.behat-site #snap-footer-alert {
+.behat-site #cass-footer-alert {
   position: relative;
   transition-property: none !important;
 }
 /**setting:logo**/
-/**setting:snap-user-bootswatch**/
+/**setting:cass-user-bootswatch**/
 /**setting:customcss**/
 body {
   margin: 8px;

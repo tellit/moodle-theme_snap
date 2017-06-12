@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-use theme_snap\webservice\definition_helper;
-use theme_snap\renderables\course_toc;
+use theme_cass\webservice\definition_helper;
+use theme_cass\renderables\course_toc;
 
 /**
  * Testable version of definition_helper.
@@ -154,7 +154,7 @@ class wsparam_notype {
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_snap_webservice_definition_helper_test extends advanced_testcase {
+class theme_cass_webservice_definition_helper_test extends advanced_testcase {
 
     public function test_classname() {
         $this->resetAfterTest();
@@ -335,7 +335,7 @@ EOF;
         $definition = $helper->get_definition();
 
         // Wipe cache so we can test nothing in cache.
-        $cache = cache::make('theme_snap', 'webservicedefinitions');
+        $cache = cache::make('theme_cass', 'webservicedefinitions');
         $data = $cache->delete($classname);
 
         // Test empty cache.

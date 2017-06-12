@@ -15,28 +15,28 @@
 #
 # Tests for manual completion.
 #
-# @package   theme_snap
+# @package   theme_cass
 # @author    Guy Thomas <gthomas@moodlerooms.com>
 # @copyright Copyright (c) 2017 Blackboard Inc.
 # @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
+@theme @theme_cass
 Feature: Bootstrap plugin is made available to global jquery instance without wiping over it.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
 
   @javascript
   Scenario: Tooltip shows for admin menu.
-    Given I log in as "admin" (theme_snap)
+    Given I log in as "admin" (theme_cass)
     And I see a bootstrap tooltip on hovering over the admin menu
 
   @javascript
   Scenario: Bootstrap code does not overwrite global jquery.
-    Given I log in as "admin" (theme_snap)
-    And I am on the snap jquery bootstrap test page
+    Given I log in as "admin" (theme_cass)
+    And I am on the cass jquery bootstrap test page
     And ".ui-progressbar-overlay" "css_element" should exist
     And I click on "Launch demo modal" "button"
     And I should see "Hey there buddy!"

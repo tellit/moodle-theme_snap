@@ -29,13 +29,13 @@ use Behat\Mink\Exception\ExpectationException as ExpectationException,
 require_once(__DIR__ . '/../../../../lib/tests/behat/behat_navigation.php');
 
 /**
- * Overrides to make behat navigation work with Snap.
+ * Overrides to make behat navigation work with Cass.
  *
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2017 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class behat_theme_snap_behat_navigation extends behat_navigation {
+class behat_theme_cass_behat_navigation extends behat_navigation {
 
     /**
      * Check that the browser js engine can target things via xpath (document.evaluate).
@@ -79,7 +79,7 @@ EOF;
     }
 
     /**
-     * Override core behat find_node_in_navigation so that expanding navigation menu is faster and works in Snap.
+     * Override core behat find_node_in_navigation so that expanding navigation menu is faster and works in Cass.
      * Related core issue: MDL-58023.
      */
     protected function find_node_in_navigation($nodetext, $parentnodes, $nodetype = 'link') {

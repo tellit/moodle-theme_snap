@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-use theme_snap\services\course;
-use theme_snap\renderables\course_card;
-use theme_snap\local;
+use theme_cass\services\course;
+use theme_cass\renderables\course_card;
+use theme_cass\local;
 
 /**
  * Test course card service.
- * @package   theme_snap
+ * @package   theme_cass
  * @author    gthomas2
  * @copyright Copyright (c) 2016 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class theme_snap_services_course_test extends \advanced_testcase {
+class theme_cass_services_course_test extends \advanced_testcase {
 
     /**
      * @var stdClass
@@ -53,7 +53,7 @@ class theme_snap_services_course_test extends \advanced_testcase {
 
         $this->resetAfterTest();
 
-        $CFG->theme = 'snap';
+        $CFG->theme = 'cass';
 
         // Create 10 courses.
         for ($c = 0; $c < 10; $c++) {
@@ -247,9 +247,9 @@ class theme_snap_services_course_test extends \advanced_testcase {
         $page = $generator->create_module('page', array('course' => $course->id, 'name' => 'test page'));
 
         $toc = $this->courseservice->course_toc('testlistlarge');
-        $this->assertTrue($toc->modules[0] instanceof theme_snap\renderables\course_toc_module);
+        $this->assertTrue($toc->modules[0] instanceof theme_cass\renderables\course_toc_module);
         $this->assertTrue($toc->modules[0]->url === '#section-0&module-'.$page->cmid);
-        $this->assertTrue($toc instanceof theme_snap\renderables\course_toc);
+        $this->assertTrue($toc instanceof theme_cass\renderables\course_toc);
         $this->assertEquals(true, $toc->formatsupportstoc);
         $this->assertEquals('list-large', $toc->chapters->listlarge);
         $this->assertCount(11, $toc->chapters->chapters);
@@ -285,7 +285,7 @@ class theme_snap_services_course_test extends \advanced_testcase {
         $chapters = $this->courseservice->course_toc_chapters('testcourse');
 
         $this->assertCount(3, $chapters->chapters);
-        $this->assertTrue($chapters->chapters[0] instanceof theme_snap\renderables\course_toc_chapter);
+        $this->assertTrue($chapters->chapters[0] instanceof theme_cass\renderables\course_toc_chapter);
     }
     
     public function test_course_toc_chapters_escaped_chars() {
@@ -313,7 +313,7 @@ class theme_snap_services_course_test extends \advanced_testcase {
 
         $chapters = $this->courseservice->course_toc_chapters('testcourse');
 
-        $tochtml = $OUTPUT->render_from_template('theme_snap/course_toc_chapters',
+        $tochtml = $OUTPUT->render_from_template('theme_cass/course_toc_chapters',
             (object) ['chapters' => $chapters->chapters, 'listlarge' => (count($chapters) > 9)]);
         $pattern = '/>(.*)<\/a>/';
         preg_match_all($pattern, $tochtml, $matches);
@@ -340,21 +340,21 @@ class theme_snap_services_course_test extends \advanced_testcase {
         $this->assertTrue(isset($highlight['toc']));
         $actionmodel = $highlight['actionmodel'];
         $toc = $highlight['toc'];
-        $this->assertTrue($actionmodel instanceof theme_snap\renderables\course_action_section_highlight);
-        $this->assertTrue($toc instanceof theme_snap\renderables\course_toc);
+        $this->assertTrue($actionmodel instanceof theme_cass\renderables\course_action_section_highlight);
+        $this->assertTrue($toc instanceof theme_cass\renderables\course_toc);
 
         // Check that action model has toggled after highlight.
-        $this->assertEquals('snap-highlight snap-marked', $actionmodel->class);
+        $this->assertEquals('cass-highlight cass-marked', $actionmodel->class);
         $this->assertEquals('This topic is highlighted as the current topic', $actionmodel->title);
         $this->assertContains('marker=0', $actionmodel->url);
 
         // Unhiglight the section.
         $highlight = $this->courseservice->highlight_section('testcourse', 3, false);
         $actionmodel = $highlight['actionmodel'];
-        $this->assertTrue($actionmodel instanceof theme_snap\renderables\course_action_section_highlight);
+        $this->assertTrue($actionmodel instanceof theme_cass\renderables\course_action_section_highlight);
 
         // Check that action model now corresponds to unhighlighted state.
-        $this->assertEquals('snap-highlight snap-marker', $actionmodel->class);
+        $this->assertEquals('cass-highlight cass-marker', $actionmodel->class);
         $this->assertEquals('Highlight this topic as the current topic', $actionmodel->title);
         $this->assertContains('marker=3', $actionmodel->url);
     }
@@ -377,22 +377,22 @@ class theme_snap_services_course_test extends \advanced_testcase {
         $this->assertTrue(isset($visibility['toc']));
         $actionmodel = $visibility['actionmodel'];
         $toc = $visibility['toc'];
-        $this->assertTrue($actionmodel instanceof theme_snap\renderables\course_action_section_visibility);
-        $this->assertTrue($toc instanceof theme_snap\renderables\course_toc);
+        $this->assertTrue($actionmodel instanceof theme_cass\renderables\course_action_section_visibility);
+        $this->assertTrue($toc instanceof theme_cass\renderables\course_toc);
 
 
         // Check that action model has toggled after section hidden.
-        $this->assertEquals('snap-visibility snap-show', $actionmodel->class);
+        $this->assertEquals('cass-visibility cass-show', $actionmodel->class);
         $this->assertEquals('Show topic', $actionmodel->title);
         $this->assertContains('show=3', $actionmodel->url);
 
         // Unhide the section.
         $visibility = $this->courseservice->set_section_visibility('testcourse', 3, true);
         $actionmodel = $visibility['actionmodel'];
-        $this->assertTrue($actionmodel instanceof theme_snap\renderables\course_action_section_visibility);
+        $this->assertTrue($actionmodel instanceof theme_cass\renderables\course_action_section_visibility);
 
         // Check that action model now corresponds to unhighlighted state.
-        $this->assertEquals('snap-visibility snap-hide', $actionmodel->class);
+        $this->assertEquals('cass-visibility cass-hide', $actionmodel->class);
         $this->assertEquals('Hide topic', $actionmodel->title);
         $this->assertContains('hide=3', $actionmodel->url);
     }
@@ -404,10 +404,10 @@ class theme_snap_services_course_test extends \advanced_testcase {
         $service = $this->courseservice;
         $service->setfavorite($this->courses[0]->shortname, true, $this->user1->id);
         $service->setfavorite($this->courses[1]->shortname, true, $this->user1->id);
-        $favorites = $DB->get_records('theme_snap_course_favorites', array('userid'=>$this->user1->id));
+        $favorites = $DB->get_records('theme_cass_course_favorites', array('userid'=>$this->user1->id));
         $this->assertNotEmpty($favorites);
         delete_user($this->user1);
-        $favorites = $DB->get_records('theme_snap_course_favorites', array('userid'=>$this->user1->id));
+        $favorites = $DB->get_records('theme_cass_course_favorites', array('userid'=>$this->user1->id));
         $this->assertEmpty($favorites);
     }
 

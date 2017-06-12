@@ -17,12 +17,12 @@
 /**
  * Renderer functions shared between multiple renderers.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\output;
+namespace theme_cass\output;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,7 +31,7 @@ use core_component;
 use html_writer;
 use moodle_url;
 use stdClass;
-use theme_snap\local;
+use theme_cass\local;
 
 class shared extends \renderer_base {
 
@@ -142,7 +142,7 @@ class shared extends \renderer_base {
         // Add the javascript to the page.
         $jsmodule = array(
             'name' => 'coursedndupload',
-            'fullpath' => '/theme/snap/javascript/dndupload.js',
+            'fullpath' => '/theme/cass/javascript/dndupload.js',
             'strings' => array(
                 array('addfilehere', 'moodle'),
                 array('dndworkingfiletextlink', 'moodle'),
@@ -169,7 +169,7 @@ class shared extends \renderer_base {
         );
 
         $PAGE->requires->js('/course/dndupload.js');
-        $PAGE->requires->js_init_call('M.theme_snap.dndupload.init', $vars, true, $jsmodule);
+        $PAGE->requires->js_init_call('M.theme_cass.dndupload.init', $vars, true, $jsmodule);
     }
 
 
@@ -238,7 +238,7 @@ class shared extends \renderer_base {
             'deletingassetname',
             'deletesectionconfirm',
             'deletingsection'
-        ], 'theme_snap');
+        ], 'theme_cass');
 
         // Include section-specific strings for formats which support sections.
         if (course_format_uses_sections($course->format)) {
@@ -293,7 +293,7 @@ class shared extends \renderer_base {
             'movingdropsectionhelp',
             'movingstartedhelp',
             'notpublished'
-        ), 'theme_snap');
+        ), 'theme_cass');
 
         $PAGE->requires->strings_for_js([
             'ok',
@@ -375,8 +375,8 @@ class shared extends \renderer_base {
         }
         
         $initvars = [$coursevars, $pagehascoursecontent, get_max_upload_file_size($CFG->maxbytes), $forcepwdchange, $theme_settings, $mod];
-        $PAGE->requires->js_call_amd('theme_snap/snap', 'snapInit', $initvars);
-        $PAGE->requires->js_call_amd('theme_snap/breadcrumb', 'init');
+        $PAGE->requires->js_call_amd('theme_cass/cass', 'cassInit', $initvars);
+        $PAGE->requires->js_call_amd('theme_cass/breadcrumb', 'init');
 
         // Does the page have editable course content?
         if ($pagehascoursecontent && $PAGE->user_allowed_editing()) {
@@ -423,7 +423,7 @@ class shared extends \renderer_base {
 
         // Output warning.
         return ($OUTPUT->notification(get_string('warnsiteformatflexpage',
-                'theme_snap', $url->out())));
+                'theme_cass', $url->out())));
     }
 
     /**
@@ -514,7 +514,7 @@ class shared extends \renderer_base {
                     $enrolurl = $plugin->get_unenrolself_link($instance);
                     if ($enrolurl) {
                         $selfenrol = true;
-                        $enrolstr = get_string('unenrolme', 'theme_snap');
+                        $enrolstr = get_string('unenrolme', 'theme_cass');
                         break;
                     }
                 } else {
@@ -539,11 +539,11 @@ class shared extends \renderer_base {
             if (!empty($coverimageurl)) {
                 $iconurl = $coverimageurl;
             }
-            $settingsicon = '<img src="'.$iconurl.'" class="snap-cover-icon svg-icon" alt="" role="presentation">';
+            $settingsicon = '<img src="'.$iconurl.'" class="cass-cover-icon svg-icon" alt="" role="presentation">';
 
             $links[] = array(
                 'link' => 'course/edit.php?id='.$COURSE->id,
-                'title' => $settingsicon.get_string('editcoursesettings', 'theme_snap'),
+                'title' => $settingsicon.get_string('editcoursesettings', 'theme_cass'),
             );
         }
 
@@ -607,7 +607,7 @@ class shared extends \renderer_base {
                 $participanticons = '<img src="'.$iconurl.'" alt="" role="presentation">'; 
             }
             
-            $participanticons = '<div class="snap-participant-icons">'.$participanticons.'</div>';
+            $participanticons = '<div class="cass-participant-icons">'.$participanticons.'</div>';
             $links[] = array(
                 'link' => 'user/index.php?id='.$COURSE->id.'&mode=1',
                 'title' => $participanticons.$usercount.' '.get_string('participants')
@@ -632,7 +632,7 @@ class shared extends \renderer_base {
         if (array_key_exists('pld', $localplugins) && has_capability('moodle/course:update', $coursecontext)) {
             $iconurl = $OUTPUT->pix_url('pld', 'theme');
             $pldicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
-            $pldname = get_string('pld', 'theme_snap');
+            $pldname = get_string('pld', 'theme_cass');
             $links[] = array(
                 'link' => 'local/pld/view.php?courseid='.$COURSE->id,
                 'title' => $pldicon.$pldname
@@ -703,13 +703,13 @@ class shared extends \renderer_base {
                 $editstring = get_string('turneditingoff');
             } else {
                 $url->param('edit', 'on');
-                $editstring = get_string('editcoursecontent', 'theme_snap');
+                $editstring = get_string('editcoursecontent', 'theme_cass');
             }
             $editblocks = '<div class="text-center"><a href="'.$url.'" class="btn btn-primary">'.$editstring.'</a></div><br>';
         }
 
         // Output course tools section.
-        $coursetools = get_string('coursetools', 'theme_snap');
+        $coursetools = get_string('coursetools', 'theme_cass');
         $iconurl = $OUTPUT->pix_url('course_dashboard', 'theme');
         $coursetoolsicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
         $o = '<h2>'.$coursetoolsicon.$coursetools.'</h2>';

@@ -19,7 +19,7 @@
  * This layout is baed on a moodle site index.php file but has been adapted to show news items in a different
  * way.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -38,14 +38,14 @@ $CFG->frontpageloggedin = '';
 $lastclosetag = '</div>';
 $maincontent = $OUTPUT->main_content();
 if (substr_compare($maincontent, $lastclosetag, -strlen($lastclosetag)) !== 0) {
-    $message = 'Main content does not have the expected div tag wrapping it, required for Snap Site News.';
+    $message = 'Main content does not have the expected div tag wrapping it, required for Cass Site News.';
     throw new coding_exception($message);
 }
 
-// Snap feature spots.
+// Cass feature spots.
 echo $this->feature_spot_cards();
 
-// Snap featured courses.
+// Cass featured courses.
 echo $this->featured_courses();
 
 echo substr($maincontent, 0, -strlen($lastclosetag));
@@ -60,7 +60,7 @@ foreach (explode(',', $frontpagelayout) as $section) {
     switch ($section) {
         case FRONTPAGENEWS:
             if ($SITE->newsitems) { // Print forums only when needed
-                // Snap specific override.
+                // Cass specific override.
                 echo $OUTPUT->site_frontpage_news();
             }
         break;

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @author    Guy Thomas <gthomas@moodlerooms.com>
  * @copyright Copyright (c) 2016 Blackboard Inc.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -74,12 +74,12 @@ define(['core/notification', 'core/ajax', 'core/templates', 'core/str'],
 
                 if (response.error || response.errorcode) {
 
-                    if (M.snapTheme.forcePassChange) {
+                    if (M.cassTheme.forcePassChange) {
                         var pwdChangeUrl = M.cfg.wwwroot+'/login/change_password.php';
                         // When a force password change is in effect, warn user in personal menu and redirect to
                         // password change page if appropriate.
                         if ($('#fixy-content').length) {
-                            str.get_string('forcepwdwarningpersonalmenu', 'theme_snap', pwdChangeUrl).done(
+                            str.get_string('forcepwdwarningpersonalmenu', 'theme_cass', pwdChangeUrl).done(
                                 function(forcePwdWarning) {
                                     var alertMsg = {"message": forcePwdWarning, "extraclasses": "force-pwd-warning"};
                                     templates.render('core/notification_warning', alertMsg)
@@ -147,7 +147,7 @@ define(['core/notification', 'core/ajax', 'core/templates', 'core/str'],
                             "sesskey" : M.cfg.sesskey,
                             "failedactionmsg" : failAction
                         },
-                        url: M.cfg.wwwroot + '/theme/snap/rest.php?action=get_loginstatus'
+                        url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_loginstatus'
                     }).done(function(thisResp) {
                         if (loginErrorShown) {
                             return true;

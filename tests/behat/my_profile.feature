@@ -1,4 +1,4 @@
-@mod @theme_snap
+@mod @theme_cass
 Feature: A user can see a link to their settings in their profile page
   In order to change my preferences
   As a user
@@ -6,14 +6,14 @@ Feature: A user can see a link to their settings in their profile page
 
     Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
     Given the following "users" exist:
       | username | firstname | lastname | email                |
       | student1 | Student   | 1        | student1@example.com |
 
     @javascript
     Scenario: a user sees the link in their profile page
-    Given I log in as "student1" (theme_snap)
+    Given I log in as "student1" (theme_cass)
     And I open the personal menu
     When I follow "Student 1"
     Then I should see "User details"
