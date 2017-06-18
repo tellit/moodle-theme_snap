@@ -80,7 +80,7 @@ a.cass-personal-menu-more{
         color: @body-bg;
         font-weight: 500;
         line-height: 1;
-        padding: .5em 0 .1em 3em;
+        padding: .5em 0 .1em 0;
         margin: 0;
         margin-bottom: 1em;
         font-size: 1rem;
@@ -565,8 +565,7 @@ a.cass-personal-menu-more{
 
 // Favorite toggle icons.
 button.cass-icon-toggle.favoritetoggle {
-    border-radius: 100%;
-    border: 2px solid transparent;
+   display: none;
 
     &:focus {
         border-color: #FEC111;
@@ -580,3 +579,17 @@ section#fixy-my-courses h2 {
 a#fixy-close {
     padding-right: 3.444%;
 }
+
+.cass-media-object>a>img, .cass-media-object>img {
+    float: left;
+    display: block;
+    width: 36px;
+    height: auto;
+    vertical-align: baseline;
+    margin-right: .614em;
+}
+
+.cass-media-object {
+    font-weight: 500;
+    padding: .5em 0;
+} 

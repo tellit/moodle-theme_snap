@@ -207,7 +207,7 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #b02a1a;
+  color: #8f182e;
   text-decoration: none;
 }
 a:hover,
@@ -445,11 +445,11 @@ mark,
   color: #AFA79F;
 }
 .text-primary {
-  color: #b02a1a;
+  color: #8f182e;
 }
 a.text-primary:hover,
 a.text-primary:focus {
-  color: #841f13;
+  color: #631120;
 }
 .text-success {
   color: #E2CC00;
@@ -481,11 +481,11 @@ a.text-danger:focus {
 }
 .bg-primary {
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 a.bg-primary:hover,
 a.bg-primary:focus {
-  background-color: #841f13;
+  background-color: #631120;
 }
 .bg-success {
   background-color: rgba(226, 204, 0, 0.1);
@@ -1673,25 +1673,25 @@ fieldset[disabled] a.btn {
 }
 .btn-default {
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .btn-default:focus,
 .btn-default.focus {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .btn-default:hover {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .btn-default:active:hover,
@@ -1704,7 +1704,7 @@ fieldset[disabled] a.btn {
 .btn-default.active.focus,
 .open > .dropdown-toggle.btn-default.focus {
   color: #fff;
-  background-color: #64180f;
+  background-color: #450c16;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .btn-default:active,
@@ -1721,35 +1721,35 @@ fieldset[disabled] .btn-default:focus,
 .btn-default.disabled.focus,
 .btn-default[disabled].focus,
 fieldset[disabled] .btn-default.focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .btn-default .badge {
-  color: #b02a1a;
+  color: #8f182e;
   background-color: #fff;
 }
 .btn-primary {
   color: #fff;
-  background-color: #b02a1a;
-  border-color: #b02a1a;
+  background-color: #8f182e;
+  border-color: #8f182e;
 }
 .btn-primary:focus,
 .btn-primary.focus {
   color: #fff;
-  background-color: #841f13;
-  border-color: #410f0a;
+  background-color: #631120;
+  border-color: #22060b;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #841f13;
-  border-color: #7b1d12;
+  background-color: #631120;
+  border-color: #5b0f1d;
 }
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   color: #fff;
-  background-color: #841f13;
-  border-color: #7b1d12;
+  background-color: #631120;
+  border-color: #5b0f1d;
 }
 .btn-primary:active:hover,
 .btn-primary.active:hover,
@@ -1761,8 +1761,8 @@ fieldset[disabled] .btn-default.focus {
 .btn-primary.active.focus,
 .open > .dropdown-toggle.btn-primary.focus {
   color: #fff;
-  background-color: #64180f;
-  border-color: #410f0a;
+  background-color: #450c16;
+  border-color: #22060b;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -1778,11 +1778,11 @@ fieldset[disabled] .btn-primary:focus,
 .btn-primary.disabled.focus,
 .btn-primary[disabled].focus,
 fieldset[disabled] .btn-primary.focus {
-  background-color: #b02a1a;
-  border-color: #b02a1a;
+  background-color: #8f182e;
+  border-color: #8f182e;
 }
 .btn-primary .badge {
-  color: #b02a1a;
+  color: #8f182e;
   background-color: #fff;
 }
 .btn-success {
@@ -2014,7 +2014,7 @@ fieldset[disabled] .btn-danger.focus {
   background-color: #fff;
 }
 .btn-link {
-  color: #b02a1a;
+  color: #8f182e;
   font-weight: normal;
   border-radius: 0;
 }
@@ -2171,7 +2171,7 @@ input[type="button"].btn-block {
 a.thumbnail:hover,
 a.thumbnail:focus,
 a.thumbnail.active {
-  border-color: #b02a1a;
+  border-color: #8f182e;
 }
 .thumbnail .caption {
   padding: 9px;
@@ -3836,7 +3836,7 @@ body.jsenabled .formlisting {
 .moodle-actionmenu[data-enhanced].show .menu a:hover,
 .moodle-actionmenu[data-enhanced].show .menu a:focus {
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .moodle-actionmenu[data-enhanced].show .menu a:first-child {
   border-top-right-radius: 4px;
@@ -4392,7 +4392,7 @@ html {
   text-shadow: none;
 }
 ::selection {
-  background: #b02a1a;
+  background: #8f182e;
   color: #fff;
   text-shadow: none;
 }
@@ -4596,7 +4596,6 @@ button.atto_equation_submit,
 a.yui3-button,
 .yui-button button,
 .felement.ftext input + button,
-.header-button-group .btn,
 .btn.btn-primary,
 .btn.btn-default,
 .button-group > button,
@@ -4610,7 +4609,7 @@ button#livelogs-pause-button,
 #page-admin-tool-monitor-managerules a > button,
 input[type="reset"] {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
-  background: #b02a1a;
+  background: #8f182e;
 }
 .section-modchooser-text:hover,
 #changenumsections .increase-sections:hover,
@@ -4621,7 +4620,6 @@ button.atto_equation_submit:hover,
 a.yui3-button:hover,
 .yui-button button:hover,
 .felement.ftext input + button:hover,
-.header-button-group .btn:hover,
 .btn.btn-primary:hover,
 .btn.btn-default:hover,
 .button-group > button:hover,
@@ -4643,7 +4641,6 @@ button.atto_equation_submit:focus,
 a.yui3-button:focus,
 .yui-button button:focus,
 .felement.ftext input + button:focus,
-.header-button-group .btn:focus,
 .btn.btn-primary:focus,
 .btn.btn-default:focus,
 .button-group > button:focus,
@@ -4658,7 +4655,7 @@ button#livelogs-pause-button:focus,
 input[type="reset"]:focus {
   text-decoration: none;
   color: #fdfdfd;
-  background: #b02a1a;
+  background: #8f182e;
 }
 .btn.btn-success:visited {
   color: #fdfdfd;
@@ -4704,9 +4701,9 @@ input[type="reset"]:focus {
 .btn.btn-inverse:hover,
 .btn.btn-inverse:active,
 .btn.btn-inverse:focus {
-  color: #b02a1a;
+  color: #8f182e;
   background: #fff;
-  border-color: #b02a1a;
+  border-color: #8f182e;
 }
 .btn.btn-solid,
 .btn.btn-solid:visited,
@@ -4747,7 +4744,7 @@ input[type="reset"]:focus {
   -ms-user-select: none;
   user-select: none;
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-site-index .section-modchooser-link .section-modchooser-text:focus,
@@ -4788,19 +4785,19 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
 #page-site-index .section-modchooser-link .section-modchooser-text:focus,
 #page-site-index .section-modchooser-link .section-modchooser-text.focus {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-site-index .section-modchooser-link .section-modchooser-text:hover {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-site-index .section-modchooser-link .section-modchooser-text:active,
 #page-site-index .section-modchooser-link .section-modchooser-text.active,
 .open > .dropdown-toggle#page-site-index .section-modchooser-link .section-modchooser-text {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-site-index .section-modchooser-link .section-modchooser-text:active:hover,
@@ -4813,7 +4810,7 @@ fieldset[disabled] a#page-site-index .section-modchooser-link .section-modchoose
 #page-site-index .section-modchooser-link .section-modchooser-text.active.focus,
 .open > .dropdown-toggle#page-site-index .section-modchooser-link .section-modchooser-text.focus {
   color: #fff;
-  background-color: #64180f;
+  background-color: #450c16;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-site-index .section-modchooser-link .section-modchooser-text:active,
@@ -4830,11 +4827,11 @@ fieldset[disabled] #page-site-index .section-modchooser-link .section-modchooser
 #page-site-index .section-modchooser-link .section-modchooser-text.disabled.focus,
 #page-site-index .section-modchooser-link .section-modchooser-text[disabled].focus,
 fieldset[disabled] #page-site-index .section-modchooser-link .section-modchooser-text.focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-site-index .section-modchooser-link .section-modchooser-text .badge {
-  color: #b02a1a;
+  color: #8f182e;
   background-color: #fff;
 }
 #page-site-index .section-modchooser-link a,
@@ -4955,6 +4952,7 @@ fieldset[disabled] #page-site-index .section-modchooser-link .section-modchooser
   display: block;
   font-size: small;
   color: #AFA79F;
+  float: left;
 }
 .cass-media-object .cass-unread-marker {
   color: #E55302;
@@ -6084,7 +6082,7 @@ ul.events-new + ul.events-underway {
   -ms-user-select: none;
   user-select: none;
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-mod-quiz-review .arrow_link:focus,
@@ -6125,19 +6123,19 @@ fieldset[disabled] a#page-mod-quiz-review .arrow_link {
 #page-mod-quiz-review .arrow_link:focus,
 #page-mod-quiz-review .arrow_link.focus {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-mod-quiz-review .arrow_link:hover {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-mod-quiz-review .arrow_link:active,
 #page-mod-quiz-review .arrow_link.active,
 .open > .dropdown-toggle#page-mod-quiz-review .arrow_link {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-mod-quiz-review .arrow_link:active:hover,
@@ -6150,7 +6148,7 @@ fieldset[disabled] a#page-mod-quiz-review .arrow_link {
 #page-mod-quiz-review .arrow_link.active.focus,
 .open > .dropdown-toggle#page-mod-quiz-review .arrow_link.focus {
   color: #fff;
-  background-color: #64180f;
+  background-color: #450c16;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-mod-quiz-review .arrow_link:active,
@@ -6167,11 +6165,11 @@ fieldset[disabled] #page-mod-quiz-review .arrow_link:focus,
 #page-mod-quiz-review .arrow_link.disabled.focus,
 #page-mod-quiz-review .arrow_link[disabled].focus,
 fieldset[disabled] #page-mod-quiz-review .arrow_link.focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
 }
 #page-mod-quiz-review .arrow_link .badge {
-  color: #b02a1a;
+  color: #8f182e;
   background-color: #fff;
 }
 #page-mod-quiz-mod #id_reviewoptionshdr .fitem {
@@ -6613,7 +6611,7 @@ table#user-grades tr.avg td.cell {
   -ms-user-select: none;
   user-select: none;
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
   height: auto;
 }
@@ -6709,7 +6707,7 @@ fieldset[disabled] a.gradingform_rubric.editor .addcriterion input {
 .gradingform_rubric.editor .addlevel input.focus,
 .gradingform_rubric.editor .addcriterion input.focus {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .gradingform_checklist.editor .addgroup input:hover,
@@ -6717,7 +6715,7 @@ fieldset[disabled] a.gradingform_rubric.editor .addcriterion input {
 .gradingform_rubric.editor .addlevel input:hover,
 .gradingform_rubric.editor .addcriterion input:hover {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .gradingform_checklist.editor .addgroup input:active,
@@ -6733,7 +6731,7 @@ fieldset[disabled] a.gradingform_rubric.editor .addcriterion input {
 .open > .dropdown-toggle.gradingform_rubric.editor .addlevel input,
 .open > .dropdown-toggle.gradingform_rubric.editor .addcriterion input {
   color: #fff;
-  background-color: #841f13;
+  background-color: #631120;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .gradingform_checklist.editor .addgroup input:active:hover,
@@ -6773,7 +6771,7 @@ fieldset[disabled] a.gradingform_rubric.editor .addcriterion input {
 .open > .dropdown-toggle.gradingform_rubric.editor .addlevel input.focus,
 .open > .dropdown-toggle.gradingform_rubric.editor .addcriterion input.focus {
   color: #fff;
-  background-color: #64180f;
+  background-color: #450c16;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .gradingform_checklist.editor .addgroup input:active,
@@ -6826,14 +6824,14 @@ fieldset[disabled] .gradingform_checklist.editor .addgroup input.focus,
 fieldset[disabled] .gradingform_checklist.editor .additem input.focus,
 fieldset[disabled] .gradingform_rubric.editor .addlevel input.focus,
 fieldset[disabled] .gradingform_rubric.editor .addcriterion input.focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
   border-color: rgba(0, 0, 0, 0.5);
 }
 .gradingform_checklist.editor .addgroup input .badge,
 .gradingform_checklist.editor .additem input .badge,
 .gradingform_rubric.editor .addlevel input .badge,
 .gradingform_rubric.editor .addcriterion input .badge {
-  color: #b02a1a;
+  color: #8f182e;
   background-color: #fff;
 }
 .gradingform_rubric.editor .criterion .levels .level .delete {
@@ -6913,7 +6911,7 @@ fieldset[disabled] .gradingform_rubric.editor .addcriterion input.focus {
 .path-blocks-reports .yui3-aclist-content div.report-nav-item a.nav-item:focus {
   text-decoration: none;
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .path-blocks-reports .yui3-widget-stdmod div.report-nav-item-left a.nav-paginate,
 .path-blocks-reports .yui3-aclist-content div.report-nav-item-left a.nav-paginate,
@@ -6936,7 +6934,7 @@ fieldset[disabled] .gradingform_rubric.editor .addcriterion input.focus {
 .path-blocks-reports .yui3-aclist-content div.report-nav-item-right a.nav-paginate:focus {
   text-decoration: none;
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .path-blocks-reports .yui3-widget-stdmod #report-overlay-course div.report-nav-item a.nav-item,
 .path-blocks-reports .yui3-aclist-content #report-overlay-course div.report-nav-item a.nav-item {
@@ -7276,7 +7274,7 @@ body.hascontinuecancel.path-site #page {
 /* moodle dialogues */
 /* standard size */
 .moodle-dialogue-base .moodle-dialogue {
-  min-width: 32%;
+  min-width: 38%;
   padding: 0;
   /* large size */
 }
@@ -7292,7 +7290,7 @@ body.hascontinuecancel.path-site #page {
   border: none;
   z-index: 600;
   outline: #000 dotted 0;
-  min-width: 32%;
+  min-width: 38%;
   padding: 0;
   /* large size */
 }
@@ -8065,14 +8063,14 @@ button.cass-icon-toggle:visited,
 button.cass-icon-toggle:link,
 button.cass-icon-toggle:active,
 button.cass-icon-toggle:focus {
-  color: #b02a1a;
+  color: #8f182e;
   background: none;
   border: none;
   box-shadow: none;
   outline: none;
 }
 button.cass-icon-toggle:focus {
-  border: 2px solid #b02a1a;
+  border: 2px solid #8f182e;
 }
 #cass-coverimagecontrol {
   float: right;
@@ -8290,6 +8288,1159 @@ div#mod_quiz_navblock .content {
 }
 ol.breadcrumb > li {
   padding: 0;
+}
+/** The message area **/
+@mixin setSelectedContact() {
+  background-color: #4f94cd;
+  color: #fff;
+  border: none;
+  .information .lastmessage {
+    color: #fff;
+  }
+  .picture {
+    border: none;
+  }
+}
+.hidden {
+  display: none;
+}
+.messaging-area-container {
+  margin-bottom: 30px;
+}
+.messaging-area-container .status .online-text {
+  display: none;
+  color: #7d7;
+}
+.messaging-area-container .status .offline-text {
+  color: #ff6961;
+}
+.messaging-area-container .status.online .online-text {
+  display: block;
+}
+.messaging-area-container .status.online .offline-text {
+  display: none;
+}
+.messaging-area-container a,
+.messaging-area-container .btn.btn-link {
+  color: #4f94cd;
+}
+.messaging-area-container .messaging-area {
+  border: 1px solid #e3e3e3;
+  clear: both;
+}
+.messaging-area-container .messaging-area img {
+  max-width: 100%;
+}
+.messaging-area-container .messaging-area .contacts-area {
+  border-right: 1px solid #e3e3e3;
+  height: 600px;
+  width: 280px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+@media (max-height: 670px) {
+  .messaging-area-container .messaging-area .contacts-area {
+    height: 500px;
+  }
+}
+.messaging-area-container .messaging-area .contacts-area.searchfilter .searchtextarea {
+  height: 80px;
+}
+.messaging-area-container .messaging-area .contacts-area.searchfilter .searcharea {
+  height: 470px;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea {
+  padding: 5px;
+  text-align: center;
+  height: 50px;
+  box-sizing: border-box;
+  line-height: 50px;
+  background-color: #fff;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea input {
+  height: 28px;
+  line-height: 20px;
+  margin-bottom: 10px;
+  vertical-align: middle;
+  padding: 4px 6px;
+  background-color: #f5f5f5;
+  border: 0;
+  width: 90%;
+  box-shadow: none;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea input:focus {
+  box-shadow: none;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea.searching {
+  background-color: #f5f5f5;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea.searching input {
+  background-color: #fff;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea .searchfilterarea {
+  line-height: 20px;
+  cursor: pointer;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea .searchfilterarea .searchfilter {
+  float: left;
+}
+.messaging-area-container .messaging-area .contacts-area .searchtextarea .searchfilterarea .searchfilterdelete {
+  float: left;
+  margin-left: 5px;
+}
+.messaging-area-container .messaging-area .contacts-area .searcharea .heading {
+  text-align: center;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  font-size: 14px;
+  font-weight: bold;
+}
+.messaging-area-container .messaging-area .contacts-area .searcharea .course {
+  text-align: center;
+}
+.messaging-area-container .messaging-area .contacts-area .searcharea .course:hover {
+  background-color: #4f94cd;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.messaging-area-container .messaging-area .contacts-area .searcharea .noresults {
+  padding-top: 20px;
+  text-align: center;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts {
+  height: 500px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-height: 670px) {
+  .messaging-area-container .messaging-area .contacts-area .contacts {
+    height: 400px;
+  }
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .nocontacts {
+  padding-top: 20px;
+  text-align: center;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact {
+  height: 66px;
+  cursor: pointer;
+  border-bottom: 1px solid #e3e3e3;
+  box-sizing: border-box;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact.unread {
+  background-color: #f1f1f1;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact.unread .picture {
+  border-color: #f1f1f1;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact.unread .information {
+  width: 60%;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact.unread .unread-count-container {
+  display: inline-block;
+  width: 15%;
+  float: left;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact:hover {
+  @include setSelectedContact();
+  background-color: #79b5e6;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact.selected {
+  @include setSelectedContact();
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .picture {
+  line-height: 66px;
+  text-align: center;
+  height: 66px;
+  border-bottom: 1px solid #fff;
+  width: 25%;
+  float: left;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .picture img {
+  border-radius: 50%;
+  height: 54px;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .information {
+  padding: 6px 0;
+  height: 66px;
+  width: 75%;
+  float: left;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .information .name {
+  font-weight: bold;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .information .name img {
+  vertical-align: baseline;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .information .lastmessage {
+  word-wrap: break-word;
+  margin: 0;
+  height: 40px;
+  line-height: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #a1a1a1;
+  padding-right: 10px;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .unread-count-container {
+  display: none;
+  line-height: 66px;
+  text-align: center;
+  box-sizing: border-box;
+}
+@mixin setSelectedTab() {
+  color: #4f94cd;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs {
+  border-top: 1px solid #e3e3e3;
+  height: 50px;
+  box-sizing: border-box;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab {
+  cursor: pointer;
+  height: 100%;
+  background-color: #f5f5f5;
+  margin: 0;
+  width: 50%;
+  text-align: center;
+  float: left;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab:hover {
+  @include setSelectedTab();
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab .tabimage {
+  height: 30px;
+  line-height: 30px;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab .tabimage img {
+  height: 20px;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab.selected {
+  @include setSelectedTab();
+}
+.messaging-area-container .messaging-area .messages-area {
+  width: calc(-180%);
+  height: 600px;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  float: right;
+}
+@media (max-height: 670px) {
+  .messaging-area-container .messaging-area .messages-area {
+    height: 500px;
+  }
+}
+.messaging-area-container .messaging-area .messages-area .btn-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 15px;
+  font-weight: normal;
+}
+.messaging-area-container .messaging-area .messages-area .btn-container.view-toggle {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area .btn-container.delete-all {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area .profile-header {
+  height: 50px;
+  line-height: 50px;
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area .profile-header .btn-container {
+  display: block;
+}
+.messaging-area-container .messaging-area .messages-area .profile-header .btn-container .btn-link {
+  padding: 0;
+  line-height: inherit;
+}
+.messaging-area-container .messaging-area .messages-area .profile {
+  padding: 30px;
+  font-size: 16px;
+  height: 600px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-height: 670px) {
+  .messaging-area-container .messaging-area .messages-area .profile {
+    height: 500px;
+  }
+}
+.messaging-area-container .messaging-area .messages-area .profile .user-container {
+  height: 100px;
+}
+.messaging-area-container .messaging-area .messages-area .profile .user-container .profile-picture {
+  border-radius: 50%;
+  max-height: 100px;
+  display: inline-block;
+}
+.messaging-area-container .messaging-area .messages-area .profile .user-container .name-container {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.messaging-area-container .messaging-area .messages-area .profile .user-container .name-container .name {
+  font-weight: bold;
+  display: block;
+}
+.messaging-area-container .messaging-area .messages-area .profile .user-container .name-container .status {
+  display: block;
+  font-size: 14px;
+}
+.messaging-area-container .messaging-area .messages-area .profile .information {
+  margin: 0;
+  display: inline-block;
+  float: right;
+  margin-top: 20px;
+  font-size: 14px;
+  list-style: none;
+}
+.messaging-area-container .messaging-area .messages-area .profile .information .name {
+  display: inline-block;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 10px;
+}
+.messaging-area-container .messaging-area .messages-area .profile .information .value {
+  display: inline-block;
+}
+.messaging-area-container .messaging-area .messages-area .profile .actions {
+  padding-top: 80px;
+}
+.messaging-area-container .messaging-area .messages-area .profile .actions .separator {
+  border-bottom: 1px solid #e3e3e3;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+}
+.messaging-area-container .messaging-area .messages-area .profile .actions .separator a.danger {
+  color: #ff6961;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header {
+  height: 50px;
+  font-weight: bold;
+  line-height: 50px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e3e3e3;
+  text-align: center;
+  position: relative;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header .btn-link {
+  padding: 0;
+  line-height: inherit;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header .delete-instructions {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header .name-container {
+  padding-top: 9px;
+  display: inline-block;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header .name-container .name {
+  line-height: 20px;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header .name-container .status {
+  line-height: 12px;
+  font-size: 12px;
+  font-weight: normal;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header .actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-right: 15px;
+  font-weight: normal;
+}
+.messaging-area-container .messaging-area .messages-area .messages-header .actions .cancel-messages-delete {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area .messages {
+  height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  padding: 20px;
+}
+@media (max-height: 670px) {
+  .messaging-area-container .messaging-area .messages-area .messages {
+    height: 400px;
+  }
+}
+.messaging-area-container .messaging-area .messages-area .messages .blocktime {
+  clear: both;
+  text-align: center;
+  color: #a1a1a1;
+  font-size: 12px;
+  margin: 5px 0;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message {
+  @include make-row(0);
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .deletemessagecheckbox {
+  display: none;
+  text-align: center;
+  padding-top: 5px;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content {
+  border: 1px solid #e3e3e3;
+  padding: 10px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  word-wrap: break-word;
+  max-width: 55%;
+  position: relative;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content .text {
+  display: block;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content .text p {
+  margin: 0;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content .timesent {
+  font-size: 10px;
+  color: #a1a1a1;
+  float: right;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content.left {
+  float: left;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content.right {
+  float: right;
+}
+.messaging-area-container .messaging-area .messages-area .response {
+  display: table;
+  padding: 10px 10px 9px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  line-height: 28px;
+  text-align: center;
+  border-top: 1px solid #e3e3e3;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .messages-area .response .delete-confirmation {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area .response .delete-confirmation .btn.btn-link.confirm {
+  border: 1px solid #4f94cd;
+  height: 30px;
+}
+.messaging-area-container .messaging-area .messages-area .response .delete-confirmation .btn.btn-link.confirm:hover {
+  background-color: #4f94cd;
+  color: #fff;
+  text-shadow: none;
+}
+.messaging-area-container .messaging-area .messages-area .response .message-box {
+  display: table-row;
+}
+.messaging-area-container .messaging-area .messages-area .response .message-box .message-text-container {
+  display: table-cell;
+}
+.messaging-area-container .messaging-area .messages-area .response .message-box .message-text-container textarea {
+  line-height: 20px;
+  padding: 4px 6px;
+  vertical-align: middle;
+  width: 100%;
+  margin: 0;
+  resize: none;
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .messages-area .response .message-box .message-text-container textarea:focus {
+  box-shadow: none;
+}
+.messaging-area-container .messaging-area .messages-area .response .message-box .send-button-container {
+  display: table-cell;
+  width: 1px;
+}
+.messaging-area-container .messaging-area .messages-area .response .message-box .send-button-container button {
+  height: 30px;
+}
+.messaging-area-container .messaging-area .messages-area .response.messaging {
+  background-color: #f5f5f5;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .messages-area .response.messaging .message-box .message-text-container textarea {
+  background-color: #fff;
+  transition: background-color linear 0.2s;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages-header .btn-container.view-all {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages-header .btn-container.delete-all {
+  display: block;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages-header .delete-instructions {
+  display: block;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages-header .name-container {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages-header .actions .messages-delete {
+  display: none;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages-header .actions .cancel-messages-delete {
+  display: block;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages .message {
+  cursor: pointer;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages .message[aria-checked="true"] .content {
+  background-color: #4f94cd;
+  border-color: #4f94cd;
+  color: #fff;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages .message[aria-checked="true"] .content .timesent {
+  color: #fff;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages .message[aria-checked="false"] .content:hover {
+  background-color: #79b5e6;
+  color: #fff;
+}
+.messaging-area-container .messaging-area .messages-area.editing .messages .message[aria-checked="false"] .content:hover .timesent {
+  color: #fff;
+}
+.messaging-area-container .messaging-area .messages-area.editing .response .delete-confirmation {
+  display: block;
+}
+.messaging-area-container .messaging-area .messages-area.editing .response .message-box {
+  display: none;
+}
+.preferences-container .container-fluid {
+  padding: 0;
+}
+.preferences-container .container-fluid .span6 {
+  min-height: 20px;
+}
+.preferences-container .align-bottom {
+  vertical-align: bottom;
+}
+.preferences-container .preference-table {
+  border: 1px solid #ddd;
+}
+.preferences-container .preference-table thead th {
+  text-align: center;
+}
+.preferences-container .preference-table thead th .config-warning {
+  display: none;
+}
+.preferences-container .preference-table thead th.unconfigured .config-warning {
+  display: inline-block;
+}
+.preferences-container .preference-table tr td:not(:first-child) {
+  width: 150px;
+  text-align: center;
+}
+.preferences-container .preference-table tr td:nth-child(even) {
+  background-color: #f7f7f7;
+}
+.preferences-container .preference-table tr th:nth-child(even) {
+  background-color: #f7f7f7;
+}
+.preferences-container .preference-table .preference-row .hover-tooltip-container {
+  display: inline-block;
+}
+.preferences-container .preference-table .preference-row .preference-name {
+  vertical-align: middle;
+}
+.preferences-container .preference-table .preference-row .disabled-message {
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+}
+.preferences-container .preference-table .preference-row .preference-state {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+.preferences-container .preference-table .preference-row .preference-state input[type="checkbox"]:checked + .preference-state-status-container {
+  background-color: #5cb85c;
+}
+.preferences-container .preference-table .preference-row .preference-state input[type="checkbox"]:checked + .preference-state-status-container .on-text {
+  display: inline-block;
+}
+.preferences-container .preference-table .preference-row .preference-state input[type="checkbox"]:checked + .preference-state-status-container .off-text {
+  display: none;
+}
+.preferences-container .preference-table .preference-row .preference-state .preference-state-status-container {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #d9534f;
+  color: #fff;
+  cursor: pointer;
+}
+.preferences-container .preference-table .preference-row .preference-state .preference-state-status-container .loading-icon {
+  display: none;
+}
+.preferences-container .preference-table .preference-row .preference-state .preference-state-status-container .on-text {
+  display: none;
+}
+.preferences-container .preference-table .preference-row .preference-state .preference-state-status-container .off-text {
+  display: inline-block;
+}
+.preferences-container .preference-table .preference-row .preference-state.loading input[type="checkbox"]:checked + .preference-state-status-container .on-text,
+.preferences-container .preference-table .preference-row .preference-state.loading input[type="checkbox"]:checked + .preference-state-status-container .off-text {
+  display: none;
+}
+.preferences-container .preference-table .preference-row .preference-state.loading .preference-state-status-container .on-text,
+.preferences-container .preference-table .preference-row .preference-state.loading .preference-state-status-container .off-text {
+  display: none;
+}
+.preferences-container .preference-table .preference-row .preference-state.loading .preference-state-status-container .loading-icon {
+  display: block;
+}
+.preferences-container .preference-table .preference-row.loading .preference-name .loading-icon {
+  display: block;
+}
+.disabled-message {
+  display: none;
+}
+.disabled .disabled-message {
+  display: block;
+}
+.disabled .disabled-message + form {
+  display: none;
+}
+.general-settings-container .loading-icon {
+  display: none;
+}
+.general-settings-container .loading .loading-icon {
+  display: inline-block;
+}
+.general-settings-container label {
+  display: inline-block;
+}
+.processor-container {
+  position: relative;
+}
+.processor-container .loading-container {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.processor-container .loading-container .vertical-align {
+  height: 100%;
+  width: 0%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.processor-container.loading .loading-container {
+  display: block;
+}
+.preferences-page-container .checkbox-container {
+  margin: 30px 5px;
+  line-height: 20px;
+}
+.preferences-page-container .checkbox-container input {
+  line-height: 20px;
+  margin: 0;
+}
+.preferences-page-container .checkbox-container .loading-icon {
+  display: none;
+}
+.preferences-page-container .checkbox-container.loading .loading-icon {
+  display: inline-block;
+}
+.notification-area {
+  height: 600px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 30px;
+  border: 1px solid #e3e3e3;
+}
+@media (max-height: 670px) {
+  .notification-area {
+    height: 500px;
+  }
+}
+.notification-area .control-area {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 300px;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-right: 1px solid #e3e3e3;
+}
+.notification-area .control-area .content {
+  position: relative;
+}
+.notification-area .control-area .content .content-item-container {
+  cursor: pointer;
+}
+.notification-area .control-area .content:empty + .empty-text {
+  display: block;
+}
+.notification-area .control-area .loading-icon {
+  display: none;
+}
+.notification-area .control-area .empty-text {
+  display: none;
+  text-align: center;
+  padding-top: 20px;
+}
+.notification-area .control-area.loading .loading-icon {
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.notification-area .control-area.loading .content:empty + .empty-text {
+  display: none;
+}
+.notification-area .content-area {
+  box-sizing: border-box;
+  display: inline-block;
+  width: calc(-200%);
+  float: right;
+}
+.notification-area .content-area .toggle-mode {
+  display: none;
+}
+.notification-area .content-area .header {
+  height: 50px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e3e3e3;
+  padding: 5px;
+}
+.notification-area .content-area .header .image-container {
+  display: inline-block;
+  height: 25px;
+  width: 24px;
+  float: left;
+}
+.notification-area .content-area .header .subject-container {
+  display: inline-block;
+  max-width: calc(76%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 25px;
+  padding-left: 5px;
+  box-sizing: border-box;
+}
+.notification-area .content-area .header .timestamp {
+  font-size: 10px;
+  line-height: 10px;
+  margin: 0;
+  color: #666;
+  margin-left: 30px;
+}
+.notification-area .content-area .header:empty {
+  display: none;
+}
+.notification-area .content-area > .content {
+  height: 500px;
+  box-sizing: border-box;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 15px;
+}
+@media (max-height: 670px) {
+  .notification-area .content-area > .content {
+    height: 400px;
+  }
+}
+.notification-area .content-area > .content:empty {
+  display: none;
+}
+.notification-area .content-area > .content:empty + .empty-text {
+  display: block;
+  text-align: center;
+  padding-top: 100px;
+}
+.notification-area .content-area .empty-text {
+  display: none;
+}
+.notification-area .content-area .footer {
+  height: 50px;
+  box-sizing: border-box;
+  text-align: center;
+}
+.notification-area .content-area .footer a {
+  line-height: 50px;
+}
+.notification-area .content-area .footer:empty {
+  display: none;
+}
+@media (max-width: 979px) {
+  .messaging-area-container .messaging-area {
+    position: relative;
+    overflow: hidden;
+    height: 600px;
+  }
+  .messaging-area-container .messaging-area .messages-area .messages-header .btn-container.view-toggle {
+    display: block;
+  }
+  .messaging-area-container .messaging-area .messages-area .messages-header .btn-container.delete-all {
+    display: none;
+  }
+  .messaging-area-container .messaging-area .messages-area .profile-header {
+    display: block;
+  }
+  .messaging-area-container .messaging-area .messages-area .profile {
+    height: 550px;
+  }
+  .messaging-area-container .messaging-area .messages-area.editing .messages-header .btn-container.view-toggle {
+    display: none;
+  }
+  .messaging-area-container .messaging-area .messages-area.editing .messages-header .btn-container.delete-all {
+    display: block;
+  }
+  .messaging-area-container .messaging-area .contacts-area {
+    width: 100%;
+    border-right: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: auto;
+  }
+  .messaging-area-container .messaging-area .messages-area {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: auto;
+    right: 0;
+    bottom: auto;
+  }
+  .messaging-area-container .messaging-area.show-messages .contacts-area {
+    left: -100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: left 0.25s, opacity 0.25s, visibility 0.25s;
+  }
+  .messaging-area-container .messaging-area.show-messages .messages-area {
+    right: 0;
+    opacity: 1;
+    visibility: visible;
+    transition: right 0.25s, opacity 0.25s, visibility 0.25s;
+  }
+  .messaging-area-container .messaging-area.hide-messages .contacts-area {
+    left: 0;
+    opacity: 1;
+    visibility: visible;
+    transition: left 0.25s, opacity 0.25s, visibility 0.25s;
+  }
+  .messaging-area-container .messaging-area.hide-messages .contacts-area .contact.selected {
+    background-color: inherit;
+    color: inherit;
+    border-bottom: 1px solid #e3e3e3;
+  }
+  .messaging-area-container .messaging-area.hide-messages .contacts-area .contact.selected:hover {
+    @include setSelectedContact();
+    background-color: #79b5e6;
+  }
+  .messaging-area-container .messaging-area.hide-messages .contacts-area .contact.selected .picture {
+    border-bottom: 1px solid #fff;
+  }
+  .messaging-area-container .messaging-area.hide-messages .contacts-area .contact.selected .information .lastmessage {
+    color: #a1a1a1;
+  }
+  .messaging-area-container .messaging-area.hide-messages .messages-area {
+    right: -100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: right 0.25s, opacity 0.25s, visibility 0.25s;
+  }
+  .notification-area {
+    position: relative;
+    overflow: hidden;
+  }
+  .notification-area .control-area {
+    border-right: none;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    visibility: visible;
+    transition: left 0.25s;
+  }
+  .notification-area .content-area {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: -100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: right 0.25s, opacity 0.25s, visibility 0.25s;
+  }
+  .notification-area .content-area .toggle-mode {
+    display: inline-block;
+    float: left;
+    width: 70px;
+    height: 50px;
+    line-height: 50px;
+    box-sizing: border-box;
+    border-right: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
+  }
+  .notification-area .content-area .header {
+    display: inline-block;
+    width: calc(30%);
+  }
+  .notification-area.show-content-area .control-area {
+    left: -100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: left 0.25s, opacity 0.25s, visibility 0.25s;
+  }
+  .notification-area.show-content-area .content-area {
+    right: 0;
+    opacity: 1;
+    visibility: visible;
+    transition: right 0.25s;
+  }
+}
+@media (max-width: 979px) and (max-height: 670px) {
+  .messaging-area-container .messaging-area {
+    height: 500px;
+  }
+}
+@media (max-width: 480px) {
+  .messaging-area-container .messaging-area .messages-area.editing .messages-header {
+    height: 80px;
+  }
+  .messaging-area-container .messaging-area .messages-area.editing .messages-header .delete-all {
+    top: 30px;
+  }
+  .messaging-area-container .messaging-area .messages-area.editing .messages-header .actions {
+    top: 30px;
+  }
+  .messaging-area-container .messaging-area .messages-area.editing .messages {
+    height: 470px;
+  }
+}
+/* Message contaacts list */
+.message-contacts {
+  list-style: none;
+  padding: 0;
+}
+.message-contacts .pix,
+.message-contacts .link,
+.message-contacts .contact {
+  display: inline;
+}
+.message-contacts .pix {
+  margin-right: 0.5em;
+}
+.message-contacts .link {
+  float: right;
+}
+.path-mod-choice .results.names .user {
+  clear: both;
+}
+.path-mod-assignment .userpicture,
+.path-mod-assignment .picture.user,
+.path-mod-assignment .picture.teacher {
+  height: auto;
+}
+.comment-ctrl,
+.comment-list {
+  font-size: 1em;
+}
+.comment-area {
+  max-width: 100%;
+}
+.path-mod-workshop .userplan {
+  width: 100%;
+}
+.path-mod-workshop .collapsibleregioncaption {
+  font-size: 42px;
+  font-weight: 300;
+}
+#chat-input-area,
+#chat-input-area table.generaltable,
+#chat-input-area table.generaltable td.cell,
+#chat-userlist {
+  background-color: transparent !important;
+}
+.yui-skin-sam .yui-layout.path-mod-chat-gui_ajax #chat-input-area table.generaltable,
+.yui-skin-sam .yui-layout.path-mod-chat-gui_ajax #chat-input-area table.generaltable td.cell {
+  padding: 0;
+}
+#page-mod-chat-gui_basic-index #mr-nav,
+#page-mod-chat-gui_basic-index #moodle-footer,
+#page-mod-chat-gui_basic-index #page-header {
+  display: none;
+}
+.branchbuttoncontainer {
+  margin: 2em 0;
+}
+.messaging-area-container .messaging-area .messages-area {
+  width: calc(100% - 280px);
+  height: 600px;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  float: right;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content.left {
+  float: left;
+  clear: both;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content {
+  border: 1px solid #e3e3e3;
+  padding: 10px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  word-wrap: break-word;
+  max-width: 55%;
+  border-radius: 4px;
+  position: relative;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content.right {
+  float: right;
+  clear: both;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content {
+  border: 1px solid #e3e3e3;
+  padding: 10px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  word-wrap: break-word;
+  max-width: 55%;
+  border-radius: 4px;
+  position: relative;
+}
+.row-fluid {
+  width: 100%;
+}
+.messaging-area-container .messaging-area .messages-area .messages .blocktime {
+  clear: both;
+  text-align: center;
+  color: #a1a1a1;
+  font-size: 12px;
+  margin: 5px 0;
+}
+#page-message-index #page-mast,
+#page-message-index #page-header,
+#page-message-index #moodle-footer,
+#page-message-index #moodle-blocks,
+#page-message-index #admin-menu-trigger {
+  display: none;
+}
+#page-message-index #maincontent + h2 {
+  @include sr-only();
+}
+#page-message-index #region-main {
+  max-width: 100%;
+  padding: 58px 0 0 0;
+}
+#page-message-index #region-main textarea {
+  font-family: "ff-meta-serif-web-pro", Georgia, serif;
+}
+.messaging-area-container {
+  font-family: "ff-meta-serif-web-pro", Georgia, serif;
+  margin-bottom: 0;
+}
+.messaging-area-container .messaging-area {
+  border: none;
+  border-top: 1px solid #eae9e7;
+  overflow: visible !important;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab {
+  background-color: transparent;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .information .name {
+  font-weight: normal;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact .information .lastmessage {
+  line-height: normal;
+  height: auto;
+}
+.messaging-area-container .messaging-area .contacts-area .searcharea .heading {
+  border: 0;
+  @extend .h1;
+  padding: 1rem 0;
+}
+.messaging-area-container .messaging-area .messages-area .response .delete-confirmation .btn.btn-link.confirm {
+  height: auto;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content {
+  font-size: 1rem;
+  background-color: white !important;
+  border: none;
+  padding: 0;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content.right {
+  color: white;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .content .text {
+  background-color: #eae9e7;
+  border-radius: 1rem;
+  border: none;
+  padding: 0.25rem 0.5rem;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message[aria-checked="true"] .content .text,
+.messaging-area-container .messaging-area .messages-area .messages .message[aria-checked="false"] .content:hover .text {
+  background-color: #E2CC00;
+}
+.messaging-area-container .messaging-area .contacts-area .contacts .contact:hover,
+.messaging-area-container .messaging-area .contacts-area .contacts .contact.selected:hover,
+.messaging-area-container .messaging-area .contacts-area .searcharea .course:hover {
+  background-color: rgba(143, 24, 46, 0.5);
+}
+@media (min-width: 979px) {
+  .messaging-area-container .messaging-area .contacts-area .contacts .contact.selected {
+    background-color: #8f182e;
+  }
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab:hover {
+  color: #6c1223;
+}
+.messaging-area-container .messaging-area .messages-area .messages .message .right .text {
+  background-color: #8f182e;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab.selected,
+.messaging-area-container .messaging-area .btn.btn-link {
+  color: #8f182e;
+}
+.messaging-area-container .messaging-area .contacts-area .tabs .tab.selected:hover,
+.messaging-area-container .messaging-area .btn.btn-link:hover,
+.messaging-area-container .messaging-area .contacts-area .tabs .tab.selected:focus,
+.messaging-area-container .messaging-area .btn.btn-link:focus {
+  color: #6c1223;
+}
+.callstoaction section .cass-personal-menu-more,
+#fixy-my-courses .cass-personal-menu-more {
+  display: none;
+}
+.header-button-group a.btn:hover {
+  color: #fdfdfd;
+  background: #8f182e;
+  border-radius: 4px;
+}
+span.loading-icon {
+  display: none;
 }
 /**
  * Cass course swatch.
@@ -10356,7 +11507,7 @@ a.cass-personal-menu-more .svg-icon {
   color: #fdfdfd;
   font-weight: 500;
   line-height: 1;
-  padding: .5em 0 .1em 3em;
+  padding: .5em 0 .1em 0;
   margin: 0;
   margin-bottom: 1em;
   font-size: 1rem;
@@ -10781,8 +11932,7 @@ a.cass-personal-menu-more .svg-icon {
   display: inherit;
 }
 button.cass-icon-toggle.favoritetoggle {
-  border-radius: 100%;
-  border: 2px solid transparent;
+  display: none;
 }
 button.cass-icon-toggle.favoritetoggle:focus {
   border-color: #FEC111;
@@ -10792,6 +11942,19 @@ section#fixy-my-courses h2 {
 }
 a#fixy-close {
   padding-right: 3.444%;
+}
+.cass-media-object > a > img,
+.cass-media-object > img {
+  float: left;
+  display: block;
+  width: 36px;
+  height: auto;
+  vertical-align: baseline;
+  margin-right: .614em;
+}
+.cass-media-object {
+  font-weight: 500;
+  padding: .5em 0;
 }
 /**
  * Cass core swatch.
@@ -10881,7 +12044,7 @@ input[type="radio"] {
 #id_cancel {
   font-weight: normal;
   border-radius: 0;
-  color: #b02a1a;
+  color: #8f182e;
   font-weight: 300;
   margin-left: 2em;
 }
@@ -11244,7 +12407,7 @@ fieldset[disabled] #id_cancel:focus {
 .path-admin-tool-lp [data-region="filtercompetencies"] button {
   font-weight: normal;
   border-radius: 0;
-  color: #b02a1a;
+  color: #8f182e;
 }
 .path-admin-tool-lp [data-region="filtercompetencies"] button,
 .path-admin-tool-lp [data-region="filtercompetencies"] button:active,
@@ -11530,19 +12693,19 @@ ol {
 }
 blockquote.blockquote-reverse {
   border-left: 0;
-  border-right: 5px solid #b02a1a;
+  border-right: 5px solid #8f182e;
 }
 hr {
-  border-top: 1px solid #b02a1a;
+  border-top: 1px solid #8f182e;
 }
 a,
 a:visited,
 .btn-link {
-  color: #b02a1a;
+  color: #8f182e;
 }
 a:focus,
 .dropdown-toggle:focus {
-  outline: 1px dotted #b02a1a;
+  outline: 1px dotted #8f182e;
 }
 a:active,
 .dropdown-toggle:active,
@@ -11551,60 +12714,60 @@ a:hover,
   outline: 0;
 }
 .js-cass-asset-move:focus + label .svg-icon {
-  outline: 3px solid #b02a1a;
+  outline: 3px solid #8f182e;
 }
 a:focus,
 a:hover,
 .btn-link:hover,
 .btn-link:focus {
-  color: #8c2215;
+  color: #6c1223;
 }
 #admin-menu-trigger:hover,
 #admin-menu-trigger:focus {
   outline: 0;
-  border-color: #b02a1a;
+  border-color: #8f182e;
 }
 #fixy-my-courses .courseinfo a,
 #fixy-my-courses .courseinfo a:visited {
-  color: #b02a1a;
+  color: #8f182e;
 }
 #fixy-my-courses .courseinfo a:focus,
 #fixy-my-courses .courseinfo a:hover {
-  color: #8c2215;
+  color: #6c1223;
 }
 .section li.cass-native .activityinstance .cass-asset-link a {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .section li.cass-native .activityinstance .cass-asset-link a:visited {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .section li.cass-native .activityinstance .cass-asset-link a:focus,
 .section li.cass-native .activityinstance .cass-asset-link a:hover {
-  color: #8c2215;
+  color: #6c1223;
 }
 .cass-asset-link a {
   color: #333;
 }
 .cass-asset-link a:focus,
 .cass-asset-link a:hover {
-  color: #8c2215;
+  color: #6c1223;
 }
 .cass-due-date {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .cass-due-date.cass-date-overdue {
   background-color: #C9282D;
 }
 #dateselector-calendar-panel .yui3-calendar-day {
-  color: #b02a1a;
+  color: #8f182e;
 }
 #dateselector-calendar-panel .yui3-calendar-day:hover {
-  color: #8c2215;
+  color: #6c1223;
 }
 #dateselector-calendar-panel .yui3-calendar-day-selected,
 #dateselector-calendar-panel .yui3-calendar-day:hover {
   color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 #region-main,
 .contentafterlink,
@@ -11665,31 +12828,31 @@ h6,
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .cass-media-body p {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
 }
 #fixy-trigger .message_badge_count {
-  background-color: #8c2215;
+  background-color: #6c1223;
 }
 .courseinfo-teachers-more:hover {
-  border-color: #b02a1a;
+  border-color: #8f182e;
 }
 #fixy-user {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .fixy .label-success {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .fixy .fixy-header {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 #fixy-mobile-menu .svg-icon {
-  border: 1px solid #b02a1a;
+  border: 1px solid #8f182e;
 }
 .cass-unread-marker {
-  color: #b02a1a;
+  color: #8f182e;
 }
 #page-mod-quiz-review .arrow_link,
 .path-admin-tool-lp button.btn,
@@ -11710,7 +12873,6 @@ button.atto_equation_submit,
 .yui3-button,
 .yui-button button,
 .felement.ftext input + button,
-.header-button-group .btn,
 .btn.btn-primary,
 .btn.btn-default,
 .btn.btn-solid,
@@ -11737,7 +12899,6 @@ input[type="reset"],
   padding: 1em 1.618em;
   font-size: 14px;
   line-height: 1em;
-  border-radius: 0px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -11748,7 +12909,7 @@ input[type="reset"],
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   color: #fdfdfd;
-  border-color: #b02a1a;
+  border-color: #8f182e;
   border-radius: 4px;
 }
 #page-mod-quiz-review .arrow_link:visited,
@@ -11770,7 +12931,6 @@ button.atto_equation_submit:visited,
 .yui3-button:visited,
 .yui-button button:visited,
 .felement.ftext input + button:visited,
-.header-button-group .btn:visited,
 .btn.btn-primary:visited,
 .btn.btn-default:visited,
 .btn.btn-solid:visited,
@@ -11810,7 +12970,6 @@ button.atto_equation_submit:hover,
 .yui3-button:hover,
 .yui-button button:hover,
 .felement.ftext input + button:hover,
-.header-button-group .btn:hover,
 .btn.btn-primary:hover,
 .btn.btn-default:hover,
 .btn.btn-solid:hover,
@@ -11848,7 +13007,6 @@ button.atto_equation_submit:focus,
 .yui3-button:focus,
 .yui-button button:focus,
 .felement.ftext input + button:focus,
-.header-button-group .btn:focus,
 .btn.btn-primary:focus,
 .btn.btn-default:focus,
 .btn.btn-solid:focus,
@@ -11886,7 +13044,6 @@ button.atto_equation_submit:active,
 .yui3-button:active,
 .yui-button button:active,
 .felement.ftext input + button:active,
-.header-button-group .btn:active,
 .btn.btn-primary:active,
 .btn.btn-default:active,
 .btn.btn-solid:active,
@@ -11924,7 +13081,6 @@ button.atto_equation_submit.active,
 .yui3-button.active,
 .yui-button button.active,
 .felement.ftext input + button.active,
-.header-button-group .btn.active,
 .btn.btn-primary.active,
 .btn.btn-default.active,
 .btn.btn-solid.active,
@@ -11943,9 +13099,8 @@ input[type="reset"].active,
 .gradingform_rubric.editor .addlevel input.active,
 .gradingform_rubric.editor .addcriterion input.active,
 #page-site-index .section-modchooser-link .section-modchooser-text.active {
-  background-color: #8c2215;
+  background-color: #6c1223;
   color: #fff;
-  border-color: #8c2215;
   text-decoration: none;
 }
 #page-mod-quiz-review .arrow_link:visited,
@@ -11967,7 +13122,6 @@ button.atto_equation_submit:visited,
 .yui3-button:visited,
 .yui-button button:visited,
 .felement.ftext input + button:visited,
-.header-button-group .btn:visited,
 .btn.btn-primary:visited,
 .btn.btn-default:visited,
 .btn.btn-solid:visited,
@@ -12007,7 +13161,6 @@ button.atto_equation_submit[disabled],
 .yui3-button[disabled],
 .yui-button button[disabled],
 .felement.ftext input + button[disabled],
-.header-button-group .btn[disabled],
 .btn.btn-primary[disabled],
 .btn.btn-default[disabled],
 .btn.btn-solid[disabled],
@@ -12029,14 +13182,14 @@ input[type="reset"][disabled],
   opacity: 0.65;
 }
 .btn.btn-inverse {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .btn.btn-inverse:hover,
 .btn.btn-inverse:focus,
 .btn.btn-inverse:active,
 .btn.btn-inverse.active {
-  color: #b02a1a;
-  border-color: #b02a1a;
+  color: #8f182e;
+  border-color: #8f182e;
 }
 .btn.btn-success,
 .btn.btn-info,
@@ -12049,11 +13202,11 @@ input[type="reset"][disabled],
   border-radius: 4px;
 }
 #id_cancel {
-  color: #b02a1a;
+  color: #8f182e;
 }
 #id_cancel:focus,
 #id_cancel:hover {
-  color: #8c2215;
+  color: #6c1223;
 }
 .editing.path-course-view section#region-main > .singlebutton input[type="submit"],
 .editor_atto_toolbar button,
@@ -12061,11 +13214,11 @@ input[type="reset"][disabled],
   box-shadow: none;
 }
 #show-toc {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .format-flexpage .yui-button-checked button {
-  background-color: #8c2215;
-  border-color: #7b1d12;
+  background-color: #6c1223;
+  border-color: #5b0f1d;
   color: #fff;
 }
 #page-site-index #page-header,
@@ -12074,59 +13227,59 @@ input[type="reset"][disabled],
 .news-article-preview,
 #cass-footer-alert,
 #toc-mobile-menu-toggle {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 #notice,
 #toc-search:before {
-  color: #b02a1a;
+  color: #8f182e;
 }
 #toc-search-input:hover {
-  border-color: #b02a1a;
+  border-color: #8f182e;
 }
 #toc-search-input:focus {
-  border-bottom: 1px solid #b02a1a;
+  border-bottom: 1px solid #8f182e;
 }
 #page-course-loginas #region-main,
 #page-mod-survey-save #region-main {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 #cass-login .subcontent.potentialidps {
-  border-top: 1px solid #b02a1a;
+  border-top: 1px solid #8f182e;
 }
 /* highlight selected menu iteam logic */
 /*default */
 a[href="#sections"] {
-  border-bottom: 0.3em solid #b02a1a;
+  border-bottom: 0.3em solid #8f182e;
 }
 /* moodle edit menus */
 .moodle-actionmenu[data-enhanced].show .menu a:hover,
 .moodle-actionmenu[data-enhanced].show .menu a:focus {
-  color: #b02a1a;
+  color: #8f182e;
   background-color: transparent;
 }
 li.cass-resource,
 li.cass-activity {
-  border-top-color: #b02a1a;
+  border-top-color: #8f182e;
 }
 .yui-skin-sam .yuimenu a.yuimenuitemlabel:hover,
 .yui-bootstrapped .yuimenu a.yuimenuitemlabel:hover,
 .yui-skin-sam .yuimenu a.yuimenuitemlabel:focus,
 .yui-bootstrapped .yuimenu a.yuimenuitemlabel:focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .yui-skin-sam .yui-calcontainer .yui-calendar td.calcell a,
 .yui-bootstrapped .yui-calcontainer .yui-calendar td.calcell a {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .yui-skin-sam .yui-calcontainer .yui-calendar td.calcell.selected,
 .yui-bootstrapped .yui-calcontainer .yui-calendar td.calcell.selected {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .yui-skin-sam .yui-calcontainer .yui-calendar td.calcell.calcellhover,
 .yui-bootstrapped .yui-calcontainer .yui-calendar td.calcell.calcellhover,
 .yui-skin-sam .yui-calcontainer .yui-calendar td.calcell.calcellhover a,
 .yui-bootstrapped .yui-calcontainer .yui-calendar td.calcell.calcellhover a {
-  background: #b02a1a;
+  background: #8f182e;
 }
 .yui-skin-sam .yui-dt-paginator a.yui-pg-previous,
 .yui-bootstrapped .yui-dt-paginator a.yui-pg-previous,
@@ -12138,7 +13291,7 @@ li.cass-activity {
 .yui-bootstrapped .yui-dt-paginator a.yui-pg-last,
 .yui-skin-sam .yui-dt-paginator a.yui-pg-page,
 .yui-bootstrapped .yui-dt-paginator a.yui-pg-page {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .yui-skin-sam .yui-dt-paginator a.yui-pg-previous:hover,
 .yui-bootstrapped .yui-dt-paginator a.yui-pg-previous:hover,
@@ -12169,49 +13322,49 @@ li.cass-activity {
 .yui-skin-sam .yui-dt-paginator span.yui-pg-current-page:focus,
 .yui-bootstrapped .yui-dt-paginator span.yui-pg-current-page:focus {
   color: #fff;
-  background-color: #b02a1a;
-  border-color: #b02a1a;
+  background-color: #8f182e;
+  border-color: #8f182e;
 }
 .path-blocks-reports .yui3-widget-stdmod div.report-nav-item a.nav-item:hover,
 .path-blocks-reports .yui3-widget-stdmod div.report-nav-item a.nav-item:focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .path-blocks-reports .yui3-widget-stdmod div.report-nav-item-left a.nav-paginate:hover,
 .path-blocks-reports .yui3-widget-stdmod div.report-nav-item-right a.nav-paginate:hover,
 .path-blocks-reports .yui3-widget-stdmod div.report-nav-item-left a.nav-paginate:focus,
 .path-blocks-reports .yui3-widget-stdmod div.report-nav-item-right a.nav-paginate:focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .yui-bootstrapped .yui3-tabview-list .yui3-tab-label,
 .yui-skin-sam .yui3-tabview-list .yui3-tab-label {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .yui-bootstrapped .yui3-tabview-list .yui3-tab-label:hover,
 .yui-skin-sam .yui3-tabview-list .yui3-tab-label:hover,
 .yui-bootstrapped .yui3-tabview-list .yui3-tab-label:focus,
 .yui-skin-sam .yui3-tabview-list .yui3-tab-label:focus {
-  color: #8c2215;
+  color: #6c1223;
 }
 .yui-bootstrapped .yui-navset .yui-nav li > a,
 .yui-skin-sam .yui-navset .yui-nav li > a {
-  color: #b02a1a;
+  color: #8f182e;
 }
 .yui-bootstrapped .yui-navset .yui-nav li > a:hover,
 .yui-skin-sam .yui-navset .yui-nav li > a:hover,
 .yui-bootstrapped .yui-navset .yui-nav li > a:focus,
 .yui-skin-sam .yui-navset .yui-nav li > a:focus {
-  color: #8c2215;
+  color: #6c1223;
 }
 img.iconhelp:hover {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .progress .bar,
 .progress-bar:not(progress-bar-info):not(.progress-bar-success):not(.progress-bar-warning):not(.progress-bar-danger) {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 #cass-changecoverimageconfirmation.disabled .ok,
 #cass-changecoverimageconfirmation.disabled .ok:visited,
@@ -12220,10 +13373,10 @@ img.iconhelp:hover {
 #cass-changecoverimageconfirmation.disabled .ok:focus {
   color: #fff;
   border-color: #fff;
-  background-color: #b02a1a;
+  background-color: #8f182e;
 }
 .spinner-three-quarters:not(:required).spinner-dark {
-  border-color: #b02a1a;
+  border-color: #8f182e;
   border-right-color: transparent;
 }
 .table > thead > tr > th {
@@ -12641,7 +13794,7 @@ ul.choices {
 #page-mod-assign-view h2 {
   max-width: 960px;
   margin: 0 auto;
-  padding: 1.5em 3.444% .3em;
+  padding: 1.5em 0 .3em;
 }
 #page-mod-assign-view #intro {
   max-width: 960px;
@@ -12656,8 +13809,14 @@ ul.choices {
 #page-mod-assign-view h3 {
   max-width: 960px;
   float: left;
-  padding: 0 3.444%;
+  padding: 0;
   margin: 0 auto;
+}
+#page-mod-assign-view h3 a {
+  color: #fdfdfd;
+}
+#page-mod-assign-view h3 a:hover {
+  text-decoration: underline;
 }
 #page-mod-assign-view .submissionstatustable {
   max-width: 960px;
@@ -12714,7 +13873,7 @@ small.hsuforum-thread-replies-meta {
   box-shadow: none;
   border: none;
   padding: 0;
-  color: #b02a1a;
+  color: #8f182e;
   font-size: 14px;
   margin: 0;
 }
@@ -12989,7 +14148,7 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
   }
 }
 .dropcap {
-  color: #b02a1a;
+  color: #8f182e;
   display: inline-block;
   vertical-align: text-top;
   height: 4.25rem;
@@ -12998,7 +14157,7 @@ div.feedback_item_box_left div.feedback_item_presentation_left {
 }
 span.dropcap_inner {
   font-size: 4.9rem;
-  line-height: 4.4rem;
+  line-height: 4rem;
   display: inline-block;
   vertical-align: text-top;
 }
@@ -13183,9 +14342,6 @@ span.activitycompletenextmodname {
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd {
   padding: .618em 1em 0;
 }
-.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
-  display: none;
-}
 .yui3-skin-sam .yui3-widget-mask {
   background-color: #eae9e7;
   opacity: 0.8;
@@ -13195,7 +14351,7 @@ span.activitycompletenextmodname {
 }
 .firstactivityinsection h4:first-child,
 .firstactivityinsection #region-main h2:first-child {
-  background: #b02a1a;
+  background: #8f182e;
   color: white;
   margin: -10% -300% 0;
   padding: 3.32em 300% .85em;
@@ -13286,10 +14442,12 @@ span.text {
 .col-md-8 {
   padding-left: 0;
   padding-right: 0;
+  display: flow-root;
 }
 .col-md-4 {
   padding-left: 0;
   padding-right: 0;
+  display: flow-root;
 }
 .posting {
   padding-top: 2.6em;

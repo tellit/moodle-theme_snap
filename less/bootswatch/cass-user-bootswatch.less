@@ -302,7 +302,6 @@ button.atto_equation_submit,
 .yui3-button,
 .yui-button button,
 .felement.ftext input + button,
-.header-button-group .btn,
 .btn.btn-primary,
 .btn.btn-default,
 .btn.btn-solid,
@@ -324,17 +323,18 @@ input[type="reset"],
     font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
     text-align: center;
     cursor: pointer;
+	color: @body-bg;
     background-image: none;
     white-space: nowrap;
     padding: 1em 1.618em;
     font-size: 14px;
     line-height: 1em;
-    border-radius: 0px;
+    border-radius: 4px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-     vertical-align: baseline;
+     vertical-align: baseline; 
     margin: .4em 0;
     border-radius: 2px;
     -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -356,7 +356,6 @@ input[type="reset"],
     &.active {
         background-color: darken(@brand-primary, 8%);
         color: #fff;
-        border-color: darken(@brand-primary, 8%);
         text-decoration: none;
     }
     &:visited {
@@ -1118,7 +1117,7 @@ ul.choices {
 #page-mod-assign-view h2 {
     max-width: 960px;
     margin: 0 auto;
-    padding: 1.5em 3.444% .3em;
+    padding: 1.5em 0 .3em;
 }
 #page-mod-assign-view #intro {
     max-width: 960px;
@@ -1135,8 +1134,13 @@ ul.choices {
 #page-mod-assign-view h3 {
     max-width: 960px;
     float: left;
-    padding: 0 3.444%;
+    padding: 0;
     margin: 0 auto;
+	a{
+		color:@body-bg;
+		&:hover{text-decoration: underline;
+		}
+	}
 }
 
 #page-mod-assign-view .submissionstatustable {
@@ -1528,7 +1532,7 @@ div.feedback_item_box_left div.feedback_item_label_left, div.feedback_item_box_l
 
 span.dropcap_inner {
 	font-size: 4.9rem;
-    line-height: 4.4rem;
+    line-height: 4rem;
     display: inline-block;
     vertical-align: text-top;
 }
@@ -1762,10 +1766,6 @@ span.activitycompletenextmodname {
 	padding: .618em 1em 0;
 }
 
-.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
-    display: none;
-}
-
 .yui3-skin-sam .yui3-widget-mask {
     background-color: @gray-lighter;
     opacity: 0.8;
@@ -1894,11 +1894,13 @@ span.text {
 .col-md-8 {
     padding-left: 0;
     padding-right: 0;
+	display: flow-root;
 }
 
 .col-md-4{
     padding-left: 0;
     padding-right: 0;
+	display: flow-root;
 }
 
 .posting{
