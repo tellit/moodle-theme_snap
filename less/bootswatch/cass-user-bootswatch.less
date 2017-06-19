@@ -1114,24 +1114,22 @@ ul.choices {
 // -------------------------
 
 
-#page-mod-assign-view h2 {
+#page-mod-assign-view [role="main"] h2 {
     max-width: 960px;
     margin: 0 auto;
     padding: 1.5em 0 .3em;
 }
 #page-mod-assign-view #intro {
     max-width: 960px;
-    padding: 0 3.444%;
     margin: 0 auto;
 }
 
 #page-mod-assign-view .gradingsummary {
     max-width: 960px;
-    padding: 0 3.444%;
     margin: 0 auto;
 }
 
-#page-mod-assign-view h3 {
+#page-mod-assign-view [role="main"] h3 {
     max-width: 960px;
     float: left;
     padding: 0;
@@ -1145,13 +1143,11 @@ ul.choices {
 
 #page-mod-assign-view .submissionstatustable {
     max-width: 960px;
-    padding: 0 3.444%;
     margin: 0 auto;
 }
 
 #page-mod-assign-view .box.boxaligncenter{
     max-width: 960px;
-    padding: 0 3.444%;
     margin: 0 auto;
 }
 
@@ -1795,7 +1791,9 @@ span.activitycompletenextmodname {
 //  Getting the course page to show the navigation on the left, yo
 // -------------------------
 
-
+.format-topics #region-main h2.sectionname {
+    padding-top: 1em;
+}
 
 .section li.cass-asset:last-child {
     border-left: none;
@@ -1831,7 +1829,7 @@ span.activitycompletenextmodname {
 	padding-bottom: 1em;
 	color: #000;
 }
-    
+
 } 
 .path-course-view #page-header h1, #toc-search, #course-toc h2  {
     display: none;
@@ -2311,7 +2309,7 @@ li.section {
 }
 
 
-h2.sectionname:before {
+#page-course-view-weeks h2.sectionname:before { 
     content: "Week " counter(my-awesome-counter);
     border-bottom: 2px solid #00759B;
     display: block;

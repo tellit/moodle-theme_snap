@@ -2201,8 +2201,8 @@ a.thumbnail.active {
 #id_s_theme_cass_resourcedisplay:after,
 #page-user-profile .userprofile .profile_tree:before,
 #page-user-profile .userprofile .profile_tree:after,
-.path-course.path-user .userprofile .profile_tree:before,
-.path-course.path-user .userprofile .profile_tree:after {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree:before,
+#page-course-loginas .path-course.path-user .userprofile .profile_tree:after {
   content: " ";
   display: table;
 }
@@ -2218,7 +2218,7 @@ a.thumbnail.active {
 .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft:after,
 #id_s_theme_cass_resourcedisplay:after,
 #page-user-profile .userprofile .profile_tree:after,
-.path-course.path-user .userprofile .profile_tree:after {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree:after {
   clear: both;
 }
 .center-block {
@@ -4841,6 +4841,17 @@ fieldset[disabled] #page-site-index .section-modchooser-link .section-modchooser
   text-align: center;
   text-decoration: none;
 }
+.path-mod-assign div.submissionlinks .btn {
+  transition: background 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out;
+}
+.path-mod-assign div.submissionlinks .btn:active,
+.path-mod-assign div.submissionlinks .btn:focus,
+.path-mod-assign div.submissionlinks .btn:hover {
+  background: #AFA79F;
+  border-radius: 4px;
+  color: #fdfdfd;
+}
 .published-status {
   opacity: 0.75;
   font-size: small;
@@ -5134,7 +5145,8 @@ ol.breadcrumb a {
 }
 .admin .breadcrumb li:first-child:before,
 .path-enrol .breadcrumb li:first-child:before,
-.pagelayout-admin#page-mod-quiz-attempt #moodle-blocks .breadcrumb li:first-child:before {
+.pagelayout-admin#page-mod-quiz-attempt #moodle-blocks .breadcrumb li:first-child:before,
+#page-message-index .breadcrumb li:first-child:before {
   content: '\e091 ';
   padding: 0 1em 0 0;
   vertical-align: top;
@@ -5163,6 +5175,9 @@ ol.breadcrumb a {
 .path-mod .breadcrumb > li:last-child,
 .path-course .breadcrumb > li:nth-child(-n+3),
 .path-mod .breadcrumb > li:nth-child(-n+3) {
+  display: none;
+}
+.path-message .breadcrumb li:nth-child(n+2) {
   display: none;
 }
 #page-user-edit .breadcrumb li:nth-child(-n+1) {
@@ -5687,7 +5702,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 .coursebox.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft,
 .coursebox#id_s_theme_cass_resourcedisplay,
 .coursebox#page-user-profile .userprofile .profile_tree,
-.coursebox.path-course.path-user .userprofile .profile_tree {
+.coursebox#page-course-loginas .path-course.path-user .userprofile .profile_tree {
   padding: 1em 4%;
   border-bottom: 1px solid #eee;
 }
@@ -7090,22 +7105,18 @@ fieldset[disabled] .gradingform_rubric.editor .addcriterion input.focus {
   font-weight: normal;
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
 }
-.path-mod-assign #region-main,
 .path-grade-edit-tree #region-main,
 .path-grade-report-customgrader #region-main,
 .path-grade-report-grader #region-main {
   width: 100%;
   max-width: 100%;
 }
-.path-mod-assign table.simple,
 .path-grade-edit-tree table.simple,
 .path-grade-report-customgrader table.simple,
 .path-grade-report-grader table.simple,
-.path-mod-assign #gradetreesubmit,
 .path-grade-edit-tree #gradetreesubmit,
 .path-grade-report-customgrader #gradetreesubmit,
 .path-grade-report-grader #gradetreesubmit,
-.path-mod-assign ul.nav-tabs,
 .path-grade-edit-tree ul.nav-tabs,
 .path-grade-report-customgrader ul.nav-tabs,
 .path-grade-report-grader ul.nav-tabs {
@@ -8332,7 +8343,6 @@ ol.breadcrumb > li {
   max-width: 100%;
 }
 .messaging-area-container .messaging-area .contacts-area {
-  border-right: 1px solid #e3e3e3;
   height: 600px;
   width: 280px;
   display: inline-block;
@@ -8366,7 +8376,7 @@ ol.breadcrumb > li {
   padding: 4px 6px;
   background-color: #f5f5f5;
   border: 0;
-  width: 90%;
+  width: 100%;
   box-shadow: none;
   transition: background-color linear 0.2s;
 }
@@ -8429,14 +8439,15 @@ ol.breadcrumb > li {
 .messaging-area-container .messaging-area .contacts-area .contacts .contact {
   height: 66px;
   cursor: pointer;
-  border-bottom: 1px solid #e3e3e3;
   box-sizing: border-box;
+  transition: background 0.3s linear;
 }
 .messaging-area-container .messaging-area .contacts-area .contacts .contact.unread {
   background-color: #f1f1f1;
 }
 .messaging-area-container .messaging-area .contacts-area .contacts .contact.unread .picture {
-  border-color: #f1f1f1;
+  border-color: transparent;
+  border: none;
 }
 .messaging-area-container .messaging-area .contacts-area .contacts .contact.unread .information {
   width: 60%;
@@ -8457,7 +8468,6 @@ ol.breadcrumb > li {
   line-height: 66px;
   text-align: center;
   height: 66px;
-  border-bottom: 1px solid #fff;
   width: 25%;
   float: left;
   display: inline-block;
@@ -8538,7 +8548,7 @@ ol.breadcrumb > li {
 }
 @media (max-height: 670px) {
   .messaging-area-container .messaging-area .messages-area {
-    height: 500px;
+    height: 500px !important;
   }
 }
 .messaging-area-container .messaging-area .messages-area .btn-container {
@@ -8634,7 +8644,6 @@ ol.breadcrumb > li {
   font-weight: bold;
   line-height: 50px;
   box-sizing: border-box;
-  border-bottom: 1px solid #e3e3e3;
   text-align: center;
   position: relative;
 }
@@ -8775,6 +8784,7 @@ ol.breadcrumb > li {
 }
 .messaging-area-container .messaging-area .messages-area .response .message-box .send-button-container button {
   height: 30px;
+  line-height: 1em;
 }
 .messaging-area-container .messaging-area .messages-area .response.messaging {
   background-color: #f5f5f5;
@@ -9158,9 +9168,6 @@ ol.breadcrumb > li {
     @include setSelectedContact();
     background-color: #79b5e6;
   }
-  .messaging-area-container .messaging-area.hide-messages .contacts-area .contact.selected .picture {
-    border-bottom: 1px solid #fff;
-  }
   .messaging-area-container .messaging-area.hide-messages .contacts-area .contact.selected .information .lastmessage {
     color: #a1a1a1;
   }
@@ -9341,6 +9348,7 @@ ol.breadcrumb > li {
   font-size: 12px;
   margin: 5px 0;
 }
+#page-message-index h2,
 #page-message-index #page-mast,
 #page-message-index #page-header,
 #page-message-index #moodle-footer,
@@ -9353,7 +9361,7 @@ ol.breadcrumb > li {
 }
 #page-message-index #region-main {
   max-width: 100%;
-  padding: 58px 0 0 0;
+  padding: 58px 3.444% 0;
 }
 #page-message-index #region-main textarea {
   font-family: "ff-meta-serif-web-pro", Georgia, serif;
@@ -9407,11 +9415,13 @@ ol.breadcrumb > li {
 .messaging-area-container .messaging-area .contacts-area .contacts .contact:hover,
 .messaging-area-container .messaging-area .contacts-area .contacts .contact.selected:hover,
 .messaging-area-container .messaging-area .contacts-area .searcharea .course:hover {
-  background-color: rgba(143, 24, 46, 0.5);
+  background-color: rgba(234, 233, 231, 0.5);
+  color: #333 !important;
 }
 @media (min-width: 979px) {
   .messaging-area-container .messaging-area .contacts-area .contacts .contact.selected {
-    background-color: #8f182e;
+    background-color: #eae9e7;
+    color: #333 !important;
   }
 }
 .messaging-area-container .messaging-area .contacts-area .tabs .tab:hover {
@@ -9441,6 +9451,10 @@ ol.breadcrumb > li {
 }
 span.loading-icon {
   display: none;
+}
+:focus {
+  outline: none !important;
+  border: #AFA79F;
 }
 /**
  * Cass course swatch.
@@ -11447,14 +11461,15 @@ li.cass-visible-section:before {
   padding-left: 0.3em;
 }
 a.cass-personal-menu-more small {
-  display: none;
+  padding-right: .618em;
+  line-height: 3.4em;
 }
 a.cass-personal-menu-more .svg-icon {
   margin: 0;
 }
 .fixy {
   display: none;
-  background-color: #333;
+  background-color: #AFA79F;
 }
 .cass-fixy-open #primary-nav,
 .cass-fixy-open #cass-login {
@@ -11506,9 +11521,9 @@ a.cass-personal-menu-more .svg-icon {
 .fixy h2 {
   color: #fdfdfd;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1 !important;
   padding: .5em 0 .1em 0;
-  margin: 0;
+  margin: 0 !important;
   margin-bottom: 1em;
   font-size: 1rem;
   text-align: left;
@@ -11735,7 +11750,7 @@ a.cass-personal-menu-more .svg-icon {
 #fixy-my-courses .cass-personal-menu-more {
   position: absolute;
   top: 0.9rem;
-  left: 0;
+  right: 0;
 }
 .callstoaction section .cass-personal-menu-more:hover .svg-icon,
 #fixy-my-courses .cass-personal-menu-more:hover .svg-icon,
@@ -11757,6 +11772,34 @@ a.cass-personal-menu-more .svg-icon {
 .fixy .callstoaction #cass-personal-menu-grading,
 .fixy .callstoaction #cass-personal-menu-messages {
   min-height: 50px;
+}
+#fixy-my-courses .clearfix .svg-icon,
+#fixy-my-courses .clearfix small,
+#fixy-my-courses .dl-horizontal dd .svg-icon,
+#fixy-my-courses .dl-horizontal dd small,
+#fixy-my-courses .container .svg-icon,
+#fixy-my-courses .container small,
+#fixy-my-courses .container-fluid .svg-icon,
+#fixy-my-courses .container-fluid small,
+#fixy-my-courses .row .svg-icon,
+#fixy-my-courses .row small,
+#fixy-my-courses .modal-header .svg-icon,
+#fixy-my-courses .modal-header small,
+#fixy-my-courses .modal-footer .svg-icon,
+#fixy-my-courses .modal-footer small,
+#fixy-my-courses .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .svg-icon,
+#fixy-my-courses .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd small,
+#fixy-my-courses .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd .svg-icon,
+#fixy-my-courses .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd small,
+#fixy-my-courses .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft .svg-icon,
+#fixy-my-courses .moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft small,
+#fixy-my-courses #id_s_theme_cass_resourcedisplay .svg-icon,
+#fixy-my-courses #id_s_theme_cass_resourcedisplay small,
+#fixy-my-courses #page-user-profile .userprofile .profile_tree .svg-icon,
+#fixy-my-courses #page-user-profile .userprofile .profile_tree small,
+#fixy-my-courses #page-course-loginas .path-course.path-user .userprofile .profile_tree .svg-icon,
+#fixy-my-courses #page-course-loginas .path-course.path-user .userprofile .profile_tree small {
+  display: none;
 }
 #fixy-hidden-courses {
   display: none;
@@ -11955,6 +11998,19 @@ a#fixy-close {
 .cass-media-object {
   font-weight: 500;
   padding: .5em 0;
+}
+.cass-media-body h3 {
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+  line-height: 1.25em;
+}
+.cass-media-meta {
+  display: flex;
+}
+.cass-media-meta time {
+  font-size: 14px;
+  line-height: 1em;
 }
 /**
  * Cass core swatch.
@@ -12523,43 +12579,43 @@ fieldset[disabled] .path-admin-tool-lp [data-region="filtercompetencies"] button
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 #page-user-profile,
-.path-course.path-user {
+#page-course-loginas .path-course.path-user {
   /* User image and name. */
   /* Full screen. */
 }
 #page-user-profile .page-context-header,
-.path-course.path-user .page-context-header {
+#page-course-loginas .path-course.path-user .page-context-header {
   text-align: center;
 }
 #page-user-profile .page-context-header .page-header-image,
-.path-course.path-user .page-context-header .page-header-image,
+#page-course-loginas .path-course.path-user .page-context-header .page-header-image,
 #page-user-profile .page-context-header .page-header-headings,
-.path-course.path-user .page-context-header .page-header-headings {
+#page-course-loginas .path-course.path-user .page-context-header .page-header-headings {
   display: block;
   padding: 0;
 }
 #page-user-profile #region-main,
-.path-course.path-user #region-main {
+#page-course-loginas .path-course.path-user #region-main {
   max-width: 100%;
   padding: 5em 4%;
 }
 #page-user-profile .userprofile,
-.path-course.path-user .userprofile {
+#page-course-loginas .path-course.path-user .userprofile {
   /* Message button. */
   /* Profile text. */
   /* Profile option lists. */
 }
 #page-user-profile .userprofile .header-button-group,
-.path-course.path-user .userprofile .header-button-group {
+#page-course-loginas .path-course.path-user .userprofile .header-button-group {
   float: none !important;
 }
 #page-user-profile .userprofile .description,
-.path-course.path-user .userprofile .description {
+#page-course-loginas .path-course.path-user .userprofile .description {
   max-width: 43.5em;
   margin: 0 auto;
 }
 #page-user-profile .userprofile .profile_tree,
-.path-course.path-user .userprofile .profile_tree {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree {
   margin-left: -15px;
   margin-right: -15px;
   column-count: 1;
@@ -12568,7 +12624,7 @@ fieldset[disabled] .path-admin-tool-lp [data-region="filtercompetencies"] button
   /* Datalists. */
 }
 #page-user-profile .userprofile .profile_tree section,
-.path-course.path-user .userprofile .profile_tree section {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree section {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -12576,24 +12632,24 @@ fieldset[disabled] .path-admin-tool-lp [data-region="filtercompetencies"] button
 }
 @media (min-width: 768px) {
   #page-user-profile .userprofile .profile_tree section,
-  .path-course.path-user .userprofile .profile_tree section {
+  #page-course-loginas .path-course.path-user .userprofile .profile_tree section {
     float: left;
     width: 50%;
   }
 }
 @media (min-width: 992px) {
   #page-user-profile .userprofile .profile_tree section,
-  .path-course.path-user .userprofile .profile_tree section {
+  #page-course-loginas .path-course.path-user .userprofile .profile_tree section {
     float: left;
     width: 25%;
   }
 }
 #page-user-profile .userprofile .profile_tree section:nth-of-type(5),
-.path-course.path-user .userprofile .profile_tree section:nth-of-type(5) {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree section:nth-of-type(5) {
   clear: left;
 }
 #page-user-profile .userprofile .profile_tree .node_category h3,
-.path-course.path-user .userprofile .profile_tree .node_category h3 {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree .node_category h3 {
   font-weight: 300;
   line-height: 1.5;
   color: #333;
@@ -12604,21 +12660,21 @@ fieldset[disabled] .path-admin-tool-lp [data-region="filtercompetencies"] button
   color: #000;
 }
 #page-user-profile .userprofile .profile_tree .node_category h3 small,
-.path-course.path-user .userprofile .profile_tree .node_category h3 small,
+#page-course-loginas .path-course.path-user .userprofile .profile_tree .node_category h3 small,
 #page-user-profile .userprofile .profile_tree .node_category h3 .small,
-.path-course.path-user .userprofile .profile_tree .node_category h3 .small {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree .node_category h3 .small {
   font-weight: normal;
   line-height: 1;
   color: #AFA79F;
 }
 #page-user-profile .userprofile .profile_tree .node_category h3 small,
-.path-course.path-user .userprofile .profile_tree .node_category h3 small,
+#page-course-loginas .path-course.path-user .userprofile .profile_tree .node_category h3 small,
 #page-user-profile .userprofile .profile_tree .node_category h3 .small,
-.path-course.path-user .userprofile .profile_tree .node_category h3 .small {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree .node_category h3 .small {
   font-size: 75%;
 }
 #page-user-profile .userprofile .profile_tree .node_category li.contentnode dl dd,
-.path-course.path-user .userprofile .profile_tree .node_category li.contentnode dl dd {
+#page-course-loginas .path-course.path-user .userprofile .profile_tree .node_category li.contentnode dl dd {
   margin: 0;
 }
 /* Course user profile. */
@@ -13794,41 +13850,37 @@ ul.choices {
 .path-mod-choice .next_activity_area {
   margin-top: 2.9em;
 }
-#page-mod-assign-view h2 {
+#page-mod-assign-view [role="main"] h2 {
   max-width: 960px;
   margin: 0 auto;
   padding: 1.5em 0 .3em;
 }
 #page-mod-assign-view #intro {
   max-width: 960px;
-  padding: 0 3.444%;
   margin: 0 auto;
 }
 #page-mod-assign-view .gradingsummary {
   max-width: 960px;
-  padding: 0 3.444%;
   margin: 0 auto;
 }
-#page-mod-assign-view h3 {
+#page-mod-assign-view [role="main"] h3 {
   max-width: 960px;
   float: left;
   padding: 0;
   margin: 0 auto;
 }
-#page-mod-assign-view h3 a {
+#page-mod-assign-view [role="main"] h3 a {
   color: #fdfdfd;
 }
-#page-mod-assign-view h3 a:hover {
+#page-mod-assign-view [role="main"] h3 a:hover {
   text-decoration: underline;
 }
 #page-mod-assign-view .submissionstatustable {
   max-width: 960px;
-  padding: 0 3.444%;
   margin: 0 auto;
 }
 #page-mod-assign-view .box.boxaligncenter {
   max-width: 960px;
-  padding: 0 3.444%;
   margin: 0 auto;
 }
 .hsuforum-thread-content:focus {
@@ -14360,6 +14412,9 @@ span.activitycompletenextmodname {
   padding: 3.32em 300% .85em;
   line-height: 1.23em;
 }
+.format-topics #region-main h2.sectionname {
+  padding-top: 1em;
+}
 .section li.cass-asset:last-child {
   border-left: none;
 }
@@ -14747,8 +14802,8 @@ body#page-course-edit div#fitem_id_theme {
 #page-mod-forum-post .row.maincontent#id_s_theme_cass_resourcedisplay,
 #page-mod-forum-discuss .row.maincontent#page-user-profile .userprofile .profile_tree,
 #page-mod-forum-post .row.maincontent#page-user-profile .userprofile .profile_tree,
-#page-mod-forum-discuss .row.maincontent.path-course.path-user .userprofile .profile_tree,
-#page-mod-forum-post .row.maincontent.path-course.path-user .userprofile .profile_tree {
+#page-mod-forum-discuss .row.maincontent#page-course-loginas .path-course.path-user .userprofile .profile_tree,
+#page-mod-forum-post .row.maincontent#page-course-loginas .path-course.path-user .userprofile .profile_tree {
   padding-top: 3em;
 }
 #page-mod-forum-discuss .discussion-nav,
@@ -14817,7 +14872,7 @@ ul.weeks {
 li.section {
   counter-increment: my-awesome-counter;
 }
-h2.sectionname:before {
+#page-course-view-weeks h2.sectionname:before {
   content: "Week " counter(my-awesome-counter);
   border-bottom: 2px solid #00759B;
   display: block;

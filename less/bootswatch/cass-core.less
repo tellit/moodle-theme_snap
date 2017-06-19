@@ -676,6 +676,19 @@ input[type="reset"] {
     }
 }
 
+.path-mod-assign div.submissionlinks .btn
+{
+	transition: background 0.3s ease-in-out;
+	transition: color 0.3s ease-in-out;
+    &:active,
+    &:focus,
+	&:hover{
+        background: @gray-light;
+		border-radius: 4px;
+		color: @body-bg;
+    }
+}
+
 // -------------------------
 // Cass theme helper classes
 // -------------------------
@@ -1063,7 +1076,7 @@ ol.breadcrumb a {
     display: inline;
 }
 
-.admin, .path-enrol, .pagelayout-admin#page-mod-quiz-attempt #moodle-blocks{
+.admin, .path-enrol, .pagelayout-admin#page-mod-quiz-attempt #moodle-blocks, #page-message-index{
    .breadcrumb li:first-child:before {
     content: '\e091 ';
     padding: 0 1em 0 0;
@@ -1096,7 +1109,9 @@ display: none;
     display: none;
         }
     } } 
- 
+.path-message .breadcrumb li:nth-child(n+2){
+	display: none;
+}
 
 #page-user-edit .breadcrumb li:nth-child(-n+1) {
     display: none;
@@ -3012,7 +3027,6 @@ table#user-grades tr.avg td.cell {
 }
 
 // whitelist - make grade table larger, apply whitespace remover
-.path-mod-assign,
 .path-grade-edit-tree,
 .path-grade-report-customgrader,
 .path-grade-report-grader {
@@ -4442,8 +4456,7 @@ ol.breadcrumb > li {
             max-width: 100%;
         }
 
-        .contacts-area {
-            border-right: 1px solid #e3e3e3;
+        .contacts-area {;
             height: 600px;
             @media (max-height: 670px) {
                 height: 500px;
@@ -4480,7 +4493,7 @@ ol.breadcrumb > li {
                     padding: 4px 6px;
                     background-color: #f5f5f5;
                     border: 0;
-                    width: 90%;
+                    width: 100%;
                     box-shadow: none;
                     transition: background-color linear 0.2s;
 
@@ -4557,14 +4570,15 @@ ol.breadcrumb > li {
                 .contact {
                     height: 66px;
                     cursor: pointer;
-                    border-bottom: 1px solid #e3e3e3;
                     box-sizing: border-box;
+					transition: background 0.3s linear;
 
                     &.unread {
                         background-color: #f1f1f1;
 
                         .picture {
-                            border-color: #f1f1f1;
+                            border-color: transparent;
+							border: none;
                         }
 
                         .information {
@@ -4591,7 +4605,6 @@ ol.breadcrumb > li {
                         line-height: 66px;
                         text-align: center;
                         height: 66px;
-                        border-bottom: 1px solid #fff;
                         width: 25%;
                         float: left;
                         display: inline-block;
@@ -4683,8 +4696,8 @@ ol.breadcrumb > li {
             width: calc(100% - 280px);
             height: 600px;
             @media (max-height: 670px) {
-                height: 500px;
-            }
+                height: 500px !important;
+            } 
             box-sizing: border-box;
             margin: 0;
             position: relative;
@@ -4801,7 +4814,6 @@ ol.breadcrumb > li {
                 font-weight: bold;
                 line-height: 50px;
                 box-sizing: border-box;
-                border-bottom: 1px solid #e3e3e3;
                 text-align: center;
                 position: relative;
 
@@ -4964,6 +4976,7 @@ ol.breadcrumb > li {
 
                         button {
                             height: 30px;
+							line-height: 1em;
                         }
                     }
                 }
@@ -5498,10 +5511,6 @@ ol.breadcrumb > li {
                                 background-color: #79b5e6;
                             }
 
-                            .picture {
-                                border-bottom: 1px solid #fff;
-                            }
-
                             .information {
                                 .lastmessage {
                                     color: #a1a1a1;
@@ -5716,12 +5725,13 @@ ol.breadcrumb > li {
 }  
 
 #page-message-index {
-    #page-mast,
+    h2,
+	#page-mast,
     #page-header,
     #moodle-footer,
     #moodle-blocks,
     #admin-menu-trigger {
-        display: none;
+        display: none; 
     }
 
     #maincontent + h2 {
@@ -5730,7 +5740,7 @@ ol.breadcrumb > li {
 
     #region-main {
         max-width: 100%;
-        padding: 58px 0 0 0; // 58px for #mr-nav height.
+        padding: 58px 3.444% 0; // 58px for #mr-nav height.
 
         textarea {
             font-family: @font-family-base;
@@ -5746,7 +5756,7 @@ ol.breadcrumb > li {
 
     .messaging-area {
         border: none;
-        border-top: 1px solid @gray-lighter;
+        border-top: 1px solid @gray-lighter; 
         overflow: visible !important;
         // Contacts area.
         .contacts-area {
@@ -5825,15 +5835,17 @@ ol.breadcrumb > li {
         .searcharea .course {
 
             &:hover {
-                background-color: fade(@brand-primary, 50%);  
+                background-color: fade(@gray-lighter, 50%);  
+				color: @text-color !important;
             }
         }
 
         // contact.selected large screen only, media query copied from message.scss
         @media (min-width: 979px) {
             .contacts .contact.selected {
-                background-color: @brand-primary;
-            }
+                background-color: @gray-lighter;
+				color: @text-color !important; 
+            } 
         }
 
         // Tabs to change from messages to contacts.
@@ -5843,7 +5855,7 @@ ol.breadcrumb > li {
     }
 
     // Users own messages.
-    .messages-area .messages .message .right .text {
+    .messages-area .messages .message .right .text { 
         background-color: @brand-primary;
     } 
 
@@ -5854,7 +5866,7 @@ ol.breadcrumb > li {
 
         &:hover,
         &:focus {
-            color: darken(@brand-primary, 8%);
+            color: darken(@brand-primary, 8%); 
         }
     }
 }
@@ -5870,4 +5882,9 @@ ol.breadcrumb > li {
 
 span.loading-icon {
 	display: none;
-}  
+}   
+
+:focus {
+    outline: none !important;
+	border: @gray-light;
+}

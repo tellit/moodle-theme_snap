@@ -6,18 +6,20 @@
 
 
 
-a.cass-personal-menu-more{
-	small {
-	display: none;}
+a.cass-personal-menu-more {
+	small{
+	padding-right: .618em;
+    line-height: 3.4em;
+}
 
 .svg-icon {
     margin: 0;
 	}}
-
+ 
 
 .fixy {
     display: none;
-    background-color: @gray-dark;
+    background-color: @gray-light;
 }
 
 .cass-fixy-open {
@@ -79,9 +81,9 @@ a.cass-personal-menu-more{
     h2 {
         color: @body-bg;
         font-weight: 500;
-        line-height: 1;
+        line-height: 1 !important;
         padding: .5em 0 .1em 0;
-        margin: 0;
+        margin: 0 !important;
         margin-bottom: 1em;
         font-size: 1rem;
         text-align: left;
@@ -320,7 +322,7 @@ a.cass-personal-menu-more{
     .cass-personal-menu-more {
         position: absolute;
         top: 0.9rem;
-        left: 0;
+        right: 0;
         &:hover,
         &:focus {
             .svg-icon {
@@ -349,6 +351,11 @@ a.cass-personal-menu-more{
     }
 }
 
+#fixy-my-courses .clearfix {
+	.svg-icon, small {
+    display: none;
+}
+}
 // Hidden courses.
 #fixy-hidden-courses {
     display: none; // toggled via js.
@@ -593,3 +600,18 @@ a#fixy-close {
     font-weight: 500;
     padding: .5em 0;
 } 
+
+.cass-media-body h3 {
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    line-height: 1.25em;
+}
+.cass-media-meta {
+    display: flex;
+}
+
+.cass-media-meta time {
+    font-size: 14px;
+    line-height: 1em;
+}
