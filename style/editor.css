@@ -9456,6 +9456,9 @@ span.loading-icon {
   outline: none !important;
   border: #AFA79F;
 }
+.contact .picture {
+  border-bottom: none;
+}
 /**
  * Cass course swatch.
  *
