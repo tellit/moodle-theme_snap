@@ -319,7 +319,7 @@ define(['jquery', 'theme_cass/bootstrap', 'core/log', 'theme_cass/headroom', 'th
             TweenLite.to($("#alertBox"),        0,      {display:"block", opacity: 1, delay:"0.2"});                                 
             TweenLite.to($("#alertBox"),        0,      {display:"block", scale:0.2, opacity: 0, delay:"0.2"});
             TweenLite.to($("#alertBox"),        0.3,    {opacity: 1, force3D:true, delay:"0.2"});
-            TweenLite.to($("#alertBox"),        0.3,    {scale:1, scale:1, force3D:true, delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0.3,    {scale:1, force3D:true, delay:"0.2"});
             TweenLite.to($("#darkBackground"),  0.2,    {backgroundColor: "rgba(0,0,0,0)", force3D:true, delay:"2"});
             TweenLite.to($("#darkBackground"),  0.2,    {display: "none", force3D:true, delay:"2"});
             TweenLite.to($("#alertBox"),        0.2,    {opacity: 0, display:"none", force3D:true, delay:"2", onComplete:slideNextActivity});
