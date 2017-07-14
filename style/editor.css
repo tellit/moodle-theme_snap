@@ -4185,6 +4185,7 @@ html {
 }
 img.spacer,
 .noavailable,
+a#cass-home,
 .clearfloat {
   display: none;
 }
@@ -7238,6 +7239,7 @@ fieldset[disabled] .gradingform_rubric.editor .addcriterion input.focus {
 .path-grade-report-grader #region-main {
   width: 100%;
   max-width: 100%;
+  margin: 0 3.44%;
 }
 .path-mod-assign .page-mod-assign-grading #region-main,
 .path-grade-edit-tree .page-mod-assign-grading #region-main,
@@ -8380,18 +8382,6 @@ label.state-visible[for="cass-coverfiles"] .spinner-three-quarters,
 }
 .que.essay .qtype_essay_response.readonly {
   background-color: #fdfdfd;
-}
-.firstactivityinsection h4:first-child,
-.firstactivityinsection #region-main h2:nth-of-type(1) {
-  background: #b02a1a;
-  color: white;
-  margin: -10% -300% 1em;
-  padding: 3.32em 300% .85em;
-  line-height: 1.23em;
-}
-.firstactivityinsection h4:first-child,
-.firstactivityinsection #region-main h2:first-child {
-  Background: white;
 }
 input[name=previous] {
   display: none;
@@ -13775,8 +13765,8 @@ span.activitycompletenextmodname {
 .moodle-dialogue-hd {
   display: flex;
 }
-.firstactivityinsection h4:first-child,
-.firstactivityinsection #region-main h2:first-child {
+.firstactivityinsection #maincontent + h4:first-child,
+.firstactivityinsection #region-main #maincontent + h2:first-child {
   background: #8f182e;
   color: white;
   margin: -10% -300% 0;
