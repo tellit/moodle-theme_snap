@@ -109,11 +109,6 @@
 
 }
 
-.path-mod-assign #region-main {
-    width: 100%;
-    max-width: 960px;
-}
-
 @media screen and (min-width : @screen-md-min) {
 
     .path-mod-assign {
@@ -125,12 +120,11 @@
 
          [data-region="review-panel-content"],
          [data-region="grade-panel"] {
-            max-height: 80vh;
             overflow-y: scroll;
         }
 
         [data-region="review-panel"] {
-            .make-md-column(8);
+           
             padding-right: 0;
 
             .pageheader {
@@ -152,16 +146,14 @@
         }
 
         [data-region="grade-actions-panel"] {
-            position: fixed;
             background-color: white;
-            height: auto;
 
             [data-region="grade-actions"] {
-                padding: 0.5em;
+                padding: 10px;
 
                 .collapse-buttons {
                     top: 25%;
-                    right: 0;
+                    right: 15px;
                     height: auto;
                 }
             }
@@ -301,8 +293,4 @@
 .gradingform_guide_comment_chooser > ul > li button {
     text-align: left;
     white-space: normal;
-}
-
-#cass-course-footer a > img {
-    width:36px;
 }

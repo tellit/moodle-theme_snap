@@ -31,6 +31,368 @@
 // general format of the sources that it overrides to make it
 // easier to trace back.
 //.
+
+.formulation select.incorrect, .formulation input.incorrect {
+	background: lighten(@brand-warning, 51%);
+}
+
+#page-mod-quiz-review{
+	
+	.que .feedback {
+    padding: 1em 1.618em;
+    margin: 0 0 5em 0;
+	border-radius: .618em;
+	font-family: @font-family-fancy;
+	border: 1px solid;
+	font-size: 1em;
+	background: @gray-lighter;
+	border-color: darken(@gray-lighter, 7%) !important;
+	color: @gray-dark;
+}
+	
+	
+
+table.generaltable.generalbox.quizreviewsummary:before {
+    content: "Quiz results";
+    font-size: 3.8em;
+    width: 100%;
+    display: table-caption;
+    padding-bottom: .4em;
+    margin-left: -2px;
+    font-family: @font-family-fancy;
+}
+	.specificfeedback {
+    display: none;
+}
+
+table.quizreviewsummary th.cell {
+    padding: 0 .5em .618em 0em;
+    font-weight: 700;
+    text-align: left;
+    width: 10em;
+    background: transparent;
+    line-height: inherit;
+	border: none;
+}
+	
+	.submitbtns {
+    display: none;
+}
+
+table.quizreviewsummary td.cell {
+    padding: 0 .5em .618em 1em;
+    text-align: left;
+    background: transparent;
+    line-height: inherit;
+	border: none;
+}
+
+.progress {
+    font-size: 1.5em;
+	text-align: left;
+	color: @gray-dark;
+	line-height: 1em;
+	font-weight: bold;
+	font-family: @font-family-fancy;
+	padding: 0 0 1.5em;
+}
+	
+
+	h3.qtype{display: none;}
+	
+	
+
+.generaltable {
+    margin-bottom: 7em;
+	> tbody > tr:nth-of-type(odd) {
+    background-color: transparent;
+}
+}
+}
+
+#page-mod-assign-view .cass-media-body , .cass-media-body {
+
+h3 {
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    line-height: 1.25em;
+	
+	a{ 
+	color:@modal-bg;
+	}
+	&:hover{
+		color:@modal-bg;
+		text-decoration: underline;
+	}
+	}}
+
+
+.current .cass-current-tag {
+    display: none !important;
+}
+
+.hsuforum-recent p:first-of-type {
+    display: none;}
+.text-success small {
+    background: #E2CC00;
+    color: white;
+    border-radius: 10px;
+
+    padding: 0 1em;
+
+}
+h3.hsuforum-recent-heading {
+    display: block;
+}
+
+.snap-media-object {
+    float: left;
+    width: 100%;
+}
+
+.snap-media-object > a {
+    float: left;
+}
+.snap-media-body {
+    font-size: 14px;
+    padding: 0 .618em 1em;
+    float: right;
+}
+
+#course_recent_updates h3.hsuforum-recent-heading {
+    padding-bottom: 1em;
+}
+
+#page-mod-quiz-review .arrow_link, .path-admin-tool-lp button.btn, #course-category-listings .listing-pagination .yui3-button, .paging.paging-morelink a, #changenumsections .increase-sections, #changenumsections .reduce-sections, input.form-submit, input#id_submitbutton, input#id_submitbutton2, .path-admin .buttons input[type="submit"], td.submit input, #notice .singlebutton+.singlebutton input, #login.fixy input[type=submit], button#local-joulegrader-preview-button, button.atto_equation_submit, .yui-skin-sam .yui-button, .yui3-button, .yui-button button, .felement.ftext input+button, .btn.btn-primary, .btn.btn-default, .btn.btn-solid, .button-group>button, input.form-submit, input[type="button"], .moodle-dialogue-content button, button#restrictbygroup, button#livelogs-pause-button, #page-admin-tool-monitor-managerules a>button, input[type="submit"], button[type="submit"], input[type="reset"], .gradingform_checklist.editor .addgroup input, .gradingform_checklist.editor .additem input, .gradingform_rubric.editor .addlevel input, .gradingform_rubric.editor .addcriterion input, #page-site-index .section-modchooser-link .section-modchooser-text {
+   color: #fdfdfd;
+}
+
+.snap-media-object a img {
+    width: 36px;
+}
+
+.callstoaction .cass-media-object .cass-media-meta {
+    color: #f2f2f2;
+}
+
+.holder {
+    padding-bottom: 50%;
+}
+
+.snap-media-body {
+    font-size: 14px;
+    padding-bottom: .618em;
+}
+
+.hsuforum.modtype_hsuforum .snap-media-object{
+    width: 33%;
+    float: left;
+    padding-bottom: 1.618em;
+}
+
+h3.hsuforum-recent-heading {
+    display: none;
+}
+
+
+.current .cass-current-tag {
+    display: none !important;
+}
+
+.hsuforum-recent p:first-of-type {
+    display: none;}
+.text-success small {
+    background: #E2CC00;
+    color: white;
+    border-radius: 10px;
+
+    padding: 0 1em;
+
+}
+h3.hsuforum-recent-heading {
+    display: block;
+}
+
+.snap-media-object {
+    float: left;
+    width: 100%;
+}
+
+.snap-media-object > a {
+    float: left;
+}
+.snap-media-body {
+    font-size: 14px;
+    padding: 0 0 1em;
+}
+
+.snap-media-object a img {
+    margin-right: .618em;
+}
+
+#course_recent_updates h3.hsuforum-recent-heading {
+    padding-bottom: 1em;
+}
+
+.path-mod-assign [data-region="grade-actions-panel"]{
+    height: 75px; 
+}  
+
+.path-mod-assign [data-region="grade-actions-panel"] [data-region="grade-actions"] .collapse-buttons {
+    top: 10px;
+}
+
+ol.breadcrumb a.dimmed_text {
+    color: #333;
+}
+
+.path-mod-assign [data-region="grade-panel"] h3 {
+    font-size: 30px;
+    font-weight: 500;
+    margin: 0 0 .5em;
+}
+
+.path-mod-assign td.submissionstatussubmitted, .path-mod-assign div.submissionstatussubmitted, .path-mod-assign a:link.submissionstatussubmitted {
+    color: @modal-bg;
+    background-color: @brand-green;
+    padding: .618em;
+	margin: 5px 0;
+}
+
+.path-mod-assign td.latesubmission, .path-mod-assign a:link.latesubmission, .path-mod-assign div.latesubmission {
+    color: @modal-bg;
+    background-color: @brand-danger;
+    padding: .618em;
+    margin: 5px 0;
+}
+
+.path-mod-assign [data-region="grade-panel"] td.submissionnotgraded, .path-mod-assign [data-region="grade-panel"] div.submissionnotgraded {
+    color: @brand-warning;
+    background-color: @gray-lighter;
+    padding: .618em;
+	margin: 5px 0;
+}
+
+.path-mod-assign [data-region="review-panel"] .drawingregion {
+    left: 0;
+    right: 0;
+    border-color: @gray-light;
+}
+styles_debug.ph…back_editpdf:8
+.assignfeedback_editpdf_widget .drawingregion {
+    border: 1px solid @gray;
+    left: 1em;
+    right: 1em;
+    top: 52px;
+    bottom: 0;
+    position: absolute;
+    overflow: auto;
+    background-color: @body-bg;
+}
+
+.assignfeedback_editpdf_widget .drawingcanvas {
+    position: relative;
+    min-width: 817px;
+    min-height: 400px;
+    cursor: crosshair;
+    background-repeat: no-repeat;
+    background-color: @gray-lighter;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 20px rgba(0,0,0,.2);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 20px rgba(0,0,0,.2);
+} 
+
+button.collapse-review-panel, button.collapse-none, button.collapse-grade-panel {
+    background: @body-bg;
+    border: @gray-light solid 1px;
+}
+ 
+
+.path-mod-assign [data-region="grade-actions"]{
+	padding: 10px;
+}
+
+.path-mod-assign [data-region="grade-panel"] {
+    padding-top: 1rem;
+}
+
+.path-mod-assign [data-region="grade-panel"] {
+    position: absolute;
+    top: 85px;
+    bottom: 60px;
+    right: 0;
+    left: 70%;
+    width: 30%;
+    overflow: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: @body-bg;
+    padding: 15px;
+    padding-top: 0;
+    -webkit-transition: width .5s,right .5s,left .5s;
+    -moz-transition: width .5s,right .5s,left .5s;
+    -o-transition: width .5s,right .5s,left .5s;
+    transition: width .5s,right .5s,left .5s;
+}
+
+.path-mod-assign [data-region="review-panel"] {
+    position: absolute;
+    top: 85px;
+    bottom: 60px;
+    left: 0;
+    right: 30%;
+    width: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: right .5s,left .5s;
+    -moz-transition: right .5s,left .5s;
+    -o-transition: right .5s,left .5s;
+    transition: right .5s,left .5s;
+	background-color: @gray-lighter;
+	border: solid 1px @gray-light;
+}
+
+.currentstampbutton{
+display: none;
+}
+
+.search-input-wrapper {
+    display: none;
+}
+
+a.btn.btn-secondary,  {
+    padding: 1em 1.618em;
+    /* background: lightblue; */
+    font-size: 14px;
+    line-height: 1em;
+    transition: linear .5s border;
+    border-radius: 4px;
+	color: @brand-primary;
+	background: @modal-bg;
+}
+
+a.btn-secondary:hover, {
+    text-decoration: none;
+    border: 1px solid @brand-primary;
+    border-radius: 4px;
+    animation: linear 2s border;
+	color: @brand-primary;
+	background: darken(@modal-bg, 8%)
+} 
+
+
+#page-mod-assign-view  :not(.firstactivityinsection) #page-content h2 {
+    padding: 1.2em 0px .9em;
+}
+
+#page-mod-assign-view, #page-mod-assign-editsubmission, #page-mod-assign-mod{
+
+#region-main {
+    max-width: 960px;
+}
+}
 // Typography
 // -------------------------
 // Reset - overwrites inline style tags
@@ -59,7 +421,7 @@
 
 ul, ol {
     padding: 0px;
-    margin-bottom: 1em;
+    margin: 1em;
 }
 
 blockquote {
@@ -176,7 +538,7 @@ a:hover,
 #page-mod-book-print  {
     font-family: @font-family-serif;
     max-width: 960px;
-    padding: 0 10px 6.18%;
+    padding: 0 0 6.18%;
      
 }
 #region-main textarea{
@@ -302,6 +664,7 @@ button.atto_equation_submit,
 .yui3-button,
 .yui-button button,
 .felement.ftext input + button,
+.header-button-group .btn,
 .btn.btn-primary,
 .btn.btn-default,
 .btn.btn-solid,
@@ -312,7 +675,7 @@ input[type="button"],
 button#restrictbygroup,
 button#livelogs-pause-button,
 #page-admin-tool-monitor-managerules a > button,
-input[type="submit"],
+input[type="submit"], .btn,
 button[type="submit"],
 input[type="reset"],
 .gradingform_checklist.editor .addgroup input,
@@ -323,18 +686,17 @@ input[type="reset"],
     font-family: "ff-meta-web-pro", Helvetica, Arial, sans-serif;
     text-align: center;
     cursor: pointer;
-	color: @body-bg;
     background-image: none;
     white-space: nowrap;
     padding: 1em 1.618em;
     font-size: 14px;
     line-height: 1em;
-    border-radius: 4px;
+    border-radius: 0px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-     vertical-align: baseline; 
+     vertical-align: baseline;
     margin: .4em 0;
     border-radius: 2px;
     -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -356,6 +718,7 @@ input[type="reset"],
     &.active {
         background-color: darken(@brand-primary, 8%);
         color: #fff;
+        border-color: darken(@brand-primary, 8%);
         text-decoration: none;
     }
     &:visited {
@@ -878,9 +1241,6 @@ body#page-mod-quiz-review .que h3.no {
     margin: 0;
 }
 
-body#page-mod-quiz-review .que .feedback {
-        margin: 1em -310%;
-}
 body#page-mod-quiz-review .questionflag {
     display: none;
 } 
@@ -907,15 +1267,17 @@ body#page-mod-quiz-review .questionflag {
 }
 
 input[type=submit]:disabled, button:disabled {
-    display: none;
+    display: none;  
 }
 
 .incorrect .feedback{
  background: @brand-warning;
+
 }
 .correct .feedback{
  background: @brand-green;
-}
+	
+} 
 
 
 .que .feedback {
@@ -930,11 +1292,14 @@ input[type=submit]:disabled, button:disabled {
             animation: fadein 2s;
             min-height: 200px;
 	font-family: @font-family-base;
-            }
             
-.generalfeedback {
-    width: 80%;
-}            
+	
+.generalfeedback p {
+	#region-main &{
+	font-family: @font-family-fancy;
+	} 
+	}  }     
+
 
 /*f .incorrect .feedback:before {
     content: "\e014";
@@ -1114,42 +1479,40 @@ ul.choices {
 // -------------------------
 
 
-#page-mod-assign-view [role="main"] h2 {
-    max-width: 960px;
+#page-mod-assign-view{ 
+	h2 { 
     margin: 0 auto;
     padding: 1.5em 0 .3em;
 }
-#page-mod-assign-view #intro {
+	
+	.path-mod-assign td.submissionstatussubmitted{
+		padding: 1.618em 0em 1em;
+	}
+#intro {
     max-width: 960px;
-    margin: 0 auto;
-}
-
-#page-mod-assign-view .gradingsummary {
-    max-width: 960px;
-    margin: 0 auto;
-}
-
-#page-mod-assign-view [role="main"] h3 {
-    max-width: 960px;
-    float: left;
     padding: 0;
     margin: 0 auto;
-	a{
-		color:@body-bg;
-		&:hover{text-decoration: underline;
-		}
-	}
 }
 
-#page-mod-assign-view .submissionstatustable {
+.gradingsummary {
     max-width: 960px;
     margin: 0 auto;
 }
 
-#page-mod-assign-view .box.boxaligncenter{
+ h3 {
     max-width: 960px;
     margin: 0 auto;
 }
+
+.submissionstatustable {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.box.boxaligncenter{
+    max-width: 960px;
+    margin: 0 auto;
+	}}
 
 // -------------------------
 //  Moodle mods
@@ -1528,7 +1891,7 @@ div.feedback_item_box_left div.feedback_item_label_left, div.feedback_item_box_l
 
 span.dropcap_inner {
 	font-size: 4.9rem;
-    line-height: 4rem;
+    line-height: 4.4rem;
     display: inline-block;
     vertical-align: text-top;
 }
@@ -1568,7 +1931,7 @@ span.dropcap_inner {
 //  videos/iframes
 // -------------------------
 
-.holder {
+.path-mod .holder {
     position: relative;
     padding-bottom: 56.25%;
     padding-top: 35px;
@@ -1576,6 +1939,16 @@ span.dropcap_inner {
     overflow: hidden;
     margin: 1em 0 3em;
 }
+
+.youtube {
+    position: relative;
+    padding-bottom: 50%;
+    padding-top: 35px;
+    height: 0;
+    overflow: hidden;
+    margin: 1em 0 3em;
+}
+
 
 iframe {
     position: absolute;
@@ -1762,6 +2135,10 @@ span.activitycompletenextmodname {
 	padding: .618em 1em 0;
 }
 
+.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
+    display: none;
+}
+
 .yui3-skin-sam .yui3-widget-mask {
     background-color: @gray-lighter;
     opacity: 0.8;
@@ -1791,9 +2168,7 @@ span.activitycompletenextmodname {
 //  Getting the course page to show the navigation on the left, yo
 // -------------------------
 
-.format-topics #region-main h2.sectionname {
-    padding-top: 1em;
-}
+
 
 .section li.cass-asset:last-child {
     border-left: none;
@@ -1829,7 +2204,7 @@ span.activitycompletenextmodname {
 	padding-bottom: 1em;
 	color: #000;
 }
-
+    
 } 
 .path-course-view #page-header h1, #toc-search, #course-toc h2  {
     display: none;
@@ -1892,13 +2267,12 @@ span.text {
 .col-md-8 {
     padding-left: 0;
     padding-right: 0;
-	display: flow-root;
+	float: left;
 }
 
 .col-md-4{
     padding-left: 0;
     padding-right: 0;
-	display: flow-root;
 }
 
 .posting{
@@ -2309,13 +2683,13 @@ li.section {
 }
 
 
-#page-course-view-weeks h2.sectionname:before { 
+h2.sectionname:before {
     content: "Week " counter(my-awesome-counter);
     border-bottom: 2px solid #00759B;
     display: block;
     margin-bottom: 2.614em;
     font-family: @font-family-fancy;
-    font-size: .32em;
+    font-size: 20px;
 	line-height: 2em;
     padding-top: .4em;
 	color: @gray;
@@ -2339,5 +2713,74 @@ li.section {
 
 img.smallicon.navicon {
     display: none;
+} 
+
+.readmore{
+    background: none;
+    border: none;
+    color: inherit;
+    box-shadow: none;
+	color: @brand-primary;
+	
+	
+	
+	&:not(.collapsed){
+	&:before {
+    content: "Read less";
+
+}
+	&:after {
+    content: " \e113";
+	font-family: "Glyphicons Halflings";
+
+}
+	&:hover,
+	&:focus,
+	&:visited
+		{
+		background: none;
+		color: @brand-primary;
+		outline: none;
+	}
+	
+	}
+	&.collapsed {
+	&:before {
+    content: "Read more";
+
+}	
+		
+	&:after{
+    content: " \e114";
+    font-family: "Glyphicons Halflings";
+}
+	
+	&:hover,
+	&:focus,
+	&:visited	{
+		background: none;
+		color: @brand-primary;
+		outline: none;
+	}
+	
+	
+	}
+
+
+	}
+.collapse:not(.in) {
+    height: 1.5em !important;
+    display: block;
+    overflow: hidden;
 }
 
+body#page-course-loginas #page-content {
+    margin-top: 0em;
+    padding-top: 3em;
+    margin-bottom: -1px;
+}
+span.loading-icon {
+    display: none;
+}  
+
+ 

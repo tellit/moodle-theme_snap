@@ -23,6 +23,10 @@
 // -------------------------
 // Course toc & appendicies.
 // -------------------------
+div#fixy-visible-courses + .cass-personal-menu-more {
+    display: none;
+}
+
 #course-toc {
 	font-size: .764em;
     /* TOC heading. */
@@ -30,10 +34,11 @@
         text-transform: uppercase;
         font-size: 1em;
     }
+	  
 
     /* TOC list. */
     #chapters { 
-        padding: 0 0 0 1em;
+        padding: 0 0 0 .618em;
 
         li {
             padding: 0 0 0.618em 0.618em;
@@ -44,7 +49,7 @@
         /* Chapter link */
         .chapter-title {
             display: block;
-            margin-bottom: -0.3em;
+            margin-bottom: -0.25em;
             line-height: 1.75;
 			color: @text-color;
         }
@@ -58,8 +63,8 @@
 
     /* Completed section icon. */
     .cass-section-complete {
-        width: 1.3em;
-        height: 1.3em;
+        width: 1.2em;
+        height: 1.2em;
     }
 
      /* CSS mididots. */
@@ -71,12 +76,13 @@
 // -------------------------
 // Display when toc is part of page body.
 // -------------------------
-li.cass-visible-section:before {
+li.cass-visible-section:after {
     content: ">";
     float: right;
     line-height: 1.6em;
     font-weight: bold;
 	padding-right: .614em;
+	margin-top: -1.35em;
 }
 
 #cass-course-wrapper {
@@ -294,7 +300,12 @@ li.cass-visible-section:before {
 }
 
 @media screen and (max-width: @screen-md-min) {
-    // Small screen moving cancel link.
+    
+	#moodle-page #region-main{
+		padding: 0 3.44% 6.18%;
+	}
+	
+	// Small screen moving cancel link.
     .cass-footer-alert-cancel {
         margin-right: 3em;
     }

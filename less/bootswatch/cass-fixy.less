@@ -6,28 +6,31 @@
 
 
 
-a.cass-personal-menu-more {
-	small{
-	padding-right: .618em;
-    line-height: 3.4em;
-}
+a.cass-personal-menu-more{
+	small {
+	display: none;}
 
 .svg-icon {
     margin: 0;
 	}}
- 
+
 
 .fixy {
     display: none;
-    background-color: @gray-light;
+    background-color: @gray-dark;
 }
 
 .cass-fixy-open {
     #primary-nav,
-    #cass-login {
+    #cass-login,
+	.appear_enabled{
         display: block;
     }
 
+	.next_activity_area{
+		display: none;
+	}
+	
     #page,
     #moodle-footer,
     #fixy-trigger,
@@ -41,10 +44,10 @@ a.cass-personal-menu-more {
 }
 
 .cass-my-courses-menu {
-    display: inline;
     border: none;
     position: relative; // Position to support message badge.
-    padding: 1rem 1rem 1rem 0; // Padding to support message badge.
+    padding: 0rem 1rem 0rem 0; // Padding to support message badge.
+	float: left;
 
     .userpicture {
         height: 2em;
@@ -81,9 +84,9 @@ a.cass-personal-menu-more {
     h2 {
         color: @body-bg;
         font-weight: 500;
-        line-height: 1 !important;
-        padding: .5em 0 .1em 0;
-        margin: 0 !important;
+        line-height: 1;
+        padding: .5em 0 .1em 3em;
+        margin: 0;
         margin-bottom: 1em;
         font-size: 1rem;
         text-align: left;
@@ -135,8 +138,11 @@ a.cass-personal-menu-more {
 
 
 
-#fixy-content {
+#fixy-content, #page-mod-assign-view #fixy-content{
     padding: 0 3.444%;
+	h2{
+	padding: .4em  0 .3em ;
+	}
     .clearfix();
     section {
         padding: 1em 0;
@@ -351,11 +357,6 @@ a.cass-personal-menu-more {
     }
 }
 
-#fixy-my-courses .clearfix {
-	.svg-icon, small {
-    display: none;
-}
-}
 // Hidden courses.
 #fixy-hidden-courses {
     display: none; // toggled via js.
@@ -572,7 +573,8 @@ a.cass-personal-menu-more {
 
 // Favorite toggle icons.
 button.cass-icon-toggle.favoritetoggle {
-   display: none;
+    border-radius: 100%;
+    border: 2px solid transparent;
 
     &:focus {
         border-color: #FEC111;
@@ -585,33 +587,4 @@ section#fixy-my-courses h2 {
 
 a#fixy-close {
     padding-right: 3.444%;
-}
-
-.cass-media-object>a>img, .cass-media-object>img {
-    float: left;
-    display: block;
-    width: 36px;
-    height: auto;
-    vertical-align: baseline;
-    margin-right: .614em;
-}
-
-.cass-media-object {
-    font-weight: 500;
-    padding: .5em 0;
-} 
-
-.cass-media-body h3 {
-    font-size: 14px;
-    padding: 0;
-    margin: 0;
-    line-height: 1.25em;
-}
-.cass-media-meta {
-    display: flex;
-}
-
-.cass-media-meta time {
-    font-size: 14px;
-    line-height: 1em;
 }

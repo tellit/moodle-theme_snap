@@ -347,6 +347,39 @@ li.section:focus {
     }
 }
 
+span#mod_quiz_navblock_title {
+    display: none;
+}
+
+.section-modchooser-link.btn {
+        display: block;
+        cursor: pointer;
+        background-size: 2rem 2rem;
+        padding: 1em 0 1em 0;
+        border: 3px dashed #eee;
+        border-radius: 4px;
+	    background: transparent;
+    	box-shadow: none;
+		margin: 0;
+		font-size: inherit;
+    	line-height: inherit;
+		font-family: @font-family-fancy !important; 
+
+        &:hover,
+        &:focus {
+            border-color: @gray-lighter;
+			background: inherit;
+        }
+    } 
+
+.col-sm-6.cass-modchooser.section_add_menus {
+    padding-top: 1em;
+}
+
+.cass-section-complete + small {
+    color: #6C953C;
+}
+
 .section-modchooser-link {
     display: block;
     text-align: center;
@@ -1187,9 +1220,10 @@ a.cass-assignment-stage.label.label-warning {
 .cass-completion-meta,
 .cass-group-tag,
 .cass-grouping-tag {
-    text-align: right;
     font-size: small;
     margin-bottom: 0.5em;
+	margin-left: -0.4em;
+	font-family: @font-family-fancy;
 
     a {
         padding: 0.5em;
@@ -1238,7 +1272,6 @@ a.cass-assignment-stage.label.label-warning {
 .cass-completion-meta {
     // SHAME - hsuforum sets div inline block to overcome other themes moodle css...
     // We need to counteract this for cass for hsu forum for the moment.
-    display: none !important;
     clear: both;
 }
 
@@ -1702,16 +1735,19 @@ span.editinstructions {
         .date,
         .name {
             display: inline;
+			float: left;
+			clear: both;
         }
 
         .date {
-            float: right;
             font-size: small;
         }
     }
 
-    .info.bold {
+    .info {
         font-weight: inherit;
+		float: left;
+		clear: both;
     }
 }
 
