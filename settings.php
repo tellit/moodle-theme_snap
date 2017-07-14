@@ -437,7 +437,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/leftnav';
     $title = new lang_string('leftnav', 'theme_cass');
     $description = new lang_string('leftnavdesc', 'theme_cass');
-    $default = $unchecked;
+    $default = $checked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $casssettings->add($setting);
 
