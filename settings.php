@@ -82,7 +82,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/themecolor';
     $title = new lang_string('themecolor', 'theme_cass');
     $description = new lang_string('themecolordesc', 'theme_cass');
-    $default = '#3bcedb';
+    $default = '#8f182e';
     $previewconfig = null;
     $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
     $setting->set_updatedcallback('theme_reset_all_caches');
@@ -126,7 +126,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/personalmenulogintoggle';
     $title = new lang_string('personalmenulogintoggle', 'theme_cass');
     $description = new lang_string('personalmenulogintoggledesc', 'theme_cass');
-    $default = $checked;
+    $default = $unchecked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $casssettings->add($setting);
 
@@ -170,7 +170,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/showcoursegradepersonalmenu';
     $title = new lang_string('showcoursegradepersonalmenu', 'theme_cass');
     $description = new lang_string('showcoursegradepersonalmenudesc', 'theme_cass');
-    $default = $checked; // For new installations (legacy is unchecked via upgrade.php).
+    $default = $unchecked; // For new installations (legacy is unchecked via upgrade.php).
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $casssettings->add($setting);
 
@@ -225,7 +225,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/collapsecompletedactivities';
     $title = new lang_string('collapsecompletedactivities', 'theme_cass');
     $description = new lang_string('collapsecompletedactivitiesdesc', 'theme_cass');
-    $default = $checked;
+    $default = $unchecked;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, $checked, $unchecked);
     $casssettings->add($setting);
     
@@ -266,7 +266,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/nextactivitymodaldialogtolerance';
     $title = new lang_string('nextactivitymodaldialogtolerance', 'theme_cass');
     $description = new lang_string('nextactivitymodaldialogtolerancedesc', 'theme_cass');
-    $default = 30;
+    $default = 15;
     $setting = new admin_setting_configtext($name, $title, $description, $default, PARAM_INT);
     $casssettings->add($setting);
     
@@ -282,7 +282,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/logoutredirection';
     $title = new lang_string('logoutredirection', 'theme_cass');
     $description = new lang_string('logoutredirectiondesc', 'theme_cass');
-    $default = '';
+    $default = 'https://webapps.city.ac.uk/globalfinancemsc/';
     $setting = new admin_setting_configtext($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $casssettings->add($setting);
@@ -355,7 +355,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/footnote';
     $title = new lang_string('footnote', 'theme_cass');
     $description = new lang_string('footnotedesc', 'theme_cass');
-    $default = '';
+    $default = new lang_string('footnotedefault', 'theme_cass');   
     $setting = new admin_setting_confightmleditor($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $casssettings->add($setting);
@@ -364,7 +364,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/copyrightnotice';
     $title = new lang_string('copyrightnotice', 'theme_cass');
     $description = new lang_string('copyrightnoticedesc', 'theme_cass');
-    $default = '';
+    $default = '&nbsp;';
     $setting = new admin_setting_confightmleditor($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $casssettings->add($setting);
@@ -410,7 +410,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/headingfont';
     $title = new lang_string('headingfont', 'theme_cass');
     $description = new lang_string('headingfont_desc', 'theme_cass');
-    $default = '"Roboto"';
+    $default = '"ff-meta-web-pro"';
     $setting = new admin_setting_configtext($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $casssettings->add($setting);
@@ -419,7 +419,7 @@ if ($ADMIN->fulltree) {
     $name = 'theme_cass/seriffont';
     $title = new lang_string('seriffont', 'theme_cass');
     $description = new lang_string('seriffont_desc', 'theme_cass');
-    $default = '"Georgia"';
+    $default = '"ff-meta-serif-web-pro"';
     $setting = new admin_setting_configtext($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $casssettings->add($setting);

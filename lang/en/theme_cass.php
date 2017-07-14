@@ -160,10 +160,31 @@ $string['fixheadertotopofpage'] = 'Fix header to top of page';
 $string['fixheadertotopofpagedesc'] = 'If checked, the navigation header will follow the top of the screen. If unchecked the header will normally scroll off the top of the screen.';
 $string['fontloader'] = 'Font Loader';
 $string['fontloaderdesc'] = 'If you need to load a custom font resource, you can do it here.';
-$string['fontloaderdefault'] = "<link href='//fonts.googleapis.com/css?family=Roboto:500,100,400,300' rel='stylesheet' type='text/css'>";
+$string['fontloaderdefault'] = '<script src="https://use.typekit.net/ikx0ypn.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>';
 $string['footerheading'] = 'Footer';
 $string['footerheadingdesc'] = '';
 $string['footnote'] = 'Site footer';
+$string['footnotedefault'] = '<div class="row">
+        <div class="col-md-12"><p>
+  <br>
+</p></div></div>
+<div class="col-md-4">
+  <ul class="legal">
+    <li> <a href="http://moodle.city.ac.uk/course/view.php?id=18562#section-2">Contact us</a>
+    </li>
+    <li> <a href="http://moodle.city.ac.uk/course/view.php?id=18562#section-4">Library</a>
+    </li>
+    <li> <a href="http://moodle.city.ac.uk/course/view.php?id=18562#section-5">Careers</a>
+    </li>
+    <li> <a href="http://moodle.city.ac.uk/course/view.php?id=18562#section-3">Handbooks</a>
+    </li>
+  </ul>
+</div>
+<div class="col-md-4"></div>
+<div class="col-md-4">
+  <img class="cass-logo" src="http://moodle.city.ac.uk/theme/cass/pix/cass-business-school-full-white.svg" alt="Cass Logo" data-pin-nopin="true">
+</div>';
 $string['footnotedesc'] = 'A footer for your site. This is the best place to put links to help, support and any other sites your organisation has that you want learners/educators to be aware of e.g. library, email etc.';
 $string['forcepwdwarningpersonalmenu'] = 'You must <a href="{$a}">change your password</a> before using the personal menu.';
 $string['forumauthor'] = 'Author';
