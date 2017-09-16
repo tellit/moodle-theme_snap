@@ -15,10 +15,7 @@ a.cass-personal-menu-more{
 	}}
 
 
-.fixy {
-    display: none;
-    background-color: @gray-dark;
-}
+
 
 .cass-fixy-open {
     #primary-nav,
@@ -76,6 +73,9 @@ a.cass-personal-menu-more{
     bottom: 0;
     overflow-y: auto;
     z-index: 1000000;
+    display: none;
+    background-color: @gray-dark !important;
+
 
     #fixy-close {
         color: #fff;
@@ -391,14 +391,14 @@ a.cass-personal-menu-more{
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top center;
-    box-shadow: 0 1px 2px 0 @gray-lighter;
+    box-shadow: 0 1px 2px 0 @gray-darker;
     cursor: pointer;
     overflow: hidden;
     .alakazam();
 
     &:hover {
-        transform: scale(1.06);
-        box-shadow: 0 8px 17px 0 @gray-light, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        transform: scale(1.03);
+        box-shadow: 0 8px 17px 0 @gray-darker, 0 6px 20px 0 rgba(0,0,0,0.25);
 
         .courseinfo-teachers {
             transform: scale(1.2);

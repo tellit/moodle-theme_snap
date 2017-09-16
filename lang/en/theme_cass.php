@@ -167,9 +167,9 @@ $string['footerheadingdesc'] = '';
 $string['footnote'] = 'Site footer';
 $string['footnotedefault'] = '<div class="row">
         <div class="col-md-12"><p>
-  <br>
+  <br>  
 </p></div></div>
-<div class="col-md-4">
+<div class="col-md-8">
   <ul class="legal">
     <li> <a href="http://moodle.city.ac.uk/course/view.php?id=18562#section-2">Contact us</a>
     </li>
@@ -181,7 +181,6 @@ $string['footnotedefault'] = '<div class="row">
     </li>
   </ul>
 </div>
-<div class="col-md-4"></div>
 <div class="col-md-4">
   <img class="cass-logo" src="http://moodle.city.ac.uk/theme/cass/pix/cass-business-school-full-white.svg" alt="Cass Logo" data-pin-nopin="true">
 </div>';

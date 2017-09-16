@@ -90,8 +90,13 @@ li.cass-visible-section:after {
 
  
     #region-main {
-        padding-top: 3.5em;
 		font-family: @font-family-fancy;
+		#page-course-view-topics &{
+			padding-top:5.35em;
+		}
+		#page-course-view-weeks &{
+			padding-top:4.2em;
+		}
     }
 	#course-toc{
 		    padding-top: 5.5em;
@@ -100,6 +105,8 @@ li.cass-visible-section:after {
 	
 	.col-md-3 {
     padding: 0;
+	position: sticky;
+	top: 0;
 }
 
     /* TOC heading. */
@@ -315,7 +322,7 @@ li.cass-visible-section:after {
 }
 
     #toc-mobile-menu-toggle {
-        background: @gray-lighter url("[[pix:theme|burger]]") no-repeat 50% 50%;
+        background: @gray-light url("[[pix:theme|burger]]") no-repeat 50% 50%;
         background-size: 1em;
         display: inline-block;
         bottom: 0.5em;

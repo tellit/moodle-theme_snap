@@ -32,9 +32,6 @@
 // easier to trace back.
 //.
 
-.formulation select.incorrect, .formulation input.incorrect {
-	background: lighten(@brand-warning, 51%);
-}
 
 #page-mod-quiz-review{
 	
@@ -110,15 +107,16 @@ table.quizreviewsummary td.cell {
 }
 }
 
-#page-mod-assign-view .cass-media-body , .cass-media-body {
+#page-mod-assign-view #fixy-content .cass-media-body , #fixy-content .cass-media-body  {
 
 h3 {
     font-size: 14px;
     padding: 0;
     margin: 0;
     line-height: 1.25em;
+	float: left !important;
 	
-	a{ 
+	a{  
 	color:@modal-bg;
 	}
 	&:hover{
@@ -156,7 +154,7 @@ h3.hsuforum-recent-heading {
 }
 .snap-media-body {
     font-size: 14px;
-    padding: 0 .618em 1em;
+    padding: .318em .618em 1em;
     float: right;
 }
 
@@ -389,8 +387,9 @@ a.btn-secondary:hover, {
 
 #page-mod-assign-view, #page-mod-assign-editsubmission, #page-mod-assign-mod{
 
-#region-main {
+#page {
     max-width: 960px;
+	margin: 0 auto;
 }
 }
 // Typography
@@ -786,8 +785,7 @@ input[type="reset"],
 #page-login-index #page,
 .news-article-image,
 .news-article-preview,
-#cass-footer-alert,
-#toc-mobile-menu-toggle {
+#cass-footer-alert {
     background-color: @brand-primary;
 }
 
@@ -1138,6 +1136,7 @@ body#page-mod-quiz-attempt{
 #page-mod-quiz-attempt 
 
 {
+	.alakazam();
      #moodle-footer.nocoursefooter {
         margin-top: 0;
     }
@@ -1281,7 +1280,7 @@ input[type=submit]:disabled, button:disabled {
 
 
 .que .feedback {
-    padding: 2em 310% 3.9em;
+    padding: 2.618em 310% 3.9em;
     color: #fff;
     margin: -1px -310%;
     font-size: 1.2em;
@@ -1334,7 +1333,7 @@ input[type=submit]:disabled, button:disabled {
 
 .que .ablock {
     margin: 1em 0 1.618em 0;
-}
+} 
 
 .correct .rightanswer {
     display: none;
@@ -1348,19 +1347,12 @@ input[type=submit]:disabled, button:disabled {
 
 }
 
-.correct .feedback:after {
-    content: 'You are correct';
-}
-
 img.questioncorrectnessicon {
-    height: 1.6em;
-    margin: 0 0 -.2em .2em;
+    height: 1em;
+    margin: 0 .618em 0 0;
 }
 
 //Getting the padding to work when there is no feedback
-.que .content div:nth-last-child(2) {
-    padding-bottom: 0;
-}
 
 .que .formulation {
     padding-bottom: 4em;
@@ -1371,6 +1363,29 @@ h3.qtype{
     padding: 0 0 .3em;
     line-height: 1.2em;
 }
+
+.formulation select.incorrect, .formulation input.incorrect {
+    color: #C9282D;
+    background-color: transparent;
+    box-shadow: none;
+    -webkit-appearance: none;
+    border-bottom: #C9282D 2px solid;
+    -webkit-border-radius: 0px;
+    padding: 0px 10px 0px 5px;
+	height: @input-height-base;
+}
+
+.formulation select.correct, .formulation input.correct {
+    color: #6C953C;
+    -webkit-appearance: none;
+    border-bottom: #6C953C 2px solid;
+    -webkit-border-radius: 0px;
+    padding: 0px 10px 0px 5px;
+	background-color: transparent;
+	box-shadow: none;
+	height: @input-height-base;
+}
+
 
 //Quiz navigation
 
@@ -1502,6 +1517,7 @@ ul.choices {
  h3 {
     max-width: 960px;
     margin: 0 auto;
+	float: left;
 }
 
 .submissionstatustable {
@@ -1526,19 +1542,32 @@ ul.choices {
 }
 
 #page-mod-hsuforum-discuss button {
-    margin: .4em 0;
+    margin: .618em 0;
 }
  
-.hsuforum-form .hsuforum-textarea{
+.hsuforum-form {
+	hsuforum-textarea{
+    display: none;
+}
+	.hsuforum-textarea{
     font-family: @font-family-fancy;
 }
-
-#page-mod-hsuforum-discuss{
-    overflow-x: hidden;
 }
 
-#page-mod-hsuforum-discuss .hsuforum-thread-replies {
+#page-mod-hsuforum-discuss, #page-mod-hsuforum-view{
+    overflow-x: hidden;
+
+
+.hsuforum-thread-replies {
 border-top: 1px solid @gray-lighter; 
+	}
+	.editor-attachments{
+		display: none;
+	}
+}
+
+a.hsuforum-use-advanced.disable-router.btn.btn-link {
+    display: none;
 }
 
 #page-mod-hsuforum-discuss .breadcrumb > li:nth-last-child(2), time.hsuforum-thread-pubdate, #hsuforum-filter-options, 
@@ -1552,6 +1581,11 @@ span.hsuforum-replycount, small.hsuforum-thread-replies-meta{
     background: transparent;
 }
 
+.hsuforum-thread-header, .hsuforum-thread-title {
+    float: left;
+    width: 100%;
+}
+
 .hsuforum-thread-figure, .hsuforum-thread-content, .hsuforum-thread-tools, .hsuforum-post-figure, .hsuforum-thread-body {
     padding: 0;
     width: 100%;
@@ -1561,7 +1595,12 @@ span.hsuforum-replycount, small.hsuforum-thread-replies-meta{
     display: none;
 }
 
-.hsuforum-post-body a.hsuforum-reply-link.btn.btn-default {
+.hsuforum-post-body 
+{
+	.advancedoptions {
+    display: none;
+}
+	a.hsuforum-reply-link.btn.btn-default {
     background: none;
     box-shadow: none;
     border: none;
@@ -1570,7 +1609,12 @@ span.hsuforum-replycount, small.hsuforum-thread-replies-meta{
     font-size: @font-size-small;
     margin: 0;
 }
- 
+}
+
+.path-mod-hsuforum .discussioncontrols .managesubslink {
+    display: none;
+}
+
 .hsuforum-thread-content {
     float: left;
     clear: none;
@@ -1653,7 +1697,6 @@ display: none;
 
 .hsuforum-thread-body {
     float: right;
-    max-width: 940px;
     width: 100%;
     @media screen and (max-width: 940px){
         float:left;
@@ -1694,6 +1737,7 @@ display: none;
     width: 100%;
     float: right;
     margin-left: 100px;
+	border-bottom: none;
      @media screen and (max-width: 940px){
         float:left;
          margin-left: 0;
@@ -1904,7 +1948,7 @@ span.dropcap_inner {
 #region-main {
     font: 1em @font-family-serif;
     p{
-    line-height: 1.5em;
+    line-height: 1.618em;
     margin: 0 0 14px;
 	font-family: @font-family-serif;
     }}
@@ -1942,7 +1986,7 @@ span.dropcap_inner {
 
 .youtube {
     position: relative;
-    padding-bottom: 50%;
+    padding-bottom: 51%;
     padding-top: 35px;
     height: 0;
     overflow: hidden;
@@ -1976,11 +2020,18 @@ iframe {
 display: none;
 }
 
-.activity.modtype_hsuforum .cass-media-body, {
+.modtype_hsuforum .hsuforum-recent a {
+	
+	h3 {
 color: @text-color;
 width: initial;
 }
-
+	time{
+		line-height: 1em;
+		font-family: @font-family-sans-serif;
+		color: @text-color;
+	}
+}
 .section li.cass-asset .activityinstance .cass-asset-link a {
 color: @text-color;
 }
@@ -2154,15 +2205,15 @@ span.activitycompletenextmodname {
 // -------------------------
 
 .firstactivityinsection {
-	#maincontent + h4:first-child, #region-main #maincontent + h2:first-child {
+	#region-main h4:first-child, #region-main h2:first-child, #maincontent + h2 {
     	background: @brand-primary;
     	color: white;
-    	margin: -10% -300% 0;
+    	margin: -10% -300% 1.3em;
     	padding: 3.32em 300% .85em;
     	line-height: 1.23em;
     }
 }
-
+  
 
 // -------------------------
 //  Getting the course page to show the navigation on the left, yo
@@ -2184,7 +2235,6 @@ span.activitycompletenextmodname {
     /*min-height: 98vh;*/ 
     padding: 0;
     max-width: 61.8%; 
-    width: 100%;
     @media screen and (max-width: @screen-lg-min){
         margin: 0 calc(~"50%" - ~"25%") 0 0;
     }
@@ -2203,7 +2253,11 @@ span.activitycompletenextmodname {
     font-size: 3.15em;
 	padding-bottom: 1em;
 	color: #000;
+		#page-course-view-topics &{
+			padding-top: .53em;
+		}
 }
+		
     
 } 
 .path-course-view #page-header h1, #toc-search, #course-toc h2  {
@@ -2275,8 +2329,9 @@ span.text {
     padding-right: 0;
 }
 
-.posting{
-    padding-top: 2.6em;
+#wrapper.video {
+	padding-top: 30px !important;
+    padding-bottom: 57% !important;
 }
 
 .path-course #page-header {
@@ -2683,22 +2738,23 @@ li.section {
 }
 
 
-h2.sectionname:before {
+#page-course-view-weeks {
+	h2.sectionname:before {
     content: "Week " counter(my-awesome-counter);
     border-bottom: 2px solid #00759B;
     display: block;
     margin-bottom: 2.614em;
     font-family: @font-family-fancy;
     font-size: 20px;
-	line-height: 2em;
+	line-height: 1.618em;
     padding-top: .4em;
-	color: @gray;
+	color: @gray-light;
 }
 
-#page-course-view-weeks #region-main .state-visible p:first-of-type {
+#region-main .state-visible p:first-of-type {
     font-family: @font-family-fancy;
     padding-top: 1em;
-    color: @gray;
+    color: @gray-light;
 }
 
 
@@ -2706,7 +2762,7 @@ h2.sectionname:before {
 #section-0 h2.sectionname:before {
 	content:"Introduction";
 }
-
+}
 .row-fluid {
     margin: 0 !important;
 }
@@ -2782,5 +2838,9 @@ body#page-course-loginas #page-content {
 span.loading-icon {
     display: none;
 }  
+
+.user-enroller-panel .uep-wrap .uep-header .close, .other-user-manager-panel .uep-wrap .uep-header .close, .user-enroller-panel .oump-wrap .uep-header .close, .other-user-manager-panel .oump-wrap .uep-header .close, .user-enroller-panel .uep-wrap .oump-header .close, .other-user-manager-panel .uep-wrap .oump-header .close, .user-enroller-panel .oump-wrap .oump-header .close, .other-user-manager-panel .oump-wrap .oump-header .close, .user-enroller-panel .uep-wrap .uep-header .oump-panel-close, .other-user-manager-panel .uep-wrap .uep-header .oump-panel-close, .user-enroller-panel .oump-wrap .uep-header .oump-panel-close, .other-user-manager-panel .oump-wrap .uep-header .oump-panel-close, .user-enroller-panel .uep-wrap .oump-header .oump-panel-close, .other-user-manager-panel .uep-wrap .oump-header .oump-panel-close, .user-enroller-panel .oump-wrap .oump-header .oump-panel-close, .other-user-manager-panel .oump-wrap .oump-header .oump-panel-close {
+	background: none;
+}
 
  

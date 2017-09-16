@@ -177,7 +177,7 @@ section#region-main
 
 .format-topics {
     li.section .sectionname:before {
-        content: counter(annotation-list) ".\00a0";
+        content: none;
     }
 
     // drag and drop yui hack
@@ -1077,6 +1077,7 @@ span.stepper-complete {
     font-size: .7em;
     font-feature-settings: 'lnum';
     border: solid @body-bg 16px;
+	background-clip: padding-box;
 }
               
 span.stepper-current {
@@ -1087,13 +1088,14 @@ span.stepper-current {
     border-radius: 3em;
     width: 63px;
     height: 63px;
-    text-indent: 11px;
+    text-indent: 12px;
     line-height: 2.3em;
     color: #fff;
     font-size: .7em;
     font-family: @font-family-monospace;
     font-feature-settings: 'lnum';
     border: solid @body-bg 16px;
+	background-clip: padding-box;
 }
 
 span.stepper-future {
@@ -1104,13 +1106,14 @@ span.stepper-future {
     border-radius: 3em;
     width: 63px;
     height: 63px;
-    text-indent: 11px;
+    text-indent: 12px;
     line-height: 2.3em;
     color: #fff;
     font-size: .7em;
     font-family: @font-family-monospace;
     font-feature-settings: 'lnum';
     border: solid @body-bg 16px;
+	background-clip: padding-box;
 } 
 
 li.unavailable h4 {
@@ -1721,7 +1724,7 @@ span.editinstructions {
 // -------------------------
 
 #cass-course-footer {
-    padding: 0 3.444%;
+    padding: 3.444%;
     background-color: @gray-lighter;
 }
 
