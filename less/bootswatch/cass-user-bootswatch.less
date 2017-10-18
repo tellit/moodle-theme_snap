@@ -1977,7 +1977,7 @@ span.dropcap_inner {
 
 .path-mod .holder {
     position: relative;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25% !important;
     padding-top: 35px;
     height: 0;
     overflow: hidden;
@@ -1986,13 +1986,15 @@ span.dropcap_inner {
 
 .youtube {
     position: relative;
-    padding-bottom: 51%;
+    padding-bottom: 51.8%;
     padding-top: 35px;
     height: 0;
     overflow: hidden;
     margin: 1em 0 3em;
+} 
+html.hosted #wrap {
+	padding: 0px !important;
 }
-
 
 iframe {
     position: absolute;
@@ -2209,7 +2211,7 @@ span.activitycompletenextmodname {
     	background: @brand-primary;
     	color: white;
     	margin: -10% -300% 1.3em;
-    	padding: 3.32em 300% .85em;
+    	padding: 5.32em 300% .85em;
     	line-height: 1.23em;
     }
 }
@@ -2321,7 +2323,6 @@ span.text {
 .col-md-8 {
     padding-left: 0;
     padding-right: 0;
-	float: left;
 }
 
 .col-md-4{
