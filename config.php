@@ -17,41 +17,59 @@
 /**
  * Theme config
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
- // SL - dec 2015 - Make sure editing sessions are not carried over between courses.
-global $SESSION, $COURSE, $USER;
-if (!defined('AJAX_SCRIPT')) {
-    if (empty($SESSION->theme_snap_last_course) || $SESSION->theme_snap_last_course != $COURSE->id) {
-        $USER->editing = 0;
-        $SESSION->theme_snap_last_course = $COURSE->id;
+use theme_cass\local;
+use theme_cass\cass_page_requirements_manager;
+
+global $SESSION, $COURSE, $USER, $PAGE;
+
+$theme = local::resolve_theme();
+$themeiscass = $theme === 'cass';
+$notajaxscript = !defined('AJAX_SCRIPT') || AJAX_SCRIPT == false;
+// The code inside this conditional block is to be executed prior to page rendering when the theme is set to cass and
+// when the current request is not an ajax request.
+// There doesn't appear to be an official hook we can use for doing things prior to page rendering, so this is a
+// workaround.
+if ($themeiscass && $notajaxscript) {
+
+    // Setup debugging html.
+    // This allows javascript to target debug messages and move them to footer.
+    if (!empty($CFG->casswrapdebug) && !function_exists('xdebug_break')) {
+        ini_set('error_prepend_string', '<div class="php-debug">');
+        ini_set('error_append_string', '</div>');
     }
-}
 
-// Setup debugging html.
-// This allows javascript to target debug messages and move them to footer.
-if (!function_exists('xdebug_break')) {
-    ini_set('error_prepend_string', '<div class="php-debug">');
-    ini_set('error_append_string', '</div>');
+    // SL - dec 2015 - Make sure editing sessions are not carried over between courses.
+    if (empty($SESSION->theme_cass_last_course) || $SESSION->theme_cass_last_course != $COURSE->id) {
+        $USER->editing = 0;
+        $SESSION->theme_cass_last_course = $COURSE->id;
+    }
+
+    if (isset($SESSION->wantsurl)) {
+        // We are taking a backup of this because it can get unset later by core.
+        $SESSION->casswantsurl = $SESSION->wantsurl;
+    }
 }
 
 $THEME->doctype = 'html5';
 $THEME->yuicssmodules = array('cssgrids'); // This is required for joule grader.
-$THEME->name = 'snap';
-$THEME->parents = array();
-$THEME->sheets = array('moodle', 'custom');
+$THEME->name = 'cass';
+$THEME->parents = array('boost');
+
+$THEME->enable_dock = false;
+$THEME->prescsscallback = 'theme_cass_get_pre_scss';
+$THEME->scss = function($theme) {
+    return theme_cass_get_main_scss_content($theme);
+};
+$THEME->csspostprocess = 'theme_cass_process_css';
 $THEME->supportscssoptimisation = false;
 
 $THEME->editor_sheets = array('editor');
-
-$THEME->plugins_exclude_sheets = array(
-    'block' => array(
-        'html'
-    ),
-);
 
 $THEME->rendererfactory = 'theme_overridden_renderer_factory';
 
@@ -86,7 +104,7 @@ $THEME->layouts = array(
         'options' => array('langmenu' => true),
     ),
     'coursecategory' => array(
-        'file' => 'default.php',
+        'file' => 'course-index-category.php',
         'regions' => array(),
     ),
     // Part of course, typical for modules - default page layout if $cm specified in require_login().
@@ -170,7 +188,7 @@ $THEME->layouts = array(
     ),
     // The pagelayout used for safebrowser and securewindow.
     'secure' => array(
-        'file' => 'default.php',
+        'file' => 'secure.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
     ),
@@ -178,33 +196,9 @@ $THEME->layouts = array(
 
 $THEME->javascripts = array(
 );
-
 $THEME->javascripts_footer = array(
-    'bootstrap',
-    'snap',
-    'course',
-    'modernizer',
-    'jquery.placeholder'
 );
 
-// Optionally load headroom only if required
-if (empty($THEME->settings->fixheadertotopofpage)) {
-    $THEME->javascripts_footer[] = 'headroom';
-} else {
-    $THEME->javascripts_footer[] = 'breadcrumb';
-}
-
-// Optionally load TweenMax only if required
-if (!empty($THEME->settings->nextactivitymodaldialog)) {
-    $THEME->javascripts_footer[] = 'completion';
-    
-    //TweenMax raises a minification error
-    $THEME->javascripts_footer[] = 'TweenMax';
-}
-
-if (!empty($THEME->settings->csspostprocesstoggle)) {
-    $THEME->csspostprocess = 'theme_snap_process_css';
-}    
 $THEME->hidefromselector = false;
 
 // For use with Flexpage layouts.
@@ -212,3 +206,15 @@ $THEME->blockrtlmanipulations = array(
     'side-pre' => 'side-post',
     'side-post' => 'side-pre'
 );
+
+if ($themeiscass && $notajaxscript) {
+    if (empty($CFG->casspageinit) && !empty($PAGE)) {
+        $CFG->casspageinit = true;
+        $PAGE->initialise_theme_and_output();
+
+        // Modify $PAGE to use cass requirements manager.
+        $casspman = new cass_page_requirements_manager();
+        $casspman->copy_page_requirements();
+    }
+
+}

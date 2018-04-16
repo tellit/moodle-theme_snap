@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Snap non-AJAX handler
+ * Cass non-AJAX handler
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use theme_snap\controller\kernel;
-use theme_snap\controller\router;
-use theme_snap\controller\addsection_controller;
+use theme_cass\controller\kernel;
+use theme_cass\controller\router;
+use theme_cass\controller\addsection_controller;
 
 require_once(__DIR__.'/../../config.php');
 
@@ -39,7 +39,7 @@ require_login($course, false, $cm, false, true);
 
 /** @var $PAGE moodle_page */
 $PAGE->set_context($context);
-$PAGE->set_url('/theme/snap/index.php', array('action' => $action, 'contextid' => $context->id));
+$PAGE->set_url('/theme/cass/index.php', array('action' => $action, 'contextid' => $context->id));
 
 $router = new router();
 $router->add_controller(new addsection_controller());

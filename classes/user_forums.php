@@ -15,14 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 
-namespace theme_snap;
+namespace theme_cass;
 
-use theme_snap\local;
+use theme_cass\local;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Provides information on all forums a user has access to.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -80,7 +82,7 @@ class user_forums {
     public function __construct($userorid = false, $forumlimit = false) {
         $this->user = local::get_user($userorid);
         if (empty($this->user) || empty($this->user->id)) {
-            throw new coding_exception('Failed to get user from '.var_export($userorid, true));
+            throw new \coding_exception('Failed to get user from '.var_export($userorid, true));
         }
         if (!empty($forumlimit)) {
             self::$forumlimit = $forumlimit;
@@ -226,7 +228,7 @@ class user_forums {
      * there are query parameter limits in mssql and oracle.
      *
      * @param array $forums
-     * @param bool $hsufourm - is this a collection of advanced forums?
+     * @param bool $hsufourm - is this a collection of Moodlerooms forums?
      * @return mixed
      */
     protected function process_stale_forums(Array $forums, $hsuforum = false) {
@@ -268,7 +270,7 @@ class user_forums {
 
         // Note - we don't include the site in the list of courses. This is intentional - we want student engagement to
         // be increased in courses where learning takes place and the front page is unlikely to fit that model.
-        // Currently we are using local::swap_global_user as a hack for the following function (MDL-51353) :
+        // Currently we are using local::swap_global_user as a hack for the following function (MDL-51353).
         $this->courses = enrol_get_my_courses();
 
         $forums = [];

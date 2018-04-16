@@ -17,15 +17,18 @@
 /**
  * Theme plugin version definition.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2016012600;
-$plugin->requires  = 2015051103; // Requires this Moodle version (2.9.3).
-$plugin->release   = '2.9.3 (Build: 20160204)';
+$plugin->version   = 2017041700;
+$plugin->requires  = 2016120500;
+$plugin->release   = '3.2.2';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->component = 'theme_snap';
+$plugin->component = 'theme_cass';
+$plugin->dependencies = [
+    'theme_boost' => '2016120500'
+];

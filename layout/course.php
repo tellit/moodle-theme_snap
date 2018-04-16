@@ -17,14 +17,18 @@
 /**
  * Layout - course.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-include(__DIR__.'/header.php');
+defined('MOODLE_INTERNAL') || die();
+
+require(__DIR__.'/header.php');
 
 $coursemainpage = strpos($PAGE->pagetype, 'course-view-') === 0;
+$tocformat = ($COURSE->format == 'topics' || $COURSE->format == 'weeks');
+$leftnav = !empty($PAGE->theme->settings->leftnav);
 ?>
 <!-- moodle js hooks -->
 <div id="page">
@@ -35,49 +39,63 @@ $coursemainpage = strpos($PAGE->pagetype, 'course-view-') === 0;
 -->
 <main id="moodle-page" class="clearfix">
 <div id="page-header" class="clearfix
-<?php if (!empty($courseimagecss)) : ?>
+<?php
+// Check if the course is using a cover image.
+if (!empty($coverimagecss)) : ?>
  mast-image
 <?php endif;?>">
-
-<?php
-    if (empty($PAGE->theme->settings->breadcrumbsinnav)) {
-        echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
-    }
-?>
-
+<div class="breadcrumb-nav" aria-label="breadcrumb"><?php echo $OUTPUT->navbar(); ?></div>
 
 <div id="page-mast">
 <?php
+if ($coursemainpage) {
+    $output = $PAGE->get_renderer('core', 'course');
+    echo $output->course_format_warning();
+}
 echo $OUTPUT->page_heading();
 echo $OUTPUT->course_header();
 // Note, there is no blacklisting for the edit blocks button on course pages.
 echo $OUTPUT->page_heading_button();
-if ($coursemainpage) {
+if ($tocformat && !$leftnav) {
     echo $OUTPUT->course_toc();
 }
 ?>
 </div>
 </div>
-
+<?php
+if ($tocformat && $leftnav) {
+    echo '<div id="cass-course-wrapper">';
+    echo '<div class="row">';
+    echo '<div class="col-md-3">';
+    echo $OUTPUT->course_toc();
+    echo '</div>';
+    echo '<div class="col-md-9">';
+}
+?>
 <section id="region-main">
 <?php
 echo $OUTPUT->course_content_header();
 $output = $PAGE->get_renderer('core', 'course');
-echo $output->snap_move_notice();
+echo $output->cass_footer_alert();
 echo $OUTPUT->main_content();
 echo $OUTPUT->course_content_footer();
 ?>
 </section>
-
 <?php
+require(__DIR__.'/moodle-blocks.php');
 
-include(__DIR__.'/moodle-blocks.php');
+if ($tocformat && $leftnav) {
+    echo '</div> <!-- close section -->';
+    echo '</div> <!-- close row -->';
+    echo '</div> <!-- close course wrapper -->';
+}
 
 if ($coursemainpage) {
     $coursefooter = $OUTPUT->course_footer();
-    if (!empty($coursefooter)) : ?>
-    <footer role=footer id=snap-course-footer class=row><?php echo $coursefooter ?></footer>
-    <?php endif;
+    if (!empty($coursefooter)) { ?>
+    <footer role=contentinfo id=cass-course-footer class=row><?php echo $coursefooter ?></footer>
+    <?php
+    }
 } ?>
 </main>
 
@@ -85,4 +103,4 @@ if ($coursemainpage) {
 </div>
 <!-- close moodle js hooks -->
 
-<?php include(__DIR__.'/footer.php'); ?>
+<?php require(__DIR__.'/footer.php');

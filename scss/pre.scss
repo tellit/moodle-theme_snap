@@ -1,0 +1,74 @@
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Cass variables.
+ *
+ * @package   theme_cass
+ * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// Cass specific overrides to Boost settinsg from
+// theme/boost/scss/bootstrap/variables.scss
+
+$font-size-root: 18px;
+$font-size-lg:   1.25rem;
+$font-size-sm:   .75rem;
+$font-size-xs:   .6rem;
+
+// This needs some investigation of issues around IE11 and Moodle's autoprefixer implementaion.
+//$enable-flex:               true;
+$enable-rounded:            false;
+
+$brand-success:         #8BC34A;
+$brand-warning:         #FF9800;
+$brand-danger:          #E91E63;
+$brand-info:            #03A9F4;
+
+$body-bg:              #fff;
+$body-color:            #565656;
+
+$font-family-base:        "Roboto", "Fira Sans", "Segoe UI", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-sans-serif: $font-family-base;
+$font-family-serif:       Georgia, "Times New Roman", Times, serif;
+$font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
+
+$font-family-feature: $font-family-sans-serif;
+
+$headings-font-weight:    300;
+$headings-color:          $body-color;
+
+$modal-backdrop-bg:           #fff;
+$modal-backdrop-opacity:      .8;
+
+$breadcrumb-divider: "/";
+$breadcrumb-divider-rtl: '\\';
+
+$state-success-text:             $brand-success;
+$state-success-bg:               fade-out($brand-success, 0.9);
+$state-success-border:           fade-out($brand-success, 0.9);
+
+$state-info-text:                $brand-info;
+$state-info-bg:                  fade-out($brand-info, 0.9);
+$state-info-border:              fade-out($brand-info, 0.9);
+
+$state-warning-text:             $brand-warning;
+$state-warning-bg:               fade-out($brand-warning, 0.9);
+$state-warning-border:           fade-out($brand-warning, 0.9);
+
+$state-danger-text:              $brand-danger;
+$state-danger-bg:                fade-out($brand-danger, 0.9);
+$state-danger-border:            fade-out($brand-danger, 0.9);

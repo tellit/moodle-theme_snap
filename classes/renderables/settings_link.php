@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Settings link renderable.
  * @author    gthomas2
@@ -21,7 +21,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_snap\renderables;
+namespace theme_cass\renderables;
+use theme_cass\local;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -40,12 +41,23 @@ class settings_link implements \renderable {
     /**
      * @throws coding_exception
      */
-    function __construct() {
+    public function __construct() {
         global $PAGE, $COURSE;
+
+        // Are we on the main course page?
+        $oncoursepage = strpos($PAGE->pagetype, 'course-view') === 0;
+
+        // For any format other than topics, weeks, folderview or singleactivity, always output admin menu on main
+        // course page.
+        $formats = ['topics', 'weeks', 'folderview', 'singleactivity'];
+        if ($oncoursepage && !empty($COURSE->format) && !in_array($COURSE->format, $formats)) {
+            $this->set_admin_menu_instance();
+            return;
+        }
 
         // Page path blacklist for admin menu.
         $adminblockblacklist = ['/user/profile.php'];
-        if (in_array($PAGE->url->get_path(), $adminblockblacklist)) {
+        if (in_array(local::current_url_path(), $adminblockblacklist)) {
             return;
         }
 
@@ -53,7 +65,11 @@ class settings_link implements \renderable {
         // The admin menu shows up for other users if they are a teacher in the current course.
         if (!is_siteadmin()) {
             // We don't want students to see the admin menu ever.
-            $canmanageacts = has_capability('moodle/course:manageactivities', $PAGE->context);
+            // Editing teachers are identified as people who can manage activities and non editing teachers as those who
+            // can view the gradebook. As editing teachers are almost certain to also be able to view the gradebook, the
+            // grader:view capability is checked first.
+            $caps = ['gradereport/grader:view', 'moodle/course:manageactivities'];
+            $canmanageacts = has_any_capability($caps, $PAGE->context);
             $isstudent = !$canmanageacts && !is_role_switched($COURSE->id);
             if ($isstudent) {
                 return;
@@ -61,13 +77,20 @@ class settings_link implements \renderable {
         }
 
         if (!$PAGE->blocks->is_block_present('settings')) {
-            // Throw error if on front page or course page.
-            // (There are pages that don't have a settings block so we shouldn't throw an error on those pages).
-            if (strpos($PAGE->pagetype, 'course-view') === 0 || $PAGE->pagetype === 'site-index') {
-                debugging('Settings block was not found on this page', DEBUG_DEVELOPER);
-            }
             return;
         }
+
+        $this->set_admin_menu_instance();
+
+    }
+
+    /**
+     * Set admin menu instance, if required capability satisfied.
+     * 
+     * @throws \coding_exception
+     */
+    private function set_admin_menu_instance() {
+        global $PAGE;
 
         // Core Moodle API appears to be missing a 'get block by name' function.
         // Cycle through all regions and block instances until we find settings.
@@ -79,7 +102,11 @@ class settings_link implements \renderable {
                 }
             }
         }
-        
+
+        if (empty($this->instanceid)) {
+            return;
+        }
+
         if (!has_capability('moodle/block:view', \context_block::instance($this->instanceid))) {
             return;
         }

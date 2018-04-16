@@ -17,11 +17,13 @@
 /**
  * Layout - default.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-include(__DIR__.'/header.php');
+defined('MOODLE_INTERNAL') || die();
+
+require(__DIR__.'/header.php');
 ?>
 <!-- moodle js hooks -->
 <div id="page">
@@ -43,4 +45,4 @@ echo $OUTPUT->main_content();
 </div>
 <!-- close moodle js hooks -->
 
-<?php include(__DIR__.'/footer.php'); ?>
+<?php require(__DIR__.'/footer.php');

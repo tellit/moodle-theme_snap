@@ -14,24 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_snap;
+namespace theme_cass;
 
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
 
 // Note: PHP Storm is reporting this unused but it is!
-use \theme_snap\activity_meta;
+use \theme_cass\activity_meta;
 
 /**
  * Activity functions.
  * These functions are in a class purely for auto loading convenience.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class activity {
 
+    /**
+     * @param \cm_info $mod
+     * @return activity_meta
+     */
+    public static function module_meta(\cm_info $mod) {        
+        $methodname = $mod->modname . '_meta';
+        if (method_exists('theme_cass\\activity', $methodname)) {
+            $meta = call_user_func('theme_cass\\activity::' . $methodname, $mod);
+        } else {
+            $meta = new activity_meta(); // Return empty activity meta.
+        }
+        return $meta;
+    }
+    
     /**
      * Return standard meta data for module
      *
@@ -66,18 +79,18 @@ class activity {
         $meta = new activity_meta();
         $meta->submissionnotrequired = $submissionnotrequired;
         $meta->submitstrkey = $submitstrkey;
-        $meta->submittedstr = get_string($submitstrkey, 'theme_snap');
-        $meta->notsubmittedstr = get_string('not'.$submitstrkey, 'theme_snap');
-        if (get_string_manager()->string_exists($mod->modname.'draft', 'theme_snap')) {
-            $meta->draftstr = get_string($mod->modname.'draft', 'theme_snap');
+        $meta->submittedstr = get_string($submitstrkey, 'theme_cass');
+        $meta->notsubmittedstr = get_string('not'.$submitstrkey, 'theme_cass');
+        if (get_string_manager()->string_exists($mod->modname.'draft', 'theme_cass')) {
+            $meta->draftstr = get_string($mod->modname.'draft', 'theme_cass');
         } else {
-            $meta->drafstr = get_string('draft', 'theme_snap');
+            $meta->drafstr = get_string('draft', 'theme_cass');
         }
 
-        if (get_string_manager()->string_exists($mod->modname.'reopened', 'theme_snap')) {
-            $meta->reopenedstr = get_string($mod->modname.'reopened', 'theme_snap');
+        if (get_string_manager()->string_exists($mod->modname.'reopened', 'theme_cass')) {
+            $meta->reopenedstr = get_string($mod->modname.'reopened', 'theme_cass');
         } else {
-            $meta->reopenedstr = get_string('reopened', 'theme_snap');
+            $meta->reopenedstr = get_string('reopened', 'theme_cass');
         }
 
         // If module is not visible to the user then don't bother getting meta data.
@@ -90,18 +103,18 @@ class activity {
         $meta->timeclose = $activitydates->timeclose;
 
         // TODO: use activity specific "teacher" capabilities.
-        if (has_capability('mod/assign:grade', \context_course::instance($courseid))) {
+        if (has_capability('mod/assign:grade', $mod->context)) {
             $meta->isteacher = true;
 
             // Teacher - useful teacher meta data.
             $methodnsubmissions = $mod->modname.'_num_submissions';
             $methodnungraded = $mod->modname.'_num_submissions_ungraded';
 
-            if (method_exists('theme_snap\\activity', $methodnsubmissions)) {
-                $meta->numsubmissions = call_user_func('theme_snap\\activity::'.$methodnsubmissions, $courseid, $mod->instance);
+            if (method_exists('theme_cass\\activity', $methodnsubmissions)) {
+                $meta->numsubmissions = call_user_func('theme_cass\\activity::'.$methodnsubmissions, $courseid, $mod->instance);
             }
-            if (method_exists('theme_snap\\activity', $methodnungraded)) {
-                $meta->numrequiregrading = call_user_func('theme_snap\\activity::'.$methodnungraded, $courseid, $mod->instance);
+            if (method_exists('theme_cass\\activity', $methodnungraded)) {
+                $meta->numrequiregrading = call_user_func('theme_cass\\activity::'.$methodnungraded, $courseid, $mod->instance);
             }
         } else {
             // Student - useful student meta data - only display if activity is available.
@@ -272,15 +285,18 @@ class activity {
     /**
      * Get all assignments (for all courses) waiting to be graded.
      *
-     * @param $assignmentid
+     * @param array $courseids
+     * @param int $since
      * @return array $ungraded
      */
-    public static function assign_ungraded($courseids) {
+    public static function assign_ungraded($courseids, $since = null) {
         global $DB;
 
         $ungraded = array();
 
-        $sixmonthsago = time() - YEARSECS / 2;
+        if ($since === null) {
+            $since = time() - (12 * WEEKSECS);
+        }
 
         // Limit to assignments with grades.
         $gradetypelimit = 'AND gi.gradetype NOT IN (' . GRADE_TYPE_NONE . ',' . GRADE_TYPE_TEXT . ')';
@@ -291,7 +307,7 @@ class activity {
             list($esql, $params) = get_enrolled_sql(\context_course::instance($courseid), 'mod/assign:submit', 0, true);
             $params['courseid'] = $courseid;
 
-            $sql = "-- Snap sql
+            $sql = "-- Cass sql
                     SELECT cm.id AS coursemoduleid, a.id AS instanceid, a.course,
                            a.allowsubmissionsfromdate AS opentime, a.duedate AS closetime,
                            count(DISTINCT sb.userid) AS ungraded
@@ -340,7 +356,7 @@ class activity {
                            OR gg.finalgrade IS NULL
                        )
 
-                       AND (a.duedate = 0 OR a.duedate > $sixmonthsago)
+                       AND (a.duedate = 0 OR a.duedate > $since)
                  $gradetypelimit
                  GROUP BY instanceid, a.course, opentime, closetime, coursemoduleid ORDER BY a.duedate ASC";
             $rs = $DB->get_records_sql($sql, $params);
@@ -353,13 +369,16 @@ class activity {
     /**
      * Get Quizzes waiting to be graded.
      *
-     * @param $assignmentid
+     * @param array $courseids
+     * @param int $since
      * @return array $ungraded
      */
-    public static function quiz_ungraded($courseids) {
+    public static function quiz_ungraded($courseids, $since = null) {
         global $DB;
 
-        $sixmonthsago = time() - YEARSECS / 2;
+        if ($since === null) {
+            $since = time() - (12 * WEEKSECS);
+        }
 
         $ungraded = array();
 
@@ -369,7 +388,7 @@ class activity {
             list($graderids, $params) = get_enrolled_sql(\context_course::instance($courseid), 'moodle/grade:viewall');
             $params['courseid'] = $courseid;
 
-            $sql = "-- Snap SQL
+            $sql = "-- Cass SQL
                     SELECT cm.id AS coursemoduleid, q.id AS instanceid, q.course,
                            q.timeopen AS opentime, q.timeclose AS closetime,
                            count(DISTINCT qa.userid) AS ungraded
@@ -387,7 +406,7 @@ class activity {
 
                      WHERE qa.userid NOT IN ($graderids)
                        AND qa.state = 'finished'
-                       AND (q.timeclose = 0 OR q.timeclose > $sixmonthsago)
+                       AND (q.timeclose = 0 OR q.timeclose > $since)
                   GROUP BY instanceid, q.course, opentime, closetime, coursemoduleid
                   ORDER BY q.timeclose ASC";
 
@@ -459,7 +478,7 @@ class activity {
         $params['submitted'] = ASSIGN_SUBMISSION_STATUS_SUBMITTED;
         $params['courseid'] = $courseid;
 
-        $sql = "-- Snap sql
+        $sql = "-- Cass sql
                  SELECT sb.assignment, count(sb.userid) AS total
                    FROM {assign_submission} sb
 
@@ -539,7 +558,7 @@ class activity {
             $params['courseid'] = $courseid;
 
             // Get the number of submissions for all $maintable activities in this course.
-            $sql = "-- Snap sql
+            $sql = "-- Cass sql
                     SELECT m.id, COUNT(DISTINCT sb.userid) as totalsubmitted
                       FROM {".$maintable."} m
                       JOIN {".$submittable."} sb ON m.id = sb.$mainkey
@@ -579,7 +598,7 @@ class activity {
             $params['submitted'] = ASSIGN_SUBMISSION_STATUS_SUBMITTED;
 
             // Get the number of submissions for all assign activities in this course.
-            $sql = "-- Snap sql
+            $sql = "-- Cass sql
                 SELECT m.id, COUNT(sb.userid) as totalsubmitted
                   FROM {assign} m
                   JOIN {assign_submission} sb
@@ -668,7 +687,7 @@ class activity {
 
         if (!isset($totalsbyquizid)) {
             // Results are not cached.
-            $sql = "-- Snap sql
+            $sql = "-- Cass sql
                     SELECT q.id, count(DISTINCT qa.userid) as total
                       FROM {quiz} q
 
@@ -725,7 +744,7 @@ class activity {
 
         if ($mod->modname === 'assign') {
             $params = [$courseid, $USER->id];
-            $sql = "-- Snap sql
+            $sql = "-- Cass sql
                 SELECT a.id AS instanceid, st.*
                     FROM {".$submissiontable."} st
 
@@ -739,7 +758,7 @@ class activity {
         } else {
             // Less effecient general purpose for other module types.
             $params = [$USER->id, $courseid, $USER->id];
-            $sql = "-- Snap sql
+            $sql = "-- Cass sql
                 SELECT a.id AS instanceid, st.*
                     FROM {".$submissiontable."} st
 
@@ -787,26 +806,62 @@ class activity {
      *
      * @param $courseid
      * @param stdClass $mod
-     * @param $timeopenfld
-     * @param $timeclosefld
+     * @param string $timeopenfld
+     * @param string $timeclosefld
      *
      * @return bool|stdClass
      */
-    public static function instance_activity_dates($courseid, $mod, $timeopenfld, $timeclosefld) {
-        global $DB;
-
+    public static function instance_activity_dates($courseid, $mod, $timeopenfld = '', $timeclosefld = '') {
+        global $DB, $USER;
         // Note: Caches all moduledates to minimise database transactions.
         static $moddates = array();
-
-        if (!isset($moddates[$courseid.'_'.$mod->modname][$mod->instance]) || PHPUNIT_TEST) {
-            $sql = "-- Snap sql
-                    SELECT id, $timeopenfld AS timeopen, $timeclosefld as timeclose
-                        FROM {".$mod->modname."}
-                    WHERE course = ?";
-            $moddates[$courseid.'_'.$mod->modname] = $DB->get_records_sql($sql, array($courseid));
-
+        if (!isset($moddates[$courseid . '_' . $mod->modname][$mod->instance]) || PHPUNIT_TEST) {
+            $timeopenfld = $mod->modname === 'quiz' ? 'timeopen' : ($mod->modname === 'lesson' ? 'available' : $timeopenfld);
+            $timeclosefld = $mod->modname === 'quiz' ? 'timeclose' : ($mod->modname === 'lesson' ? 'deadline' : $timeclosefld);
+            $sql = "-- Cass sql
+                    SELECT 
+                    module.id, 
+                    module.$timeopenfld AS timeopen, 
+                    module.$timeclosefld AS timeclose";
+            if ($mod->modname === 'quiz' || $mod->modname === 'lesson') {
+                $id = $mod->modname === 'quiz' ? $mod->modname : 'lessonid';
+                $groups = groups_get_user_groups($courseid);
+                $groupbysql = '';
+                $params = array();
+                if ($groups[0]) {
+                    list ($groupsql, $params) = $DB->get_in_or_equal($groups[0]);
+                    $sql .= ", CASE WHEN ovrd1.$timeopenfld IS NULL THEN MIN(ovrd2.$timeopenfld) ELSE ovrd1.$timeopenfld END AS timeopenover,
+                            CASE WHEN ovrd1.$timeclosefld IS NULL THEN MAX(ovrd2.$timeclosefld) ELSE ovrd1.$timeclosefld END AS timecloseover
+                            FROM {" . $mod->modname . "} module
+                            LEFT JOIN {" . $mod->modname . "_overrides} ovrd1 ON module.id=ovrd1.$id AND $USER->id=ovrd1.userid
+                            LEFT JOIN {" . $mod->modname . "_overrides} ovrd2 ON module.id=ovrd2.$id AND ovrd2.groupid $groupsql";
+                    $groupbysql = " GROUP BY module.id, timeopen, timeclose";
+                } else {
+                    $sql .= ", ovrd1.$timeopenfld AS timeopenover, ovrd1.$timeclosefld AS timecloseover
+                             FROM {" . $mod->modname . "} module 
+                             LEFT JOIN {" . $mod->modname . "_overrides} ovrd1
+                             ON module.id=ovrd1.$id AND $USER->id=ovrd1.userid";
+                }
+                $sql .= " WHERE module.course = ?";
+                $sql .= $groupbysql;
+                $params[] = $courseid;
+                $result = $DB->get_records_sql($sql, $params);
+            } else {
+                $sql .= " FROM {" . $mod->modname . "} module
+                    WHERE module.course = ?";
+                $result = $DB->get_records_sql($sql, array($courseid));
+            }
+            $moddates[$courseid . '_' . $mod->modname] = $result;
         }
-        return $moddates[$courseid.'_'.$mod->modname][$mod->instance];
+        $modinst = $moddates[$courseid.'_'.$mod->modname][$mod->instance];
+        if (!empty($modinst->timecloseover)) {
+            $modinst->timeclose = $modinst->timecloseover;
+            if ($modinst->timeopenover) {
+                $modinst->timeopen = $modinst->timeopenover;
+            }
+        }
+        return $modinst;
+
     }
 
     /**
@@ -828,7 +883,7 @@ class activity {
             return $grades[$courseid.'_'.$mod->modname][$mod->instance];
         }
 
-        $sql = "-- Snap sql
+        $sql = "-- Cass sql
                 SELECT m.id AS instanceid, gg.*
 
                     FROM {".$mod->modname."} m
@@ -888,7 +943,7 @@ class activity {
         $onemonthago = time() - (DAYSECS * 31);
         $showfrom = $showfrom !== null ? $showfrom : $onemonthago;
 
-        $sql = "-- Snap sql
+        $sql = "-- Cass sql
                 SELECT gg.*, gi.itemmodule, gi.iteminstance, gi.courseid, gi.itemtype
                   FROM {grade_grades} gg
                   JOIN {grade_items} gi

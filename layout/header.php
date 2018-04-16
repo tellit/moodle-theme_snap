@@ -19,14 +19,16 @@
  * This layout is baed on a moodle site index.php file but has been adapted to show news items in a different
  * way.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
+
 $PAGE->set_popup_notification_allowed(false);
 
 // Require standard page js.
-snap_shared::page_requires_js();
+\theme_cass\output\shared::page_requires_js();
 
 echo $OUTPUT->doctype();
 ?>
@@ -44,19 +46,17 @@ echo $OUTPUT->doctype();
 <?php echo $OUTPUT->standard_head_html() ?>
 <meta name="theme-color" content="<?php echo $PAGE->theme->settings->themecolor ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<?php
-    if (!empty($PAGE->theme->settings->fontloader)) {
-        echo $PAGE->theme->settings->fontloader;
-    }
-?>
+<link href='//fonts.googleapis.com/css?family=Roboto:500,100,400,300' rel='stylesheet' type='text/css'>
 <?php
 
 // Output course cover image?
 if ($COURSE->id != SITEID) {
-    $courseimagecss = \theme_snap\local::course_coverimage_css($COURSE->id);
+    $coverimagecss = \theme_cass\local::course_coverimage_css($COURSE->id);
+} else {
+    $coverimagecss = \theme_cass\local::site_coverimage_css();
 }
-if (!empty($courseimagecss)) {
-    echo "<style>$courseimagecss</style>";
+if (!empty($coverimagecss)) {
+    echo "<style>$coverimagecss</style>";
 }
 ?>
 
@@ -66,4 +66,4 @@ if (!empty($courseimagecss)) {
 
 <?php echo $OUTPUT->standard_top_of_body_html() ?>
 
-<?php include(__DIR__.'/nav.php'); ?>
+<?php require(__DIR__.'/nav.php');

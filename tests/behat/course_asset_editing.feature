@@ -15,18 +15,17 @@
 #
 # Tests for course resource and activity editing features.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  2015 Guy Thomas <gthomas@moodlerooms.com>
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, teachers edit assets without entering edit mode.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, teachers edit assets without entering edit mode.
 
   Background:
    Given the following config values are set as admin:
-      | theme | snap |
-      | thememobile | snap |
+      | theme | cass |
       | defaulthomepage | 0 |
     And the following "courses" exist:
       | fullname | shortname | category | format |
@@ -34,11 +33,14 @@ Feature: When the moodle theme is set to Snap, teachers edit assets without ente
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | 1        | teacher1@example.com |
+      | teacher2 | Teacher2  | 1        | teacher2@example.com |
       | student1 | Student   | 1        | student1@example.com |
+
     And the following "course enrolments" exist:
       | user     | course | role           |
       | admin    | C1     | editingteacher |
       | teacher1 | C1     | editingteacher |
+      | teacher2 | C1     | teacher        |
       | student1 | C1     | student        |
 
   @javascript
@@ -46,81 +48,84 @@ Feature: When the moodle theme is set to Snap, teachers edit assets without ente
     Given the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
-    And I log in with snap as "student1"
-    And I follow "Menu"
-    And I follow "Course"
-    And I wait until the page is ready
+    And I log in as "student1" (theme_cass)
+    And I am on the course main page for "C1"
     And I follow "Topic 1"
-    Then ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element" should not exist
+   Then ".cass-activity[data-type='Assignment']" "css_element" should exist
+    And "div.dropdown cass-edit-more-dropdown" "css_element" should not exist
+
+  @javascript
+  Scenario: In read mode, non-editing teacher can see teacher's actions.
+  Given the following "activities" exist:
+      | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
+      | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
+    And I log in as "teacher2" (theme_cass)
+    And I am on the course main page for "C1"
+    And I follow "Topic 1"
+   Then "#section-1" "css_element" should exist
+    And ".cass-activity[data-type='Assignment']" "css_element" should exist
+    And "div.dropdown cass-edit-more-dropdown" "css_element" should not exist
 
   @javascript
   Scenario: In read mode, teacher hides then shows activity.
   Given the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
-    And I log in with snap as "teacher1"
-    And I follow "Menu"
-    And I follow "Course"
-    And I wait until the page is ready
+    And I log in as "teacher1" (theme_cass)
+    And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
-    And ".snap-activity[data-type='Assignment']" "css_element" should exist
-    And I click on ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-activity[data-type='Assignment'] a.js_snap_hide" "css_element"
-   Then I wait until ".snap-activity[data-type='Assignment'].draft" "css_element" exists
-    And I click on ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-activity[data-type='Assignment'] a.js_snap_show" "css_element"
-   Then I wait until ".snap-activity[data-type='Assignment'].draft" "css_element" does not exist
+    And ".cass-activity[data-type='Assignment']" "css_element" should exist
+    And I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-activity[data-type='Assignment'] a.js_cass_hide" "css_element"
+   Then I wait until ".cass-activity[data-type='Assignment'].draft" "css_element" exists
+    And I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-activity[data-type='Assignment'] a.js_cass_show" "css_element"
+   Then I wait until ".cass-activity[data-type='Assignment'].draft" "css_element" does not exist
 
   @javascript
   Scenario: In read mode, teacher hides then shows resource.
-  Given I log in with snap as "teacher1"
-    And I follow "Menu"
-    And I follow "Course"
-    And I wait until the page is ready
+  Given I log in as "teacher1" (theme_cass)
+    And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
-    And "#snap-drop-file-1" "css_element" should exist
-    And I upload file "test_text_file.txt" to section "1"
-    Then ".snap-resource[data-type='text']" "css_element" should exist
-    And ".snap-resource[data-type='text'].draft" "css_element" should not exist
-    And I click on ".snap-resource[data-type='text'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-resource[data-type='text'] a.js_snap_hide" "css_element"
-   Then I wait until ".snap-resource[data-type='text'].draft" "css_element" exists
-    And I click on ".snap-resource[data-type='text'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-resource[data-type='text'] a.js_snap_show" "css_element"
-   Then I wait until ".snap-resource[data-type='text'].draft" "css_element" does not exist
+    And "#cass-drop-file-1" "css_element" should exist
+    And I upload file "test_text_file.txt" to section 1
+    Then ".cass-resource[data-type='text']" "css_element" should exist
+    And ".cass-resource[data-type='text'].draft" "css_element" should not exist
+    And I click on ".cass-resource[data-type='text'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-resource[data-type='text'] a.js_cass_hide" "css_element"
+   Then I wait until ".cass-resource[data-type='text'].draft" "css_element" exists
+    And I click on ".cass-resource[data-type='text'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-resource[data-type='text'] a.js_cass_show" "css_element"
+   Then I wait until ".cass-resource[data-type='text'].draft" "css_element" does not exist
 
   @javascript
   Scenario: In read mode, teacher duplicates activity.
   Given the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
-    And I log in with snap as "teacher1"
-    And I follow "Menu"
-    And I follow "Course"
-    And I wait until the page is ready
+    And I log in as "teacher1" (theme_cass)
+    And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
-    And ".snap-activity[data-type='Assignment']" "css_element" should exist
-    And ".snap-activity[data-type='Assignment'] + .snap-activity[data-type='Assignment']" "css_element" should not exist
-    And I click on ".snap-activity[data-type='Assignment'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-activity[data-type='Assignment'] a.js_snap_duplicate" "css_element"
-   Then I wait until ".snap-activity[data-type='Assignment'] + .snap-activity[data-type='Assignment']" "css_element" exists
+    And ".cass-activity[data-type='Assignment']" "css_element" should exist
+    And ".cass-activity[data-type='Assignment'] + .cass-activity[data-type='Assignment']" "css_element" should not exist
+    And I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-activity[data-type='Assignment'] a.js_cass_duplicate" "css_element"
+   Then I wait until ".cass-activity[data-type='Assignment'] + .cass-activity[data-type='Assignment']" "css_element" exists
 
   @javascript
   Scenario: In read mode, teacher duplicates resource.
-  Given I log in with snap as "teacher1"
-    And I follow "Menu"
-    And I follow "Course"
-    And I wait until the page is ready
+  Given I log in as "teacher1" (theme_cass)
+    And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
-    And "#snap-drop-file-1" "css_element" should exist
-    When I upload file "test_text_file.txt" to section "1"
-    Then ".snap-resource[data-type='text']" "css_element" should exist
-    And ".snap-resource[data-type='text'] + .snap-resource[data-type='text']" "css_element" should not exist
-    And I click on ".snap-resource[data-type='text'] a.snap-edit-asset-more" "css_element"
-    And I click on ".snap-resource[data-type='text'] a.js_snap_duplicate" "css_element"
-   Then I wait until ".snap-resource[data-type='text'] + .snap-resource[data-type='text']" "css_element" exists
+    And "#cass-drop-file-1" "css_element" should exist
+    When I upload file "test_text_file.txt" to section 1
+    Then ".cass-resource[data-type='text']" "css_element" should exist
+    And ".cass-resource[data-type='text'] + .cass-resource[data-type='text']" "css_element" should not exist
+    And I click on ".cass-resource[data-type='text'] a.cass-edit-asset-more" "css_element"
+    And I click on ".cass-resource[data-type='text'] a.js_cass_duplicate" "css_element"
+   Then I wait until ".cass-resource[data-type='text'] + .cass-resource[data-type='text']" "css_element" exists
 

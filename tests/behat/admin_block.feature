@@ -15,76 +15,52 @@
 #
 # Tests for visibility of admin block by user type and page.
 #
-# @package    theme_snap
+# @package    theme_cass
 # @copyright  2015 Guy Thomas <gthomas@moodlerooms.com>
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, the admin block will only be shown when appropriate.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, the admin block will only be shown when appropriate.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
-      | thememobile | snap |
+      | theme | cass |
       | defaulthomepage | 1 |
     And the following "courses" exist:
       | fullname | shortname | category | format |
-      | Course 1 | C1 | 0 | topics |
+      | Course 1 | C1        | 0        | topics |
     And the following "users" exist:
-      | username | firstname | lastname | email |
-      | teacher1 | Teacher | 1 | teacher1@example.com |
-      | student1 | Student | 1 | student1@example.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@example.com |
+      | teacher2 | Teacher   | 2        | teacher2@example.com |
+      | student1 | Student   | 1        | student1@example.com |
     And the following "course enrolments" exist:
-      | user | course | role |
-      | admin | C1 | editingteacher |
-      | teacher1 | C1 | editingteacher |
-      | student1 | C1 | student |
+      | user     | course | role           |
+      | admin    | C1     | editingteacher |
+      | teacher1 | C1     | editingteacher |
+      | teacher2 | C1     | teacher        |
+      | student1 | C1     | student        |
 
   @javascript
-  Scenario: Student does not see admin block on any page.
-    Given I log in with snap as "student1"
+  Scenario Outline: User only sees admin block on relevant pages.
+    Given I log in as "<user>" (theme_cass)
     # Check site page.
     And I am on site homepage
-   Then "#admin-menu-trigger" "css_element" should not exist
+    Then "#admin-menu-trigger" "css_element" <existssite> exist
     # Check dashboard page.
-    And I am on homepage
-   Then "#admin-menu-trigger" "css_element" should not exist
-    And I follow "Menu"
-    And I follow "Course 1"
-   Then "#admin-menu-trigger" "css_element" should not exist
-    And I follow "Menu"
+    When I am on homepage
+    Then "#admin-menu-trigger" "css_element" <existsdashboard> exist
+    # Check course page.
+    When I am on the course main page for "C1"
+    Then "#admin-menu-trigger" "css_element" <existscourse> exist
+    # Check profile page.
+    When I open the personal menu
     And I follow "View your profile"
-   Then "#admin-menu-trigger" "css_element" should not exist
-
-  @javascript
-  Scenario: Teacher does not see admin block on any page, except course page.
-    Given I log in with snap as "teacher1"
-    # Check site page.
-    And I am on site homepage
-    Then "#admin-menu-trigger" "css_element" should not exist
-    # Check dashboard page.
-    And I am on homepage
-    Then "#admin-menu-trigger" "css_element" should not exist
-    And I follow "Menu"
-    And I follow "Course 1"
-    Then "#admin-menu-trigger" "css_element" should exist
-    And I follow "Menu"
-    And I follow "View your profile"
-    Then "#admin-menu-trigger" "css_element" should not exist
-
-  @javascript
-  Scenario: Admin sees admin block on all pages, except profile page.
-    Given I log in with snap as "admin"
-    # Check site page.
-    And I am on site homepage
-    Then "#admin-menu-trigger" "css_element" should exist
-    # Check dashboard page.
-    And I am on homepage
-    Then "#admin-menu-trigger" "css_element" should exist
-    And I follow "Menu"
-    And I follow "Course 1"
-    Then "#admin-menu-trigger" "css_element" should exist
-    And I follow "Menu"
-    And I follow "View your profile"
-    Then "#admin-menu-trigger" "css_element" should not exist
+    Then "#admin-menu-trigger" "css_element" <existsprofile> exist
+    Examples:
+    | user     | existssite | existsdashboard | existscourse | existsprofile |
+    | student1 | should not | should not      | should not   | should not    |
+    | teacher1 | should not | should not      | should       | should not    |
+    | teacher2 | should not | should not      | should       | should not    |
+    | admin    | should     | should          | should       | should not    |

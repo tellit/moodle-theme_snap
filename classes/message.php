@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_snap;
+namespace theme_cass;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Message Model.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -102,7 +104,7 @@ class message implements \renderable {
      */
     public function set_fromuser(\stdClass $user) {
         if ($user->id != $this->useridfrom) {
-            throw new coding_exception("The passed user->id ($user->id) != message->useridfrom ($this->useridfrom)");
+            throw new \coding_exception("The passed user->id ($user->id) != message->useridfrom ($this->useridfrom)");
         }
         $this->fromuser = $user;
         return $this;
@@ -119,10 +121,10 @@ class message implements \renderable {
 
         if (is_null($this->fromuser)) {
             if (empty($this->useridfrom)) {
-                throw new coding_exception('The message useridfrom is not set');
+                throw new \coding_exception('The message useridfrom is not set');
             }
             $this->set_fromuser(
-                $DB->get_record('user', array('id' => $this->useridfrom), user_picture::fields(), MUST_EXIST)
+                $DB->get_record('user', array('id' => $this->useridfrom), \user_picture::fields(), MUST_EXIST)
             );
         }
         return $this->fromuser;

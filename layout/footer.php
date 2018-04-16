@@ -19,40 +19,23 @@
  * This layout is baed on a moodle site index.php file but has been adapted to show news items in a different
  * way.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
-global $USER, $DB;
-
-// If we're on a 'mod' page, retrieve the mod object and check it's completion state in order to conditionally 
-// pop a completion modal and show a link to the next activity in the footer.
-// Some mods should auto pop on completion, and some should display a link.
-
-echo  html_writer::start_div('completion-region');
-              
-echo \theme_snap\local::render_completion_footer(
-    $this->page->theme->settings->nextactivityinfooter, 
-    $this->page->theme->settings->nextactivitymodaldialog,
-    $this->page->theme->settings->nextactivitymodaldialogtolerance
-);
-
-echo html_writer::end_div();
-
-$inccoursefooterclass = ($PAGE->theme->settings->coursefootertoggle && strpos($PAGE->pagetype, 'course-view-') === 0)
-    ? ' hascoursefooter'
-    : ' nocoursefooter';
+$inccoursefooterclass = ($PAGE->theme->settings->coursefootertoggle && strpos($PAGE->pagetype, 'course-view-') === 0) ? ' hascoursefooter' : ' nocoursefooter';
 ?>
-<footer id="moodle-footer" role="footer" class="clearfix<?php echo ($inccoursefooterclass)?>">
+<footer id="moodle-footer" role="contentinfo" class="clearfix<?php echo ($inccoursefooterclass)?>">
 <?php
-/* snap custom footer */
+/* cass custom footer */
 
 /* custom footer edit button - always shown */
 $footnote = empty($PAGE->theme->settings->footnote) ? '' : $PAGE->theme->settings->footnote;
 if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
-    $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingsnap'], 'admin-footnote');
-    $link = html_writer::link($url, get_string('editcustomfooter', 'theme_snap'), ['class' => 'btn btn-default btn-sm']);
+    $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingcass'], 'admin-footnote');
+    $link = html_writer::link($url, get_string('editcustomfooter', 'theme_cass'), ['class' => 'btn btn-inverse btn-sm']);
     $footnote .= '<p class="text-right">'.$link.'</p>';
 }
 
@@ -60,7 +43,7 @@ if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
 $custommenu = $OUTPUT->custom_menu();
 if (!empty($custommenu) && $this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
     $url = new moodle_url('/admin/settings.php', ['section' => 'themesettings'], 'id_s__custommenuitems');
-    $link = html_writer::link($url, get_string('editcustommenu', 'theme_snap'), ['class' => 'btn btn-default btn-sm']);
+    $link = html_writer::link($url, get_string('editcustommenu', 'theme_cass'), ['class' => 'btn btn-inverse btn-sm']);
     $custommenu .= '<p class="text-right">'.$link.'</p>';
 }
 
@@ -85,29 +68,36 @@ if (!empty($custommenu) && !empty($footnote)) {
     echo '</div></div>';
 }
 
-if (core_component::get_component_directory('local_mrooms') !== null) {
-    $langkey   = \local_mrooms\kb_link::resolve_language_key();
-    $builtwith = html_writer::link("https://$langkey.help.blackboard.com/Moodlerooms", get_string('joule', 'theme_snap'),
-        ['target' => '_blank', 'title' => get_string('joulehelpguides', 'theme_snap')]);
-} else {
-    $builtwith = get_string('joule', 'theme_snap');
+/* Social media links */
+$socialmedialinks = '';
+if (!empty($PAGE->theme->settings->facebook)) {
+    $socialmedialinks .= $this->social_menu_link('facebook', $PAGE->theme->settings->facebook);
 }
+if (!empty($PAGE->theme->settings->twitter)) {
+    $socialmedialinks .= $this->social_menu_link('twitter', $PAGE->theme->settings->twitter);
+}
+if (!empty($PAGE->theme->settings->youtube)) {
+    $socialmedialinks .= $this->social_menu_link('youtube', $PAGE->theme->settings->youtube);
+}
+if (!empty($PAGE->theme->settings->instagram)) {
+    $socialmedialinks .= $this->social_menu_link('instagram', $PAGE->theme->settings->instagram);
+}
+if(!empty($socialmedialinks)) {
+    echo '<div id="cass_socialmedia_links">'.$socialmedialinks.'</div>';
+}
+?>
 
-$poweredbyrunby = get_string('poweredbyrunby', 'theme_snap', $builtwith);
-
-if (empty($PAGE->theme->settings->copyrightnotice)) {
-    echo '<div id="mrooms-footer" class="helplink text-right">
-    <small>';
+<div id='mrooms-footer' class="helplink text-right">
+    <small>
+    <?php
     if ($OUTPUT->page_doc_link()) {
         echo $OUTPUT->page_doc_link();
     }
-    echo '<br/>' . $poweredbyrunby . '
-    <br>&copy; Copyright 2016 Moodlerooms Inc, All Rights Reserved.</small>
-    </div>';
-} else {
-    echo $PAGE->theme->settings->copyrightnotice;
-}
-?>
+    $poweredbyrunby = get_string('poweredbyrunby', 'theme_cass');
+    ?>
+    <br/><?php echo $poweredbyrunby ?>
+    </small>
+</div>
 <!-- close mrooms footer -->
 <div id="page-footer">
 <?php echo $OUTPUT->lang_menu(); ?>

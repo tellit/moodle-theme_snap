@@ -23,23 +23,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
-use \theme_snap\local;
-use \theme_snap\activity;
+use \theme_cass\local;
+use \theme_cass\activity;
 
 global $CFG;
 require_once($CFG->dirroot . '/mod/assign/tests/base_test.php');
 
 /**
- * Unit tests for theme snap that rely on mod/assign present in course.
+ * Unit tests for theme cass that rely on mod/assign present in course.
  *
  * @copyright  1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-class theme_snap_assign_test extends mod_assign_base_testcase {
+class theme_cass_assign_test extends mod_assign_base_testcase {
 
     public function test_assign_reopened_and_resubmitted() {
         $this->setUser($this->editingteachers[0]);
@@ -73,7 +71,7 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $this->resetDebugging();
 
         // This is required so that the submissions timemodified > the grade timemodified.
-        sleep(2);
+        $this->waitForSecond();
 
         // Edit the submission again.
         $this->setUser($this->students[0]);
@@ -81,7 +79,7 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $assign->testable_update_submission($submission, $this->students[0]->id, true, false);
 
         // This is required so that the submissions timemodified > the grade timemodified.
-        sleep(2);
+        $this->waitForSecond();
 
         // Allow the student another attempt.
         $this->teachers[0]->ignoresesskey = true;
@@ -130,6 +128,7 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
     }
 
     public function test_assign_upcoming_deadlines() {
+        global $DB;
         $this->setUser($this->editingteachers[0]);
         $this->create_instance(['duedate' => time()]);
 
@@ -179,6 +178,70 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $this->setUser($this->students[0]);
         $deadlines = local::upcoming_deadlines($this->students[0]->id, $max);
         $this->assertCount(2, $deadlines);
+        $this->setUser($this->editingteachers[0]);
+
+        $quizgenerator = $this->getDataGenerator()->get_plugin_generator('mod_quiz');
+
+        $reference = time();
+        $day = 60 * 60 * 24;
+        $quiz1 = $quizgenerator->create_instance(array('course' => $this->course->id, 'timeclose' => $reference));
+        $quiz2 = $quizgenerator->create_instance(array('course' => $this->course->id,
+            'timeclose' => $reference + (2 * $day) ));
+        $modinfo = get_fast_modinfo($this->course->id);
+        $cm = $modinfo->instances['quiz'][$quiz1->id];
+        $cm2 = $modinfo->instances['quiz'][$quiz2->id];
+        $this->setUser($this->students[0]);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
+
+        $this->assertEmpty($override->timeopenover);
+        $this->assertEmpty($override->timecloseover);
+        $this->assertEquals($override->timeclose, $reference);
+
+        // User override.
+        $DB->insert_record('quiz_overrides', array('quiz' => $quiz1->id, 'userid' => $this->students[0]->id,
+            'timeclose' => $reference + $day));
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
+        $override2 = \theme_cass\activity::instance_activity_dates($this->course->id, $cm2);
+        $this->assertEquals($override->timecloseover, $reference + $day);
+        $this->assertEquals($override->timeclose, $override->timecloseover);
+        $this->assertEquals($override2->timeclose, $quiz2->timeclose);
+
+        // Group override.
+        $groups = groups_get_user_groups($this->course->id);
+        $DB->insert_record('quiz_overrides', array('quiz' => $quiz1->id, 'groupid' => (int) $groups[0][0],
+            'timeopen' => $reference + $day, 'timeclose' => $reference + (3 * $day)));
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
+
+        // Returned override should be user instead of group.
+        $this->assertEquals($override->timecloseover, $reference + $day);
+        $this->assertEquals($override->timeclose, $override->timecloseover);
+
+        // Deleting the user override should bring the group override as result.
+        $DB->delete_records('quiz_overrides', array ('userid' => $this->students[0]->id, 'quiz' => $quiz1->id));
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
+        $this->assertEquals($override->timeclose, $reference + (3 * $day));
+
+        // Second group override.
+        $group2 = $this->getDataGenerator()->create_group(array('courseid' => $this->course->id));
+        $this->getDataGenerator()->create_group_member(array('userid' => $this->students[0], 'groupid' => $group2->id));
+        $DB->insert_record('quiz_overrides', array('quiz' => $quiz1->id, 'groupid' => $group2->id,
+            'timeopen' => $reference + (2 * $day), 'timeclose' => $reference + (7 * $day)));
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
+
+        // Values should match max and min values between the groups records.
+        $this->assertEquals($override->timeclose, $reference + (7 * $day));
+        $this->assertEquals($override->timeopen, $reference + $day);
+
+        // Switching to a user without group
+        $nogroupuser = $this->getDataGenerator()->create_user();
+        $this->setUser($nogroupuser);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm);
+        $this->assertEquals($override->timeclose, $quiz1->timeclose);
+        $this->assertEmpty($override->timecloseover);
+        $override = \theme_cass\activity::instance_activity_dates($this->course->id, $cm2);
+        $this->assertEquals($override->timeclose, $quiz2->timeclose);
+        $this->assertEmpty($override->timecloseover);
+
     }
 
     public function test_assign_overdue() {
@@ -277,50 +340,6 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $expected = count($this->students);
         $this->assertSame($expected, $actual);
     }
-    public function test_no_course_completion_progress() {
-        $actual = local::course_completion_progress($this->course);
-        $this->assertNull($actual);
-
-        $this->create_extra_users();
-        $this->setUser($this->extrasuspendedstudents[0]);
-        $actual = local::course_completion_progress($this->course);
-        $this->assertNull($actual);
-
-        $this->setUser($this->students[0]);
-        $actual = local::course_completion_progress($this->course);
-        $this->assertInstanceOf('stdClass', $actual);
-    }
-
-    public function test_course_feedback() {
-        $actual = local::course_feedback($this->course);
-        $this->assertObjectHasAttribute('skipgrade', $actual);
-
-        $this->setUser($this->students[0]);
-        $actual = local::course_feedback($this->course);
-        $this->assertObjectHasAttribute('feedbackhtml', $actual);
-        $this->assertSame('', $actual->feedbackhtml);
-
-        $assign = $this->create_one_ungraded_submission();
-        $this->grade_assignment($assign);
-
-        $this->setUser($this->students[0]);
-        $actual = local::course_feedback($this->course);
-        $this->assertObjectHasAttribute('feedbackhtml', $actual);
-        $this->assertNotSame('', $actual->feedbackhtml);
-
-        $this->create_extra_users();
-        $this->setUser($this->extrasuspendedstudents[0]);
-        $actual = local::course_feedback($this->course);
-        $this->assertObjectHasAttribute('skipgrade', $actual);
-        $this->assertContains('not enrolled', $actual->skipgrade);
-
-        $this->setUser($this->students[0]);
-        $this->course->showgrades = 0;
-        $actual = local::course_feedback($this->course);
-        $this->assertObjectHasAttribute('skipgrade', $actual);
-        $this->assertContains('set up to not show gradebook to students', $actual->skipgrade);
-
-    }
 
     public function test_no_course_image() {
         $actual = local::course_coverimage_url($this->course->id);
@@ -329,7 +348,10 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
 
     private function create_one_ungraded_submission() {
         $this->setUser($this->editingteachers[0]);
-        $assign = $this->create_instance(['assignsubmission_onlinetext_enabled' => 1]);
+        $assign = $this->create_instance([
+            'assignsubmission_onlinetext_enabled' => 1,
+            'duedate' => time() - WEEKSECS,
+        ]);
 
         // Add a submission.
         $this->setUser($this->students[0]);
@@ -345,11 +367,11 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         return $assign;
     }
 
-    private function grade_assignment($assign) {
+    private function grade_assignment($assign, $student) {
         $this->setUser($this->teachers[0]);
         $data = new stdClass();
         $data->grade = '50.0';
-        $assign->testable_apply_grade_to_user($data, $this->students[0]->id, 0);
+        $assign->testable_apply_grade_to_user($data, $student->id, 0);
         // TODO remove this next line when the above is fixed  to stop triggering debug messages.
         $this->resetDebugging();
     }
@@ -451,17 +473,37 @@ class theme_snap_assign_test extends mod_assign_base_testcase {
         $this->setUser($this->editingteachers[0]);
         $actual = local::all_ungraded($this->editingteachers[0]->id, $sixmonthsago);
         $this->assertcount($expected, $actual);
+
+        // Limit time to after the assignment is due.
+        $afterduedate = time() - WEEKSECS;
+
+        $this->setUser($this->teachers[0]);
+        $actual = local::all_ungraded($this->teachers[0]->id, $afterduedate);
+        $this->assertcount(0, $actual);
+
+        $this->setUser($this->teachers[1]);
+        $actual = local::all_ungraded($this->teachers[1]->id, $afterduedate);
+        $this->assertcount(0, $actual);
+
+        $this->setUser($this->editingteachers[0]);
+        $actual = local::all_ungraded($this->editingteachers[0]->id, $afterduedate);
+        $this->assertcount(0, $actual);
     }
 
-    public function test_courseinfo_empty() {
+    public function test_courseinfo_empty_no_courses() {
         $actual = local::courseinfo([]);
         $this->assertCount(0, $actual);
+    }
 
-        // Current user not enrolled in this course.
+    public function test_courseinfo_error_not_enrolled() {
         $actual = local::courseinfo([$this->course->id]);
         $this->assertCount(0, $actual);
+    }
 
-        // Current user enrolled but inactive in this course.
+    /**
+     * Test current user enrolled but suspended in this course.
+     */
+    public function test_courseinfo_suspended_user() {
         $this->create_extra_users();
         $this->setUser($this->extrasuspendedstudents[0]);
         $actual = local::courseinfo([$this->course->id]);

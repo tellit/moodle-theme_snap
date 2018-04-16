@@ -19,20 +19,26 @@
  * This layout is baed on a moodle site index.php file but has been adapted to show news items in a different
  * way.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-use theme_snap\renderables\settings_link;
+use theme_cass\renderables\settings_link;
+use theme_cass\renderables\bb_dashboard_link;
 
 ?>
 <header id='mr-nav' class='clearfix moodle-has-zindex'>
 <div class="pull-right">
-<?php 
+<?php
+    if (class_exists('local_geniusws\navigation')) {
+        $bblink = new bb_dashboard_link();
+        echo $OUTPUT->render($bblink);
+    }
     echo $OUTPUT->fixed_menu();
+    echo core_renderer::search_box();
     $settingslink = new settings_link();
     echo $OUTPUT->render($settingslink);
 ?>
@@ -40,14 +46,17 @@ use theme_snap\renderables\settings_link;
 
 <?php
     $sitefullname = format_string($SITE->fullname);
+    $attrs = array(
+        'aria-label' => get_string('home', 'theme_cass'),
+        'id' => 'cass-home',
+        'title' => $sitefullname,
+    );
+
     if (!empty($PAGE->theme->settings->logo)) {
         $sitefullname = '<span class="sr-only">'.format_string($SITE->fullname).'</span>';
+        $attrs['class'] = 'logo';
     }
-    echo '<a aria-label="'.get_string('home', 'theme_snap').'" href="'. s($CFG->wwwroot).'" id="logo" title="'.s(format_string($SITE->fullname)).'">'.$sitefullname.'</a>';
-?>
-<?php
-    if (!empty($PAGE->theme->settings->breadcrumbsinnav)) {
-        echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
-    }
+
+    echo html_writer::link($CFG->wwwroot, $sitefullname, $attrs);
 ?>
 </header>

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_snap\controller;
+namespace theme_cass\controller;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -22,7 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  * Add section Controller.
  * Handles requests to add a new section
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -51,8 +51,9 @@ class addsection_controller extends controller_abstract {
 
         require_once($CFG->dirroot.'/course/lib.php');
 
-        $sectioname = required_param('newsection', PARAM_TEXT);
+        $sectioname = optional_param('newsection', '', PARAM_TEXT);
         $summary = optional_param('summary', '', PARAM_RAW);
+        $sectioname = $sectioname === '' ? null : $sectioname;
 
         require_sesskey();
 

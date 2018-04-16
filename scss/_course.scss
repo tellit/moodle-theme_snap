@@ -1,0 +1,1920 @@
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * Cass course swatch.
+ *
+ * @package   theme_cass
+ * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+//
+// A Course page - The main content
+// --------------------------------------------------
+// Course page
+// -------------------------
+/***************
+THE COURSE DOM LOOKS LIKE THIS :
+(n.b. i did not invent this dom structure)
+
+section#region-main
+    div role=main
+        div.coursecontent
+            ul.somestringfromtheformat e.g  topics/weeks etc
+
+ ****************************/
+
+// SHAME - do we need this?
+.singlebutton {
+    margin: 0.5em 0;
+    text-align: center;
+}
+
+// Course page  - turn editing on button.
+.format-topics, .format-weeks {
+    #page-mast .singlebutton {
+        display: none;
+    }
+
+    // SLamour Nov 2015 - editing only shows blocks.
+    &.editing.pagelayout-course {
+        #course-toc,
+        #region-main {
+            display: none;
+        }
+
+        #page-mast .singlebutton {
+            display: block;
+        }
+    }
+}
+
+// Do something different to support folderview...
+#page-course-view-folderview .type_course ul > li:first-child {
+    display: list-item;
+}
+
+// Blocks config pages when editing.
+.editing.pagelayout-admin {
+    #region-main {
+        display: block;
+    }
+}
+
+// Block config pages for the front page when editing.
+#page-site-index.pagelayout-admin {
+    #region-main {
+        max-width: 43.5em;
+    }
+
+    #moodle-frontpage-elements,
+    #moodle-blocks {
+        display: none;
+    }
+}
+
+.ie.path-course-view section#region-main > .singlebutton input[type="submit"] {
+    background-image: url("[[pix:theme|edit_for_ie]]");
+    background-size: 23px;
+    background-position: left center;
+}
+
+.section .filler {
+    display: none;
+}
+
+// -------------------------
+// Drag and drop upload message
+// -------------------------
+
+#dndupload-status {
+    display: none;
+}
+.dndupload-preview {
+    display: none !important;
+}
+.dndupload-over {
+    .cass-dropzone {
+        background-color:#fafafa;
+    }
+}
+
+// -------------------------
+// Special section in cass for course tools.
+// -------------------------
+#coursetools {
+    @include clearfix;
+}
+
+#coursetools-list {
+    @include clearfix;
+
+    a {
+        width: 32%;
+        margin: 0.5%;
+        float: left;
+        padding: 0.5em;
+        font-size: 1em;
+        text-align: center;
+        border: 1px solid #eee;
+        border-radius: 4px;
+
+        .cass-participant-icons,
+        img.svg-icon {
+            display: block !important;
+            margin: 0.3em auto;
+            @include clearfix;
+        }
+
+        /* Cover image used as icon. */
+        .cass-cover-icon {
+            border-radius: 100%;
+        }
+
+        /* User images as icons. */
+        .cass-participant-icons {
+            img {
+                @include svg-icon;
+                margin: 0 0.5%;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+/* Small screen course tools */
+@include media-breakpoint-down(sm) {
+    #coursetools-list {
+        a {
+            width: 49%;
+            height: 78px; // Magic number for small screen height.
+        }
+    }
+}
+
+// -------------------------
+// Add numbers to sections
+// -------------------------
+
+.topics,
+.weeks {
+    counter-reset: annotation-list -1;
+    margin: 0;
+    padding: 0;
+}
+
+.format-weeks #chapters {
+    list-style: none;
+}
+
+.format-topics {
+    li.section .sectionname:before {
+        content: counter(annotation-list) ".\00a0";
+    }
+
+    // drag and drop yui hack
+    .yui3-dd-proxy li.section .sectionname:before {
+        content: ' ';
+    }
+
+    #section-0 .sectionname:before {
+        content: " ";
+    }
+
+    li.section.main {
+        counter-increment: annotation-list;
+    }
+}
+
+li.section:focus {
+    outline: none;
+}
+
+// -------------------------
+// Course sections
+// -------------------------
+
+.course-content ul li.section.main {
+    border: 0;
+}
+
+.course-content .current {
+    background-color: transparent;
+}
+
+.course-content .single-section ul.folderview li.section {
+    .right.side .editing_highlight img {
+        display: block;
+    }
+
+    .content .summary {
+        margin-right: 40px;
+    }
+}
+
+#page-course-view-folderview .content > h3 {
+    display: inline;
+}
+
+.sectionname {
+    padding-top: 0;
+    margin-top: 0;
+    white-space: normal !important;
+}
+
+.path-course-view .section .summary {
+    position: relative;
+    line-height: inherit;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+    @include clearfix;
+
+    p {
+        margin-bottom: 1.6em;
+    }
+}
+
+.cass-section-editing {
+    visibility: hidden;
+    max-width: 100%;
+    min-width: 0;
+    width: auto;
+    padding: 0;
+    margin: 0 auto;
+    float: none;
+    display: block;
+    text-align: left;
+    margin-top: -1em;
+
+    a {
+        display: inline-block;
+        border-radius: 100%;
+        width: 2em;
+        height: 2em;
+        padding: 0.1em 0.3em;
+        text-align: center;
+        &:hover {
+            background-color: $gray-lighter;
+        }
+    }
+
+    a:after {
+        content: ' ';
+        width: 100%;
+        display: inline-block;
+        min-height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 70%;
+    }
+
+    .cass-move:after {
+        background-image: url([[pix:theme|move]]);
+        background-size: 100%;
+    }
+
+    .cass-visibility.cass-show:after {
+        background-image: url([[pix:core|i/show]]);
+    }
+
+    .cass-visibility.cass-hide:after {
+        background-image: url([[pix:core|i/hide]]);
+    }
+
+    .cass-delete:after {
+        background-image: url([[pix:core|t/delete]]);
+    }
+
+    .cass-highlight.cass-marker:after {
+        background-image: url([[pix:core|i/marker]]);
+    }
+
+    .cass-highlight.cass-marked:after {
+        background-image: url([[pix:core|i/marked]]);
+    }
+
+    .loadingstat {
+        margin-left: 1em;
+    }
+
+}
+
+.cass-dropzone {
+    visibility: hidden;
+}
+
+.cass-dropzone {
+    text-align: center;
+
+    .cass-dropzone-label {
+        display: block;
+        cursor: pointer;
+        background: transparent url("[[pix:resource|icon]]") 50% 1em no-repeat;
+        background-size: 2rem 2rem;
+        padding: 3em 0 1em 0;
+        border: 3px dashed #eee;
+        border-radius: 4px;
+
+        &:hover,
+        &:focus {
+            border-color: $gray-lighter;
+        }
+    }
+}
+
+.section-modchooser-link {
+    display: block;
+    text-align: center;
+    padding: 1em 0;
+    border: 3px solid #eee;
+
+    &:hover,
+    &:focus {
+        border-color: $gray-lighter;
+    }
+
+    a {
+        display: block;
+    }
+
+    img {
+        @include svg-icon;
+    }
+}
+
+.section-modchooser-link,
+.cass-dropzone {
+    margin-top: 1em;
+}
+
+/* Landing page does not have renderer, so markup is different. */
+#page-site-index .section-modchooser-link {
+    border-color: white;
+}
+
+// Do not show elements requiring js until js is classed as loaded.
+.cass-course-listening {
+    .cass-section-editing {
+        visibility: visible;
+    }
+
+    .cass-dropzone {
+        visibility: visible;
+    }
+}
+
+// get rid of js cursor style applied to the whole commands area
+.cass-section-editing[style] {
+    cursor: default !important;
+}
+
+// -------------------------
+// important! stuff so sections are not detected as visible by js
+// -------------------------
+
+.course-content ul li.section.main {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.course-content > ul li.section,
+#coursetools,
+#cass-add-new-section {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.course-content > ul li.section.state-visible, {
+    overflow: visible;
+}
+
+//Override !important in less/moodle/undo.scss, not needed after 3.2 and BS4.
+.course-content > ul li.section.hidden {
+    visibility: hidden !important;
+
+    &.state-visible {
+        visibility: visible !important;
+    }
+}
+
+.course-content > ul li.section {
+    .content {
+        display: none;
+    }
+
+    &.state-visible .content {
+        display: block;
+    }
+}
+
+.course-content > ul li.section.state-visible,
+#cass-add-new-section.state-visible,
+.editing #cass-add-new-section,
+#coursetools.state-visible,
+.editing #coursetools,
+.format-singleactivity #coursetools,
+#page-course-view-folderview #coursetools {
+    visibility: visible;
+    height: auto;
+    width: auto;
+    outline: 0;
+    overflow: visible;
+}
+
+/* hide progress label with odd z-indexing */
+#completionprogressid {
+    display: none;
+}
+
+.section_footer,
+.visibleifjs.addresourcemodchooser {
+    clear: both;
+    display: block;
+}
+
+/* Flex page - align edit button right */
+body.format-flexpage .singlebutton {
+    text-align: right;
+}
+
+.section-modchooser {
+    text-align: center;
+    padding: 0;
+}
+
+.folderview-single-section #coursetools {
+    display: none;
+}
+
+/* MODS & RESOURCES IN COURSE */
+
+// -------------------------
+// Reset moodle css mess
+// -------------------------
+
+.path-site li.activity>div,
+.path-course-view li.activity>div {
+    padding: 0;
+}
+
+// shame - moodle uses ul and li for sections. We have to overspecify and reset the basic dom element styles to account for this
+.section {
+    ul,
+    ol {
+        margin: 1.6em 4%;
+
+        ul,
+        ol {
+            margin: 0 4%;
+        }
+    }
+
+    .activityinstance .contentafterlink,
+    .activityinstance .contentwithoutlink {
+        ul,
+        ol {
+            margin: 1.6em 4%;
+
+            ul,
+            ol {
+                margin: 0 4%;
+            }
+        }
+
+        .contentafterlink p {
+            margin-bottom: 1.6em;
+        }
+    }
+}
+
+// -------------------------
+// Activity & Resource styles
+// -------------------------
+
+// -------------------------
+//  Assets in Cass.
+// -------------------------
+.section li.cass-asset {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 0 auto;
+    height: auto;
+    font-family: $font-family-base;
+    background-color: #fff;
+    border: 1px solid $gray-lighter;
+    border-top-width: 0.3em;
+
+    // For editors add space for editong tools.
+    &.cass-can-edit {
+        padding-bottom: 2em !important;
+    }
+
+    .asset-wrapper {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: static;
+        padding: 0.5em 1em;
+    }
+
+    .cass-assettype {
+        font-size: $font-size-sm;
+        text-transform: uppercase;
+    }
+
+    .activityinstance {
+        padding: 0;
+        height: auto;
+        background-color: rgba(255,255,255,0.9);
+        @include clearfix;
+
+        .activityicon {
+            float: left;
+            width: 38px;
+            height: 38px;
+            margin-top: -5px; // magic number.
+            margin-right: 0.5em;
+            @include alakazam;
+        }
+
+        // Link to the mod (headings in cass).
+        .cass-asset-link {
+            font-size: 1em;
+            margin: 0;
+            padding: 0.5em 0;
+            @include alakazam;
+
+            // The link itself.
+            a {
+                &:hover,
+                &:focus {
+                    text-decoration: none;
+
+                    .activityicon {
+                        transform: scale(1.25);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+/**
+ * resourcelinkdetails = moodle putting filetype on screen if option selected
+ * we do this by default in cass, so hide moodle version
+ */
+.resourcelinkdetails {
+    display: none;
+}
+/* cass has its own implimentation of these, so hide moodles */
+.activityinstance .accesshide,
+.groupinglabel {
+    display: none;
+}
+
+// -------------------------
+// Cass label
+// -------------------------
+
+.section .activity.modtype_label.label {
+    background-image: none;
+    height: auto;
+    width: 100%;
+    text-align: left;
+    font-weight: 300;
+    padding: 0.5em 0;
+    margin: 0.5em 0;
+    box-shadow: none;
+    border: none !important;
+    @include clearfix;
+
+    .asset-wrapper,
+    .activityinstance {
+        padding: 0.5em 0;
+    }
+}
+
+// -------------------------
+// Cass native assets - books, page, images
+// -------------------------
+
+.section li.cass-native {
+    border: none;
+    height: auto;
+    margin: 0.5em auto;
+
+    .asset-wrapper {
+        padding:0;
+    }
+
+    .activityicon,
+    .cass-assettype {
+        display: none;
+    }
+
+    .instancename {
+        font-size: 1.3em;
+    }
+
+    .contentafterlink {
+        font-size: 1em;
+        padding-bottom: 1em;
+    }
+
+    .summary-figure {
+        text-align: center;
+    }
+
+    // some stuff for hide and show
+    .pagemod-content {
+        display: none;
+        clear: both;
+        padding: 1em 0;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+
+    .summary-text + h6 {
+        clear: left;
+    }
+
+    &.state-expanded {
+        .summary-text,
+        .summary-figure {
+            display: none;
+        }
+    }
+}
+
+@include media-breakpoint-up(md) {
+    li.modtype_page .summary-figure {
+        width: 50%;
+        float: left;
+        padding-right: 4%;
+    }
+}
+
+// TODO - make better
+// title/link on images - css is shame
+
+.cass-native.cass-image .activityinstance .cass-asset-link a {
+    display: none;
+}
+
+.modtype_book,
+.modtype_page {
+    border-bottom: 1px solid #ccc;
+}
+
+
+.cass-native.modtype_book ol.bookmod-chapters {
+    margin: 0;
+}
+
+.cass-image-image {
+    position: relative;
+
+    .cass-image-link {
+        display: block;
+    }
+
+    .cass-image-summary,
+    .cass-image-title {
+        position: absolute;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        background-color: rgba(255,255,255,0.9);
+        padding: 0 4%;
+        font-size: 1em;
+    }
+
+    .cass-image-title {
+        text-align: center;
+    }
+
+    .cass-image-summary {
+        position: relative;
+        margin-top: -3em;
+    }
+}
+
+// -------------------------
+// Cass resource
+// -------------------------
+
+.section li.cass-resource {
+    display: block;
+    @include alakazam;
+
+    .activityinstance .activityicon {
+        height: 1.5em;
+        width: 1.5em;
+        margin-top: 0;
+    }
+
+    .cass-asset-link {
+        font-size: 1em;
+    }
+}
+
+
+
+
+// -------------------------
+// Cass resources as cards.
+// -------------------------
+body.cass-resource-card li.cass-resource {
+    height: 200px;
+    width: 31%;
+    margin: 1%;
+    float: left;
+    clear: none;
+    background-image: url([[pix:theme|file]]);
+    background-repeat: no-repeat;
+    background-position: 50% 70%;
+    background-size: 38px auto;
+
+    &:hover {
+        background-size: 50px auto;
+    }
+
+    // Resource cards are clickable with data-href, so add cursor pointer.
+    .asset-wrapper {
+        @include clearfix;
+        cursor: pointer;
+    }
+
+    .activityicon {
+        display: none;
+    }
+
+    .contentafterlink {
+        font-size: small;
+    }
+
+    &.cass-mime-document,
+    &.cass-mime-writer,
+    &.cass-mime-oth,
+    &.cass-mime-text {
+        border-top-color: #03A9F4;
+        background-image: url([[pix:core|/f/document]]);
+    }
+
+    &.cass-mime-powerpoint,
+    &.cass-mime-impress {
+        border-top-color: #ff7300;
+        background-image: url([[pix:core|/f/powerpoint]]);
+    }
+
+    &.cass-mime-spreadsheet,
+    &.cass-mime-chart,
+    &.cass-mime-database,
+    &.cass-mime-calc {
+        border-top-color: #009e51;
+        background-image: url([[pix:core|/f/spreadsheet]]);
+    }
+
+    // ADOBE //
+    &.cass-mime-pdf,
+    &.cass-mime-eps,
+    &.cass-mime-flash {
+        border-top-color: #F44336;
+        background-image: url([[pix:core|/f/pdf]]);
+    }
+
+    &.cass-mime-flash {
+        background-image: url([[pix:core|/f/flash]]);
+    }
+
+    // MULTIMEDIA //
+    &.cass-mime-mp3,
+    &.cass-mime-wav,
+    &.cass-mime-audio {
+        border-top-color: #8BC34A;
+        background-image: url([[pix:core|/f/audio]]);
+    }
+
+    &.cass-mime-mov,
+    &.cass-mime-wmv,
+    &.cass-mime-video,
+    &.cass-mime-quicktime,
+    &.cass-mime-mpeg,
+    &.cass-mime-avi {
+        border-top-color: #55B5CC;
+        background-image: url([[pix:core|/f/video]]);
+    }
+
+    &.modtype_lightboxgallery,
+    &.cass-mime-bmp {
+        border-top-color: #4ABC96;
+        background-image: url([[pix:core|/f/image]]);
+    }
+
+    // MOODLE MODS //
+    &.modtype_url {
+        border-top-color: #999;
+        background-image: url([[pix:core|/f/url]]);
+    }
+
+    &.modtype_imscp,
+    &.modtype_scorm {
+        border-top-color: #F7981D;
+        background-image: url([[pix:core|/f/book]]);
+    }
+
+    &.modtype_imscp,
+    &.modtype_scorm {
+        background-image: url([[pix:core|/f/scorm]]);
+    }
+
+    &.modtype_folder {
+        border-top-color: #fed859;
+        background-image: url([[pix:core|/f/folder]]);
+    }
+
+    // CODE & SYSTEM //
+    &.cass-mime-archive {
+        border-top-color: #fed859;
+        background-image: url([[pix:core|/f/archive]]);
+    }
+
+    &.cass-mime-markup,
+    &.cass-mime-html,
+    &.cass-mime-sourcecode {
+        border-top-color: #f0652a;
+        background-image: url([[pix:core|/f/sourcecode]]);
+    }
+
+    &.cass-mime-text {
+        border-top-color: #f1bf26;
+    }
+}
+
+// Clear none-cards after floated cards.
+.cass-resource-card li.activity {
+    clear: left;
+}
+
+// Resources to full width on tiny screen.
+@include media-breakpoint-down(sm) {
+    body.cass-resource-card li.cass-resource {
+        width: 99%;
+        margin: 1em auto;
+        height: auto;
+        background-image: none !important;
+
+        .activityinstance .activityicon {
+            display: inline;
+        }
+
+        .cass-asset-actions {
+            width: 250px;
+            .cass-asset-move,
+            .cass-edit-more-dropdown,
+            > a {
+                width: 25%;
+                text-align: left;
+                padding: 0;
+            }
+        }
+    }
+}
+
+// -------------------------
+// Cass resources as list.
+// -------------------------
+.cass-resource-list li.cass-resource {
+    border: none;
+    margin: 0 1%;
+
+    .cass-assettype {
+        display: none;
+    }
+
+    .cass-asset-actions {
+        width: 250px;
+    }
+}
+
+// -------------------------
+// Cass Activity
+// -------------------------
+.section li.cass-activity {
+    margin: 1em 1%;
+    padding-bottom: 1em;
+
+    &.modtype_forum,
+    &.modtype_chat,
+    &.modtype_hsuforum {
+        border-top-color: #8BC34A;
+    }
+
+    &.modtype_assign,
+    &.modtype_assignment,
+    &.modtype_workshop {
+        border-top-color: #03A9F4;
+    }
+
+    &.modtype_choice,
+    &.modtype_feedback,
+    &.modtype_quiz,
+    &.modtype_survey,
+    &.modtype_questionnaire,
+    &.modtype_lesson {
+        border-top-color: #FFA000;
+    }
+
+    &.modtype_data,
+    &.modtype_glossary,
+    &.modtype_wiki {
+        border-top-color: #009688;
+    }
+
+    &.modtype_collaborate {
+        border-top-color: #c800a1;
+    }
+
+    &.modtype_folder {
+        border-top-color: #fed859;
+    }
+}
+
+// -------------------------
+// Editing resources/activites
+// -------------------------
+/* EDIT SUMMARY */
+/* Make it obvious that you can edit a summary - Add text and some styles to that gear thing */
+#page-site-index .sitetopic>a:last-of-type,
+.summary .edit-summary {
+    clear: both;
+    display: block;
+    text-align: center;
+    margin: 1em 0;
+    background-color: transparent;
+    font-family: $font-family-base;
+}
+
+#page-site-index {
+
+    .sitetopic > a {
+        &:last-of-type {
+            &:after {
+                content: attr(title);
+                display: block;
+                font-weight: 300;
+            }
+            &:before {
+                content: " ";
+                background: transparent url("[[pix:theme|pencil]]") no-repeat 50% 50%;
+                display: block;
+                height: 3em;
+                width: 3em;
+                margin: 0.5em auto;
+            }
+        }
+
+        .iconsmall{
+            display: none;
+        }
+    }
+}
+
+// -------------------------
+// Activity & Resource metadata
+// -------------------------
+.cass-asset-meta {
+    clear: both;
+    padding: 0;
+}
+
+// Activity data - e.g. Due date & Group info
+.cass-completion-meta,
+.cass-group-tag,
+.cass-grouping-tag {
+    text-align: right;
+    font-size: $font-size-sm;
+    margin-bottom: 0.5em;
+
+    a {
+        padding: 0.5em;
+        font-weight: 500;
+
+        + a {
+            border-left: 1px solid;
+        }
+    }
+}
+
+// Activity dues date.
+a.cass-due-date {
+    font-size: 1em;
+    border-radius: 1em;
+    padding: 0.5em 1em;
+}
+
+
+// Conditional information styled as fauz alerts.
+.cass-conditional-tag,
+.cass-draft-tag,
+.cass-current-tag {
+    font-size: small;
+    font-family: $font-family-base;
+    background-color: #eee;
+    margin: 0.5em 0;
+    padding: 0.5em;
+
+    .availabilityinfo {
+        display: inline;
+        margin-left: 0.5em;
+    }
+
+    ul {
+        margin: 0 !important; // SHAME - lists in lists in lists in lists....
+        list-style: none;
+        padding: 0;
+    }
+
+    strong {
+        font-weight: normal;
+    }
+}
+
+.cass-completion-meta {
+    // SHAME - hsuforum sets div inline block to overcome other themes moodle css...
+    // We need to counteract this for cass for hsu forum for the moment.
+    display: block !important;
+    clear: both;
+}
+
+// hide draft tag, unless asset has class draft (can be added by js)
+.cass-draft-tag,
+.cass-current-tag {
+    display: none !important; // SHAME - overcome bad overspecificity...
+    font-size: $font-size-sm;
+}
+
+// show draft tag if parent has draft or class.
+.hidden .content .cass-draft-tag,
+.cass-asset.draft .cass-draft-tag {
+    display: block !important; // SHAME - overcome bad overspecificity...
+}
+
+// Show current tag if parent has current class.
+.current .cass-current-tag {
+    display: block !important; // SHAME - overcome bad overspecificity...
+    color: white;
+    background-color: $brand-success;
+}
+
+// Draft hide/show.
+.cass-asset {
+    .editing_show {
+        display: none;
+    }
+}
+
+// Assets with draft tag.
+.cass-asset.draft {
+    border-top-color: #eee !important;
+
+    .activityinstance {
+        opacity: 0.75;
+    }
+
+    // Options to hide/show in the dropdown.
+    .editing_hide {
+        display: none;
+    }
+
+    .editing_show {
+        display: block;
+    }
+}
+
+// Sections which are draft.
+.section.hidden {
+    opacity: 1 !important;
+
+    .content {
+        opacity: 0.75;
+    }
+
+    // Draft assets inside hidden section....
+    .cass-asset.draft .activityinstance {
+            opacity: 1;
+    }
+}
+
+// TODO - in course_renderer figure out if completion tracking enabled.
+// If so - add 1.3em gutter to slat to stop overlapping.
+
+.cass-asset-completion-tracking {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    display: block;
+    line-height: 0;
+}
+
+/* Completion actions */
+@keyframes circleajax {
+    0% {
+        border-top-color: rgba(100,100,100,1);
+        border-right-color: rgba(50,50,50,0.25);
+        border-bottom-color: rgba(50,50,50,0.25);
+        border-left-color: rgba(50,50,50,0.25);
+    }
+    25% {
+        border-top-color: rgba(50,50,50,0.25);
+        border-right-color: rgba(100,100,100,1);
+        border-bottom-color: rgba(50,50,50,0.25);
+        border-left-color: rgba(50,50,50,0.25);
+    }
+    50% {
+        border-top-color: rgba(50,50,50,0.25);
+        border-right-color: rgba(50,50,50,0.25);
+        border-bottom-color: rgba(100,100,100,1);
+        border-left-color: rgba(50,50,50,0.25);
+    }
+    75% {
+        border-top-color: rgba(50,50,50,0.25);
+        border-right-color: rgba(50,50,50,0.25);
+        border-bottom-color: rgba(50,50,50,0.25);
+        border-left-color: rgba(100,100,100,1);
+    }
+    100% {
+        border-top-color: rgba(100,100,100,1);
+        border-right-color: rgba(50,50,50,0.25);
+        border-bottom-color: rgba(50,50,50,0.25);
+        border-left-color: rgba(50,50,50,0.25);
+    }
+}
+span.autocompletion img,
+form.togglecompletion {
+    position: relative;
+    width: 20px;
+    height: 20px;
+}
+form.togglecompletion {
+    input {
+        &[type="image"] {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    @include alakazam;
+
+    &:hover,
+    &:focus {
+        transform: scale(1.1);
+    }
+
+    &.ajaxing {
+        &:after {
+            content:'';
+            display: block;
+            position: absolute;
+            width: calc(100% + 8px);
+            height: calc(100% + 8px);
+            margin-top: -4px;
+            margin-left: -4px;
+            top: 0px;
+            left: 0px;
+            border: solid;
+            border-width: 6px;
+            border-radius: 50%;
+            box-sizing: border-box;
+            border-top-color: rgba(50,50,50,1);
+            border-right-color: rgba(50,50,50,0.25);
+            border-bottom-color: rgba(50,50,50,0.25);
+            border-left-color: rgba(50,50,50,0.25);
+            animation-name: circleajax;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+        div {
+            display: none;
+        }
+    }
+}
+
+/* Indent text associated with activity/resource. */
+.section li.cass-activity {
+    .contentafterlink,
+    .hsuforum-recent {
+        margin-left: (38px + 9px); // icon size (38px + margin);
+    }
+}
+
+// -------------------------
+// Cass actions
+// -------------------------
+
+// All the editing options in one region.
+.cass-asset-actions {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 250px;
+
+    & > a,
+    .cass-edit-more-dropdown,
+    .cass-asset-move {
+        display: inline-block !important;
+        padding: 0.3em 7%;
+        text-align: center;
+        width: 33%;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            .svg-icon {
+                transform: scale(1.1);
+                border-color: $gray-light;
+            }
+        }
+    }
+
+    .cass-edit-more-dropdown .dropdown-toggle::after {
+        // Hide the bootstrap dropdown menu caret.
+        border-width: 0;
+        margin: 0;
+    }
+
+    .svg-icon {
+        border-radius: 100%;
+        border: 1px solid white;
+        width: 1.75em;
+        height: 1.75em;
+        background-color: white;
+        @include alakazam;
+    }
+
+    // When checkbox for moving is checked
+    input[type=checkbox]:checked + .svg-icon {
+        background-color: $brand-success !important;
+    }
+
+    .dropdown-menu {
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+        border: 0;
+        padding: 0;
+    }
+
+    .dropdown-menu a {
+        font-weight: inherit;
+        font-size: 0.8em;
+    }
+}
+// Only show these actions once all listeners applied.
+.cass-course-listening {
+    .cass-asset-actions {
+        visibility: visible;
+    }
+}
+
+.cass-resource {
+    .cass-asset-actions {
+        width: 100%;
+
+        & > a,
+        .cass-edit-more-dropdown,
+        label {
+            padding: 0.3em 7%;
+            text-align: center;
+            width: 33%;
+        }
+    }
+}
+
+/* reset some moodle shame */
+.moodle-actionmenu,
+.moodle-actionmenu>ul,
+.moodle-actionmenu>ul>li {
+    display: block;
+}
+
+.moodle-actionmenu>ul>li {
+    display: inline-block;
+}
+/*  actions at the footer of an element */
+.section .cass-asset .actions {
+    clear: both;
+    float: none;
+    width: 100%;
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    @include clearfix;
+
+    .moodle-actionmenu {
+        width: 100%;
+        max-width: 320px;
+
+        .menubar {
+            text-align: right;
+        }
+
+        &>ul {
+            margin: 0;
+        }
+    }
+}
+
+/* add bg colour for actions when editing */
+.editing .actions {
+    background-color: rgba(255,255,255,0.95);
+}
+/* remove bg colour for actions when menu shown */
+.action-menu-shown .actions {
+    background-color: transparent;
+}
+
+// draghandle
+.section .cass-asset .editing_move {
+    padding: 0 2%;
+}
+
+// -------------------------
+//  Edit button
+// -------------------------
+// that div with all the extraneous moodle editing code in.
+
+div.commands ul.menubar {
+    margin: 0;
+}
+
+// i know. SHAME selector :(
+.jsenabled .cass-asset .moodle-actionmenu[data-enhance] .toggle-display.textmenu {
+    text-decoration: none;
+    padding: 0.5em 1em;
+    margin: 0;
+    text-align: right;
+    background-color: #fff;
+}
+
+// hide moodle caret
+.toggle-display .caret {
+    display: none;
+}
+
+.toggle-display.textmenu:after {
+    content: "☰";
+    margin-left: 0.5rem;
+}
+
+.action-menu-shown .toggle-display.textmenu {
+    &:after {
+        content: " ";
+        background: transparent url("[[pix:theme|close_x]]") repeat;
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+    }
+}
+
+// last min css for marks code changes - make edit button block when editing...
+.action-menu-shown .moodle-actionmenu>ul>li {
+    display: block;
+}
+
+// -------------------------
+//  Editing menu
+// -------------------------
+// hide to start, and set some defaults
+
+.editing .cass-asset {
+    .actions .menu {
+        position: relative;
+        display: block;
+        visibility: hidden;
+        overflow: hidden;
+        z-index: 1;
+        width: 0;
+        height: 0;
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+        background-color: #fff;
+        transform: scale(0);
+        transform-origin: 100% 100%;
+        transition: transform 0.3s;
+    }
+
+    // when menu shown
+    &.action-menu-shown .actions {
+
+        // hide move & groups
+        .editing_move,
+        [class*='group'] {
+            display: none;
+        }
+
+        // ignore inline js styles
+        .menu[style] {
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+        }
+
+        .menu {
+            visibility: visible;
+            transform: scale(1);
+            transition: transform 0.3s;
+            padding: 0 0.5em;
+            margin: 0;
+            width: auto;
+            max-width: 320px;
+            height: auto;
+        }
+    }
+}
+
+input.titleeditor {
+    max-width: 100%;
+    padding: 0.3em;
+    margin: 0;
+}
+
+span.editinstructions {
+    box-shadow: none;
+    border: 0;
+    font-family: $font-family-base;
+}
+
+/* forum unread posts button */
+.cass-asset .unread {
+    clear: both;
+    display: block;
+    background-color: transparent;
+}
+
+.editing .dndupload-preview .mod-indent {
+    display: block;
+}
+
+// increase/decrease sections buttons
+// remove moodle padding
+
+.path-course-view a.reduce-sections {
+    padding-left: 0;
+}
+
+// -------------------------
+// Course footer.
+// -------------------------
+
+#cass-course-footer {
+    margin: 2em auto -2em; // pull the sitewide footer up if we have a course footer
+    padding: 1em 4%;
+    background-color: #f1f0ee;
+}
+
+#course_recent_updates {
+    h3 {
+        font-size: 1em;
+        clear: both;
+    }
+
+    .head {
+        .date,
+        .name {
+            display: inline;
+        }
+
+        .date {
+            float: right;
+            font-size: small;
+        }
+    }
+
+    .info.bold {
+        font-weight: inherit;
+    }
+}
+
+// -------------------------
+// Course completion settings page.
+// -------------------------
+
+#page-course-completion {
+    .mform .fcontainer .fitem_fcheckbox {
+        display: flex;
+
+        .fitemtitle {
+            order: 2;
+        }
+
+        .fcheckbox {
+            order: 1;
+            margin-right: 1em;
+        }
+
+        .fcheckbox input {
+            margin: 0;
+        }
+    }
+}
+
+// -------------------------
+// Grade tree calculation input padding.
+// -------------------------
+#page-grade-edit-tree-calculation input[type="text"] {
+    margin: 0.5rem 0 0.5rem 0.5rem;
+}
+
+/**
+ * Fixes to recent course activity page.
+ * Note - excuse the awful CSS used here but terribly inconsistent markup across modules necessitates it.
+ */
+#page-course-recent #region-main div.generalbox {
+    td,
+    > div {
+        font-family: $font-family-base;
+        font-size: $font-size-base;
+        margin-top: 0.5rem;
+
+        // Workshop - this is the best way we can possibly target the workshop divs as sadly only one div has
+        // a class (submission).
+        &[style],
+        &[style] + div.submission {
+            padding: 0 !important; // Please forgive !important - required to remove inline style in workshop.
+        }
+
+        // Glossary.
+        div.glossary-activity-content {
+            float: left;
+            margin-left: 10px;
+        }
+
+        // Questionnaire.
+        span div a img,
+        // Glossary.
+        > div a img,
+        // Workshop.
+        > a img {
+            margin-left: 25px;
+        }
+
+        + div.submission {
+            // Workshop data positioning.
+            margin-left: 10px;
+            // Get rid of bold title in workshop.
+            strong {
+                font-weight: 300;
+            }
+        }
+    }
+
+    table.forum-recent {
+        // Forum - get rid of bold title.
+        div.title.bold {
+            font-weight: 300;
+        }
+    }
+}
+
+// -------------------------
+// Course recent activity icons - set size to same as avatars.
+// -------------------------
+
+#page-course-recent {
+
+    h3 {
+        margin-bottom: 0;
+
+        & > img.icon.smallicon {
+            width: 35px;
+            height: 35px;
+        }
+
+    }
+
+    #region-main td.userpicture {
+        width: 70px;
+        vertical-align: middle;
+
+        img {
+            margin-left: 25px;
+        }
+    }
+}
+
+// -------------------------
+// Course resource icons - set to sensible size.
+// -------------------------
+#page-course-resources table.mod_index td img {
+    max-width: 2rem;
+}
+
+// -------------------------
+// Course participants page.
+// -------------------------
+
+@include media-breakpoint-down(lg) {
+    .userlist {
+        table.controls tr td.right {
+            text-align: left;
+        }
+
+        table.controls tr td {
+            padding: 0 0 1em !important;
+        }
+
+        table.controls tr td:empty {
+            display: none;
+        }
+
+        table.controls tr td,
+        .singleselect {
+            display: block;
+            width: auto;
+        }
+    }
+}
+
+
+
+// -------------------------
+// Moving things in cass
+// -------------------------
+@keyframes fadeup {
+   0%{
+       opacity:0.1;
+   }
+   100%{
+       opacity:1;
+   }
+}
+.path-course-view {
+    li.state-visible,
+    #page-header,
+    #region-main {
+        animation-name: fadeup;
+        animation-iteration-count: 1;
+        animation-timing-function: linear;
+        animation-duration: 0.68s;
+    }
+}
+
+@keyframes fadein {
+    0%   {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+// Hide section drop on moving section, the following section and when not moving.
+.section-drop,
+.section-moving a.section-drop,
+.section-moving + .section .section-drop {
+    display: none;
+}
+
+// Section moving drop zone.
+.section-drop {
+    height: 125px;
+    margin: 1em 0;
+    clear: both;
+    border: 2px dashed $gray-lighter;
+    font-family: $font-family-base;
+    text-align: center;
+    display:none;
+}
+
+.section-drop,
+.cass-move-note {
+    background: transparent url("[[pix:theme|move_here]]") no-repeat 50% 80%;
+    background-size: 2.5em 2.5em;
+}
+
+.cass-move-section {
+    .section-drop {
+        display: block;
+
+        &:hover {
+          border-color: $state-success-text;
+        }
+    }
+}
+
+#cass-footer-alert {
+    position: fixed;
+    z-index:1;
+    bottom:0;
+    left:0;
+    width:100%;
+    background-color:#000;
+    color:#fff;
+    background-image:none !important;
+    outline:none !important;
+    // for animation..
+    max-height: 0;
+    overflow: hidden;
+    @include alakazam;
+    .spinner-three-quarters {
+        margin-left: 1em;
+        width: 1em;
+        height: 1em;
+    }
+    &.cass-footer-alert-visible {
+        padding:0.5em 0;
+        max-height: 200px;
+        z-index: 2;
+    }
+}
+
+.cass-footer-alert-title{
+    text-transform: capitalize;
+    color: #fff !important;
+    display: inline-block;
+    background-size: 1.5em 1.5em;
+    background-position: 0 center;
+    background-repeat: no-repeat;
+    padding-left: 1.7em; // Magic number for icon
+    margin-left: 4%;
+    width: 68.2%;
+}
+
+.cass-footer-alert-cancel {
+    float: right;
+    margin-right: 4%;
+    color: #fff !important;
+    opacity: 0.8;
+    visibility: hidden;
+
+    &:hover {
+        color: #fff;
+        opacity: 1;
+    }
+
+    &.state-visible {
+        visibility: visible;
+    }
+}
+
+
+
+// Body class when moving
+.cass-move-inprogress {
+    // The asset we are moving
+    .cass-moving,
+    .cass-modchooser,
+    .edit-summary,
+    .cass-asset-actions .cass-edit-asset,
+    .cass-asset-actions .cass-edit-more-dropdown,
+    .cass-section-editing,
+    .cass-modchooser,
+    .cass-dropzone {
+      display:none !important;
+    }
+
+    &.cass-move-section {
+        .cass-asset-actions,
+        .cass-asset .togglecompletion {
+            display: none !important;
+        }
+    }
+
+    .actions {
+        display: none;
+    }
+}
+
+.cass-asset {
+    &.movefinished {
+        & + li.cass-resource {
+
+        }
+        animation: fadein 0.5s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+    }
+}
+
+.cass-move-note, .cass-drop.asset-drop {
+    display: none;
+}
+// Show when moving
+// Asset dropzones.
+.cass-move-asset {
+      .cass-asset:not(.asset-moving) {
+          border: 2px dashed $gray-light;
+      }
+
+      .cass-resource:not(.asset-moving) {
+          border: 2px dashed white;
+      }
+
+      .cass-asset:not(.asset-moving) .cass-move-note {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background-color: rgba(255,255,255,0.7);
+          cursor: pointer;
+          text-align: center;
+          padding: 1em;
+          display: block;
+      }
+
+      .cass-drop.asset-drop {
+          display: block;
+          clear: both;
+          border: 2px dashed $gray-light;
+          font-size: 2em;
+          font-color: $gray;
+          font-family: $font-family-base;
+          text-align: center;
+          cursor: pointer;
+      }
+}
+
+#cass-light-box {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $modal-backdrop-bg;
+    z-index: 1000000;
+    overflow-y:scroll;
+
+    &.state-visible {
+        display: block;
+    }
+
+    #cass-light-box-close {
+        position: absolute;
+        z-index: 2;
+        top: 0.5em;
+        right: 0.5em;
+    }
+
+    .cass-icon-close:before {
+        background: transparent url([[pix:theme|close_x]]) no-repeat 50% 50%;
+    }
+
+    .resourcecontent audio {
+       margin: 1em auto;
+    }
+}
+
+#cass-light-box-content {
+    width: 100%;
+    padding: 1em 4%;
+}
+
+@include media-breakpoint-up(md) {
+  .cass-lightbox-description {
+      overflow-y: auto;
+      max-height: 80vh;
+  }
+}
+
+// Adding support for bootstrap 4 progress bar.
+.dndupload-progress-outer {
+    @extend .progress;
+    display: block;
+}
+
+.dndupload-progress-inner {
+    @extend .progress-bar;
+    display: block;
+}
+
+// Fix urlselect in grade report.
+.path-grade-report #maincontent + .urlselect {
+    left: 71vw;
+}

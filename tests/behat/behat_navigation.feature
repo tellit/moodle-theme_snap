@@ -13,22 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Tests for Snap behat tweaks.
+# Tests for Cass behat tweaks.
 #
-# @package    theme_snap
-# @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
+# @package    theme_cass
+# @copyright  Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
 # @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 
 
-@theme @theme_snap
-Feature: When the moodle theme is set to Snap, behat tests that navigate via the Nav block should still work
-    even though this block is hidden by default in the Snap theme.
+@theme @theme_cass
+Feature: When the moodle theme is set to Cass, behat tests that navigate via the Nav block should still work
+    even though this block is hidden by default in the Cass theme.
 
   Background:
     Given the following config values are set as admin:
-      | theme | snap |
+      | theme | cass |
 
   Scenario: Log in as admin and always see the navigation block in behat
-    Given I log in with snap as "admin"
+    Given I log in as "admin" (theme_cass)
     Then ".block_navigation" "css_element" should exist
 

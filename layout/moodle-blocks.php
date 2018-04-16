@@ -19,15 +19,15 @@
  * This layout is baed on a moodle site index.php file but has been adapted to show news items in a different
  * way.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
+
 $hassidepre = $PAGE->blocks->region_has_content('side-pre', $OUTPUT);
 $knownregionpre = $PAGE->blocks->is_known_region('side-pre');
 
 if ($hassidepre) {
-    echo '<div id="moodle-blocks" class="clearfix">';
-    echo $OUTPUT->blocks('side-pre');
-    echo '</div>';
+    echo $OUTPUT->cass_blocks();
 }

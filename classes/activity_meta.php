@@ -14,47 +14,110 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_snap;
+namespace theme_cass;
+
+use \theme_cass\traits\null_object;
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Activity meta data.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class activity_meta {
 
+    use null_object;
+
     // Strings.
+    /**
+     * @var string $submittedstr - string to use when submitted
+     */
     public $submittedstr;
+    /**
+     * @var string $notsubmittedstr - string to use when not submitted
+     */
     public $notsubmittedstr;
+    /**
+     * @var string $submitstrkey - language string key
+     */
     public $submitstrkey;
+    /**
+     * @var string $draftstr - string for draft status
+     */
     public $draftstr;
+    /**
+     * @var string $reopenedstr - string for reopened status
+     */
     public $reopenedstr;
+    /**
+     * @var string $duestr - string for due date
+     */
     public $duestr;
+    /**
+     * @var string $overduestr - string for overdue status
+     */
     public $overduestr;
 
     // General meta data.
+    /**
+     * @var int $timeopen - unix time stamp for time open
+     */
     public $timeopen;
+    /**
+     * @var int $timeclose - unix time stamp for time closes
+     */
     public $timeclose;
+    /**
+     * @var bool $isteacher - true if meta data is intended for teacher
+     */
     public $isteacher = false;
+    /**
+     * @var bool $submissionnotrequired - true if a submission is not required
+     */
     public $submissionnotrequired = false;
 
     // Student meta data.
+    /**
+     * @var bool $submitted - true if submission has been made
+     */
     public $submitted = false; // Consider collapsing this variable + draft variable into one 'status' variable?
+    /**
+     * @var bool $draft - true if activity submission is in draft status
+     */
     public $draft = false;
+    /**
+     * @var bool $reopened - true if reopened
+     */
     public $reopened = false;
+    /**
+     * @var int $timesubmitted - unix time stamp for time submitted
+     */
     public $timesubmitted;
-    public $grade;
+    /**
+     * @var bool $grade - has the submission been graded
+     */
+    public $grade = false;
+    /**
+     * @var bool $overdue - is the submission overdue
+     */
     public $overdue = false;
 
     // Teacher meta data.
-    public $numsubmissions = false;
-    public $numrequiregrading = false;
+    /**
+     * @var int $numsubmissions - number of submissions
+     */
+    public $numsubmissions = 0;
+    /**
+     * @var int $numrequiregrading - number of submissions requiring grading
+     */
+    public $numrequiregrading = 0;
 
-    function __construct() {
+    public function __construct() {
         // Set default strings.
-        $this->overduestr = get_string('overdue', 'theme_snap');
-        $this->duestr = get_string('due', 'theme_snap');
+        $this->set_default('overduestr', get_string('overdue', 'theme_cass'));
+        $this->set_default('duestr', get_string('due', 'theme_cass'));
     }
 }

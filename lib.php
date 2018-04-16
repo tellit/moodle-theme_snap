@@ -14,12 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once __DIR__ . '/coursepageredirect.php';
-
 /**
- * Standard library functions for snap theme.
+ * Standard library functions for Cass theme.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -32,9 +30,9 @@ require_once __DIR__ . '/coursepageredirect.php';
  * @throws coding_exception
  * @throws dml_exception
  */
-function theme_snap_process_site_coverimage() {
+function theme_cass_process_site_coverimage() {
     $context = \context_system::instance();
-    \theme_snap\local::process_coverimage($context);
+    \theme_cass\local::process_coverimage($context);
     theme_reset_all_caches();
 }
 
@@ -45,14 +43,11 @@ function theme_snap_process_site_coverimage() {
  * @param theme_config $theme
  * @return string
  */
-function theme_snap_process_css($css, theme_config $theme) {
+function theme_cass_process_css($css, theme_config $theme) {
 
     // Set the background image for the logo.
     $logo = $theme->setting_file_url('logo', 'logo');
-    $css = theme_snap_set_logo($css, $logo);
-
-    // Set the background image for the poster.
-    $css = \theme_snap\local::site_coverimage_css($css);
+    $css = theme_cass_set_logo($css, $logo);
 
     // Set the custom css.
     if (!empty($theme->settings->customcss)) {
@@ -60,10 +55,7 @@ function theme_snap_process_css($css, theme_config $theme) {
     } else {
         $customcss = null;
     }
-    $css = theme_snap_set_customcss($css, $customcss);
-
-    // Set bootswatch.
-    $css = theme_snap_set_bootswatch($css, theme_snap_get_bootswatch_variables($theme));
+    $css = theme_cass_set_customcss($css, $customcss);
 
     return $css;
 }
@@ -75,12 +67,12 @@ function theme_snap_process_css($css, theme_config $theme) {
  * @param string $logo The URL of the logo.
  * @return string The parsed CSS
  */
-function theme_snap_set_logo($css, $logo) {
-    $tag = '[[setting:logo]]';
+function theme_cass_set_logo($css, $logo) {
+    $tag = '/**setting:logo**/';
     if (is_null($logo)) {
         $replacement = '';
     } else {
-        $replacement = "#logo {background-image: url($logo);} #page-login-index .loginpanel h2{background-image: url($logo);}";
+        $replacement = "#cass-home.logo, .cass-logo-sitename {background-image: url($logo);}";
     }
     $css = str_replace($tag, $replacement, $css);
     return $css;
@@ -93,76 +85,14 @@ function theme_snap_set_logo($css, $logo) {
  * @param string $customcss The custom CSS to add.
  * @return string The CSS which now contains our custom CSS.
  */
-function theme_snap_set_customcss($css, $customcss) {
-    $tag = '[[setting:customcss]]';
+function theme_cass_set_customcss($css, $customcss) {
+    $tag = '/**setting:customcss**/';
     $replacement = $customcss;
     if (is_null($replacement)) {
         $replacement = '';
     }
     $css = str_replace($tag, $replacement, $css);
     return $css;
-}
-
-/**
- * Extract bootswatch variables from theme configuration.
- *
- * @param theme_config $theme
- * @return array
- */
-function theme_snap_get_bootswatch_variables(theme_config $theme) {
-    $settings['brand-primary'] = !empty($theme->settings->themecolor) ? $theme->settings->themecolor : '#3bcedb';
-    $userfontsans  = $theme->settings->headingfont;
-    if (empty($userfontsans) || in_array($userfontsans, ['Roboto', '"Roboto"'])) {
-        $userfontsans = '';
-    } else {
-        $userfontsans .= ",";
-    }
-    $fallbacksans = 'Roboto,"Fira Sans","Segoe UI","HelveticaNeue-Light",'
-        . '"Helvetica Neue Light","Helvetica Neue",Helvetica, Arial, sans-serif';
-    $settings['font-family-sans-serif'] = $userfontsans . $fallbacksans;
-
-    $userfontserif = $theme->settings->seriffont;
-    if (empty($userfontserif) || in_array($userfontserif, ['Georgia', '"Georgia"'])) {
-        $userfontserif = '';
-    } else {
-        $userfontserif .= ",";
-    }
-    $fallbackserif = 'Georgia,"Times New Roman", Times, serif';
-    $settings['font-family-serif'] = $userfontserif . $fallbackserif;
-
-    return $settings;
-}
-
-/**
- * Add bootswatch CSS
- *
- * @param string $css The original CSS.
- * @param array $variables The bootswatch variables
- * @return string
- * @see theme_snap_get_bootswatch_variables
- */
-function theme_snap_set_bootswatch($css, array $variables) {
-    global $CFG;
-
-    $tag = '[[setting:snap-user-bootswatch]]';
-    if (strpos($css, $tag) === false) {
-        return $css; // Avoid doing work when tag is not present.
-    }
-    require_once(__DIR__.'/lessphp/Less.php');
-
-    try {
-        $parser = new Less_Parser();
-        $parser->parseFile(__DIR__.'/less/bootswatch/snap-variables.less', $CFG->wwwroot.'/');
-        $parser->parseFile(__DIR__.'/less/bootswatch/snap-user-bootswatch.less', $CFG->wwwroot.'/');
-        if (!empty($variables)) {
-            $parser->ModifyVars($variables);
-        }
-        $replacement = $parser->getCss();
-    } catch (Exception $e) {
-        add_to_log(get_site()->id, 'library', 'bootswatch', '', 'Failed to complile bootswatch: '.$e->getMessage());
-        $replacement = '';  // Nothing we can do but remove the tag.
-    }
-    return str_replace($tag, $replacement, $css);
 }
 
 /**
@@ -176,7 +106,7 @@ function theme_snap_set_bootswatch($css, array $variables) {
  * @param $options
  * @return bool
  */
-function theme_snap_send_file($context, $filearea, $args, $forcedownload, $options) {
+function theme_cass_send_file($context, $filearea, $args, $forcedownload, $options) {
     $revision = array_shift($args);
     if ($revision < 0) {
         $lifetime = 0;
@@ -186,7 +116,7 @@ function theme_snap_send_file($context, $filearea, $args, $forcedownload, $optio
 
     $filename = end($args);
     $contextid = $context->id;
-    $fullpath = "/$contextid/theme_snap/$filearea/0/$filename";
+    $fullpath = "/$contextid/theme_cass/$filearea/0/$filename";
     $fs = get_file_storage();
     $file = $fs->get_file_by_hash(sha1($fullpath));
 
@@ -210,23 +140,23 @@ function theme_snap_send_file($context, $filearea, $args, $forcedownload, $optio
  * @param array $options
  * @return bool
  */
-function theme_snap_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function theme_cass_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
 
-    if ($context->contextlevel == CONTEXT_SYSTEM && in_array($filearea, ['logo', 'favicon'])) {
-        $theme = theme_config::load('snap');
+    if ($context->contextlevel == CONTEXT_SYSTEM && in_array($filearea, ['logo', 'favicon', 'fs_one_image', 'fs_two_image', 'fs_three_image'])) {
+        $theme = theme_config::load('cass');
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     } else if (($context->contextlevel == CONTEXT_SYSTEM || $context->contextlevel == CONTEXT_COURSE)
-        && $filearea == 'coverimage') {
-        theme_snap_send_file($context, $filearea, $args, $forcedownload, $options);
+        && $filearea == 'coverimage' || $filearea == 'coursecard') {
+        theme_cass_send_file($context, $filearea, $args, $forcedownload, $options);
     } else {
         send_file_not_found();
     }
 }
 
-function theme_snap_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
+function theme_cass_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
     global $PAGE;
 
-    if ($PAGE->theme->name === 'snap') {
+    if ($PAGE->theme->name === 'cass') {
         if ($iscurrentuser) {
             $str = get_strings(['preferences']);
             if (isset($tree->nodes['editprofile'])) {
@@ -240,4 +170,77 @@ function theme_snap_myprofile_navigation(core_user\output\myprofile\tree $tree, 
             $tree->add_node($prefnode);
         }
     }
+}
+
+function theme_cass_get_main_scss_content($theme) {
+    global $CFG;
+
+    // Note, the following code is not fully used yet, only the hardcoded
+    // pre and post scss files will be loaded, not any presets defined by
+    // settings.
+
+    $scss = '';
+    $filename = !empty($theme->settings->preset) ? $theme->settings->preset : null;
+    $fs = get_file_storage();
+
+    $context = context_system::instance();
+    if ($filename == 'default.scss') {
+        // We still load the default preset files directly from the boost theme. No sense in duplicating them.
+        $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
+    } else if ($filename == 'plain.scss') {
+        // We still load the default preset files directly from the boost theme. No sense in duplicating them.
+        $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/plain.scss');
+
+    } else if ($filename && ($presetfile = $fs->get_file($context->id, 'theme_cass', 'preset', 0, '/', $filename))) {
+        // This preset file was fetched from the file area for theme_cass and not theme_boost (see the line above).
+        $scss .= $presetfile->get_content();
+    } else {
+        $scss = '@import "boost";';
+    }
+
+    // Pre CSS - this is loaded AFTER any prescss from the setting but before the main scss.
+    $pre = file_get_contents($CFG->dirroot . '/theme/cass/scss/pre.scss');
+    // Post CSS - this is loaded AFTER the main scss but before the extra scss from the setting.
+    $post = file_get_contents($CFG->dirroot . '/theme/cass/scss/post.scss');
+
+    // Combine them together.
+    return $pre . "\n" . $scss . "\n" . $post;
+}
+
+/**
+ * Get SCSS to prepend.
+ *
+ * @param theme_config $theme The theme config object.
+ * @return array
+ */
+function theme_cass_get_pre_scss($theme) {
+    global $CFG;
+
+    $scss = '';
+
+    $settings['brand-primary'] = !empty($theme->settings->themecolor) ? $theme->settings->themecolor : '#3bcedb';
+    $userfontsans  = $theme->settings->headingfont;
+    if (empty($userfontsans) || in_array($userfontsans, ['Roboto', '"Roboto"'])) {
+        $userfontsans = '';
+    } else {
+        $userfontsans .= ",";
+    }
+    $fallbacksans = 'Roboto,"Fira Sans","Segoe UI","HelveticaNeue-Light",'
+        . '"Helvetica Neue Light","Helvetica Neue",Helvetica, Arial, sans-serif';
+    $settings['font-family-sans-serif'] = $userfontsans . $fallbacksans;
+
+    $userfontserif = $theme->settings->seriffont;
+    if (empty($userfontserif) || in_array($userfontserif, ['Georgia', '"Georgia"'])) {
+        $userfontserif = '';
+    } else {
+        $userfontserif .= ",";
+    }
+    $fallbackserif = 'Georgia,"Times New Roman", Times, serif';
+    $settings['font-family-serif'] = $userfontserif . $fallbackserif;
+
+    foreach ($settings as $key => $value) {
+        $scss .= '$' . $key . ': ' . $value . ";\n";
+    }
+
+    return $scss;
 }

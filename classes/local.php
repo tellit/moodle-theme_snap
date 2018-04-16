@@ -15,44 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 
-namespace theme_snap;
+namespace theme_cass;
 
 use html_writer;
-use theme_snap\user_forums;
+use \theme_cass\user_forums;
+use \theme_cass\course_total_grade;
 
 require_once($CFG->dirroot.'/calendar/lib.php');
 require_once($CFG->libdir.'/completionlib.php');
 require_once($CFG->libdir.'/coursecatlib.php');
 require_once($CFG->dirroot.'/grade/lib.php');
-require_once($CFG->dirroot.'/grade/report/user/lib.php');
+require_once($CFG->dirroot.'/grade/report/overview/lib.php');
 require_once($CFG->dirroot.'/mod/forum/lib.php');
+require_once($CFG->dirroot.'/lib/enrollib.php');
 
 /**
- * General local snap functions.
+ * General local cass functions.
  *
  * Added to a class purely for the convenience of auto loading.
  *
- * @package   theme_snap
+ * @package   theme_cass
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class local {
-
-
-    /**
-     * If debugging enabled in config then return reason for no grade (useful for json output).
-     *
-     * @param $warning
-     * @return null|object
-     */
-    public static function skipgradewarning($warning) {
-        global $CFG;
-        if (!empty($CFG->debugdisplay)) {
-            return (object) array ('skipgrade' => $warning);
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Is there a valid grade or feedback inside this grader report table item?
@@ -81,21 +67,36 @@ class local {
     /**
      * Does this course have any visible feedback for current user?.
      *
-     * @param $course
-     * @return stdClass | null
+     * @param \stdClass $course
+     * @return \stdClass
      */
-    public static function course_feedback($course) {
+    public static function course_grade($course) {
         global $USER;
+
+        $failobj = (object) [
+            'feedback' => false
+        ];
+
+        $config = get_config('theme_cass');
+        if (empty($config->showcoursegradepersonalmenu)) {
+            // If not enabled, don't return data.
+            return $failobj;
+        }
+
+        if (!isloggedin() || isguestuser()) {
+            return $failobj;
+        }
+
         // Get course context.
         $coursecontext = \context_course::instance($course->id);
         // Security check - should they be allowed to see course grade?
         $onlyactive = true;
         if (!is_enrolled($coursecontext, $USER, 'moodle/grade:view', $onlyactive)) {
-            return self::skipgradewarning('User not enrolled on course with capability moodle/grade:view');
+            return $failobj;
         }
         // Security check - are they allowed to see the grade report for the course?
-        if (!has_capability('gradereport/user:view', $coursecontext)) {
-            return self::skipgradewarning('User does not have required course capability gradereport/user:view');
+        if (!has_capability('gradereport/overview:view', $coursecontext)) {
+            return $failobj;
         }
         // See if user can view hidden grades for this course.
         $canviewhidden = has_capability('moodle/grade:viewhidden', $coursecontext);
@@ -103,44 +104,219 @@ class local {
         // Note - moodle/grade:viewall is a capability held by teachers and thus used to exclude them from not getting
         // the grade.
         if (empty($course->showgrades) && !has_capability('moodle/grade:viewall', $coursecontext)) {
-            return self::skipgradewarning('Course set up to not show gradebook to students');
+            return $failobj;
         }
         // Get course grade_item.
         $courseitem = \grade_item::fetch_course_item($course->id);
         // Get the stored grade.
         $coursegrade = new \grade_grade(array('itemid' => $courseitem->id, 'userid' => $USER->id));
         $coursegrade->grade_item =& $courseitem;
-        // Return null if can't view.
-        if ($coursegrade->is_hidden() && !$canviewhidden) {
-            return self::skipgradewarning('Course grade is hidden from students');
-        }
-        // Use user grade report to get course total - this is to take hidden grade settings into account.
-        $gpr = new \grade_plugin_return(array(
-                'type' => 'report',
-                'plugin' => 'user',
-                'courseid' => $course->id,
-                'userid' => $USER->id)
-        );
-        $report = new \grade_report_user($course->id, $gpr, $coursecontext, $USER->id);
-        $report->fill_table();
-        $visiblegradefound = false;
-        foreach ($report->tabledata as $item) {
-            if (self::item_has_grade_or_feedback($item)) {
-                $visiblegradefound = true;
-                break;
+
+        $feedbackurl = new \moodle_url('/grade/report/user/index.php', array('id' => $course->id));
+        // Default feedbackobj.
+        $feedbackobj = (object) [
+            'feedbackurl' => $feedbackurl->out(),
+            'showgrade' => $config->showcoursegradepersonalmenu
+        ];
+
+        if (!$coursegrade->is_hidden() || $canviewhidden) {
+            // Use overview grade report to get course total - this is to take hidden grade settings into account.
+            $gpr = new \grade_plugin_return(array(
+                    'type' => 'report',
+                    'plugin' => 'overview',
+                    'courseid' => $course->id,
+                    'userid' => $USER->id)
+            );
+
+            // Create a report instance.
+            $report = new course_total_grade($USER, $gpr, $course);
+            $coursegrade = $report->get_course_total();
+            $ignoregrades = [
+                '-',
+                '&nbsp;',
+                get_string('error')
+            ];
+            if (!in_array($coursegrade, $ignoregrades)) {
+                $feedbackobj->coursegrade = $coursegrade;
             }
         }
-        $feedbackhtml = '';
-        if ($visiblegradefound) {
-            // Just output - feedback available.
-            $url = new \moodle_url('/grade/report/user/index.php', array('id' => $course->id));
-            $feedbackstring = get_string('feedbackavailable', 'theme_snap');
-            $feedbackhtml = \html_writer::link($url,
-                $feedbackstring,
-                array('class' => 'coursegrade')
-            );
+
+        return $feedbackobj;
+    }
+
+    /**
+     * Get course categories for a specific course.
+     * Based on code in moodle_page class - functions set_category_by_id and load_category.
+     * @param stdClass $course
+     * @return array
+     * @throws moodle_exception
+     */
+    public static function get_course_categories($course) {
+        global $DB;
+
+        if ($course->id === SITEID) {
+            return [];
         }
-        return (object) array('feedbackhtml' => $feedbackhtml);
+
+        $categories = [];
+        $category = $DB->get_record('course_categories', array('id' => $course->category));
+        if (!$category) {
+            throw new \moodle_exception('unknowncategory');
+        }
+        $categories[$category->id] = $category;
+        $parentcategoryids = explode('/', trim($category->path, '/'));
+        array_pop($parentcategoryids);
+        foreach (array_reverse($parentcategoryids) as $catid) {
+            $categories[$catid] = null;
+        }
+
+        // Load up all parent categories.
+        $idstoload = array_keys($categories);
+        array_shift($idstoload);
+        $parentcategories = $DB->get_records_list('course_categories', 'id', $idstoload);
+        foreach ($idstoload as $catid) {
+            $categories[$catid] = $parentcategories[$catid];
+        }
+
+        return $categories;
+    }
+
+    /**
+     * This has been taken directly from the moodle_page class but modified to work independently.
+     * It's used by config.php so that hacks can be targetted at just the Cass theme.
+     * Work out the theme this page should use.
+     *
+     * This depends on numerous $CFG settings, and the properties of this page.
+     *
+     * @return string the name of the theme that should be used on this page.
+     */
+    public static function resolve_theme() {
+        global $CFG, $USER, $SESSION, $COURSE;
+
+        if (empty($CFG->themeorder)) {
+            $themeorder = array('course', 'category', 'session', 'user', 'site');
+        } else {
+            $themeorder = $CFG->themeorder;
+            // Just in case, make sure we always use the site theme if nothing else matched.
+            $themeorder[] = 'site';
+        }
+
+        $mnetpeertheme = '';
+        if (isloggedin() and isset($CFG->mnet_localhost_id) and $USER->mnethostid != $CFG->mnet_localhost_id) {
+            require_once($CFG->dirroot.'/mnet/peer.php');
+            $mnetpeer = new \mnet_peer();
+            $mnetpeer->set_id($USER->mnethostid);
+            if ($mnetpeer->force_theme == 1 && $mnetpeer->theme != '') {
+                $mnetpeertheme = $mnetpeer->theme;
+            }
+        }
+
+        $deviceinuse = \core_useragent::get_device_type();
+        $devicetheme = \core_useragent::get_device_type_theme($deviceinuse);
+
+        // The user is using another device than default, and we have a theme for that, we should use it.
+        $hascustomdevicetheme = \core_useragent::DEVICETYPE_DEFAULT != $deviceinuse && !empty($devicetheme);
+
+        foreach ($themeorder as $themetype) {
+            switch ($themetype) {
+                case 'course':
+                    if (!empty($CFG->allowcoursethemes) && !empty($COURSE->theme) && !$hascustomdevicetheme) {
+                        return $COURSE->theme;
+                    }
+                    break;
+
+                case 'category':
+                    if (!empty($CFG->allowcategorythemes) && !$hascustomdevicetheme) {
+                        $categories = self::get_course_categories($COURSE);
+                        foreach ($categories as $category) {
+                            if (!empty($category->theme)) {
+                                return $category->theme;
+                            }
+                        }
+                    }
+                    break;
+
+                case 'session':
+                    if (!empty($SESSION->theme)) {
+                        return $SESSION->theme;
+                    }
+                    break;
+
+                case 'user':
+                    if (!empty($CFG->allowuserthemes) && !empty($USER->theme) && !$hascustomdevicetheme) {
+                        if ($mnetpeertheme) {
+                            return $mnetpeertheme;
+                        } else {
+                            return $USER->theme;
+                        }
+                    }
+                    break;
+
+                case 'site':
+                    if ($mnetpeertheme) {
+                        return $mnetpeertheme;
+                    }
+                    // First try for the device the user is using.
+                    if (!empty($devicetheme)) {
+                        return $devicetheme;
+                    }
+                    // Next try for the default device (as a fallback).
+                    $devicetheme = \core_useragent::get_device_type_theme(\core_useragent::DEVICETYPE_DEFAULT);
+                    if (!empty($devicetheme)) {
+                        return $devicetheme;
+                    }
+                    // The default device theme isn't set up - use the overall default theme.
+                    return \theme_config::DEFAULT_THEME;
+            }
+        }
+
+        // We should most certainly have resolved a theme by now. Something has gone wrong.
+        debugging('Error resolving the theme to use for this page.', DEBUG_DEVELOPER);
+        return \theme_config::DEFAULT_THEME;
+    }
+
+    /**
+     * Generate or get course completion cache stamp for key.
+     * @param string $key
+     * @param string $cache;
+     * @param bool $new
+     */
+    protected static function get_cachestamp($key, $cache, $new = false) {
+        $key = strval($key);
+        $muc = \cache::make('theme_cass', $cache);
+        $cachestamp = $muc->get($key);
+        if (!$cachestamp || $new) {
+            if (defined('PHPUNIT_TEST') && PHPUNIT_TEST) {
+                // This is here to ensure cache stamp is fresh where test code calls this function multiple times
+                // within one test function.
+                usleep(1);
+            }
+            $ts = microtime(true);
+            $muc->set($key, $ts);
+            return $ts;
+        }
+        return $cachestamp;
+    }
+
+    /**
+     * Get / reset completion cache stamp for specific course id.
+     *
+     * @param int $courseid
+     * @param bool $new
+     * @return float
+     */
+    public static function course_completion_cachestamp($courseid, $new = false) {
+        return self::get_cachestamp(strval($courseid), 'course_completion_progress_ts', $new);
+    }
+
+    /**
+     * @param int $courseid
+     * @param int $userid
+     * @param bool $new
+     * @return false|mixed
+     */
+    public static function course_user_completion_cachestamp($courseid, $userid, $new = false) {
+        return self::get_cachestamp($courseid.'_'.$userid, 'course_completion_progress_ts', $new);
     }
 
     /**
@@ -148,19 +324,45 @@ class local {
      * NOTE: It is by design that even teachers get course completion progress, this is so that they see exactly the
      * same as a student would in the personal menu.
      *
-     * @param $course
-     * @return stdClass | null
+     * @param $course - a course current user is enrolled on (enrollment check should be done outside of this function
+     * for performance reasons).
+     * @return stdClass
      */
     public static function course_completion_progress($course) {
-        if (!isloggedin() || isguestuser()) {
-            return null; // Can't get completion progress for users who aren't logged in.
+        global $USER, $CFG;
+
+        // Default completion object.
+        $compobj = (object) [
+            'complete' => null,
+            'total' => null,
+            'progress' => null,
+            'fromcache' => false, // Useful for debugging and unit testing.
+            'render' => false // Template flag.
+        ];
+
+        if (!isloggedin() || isguestuser() || !$CFG->enablecompletion || !$course->enablecompletion) {
+            // Can't get completion progress for users who aren't logged in.
+            // Or if completion tracking is not enabled at site / course level.
+            // Don't even bother with the cache, just return empty object.
+            return $compobj;
         }
 
-        // Security check - are they enrolled on course.
-        $context = \context_course::instance($course->id);
-        if (!is_enrolled($context, null, '', true)) {
-            return null;
+        // Course cache stamp is used to invalidate user session caches if an application level event occurs -
+        // e.g. course completion settings updated, new module added, module deleted, etc.
+        $coursestamp = self::course_completion_cachestamp($course->id);
+
+        // Course user cache stamp is used to invalidate user session caches if an event occurs which affects this
+        // user - e.g. A teacher grades this users assignment and that triggers completion.
+        $courseuserstamp = self::course_user_completion_cachestamp($course->id, $USER->id);
+
+        /** @var \cache_session $muc */
+        $muc = \cache::make('theme_cass', 'course_completion_progress');
+        $cached = $muc->get($course->id.'_'.$USER->id);
+        if ($cached && $cached->timestamp >= $coursestamp && $cached->timestamp >= $courseuserstamp) {
+            $cached->fromcache = true; // Useful for debugging and unit testing.
+            return $cached;
         }
+
         $completioninfo = new \completion_info($course);
         $trackcount = 0;
         $compcount = 0;
@@ -185,18 +387,59 @@ class local {
             }
         }
 
-        $compobj = (object) array('complete' => $compcount, 'total' => $trackcount, 'progresshtml' => '');
         if ($trackcount > 0) {
-            $progress = get_string('progresstotal', 'completion', $compobj);
-            // TODO - we should be putting our HTML in a renderer.
-            $progresspercent = ceil(($compcount/$trackcount)*100);
-            $progressinfo = '<div class="completionstatus outoftotal">'.$progress.'<span class="pull-right">'.$progresspercent.'%</span></div>
-            <div class="completion-line" style="width:'.$progresspercent.'%"></div>
-            ';
-            $compobj->progresshtml = $progressinfo;
+            $progresspercent = ceil(($compcount / $trackcount) * 100);
+            $compobj = (object) [
+                'complete' => $compcount,
+                'total' => $trackcount,
+                'progress' => $progresspercent,
+                'timestamp' => microtime(true),
+                'fromcache' => false,
+                'render' => true
+            ];
+        } else {
+            // Everything except timestamp is null because nothing is trackable at the moment.
+            // We still want to cache this though to avoid repeated unnecessary db calls.
+            $compobj->timestamp = microtime(true);
         }
 
+        // There wasn't anything in the cache we could use, so lets add an entry to the cache that we can use later.
+        $muc->set($course->id.'_'.$USER->id, $compobj);
+
         return $compobj;
+    }
+
+    /**
+     * Return conditionally unavailable elements.
+     * @param $course
+     * @return array
+     * @throws \coding_exception
+     */
+    public static function conditionally_unavailable_elements($course) {
+        $cancomplete = isloggedin() && !isguestuser();
+        $unavailablesections = [];
+        $unavailablemods = [];
+        $information = '';
+        if ($cancomplete) {
+            $completioninfo = new \completion_info($course);
+            if ($completioninfo->is_enabled()) {
+                $modinfo = get_fast_modinfo($course);
+                $sections= $modinfo->get_section_info_all();
+                foreach ($sections as $number => $section) {
+                    $ci = new \core_availability\info_section($section);
+                    if (!$ci->is_available($information, true)) {
+                        $unavailablesections[] = $number;
+                    }
+                }
+                foreach ($modinfo->get_cms() as $mod) {
+                    $ci = new \core_availability\info_module($mod);
+                    if (!$ci->is_available($information, true)) {
+                        $unavailablemods[] = $mod->id;
+                    }
+                }
+            }
+        }
+        return [$unavailablesections, $unavailablemods];
     }
 
     /**
@@ -206,22 +449,35 @@ class local {
      * @return bool | array
      */
     public static function courseinfo($courseids) {
-        global $DB;
+        global $CFG;
         $courseinfo = array();
-        foreach ($courseids as $courseid) {
-            $course = $DB->get_record('course', array('id' => $courseid));
 
-            $context = \context_course::instance($courseid);
-            if (!is_enrolled($context, null, '', true)) {
-                // Skip this course, don't have permission to view.
+        $courses = enrol_get_my_courses(['enablecompletion', 'showgrades']);
+
+        // We do not support meta data for people who have a crazy number of courses!
+        if (count($courses) > 100) {
+            return $courseinfo;
+        }
+
+        $showgrades = get_config('theme_cass', 'showcoursegradepersonalmenu');
+
+        foreach ($courseids as $courseid) {
+            if (!isset($courses[$courseid])) {
+                // Don't throw an error, just carry on.
                 continue;
             }
+            $course = $courses[$courseid];
 
             $courseinfo[$courseid] = (object) array(
-                'courseid' => $courseid,
-                'progress' => self::course_completion_progress($course),
-                'feedback' => self::course_feedback($course)
+                'course' => $courseid,
+                'completion' => self::course_completion_progress($course)
             );
+
+            $reportusershowgrade = grade_get_setting($courseid, 'report_user_showgrade', !empty($CFG->grade_report_user_showgrade));
+            if (!empty($showgrades) && !empty($reportusershowgrade)) {
+                $feedback = self::course_grade($course);
+                $courseinfo[$courseid]->feedback = $feedback;
+            }
         }
         return $courseinfo;
     }
@@ -255,7 +511,7 @@ class local {
                     $capability = 'mod/feedback:complete';
                     break;
                 default:
-                    // If no modname is specified, assume a count of all users is required
+                    // If no modname is specified, assume a count of all users is required.
                     $capability = '';
             }
 
@@ -272,32 +528,49 @@ class local {
      * Get a user's messages read and unread.
      *
      * @param int $userid
+     * @param int $since optional timestamp, only return newer messages
      * @return message[]
      */
 
-    public static function get_user_messages($userid) {
+    public static function get_user_messages($userid, $since = null) {
         global $DB;
+
+        if ($since === null) {
+            $since = time() - (12 * WEEKSECS);
+        }
 
         $select  = 'm.id, m.useridfrom, m.useridto, m.subject, m.fullmessage, m.fullmessageformat, m.fullmessagehtml, '.
                    'm.smallmessage, m.timecreated, m.notification, m.contexturl, m.contexturlname, '.
                    \user_picture::fields('u', null, 'useridfrom', 'fromuser');
 
-        $records = $DB->get_records_sql("
+        $sql  = "
         (
                 SELECT $select, 1 unread
                   FROM {message} m
-            INNER JOIN {user} u ON u.id = m.useridfrom
-                 WHERE m.useridto = ?
+            INNER JOIN {user} u ON u.id = m.useridfrom AND u.deleted = 0
+                 WHERE m.useridto = :userid1
                        AND contexturl IS NULL
+                       AND m.timecreated > :fromdate1
+                       AND m.timeusertodeleted = 0
         ) UNION ALL (
                 SELECT $select, 0 unread
                   FROM {message_read} m
-            INNER JOIN {user} u ON u.id = m.useridfrom
-                 WHERE m.useridto = ?
+            INNER JOIN {user} u ON u.id = m.useridfrom AND u.deleted = 0
+                 WHERE m.useridto = :userid2
                        AND contexturl IS NULL
+                       AND m.timecreated > :fromdate2
+                       AND m.timeusertodeleted = 0
         )
-          ORDER BY timecreated DESC
-        ", array($userid, $userid), 0, 5);
+          ORDER BY timecreated DESC";
+
+        $params = array(
+            'userid1' => $userid,
+            'userid2' => $userid,
+            'fromdate1' => $since,
+            'fromdate2' => $since,
+        );
+
+        $records = $DB->get_records_sql($sql, $params, 0, 5);
 
         $messages = array();
         foreach ($records as $record) {
@@ -320,10 +593,10 @@ class local {
 
         $messages = self::get_user_messages($USER->id);
         if (empty($messages)) {
-            return '<p>' . get_string('nomessages', 'theme_snap') . '</p>';
+            return '<p>' . get_string('nomessages', 'theme_cass') . '</p>';
         }
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $o = '';
         foreach ($messages as $message) {
             $url = new \moodle_url('/message/index.php', array(
@@ -344,13 +617,13 @@ class local {
             $meta = self::relative_time($message->timecreated);
             $unreadclass = '';
             if ($message->unread) {
-                $unreadclass = ' snap-unread';
-                $meta .= " <span class=snap-unread-marker>".get_string('unread', 'theme_snap')."</span>";
+                $unreadclass = ' cass-unread';
+                $meta .= " <span class=cass-unread-marker>".get_string('unread', 'theme_cass')."</span>";
             }
 
             $info = '<p>'.format_string($message->smallmessage).'</p>';
 
-            $o .= $output->snap_media_object($url, $frompicture, $fromname, $meta, $info, $unreadclass);
+            $o .= $output->cass_media_object($url, $frompicture, $fromname, $meta, $info, $unreadclass);
         }
         return $o;
     }
@@ -466,17 +739,17 @@ class local {
         // We need to do this so that we can calendar events and mod visibility for a specific user.
         self::swap_global_user($user);
 
-        $now = time();
+        $tz = new \DateTimeZone(\core_date::get_user_timezone($user));
+        $today = new \DateTime('today', $tz);
+        $tomorrow = new \DateTime('tomorrow', $tz);
 
         if ($todayonly === true) {
-            $starttime = usergetmidnight($now);
-            $daysinfuture = 1;
+            $starttime = $today->getTimestamp();
+            $endtime = $tomorrow->getTimestamp()-1;
         } else {
-            $starttime = usergetmidnight($now + DAYSECS + 3 * HOURSECS); // Avoid rare DST change issues.
-            $daysinfuture = 365;
+            $starttime = $tomorrow->getTimestamp();
+            $endtime = $starttime + (365 * DAYSECS) - 1;
         }
-
-        $endtime = $starttime + ($daysinfuture * DAYSECS) - 1;
 
         $userevents = false;
         $groupevents = false;
@@ -489,6 +762,10 @@ class local {
                 // Not an activity deadline.
                 continue;
             }
+            if ($event->eventtype === 'open' && $event->timeduration == 0) {
+                // Only the opening of multi-day event, not a deadline.
+                continue;
+            }
             if (!empty($event->modulename)) {
                 $modinfo = get_fast_modinfo($event->courseid);
                 $mods = $modinfo->get_instances_of($event->modulename);
@@ -496,6 +773,10 @@ class local {
                     $cminfo = $mods[$event->instance];
                     if (!$cminfo->uservisible) {
                         continue;
+                    }
+                    if ($event->eventtype === 'close') {
+                        // Revert the addition of e.g. "(Quiz closes)" to the event name.
+                        $event->name = $cminfo->name;
                     }
                 }
             }
@@ -522,25 +803,37 @@ class local {
 
         $events = self::upcoming_deadlines($USER->id);
         if (empty($events)) {
-            return '<p>' . get_string('nodeadlines', 'theme_snap') . '</p>';
+            return '<p>' . get_string('nodeadlines', 'theme_cass') . '</p>';
         }
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $o = '';
         foreach ($events as $event) {
             if (!empty($event->modulename)) {
                 $modinfo = get_fast_modinfo($event->courseid);
                 $cm = $modinfo->instances[$event->modulename][$event->instance];
 
-                $eventtitle = "<small>$event->coursefullname / </small> $event->name";
+                $eventtitle = $event->name .'<small><br>' .$event->coursefullname. '</small>';
 
                 $modimageurl = $output->pix_url('icon', $event->modulename);
                 $modname = get_string('modulename', $event->modulename);
                 $modimage = \html_writer::img($modimageurl, $modname);
-
-                $meta = $output->friendly_datetime($event->timestart);
-
-                $o .= $output->snap_media_object($cm->url, $modimage, $eventtitle, $meta, '');
+                $deadline = $event->timestart + $event->timeduration;
+                if ($event->modulename === 'quiz' || $event->modulename === 'lesson') {
+                    $override = \theme_cass\activity::instance_activity_dates($event->courseid, $cm);
+                    $deadline = $override->timeclose;
+                }
+                $meta = $output->friendly_datetime($deadline);
+                // Add completion meta data for students (exclude anyone who can grade them).
+                if (!has_capability('mod/assign:grade', $cm->context)) {
+                    /** @var \theme_cass_core_course_renderer $courserenderer */
+                    $courserenderer = $PAGE->get_renderer('core', 'course', RENDERER_TARGET_GENERAL);
+                    $activitymeta = activity::module_meta($cm);
+                    $meta .= '<div class="cass-completion-meta">' .
+                            $courserenderer->submission_cta($cm, $activitymeta) .
+                            '</div>';
+                }
+                $o .= $output->cass_media_object($cm->url, $modimage, $eventtitle, $meta, '');
             }
         }
         return $o;
@@ -556,16 +849,22 @@ class local {
     public static function graded($onlyactive = true) {
         global $USER, $PAGE;
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $grades = activity::events_graded($onlyactive);
 
         $o = '';
+        $enabledmods = \core_plugin_manager::instance()->get_enabled_plugins('mod');
+        $enabledmods = array_keys($enabledmods);
         foreach ($grades as $grade) {
 
             $modinfo = get_fast_modinfo($grade->courseid);
             $course = $modinfo->get_course();
 
             $modtype = $grade->itemmodule;
+            if (!in_array($modtype, $enabledmods)) {
+                continue;
+            }
+
             $cm = $modinfo->instances[$modtype][$grade->iteminstance];
 
             $coursecontext = \context_course::instance($grade->courseid);
@@ -583,19 +882,19 @@ class local {
             $modname = get_string('modulename', 'mod_'.$cm->modname);
             $modimage = \html_writer::img($modimageurl, $modname);
 
-            $gradetitle = "<small>$course->fullname / </small>$cm->name";
+            $gradetitle = $cm->name. '<small><br>' .$course->fullname. '</small>';
 
             $releasedon = isset($grade->timemodified) ? $grade->timemodified : $grade->timecreated;
-            $meta = get_string('released', 'theme_snap', $output->friendly_datetime($releasedon));
+            $meta = get_string('released', 'theme_cass', $output->friendly_datetime($releasedon));
 
             $grade = new \grade_grade(array('itemid' => $grade->itemid, 'userid' => $USER->id));
             if (!$grade->is_hidden() || $canviewhiddengrade) {
-                $o .= $output->snap_media_object($url, $modimage, $gradetitle, $meta, '');
+                $o .= $output->cass_media_object($url, $modimage, $gradetitle, $meta, '');
             }
         }
 
         if (empty($o)) {
-            return '<p>'. get_string('nograded', 'theme_snap') . '</p>';
+            return '<p>'. get_string('nograded', 'theme_cass') . '</p>';
         }
         return $o;
     }
@@ -606,10 +905,10 @@ class local {
         $grading = self::all_ungraded($USER->id);
 
         if (empty($grading)) {
-            return '<p>' . get_string('nograding', 'theme_snap') . '</p>';
+            return '<p>' . get_string('nograding', 'theme_cass') . '</p>';
         }
 
-        $output = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $out = '';
         foreach ($grading as $ungraded) {
             $modinfo = get_fast_modinfo($ungraded->course);
@@ -620,23 +919,22 @@ class local {
             $modname = get_string('modulename', 'mod_'.$cm->modname);
             $modimage = \html_writer::img($modimageurl, $modname);
 
-            $ungradedtitle = "<small>$course->fullname / </small> $cm->name";
+            $ungradedtitle = $cm->name. '<small><br>' .$course->fullname. '</small>';
 
-            $xungraded = get_string('xungraded', 'theme_snap', $ungraded->ungraded);
+            $xungraded = get_string('xungraded', 'theme_cass', $ungraded->ungraded);
 
-            $function = '\theme_snap\activity::'.$cm->modname.'_num_submissions';
+            $function = '\theme_cass\activity::'.$cm->modname.'_num_submissions';
 
             $a['completed'] = call_user_func($function, $ungraded->course, $ungraded->instanceid);
             $a['participants'] = (self::course_participant_count($ungraded->course, $cm->modname));
-            $xofysubmitted = get_string('xofysubmitted', 'theme_snap', $a);
-            $info = '<span class="label label-info">'.$xofysubmitted.', '.$xungraded.'</span>';
+            $xofysubmitted = get_string('xofysubmitted', 'theme_cass', $a);
+            $meta = $xofysubmitted.', '.$xungraded.'<br>';
 
-            $meta = '';
             if (!empty($ungraded->closetime)) {
-                $meta = $output->friendly_datetime($ungraded->closetime);
+                $meta .= $output->friendly_datetime($ungraded->closetime);
             }
 
-            $out .= $output->snap_media_object($cm->url, $modimage, $ungradedtitle, $meta, $info);
+            $out .= $output->cass_media_object($cm->url, $modimage, $ungradedtitle, $meta, '');
         }
 
         return $out;
@@ -664,24 +962,29 @@ class local {
     /**
      * Get all ungraded items.
      * @param int $userid
+     * @param null|int $since
      * @return array
      */
-    public static function all_ungraded($userid) {
+    public static function all_ungraded($userid, $since = null) {
         $courseids = self::gradeable_courseids($userid);
 
         if (empty($courseids)) {
             return array();
         }
 
-        $mods = \core_plugin_manager::instance()->get_installed_plugins('mod');
+        if ($since === null) {
+            $since = time() - (12 * WEEKSECS);
+        }
+
+        $mods = \core_plugin_manager::instance()->get_enabled_plugins('mod');
         $mods = array_keys($mods);
 
         $grading = [];
         foreach ($mods as $mod) {
-            $class = '\theme_snap\activity';
+            $class = '\theme_cass\activity';
             $method = $mod.'_ungraded';
             if (method_exists($class, $method)) {
-                $grading = array_merge($grading, call_user_func([$class, $method], $courseids));
+                $grading = array_merge($grading, call_user_func([$class, $method], $courseids, $since));
             }
         }
 
@@ -776,12 +1079,12 @@ class local {
 
 
     /**
-     * Make url based on file for theme_snap components only.
+     * Make url based on file for theme_cass components only.
      *
      * @param stored_file $file
      * @return \moodle_url | bool
      */
-    private static function snap_pluginfile_url($file) {
+    private static function cass_pluginfile_url($file) {
         if (!$file) {
             return false;
         } else {
@@ -797,9 +1100,126 @@ class local {
     }
 
     /**
+     * Get supported cover image types.
+     * @return array
+     */
+    public static function supported_coverimage_types() {
+        global $CFG;
+        $extsstr = strtolower($CFG->courseoverviewfilesext);
+
+        // Supported file extensions.
+        $extensions = explode(',', str_replace('.', '', $extsstr));
+        array_walk($extensions, function($s) {trim($s); });
+        // Filter out any extensions that might be in the config but not image extensions.
+        $imgextensions = ['jpg', 'png', 'gif', 'svg', 'webp'];
+        return array_intersect ($extensions, $imgextensions);
+    }
+
+    /**
+     * Get supported cover image types as a string.
+     * @return array
+     */
+    public static function supported_coverimage_typesstr() {
+        $supportedexts = self::supported_coverimage_types();
+        $extsstr = '';
+        $typemaps = [
+            'jpeg' => 'image/jpeg',
+            'jpg'  => 'image/jpeg',
+            'gif'  => 'image/gif',
+            'png'  => 'image/png',
+            'svg'  => 'image/svg'
+        ];
+        foreach ($supportedexts as $ext) {
+            if (in_array($ext, $supportedexts) && isset($typemaps[$ext])) {
+                $extsstr .= $extsstr == '' ? '' : ',';
+                $extsstr .= $typemaps[$ext];
+            }
+        }
+        return $extsstr;
+    }
+
+    /**
+     * Deletes all previous course card images.
+     * @param int $context
+     * @return void
+     */
+    public static function course_card_clean_up($context) {
+        $fs = get_file_storage();
+        $fs->delete_area_files($context->id, 'theme_cass', 'coursecard');
+    }
+
+    /**
+     * Creates a resized course card image when the cover image is too large, otherwise returns the original.
+     * @param int $context
+     * @param stored_file|bool $originalfile
+     * @return bool|stored_file
+     */
+    public static function set_course_card_image($context, $originalfile) {
+        if ($originalfile) {
+            $finfo = $originalfile->get_imageinfo();
+            $coursecardmaxwidth = 1000;
+            $coursecardwidth = 720;
+            if ($finfo['mimetype'] != 'image/jpeg' || $finfo['width'] <= $coursecardmaxwidth) {
+                // We use the same cover image that loads up in the course home page.
+                $originalfile = self::coverimage($context);
+                return $originalfile;
+            }
+            $filename = $originalfile->get_filename();
+            if ($filename === 'rawcoverimage.jpg') {
+                // Since this is a course card image, the new file name should not have 'raw' or 'coverimage' in it,
+                // as that would be confusing on inspection!
+                $filename = 'image.jpg';
+            }
+            $id = $originalfile->get_id();
+            $fs = get_file_storage();
+            $cardimage = $fs->get_file($context->id, 'theme_cass', 'coursecard', 0, '/', 'course-card-'.$id.'-'.$filename);
+            if ($cardimage) {
+                return $cardimage;
+            }
+            $filespec = array(
+                'contextid' => $context->id,
+                'component' => 'theme_cass',
+                'filearea' => 'coursecard',
+                'itemid' => 0,
+                'filepath' => '/',
+                'filename' => 'course-card-'.$id.'-'.$filename,
+            );
+            $coursecardimage = $fs->create_file_from_storedfile($filespec, $originalfile);
+            $coursecardimage = image::resize($coursecardimage, false, $coursecardwidth);
+            return $coursecardimage;
+        }
+        return false;
+    }
+
+    /**
+     * Get the cover image url for the course card.
+     *
+     * @param int $courseid
+     * @return bool|moodle_url
+     */
+    public static function course_card_image_url($courseid) {
+        $context = \context_course::instance($courseid);
+        $fs = get_file_storage();
+        $cardimages = $fs->get_area_files($context->id, 'theme_cass', 'coursecard', 0, "itemid, filepath, filename", false);
+        if ($cardimages) {
+            /** @var \stored_file $cardimage */
+            $cardimage = end($cardimages);
+            if (stripos($cardimage->get_filename(), 'rawcoverimage.') !== false) {
+                // The current card image has a bad name (from old code), so get rid of it.
+                self::course_card_clean_up($context);
+            } else {
+                return self::cass_pluginfile_url($cardimage);
+            }
+        }
+        $originalfile = self::get_course_firstimage($courseid);
+        $cardimage = self::set_course_card_image($context, $originalfile);
+        return self::cass_pluginfile_url($cardimage);
+    }
+
+    /**
      * Get cover image for context
      *
-     * @param $context
+     * @param \context $context
      * @return bool|stored_file
      * @throws \coding_exception
      */
@@ -807,11 +1227,19 @@ class local {
         $contextid = $context->id;
         $fs = get_file_storage();
 
-        $files = $fs->get_area_files($contextid, 'theme_snap', 'coverimage', 0, "itemid, filepath, filename", false);
+        if ($context->contextlevel === CONTEXT_SYSTEM) {
+            if (!self::site_coverimage_original()) {
+                return false;
+            }
+        }
+
+        $files = $fs->get_area_files($contextid, 'theme_cass', 'coverimage', 0, "itemid, filepath, filename", false);
         if (!$files) {
             return false;
         }
         if (count($files) > 1) {
+            // Note this is a coding exception and not a moodle exception because there should never be more than one
+            // file in this area, where as the course summary files area can in some circumstances have more than on file.
             throw new \coding_exception('Multiple files found in course coverimage area (context '.$contextid.')');
         }
         return (end($files));
@@ -838,7 +1266,7 @@ class local {
         if (!$file) {
             $file = self::process_coverimage(\context_course::instance($courseid));
         }
-        return self::snap_pluginfile_url($file);
+        return self::cass_pluginfile_url($file);
     }
 
     /**
@@ -858,7 +1286,7 @@ class local {
      */
     public static function site_coverimage_url() {
         $file = self::site_coverimage();
-        return self::snap_pluginfile_url($file);
+        return self::cass_pluginfile_url($file);
     }
 
     /**
@@ -867,11 +1295,14 @@ class local {
      * @return stored_file | bool (false)
      */
     public static function site_coverimage_original() {
-        $theme = \theme_config::load('snap');
+        $theme = \theme_config::load('cass');
         $filename = $theme->settings->poster;
         if ($filename) {
+            if (substr($filename, 0, 1) != '/') {
+                $filename = '/'.$filename;
+            }
             $syscontextid = \context_system::instance()->id;
-            $fullpath = "/$syscontextid/theme_snap/poster/0$filename";
+            $fullpath = '/'.$syscontextid.'/theme_cass/poster/0'.$filename;
             $fs = get_file_storage();
             return $fs->get_file_by_hash(sha1($fullpath));
         } else {
@@ -898,41 +1329,41 @@ class local {
     /**
      * Adds the site cover image to CSS.
      *
-     * @param string $css The CSS to process.
-     * @return string The parsed CSS
+     * @return string cover image CSS
      */
-    public static function site_coverimage_css($css) {
-        $tag = '[[setting:poster]]';
-        $replacement = '';
-
+    public static function site_coverimage_css() {
         $coverurl = self::site_coverimage_url();
-        if ($coverurl) {
-            $replacement = "#page-site-index #page-header, #page-login-index #page {background-image: url($coverurl);}";
+        if (!$coverurl) {
+            return '';
         }
-
-        $css = str_replace($tag, $replacement, $css);
-        return $css;
+        return "#page-site-index #page-header, #page-login-index #page {background-image: url($coverurl);}";
     }
 
     /**
      * Copy coverimage file to standard location and name.
      *
-     * @param stored_file $file
+     * @param context $context
+     * @param stored_file $originalfile
      * @return stored_file|bool
      */
-    public static function process_coverimage($context) {
-        if ($context->contextlevel == CONTEXT_SYSTEM) {
-            $originalfile = self::site_coverimage_original($context);
-            $newfilename = "site-image";
-        } else if ($context->contextlevel == CONTEXT_COURSE) {
-            $originalfile = self::get_course_firstimage($context->instanceid);
-            $newfilename = "course-image";
-        } else {
+    public static function process_coverimage($context, $originalfile = false) {
+
+        $contextlevel = $context->contextlevel;
+        if ($contextlevel != CONTEXT_SYSTEM && $contextlevel != CONTEXT_COURSE) {
             throw new \coding_exception('Invalid context passed to process_coverimage');
+        }
+        $newfilename = $contextlevel == CONTEXT_SYSTEM ? 'site-image' : 'course-image';
+
+        if (!$originalfile) {
+            if ($contextlevel == CONTEXT_SYSTEM) {
+                $originalfile = self::site_coverimage_original($context);
+            } else {
+                $originalfile = self::get_course_firstimage($context->instanceid);
+            }
         }
 
         $fs = get_file_storage();
-        $fs->delete_area_files($context->id, 'theme_snap', 'coverimage');
+        $fs->delete_area_files($context->id, 'theme_cass', 'coverimage');
 
         if (!$originalfile) {
             return false;
@@ -944,7 +1375,7 @@ class local {
 
         $filespec = array(
             'contextid' => $context->id,
-            'component' => 'theme_snap',
+            'component' => 'theme_cass',
             'filearea' => 'coverimage',
             'itemid' => 0,
             'filepath' => '/',
@@ -953,25 +1384,18 @@ class local {
 
         $newfile = $fs->create_file_from_storedfile($filespec, $originalfile);
         $finfo = $newfile->get_imageinfo();
-
+        self::course_card_clean_up($context);
+        self::set_course_card_image($context, $originalfile);
         if ($finfo['mimetype'] == 'image/jpeg' && $finfo['width'] > 1380) {
             return image::resize($newfile, false, 1280);
         } else {
             return $newfile;
         }
+
     }
 
-    // Redirect to specific URL instead of default login page.
-    public static function logout_redirect () {
-        global $redirect;
-        $theme = \theme_config::load('snap');
-        if (!empty($theme->settings->logoutredirection)) {
-            $redirect = $theme->settings->logoutredirection;
-        }
-    }
-    
     /**
-     * Get page module instance.
+     * Get page module instance and create a summary property.
      *
      * @param $mod
      * @return mixed
@@ -990,7 +1414,6 @@ class local {
         $context = \context_module::instance($mod->id);
         $formatoptions = new \stdClass;
         $formatoptions->noclean = true;
-        $formatoptions->overflowdiv = true;
         $formatoptions->context = $context;
 
         // Make sure we have some summary/extract text for the course page.
@@ -999,10 +1422,10 @@ class local {
                 'pluginfile.php', $context->id, 'mod_page', 'intro', null);
             $page->summary = format_text($page->summary, $page->introformat, $formatoptions);
         } else {
-            $preview = html_to_text($page->content, 0, false);
+            $preview = strip_tags($page->content);
             $page->summary = shorten_text($preview, 200);
         }
-           
+
         // Process content.
         $page->content = file_rewrite_pluginfile_urls($page->content,
             'pluginfile.php', $context->id, 'mod_page', 'content', $page->revision);
@@ -1060,7 +1483,7 @@ class local {
                 $user = $DB->get_record('user', ['id' => $userorid]);
             }
         } else {
-            throw new coding_exception('paramater $userorid must be an object or an integer or a numeric string');
+            throw new \coding_exception('paramater $userorid must be an object or an integer or a numeric string');
         }
 
         return $user;
@@ -1085,27 +1508,14 @@ class local {
     }
 
     /**
-     * Sort recent forum activity by timestamp.
-     *
-     * @param int $a
-     * @param int $b
-     * @return int
-     */
-    private static function sort_timestamp($a, $b) {
-        if ($a->timestamp === $b->timestamp) {
-            return 0;
-        }
-        return ($a->timestamp > $b->timestamp ? -1 : 1);
-    }
-
-    /**
      * Get recent forum activity for all accessible forums across all courses.
      * @param bool|int|stdclass $userorid
      * @param int $limit
+     * @param int|null $since timestamp, only return posts from after this
      * @return array
      * @throws \coding_exception
      */
-    public static function recent_forum_activity($userorid = false, $limit = 10) {
+    public static function recent_forum_activity($userorid = false, $limit = 10, $since = null) {
         global $CFG, $DB;
 
         if (file_exists($CFG->dirroot.'/mod/hsuforum')) {
@@ -1115,6 +1525,10 @@ class local {
         $user = self::get_user($userorid);
         if (!$user) {
             return [];
+        }
+
+        if ($since === null) {
+            $since = time() - (12 * WEEKSECS);
         }
 
         // Get all relevant forum ids for SQL in statement.
@@ -1184,6 +1598,7 @@ class local {
                            AND gm1.userid = :user1a
 	                     WHERE (cm1.groupmode <> :sepgps2a OR (gm1.userid IS NOT NULL $fgpsql))
 	                       AND fp1.userid <> :user2a
+                           AND fp1.modified > $since
                       ORDER BY fp1.modified DESC
                                $limitsql
                         )
@@ -1236,16 +1651,18 @@ class local {
                          WHERE (cm2.groupmode <> :sepgps2b OR (gm2.userid IS NOT NULL $afgpsql))
                            AND (fp2.privatereply = 0 OR fp2.privatereply = :user2b OR fp2.userid = :user3b)
                            AND fp2.userid <> :user4b
+                           AND fp2.modified > $since
                       ORDER BY fp2.modified DESC
                                $limitsql
                         )
                          ";
         }
 
-        $sql = '-- Snap sql'. "\n".implode ("\n".' UNION ALL '."\n", $sqls);
-        if (count($sqls)>1) {
+        $sql = implode("\n".' UNION ALL '."\n", $sqls);
+        if (count($sqls) > 1) {
             $sql .= "\n".' ORDER BY modified DESC';
         }
+        $sql = '-- Cass sql'."\n"."SELECT * FROM ($sql) x";
         $posts = $DB->get_records_sql($sql, $params, 0, $limit);
 
         $activities = [];
@@ -1304,293 +1721,25 @@ class local {
         global $PAGE;
         $activities = self::recent_forum_activity();
         if (empty($activities)) {
-            return '<p>' . get_string('noforumposts', 'theme_snap') . '</p>';
+            return '<p>' . get_string('noforumposts', 'theme_cass') . '</p>';
         }
         $activities = array_slice($activities, 0, 10);
-        $renderer = $PAGE->get_renderer('theme_snap', 'core', RENDERER_TARGET_GENERAL);
+        $renderer = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         return $renderer->recent_forum_activity($activities);
     }
-    
+
     /**
-     * Get mod completion
-     * 
-     * If we're on a 'mod' page, retrieve the mod object and check it's completion state in order to conditionally
-     * pop a completion modal and show a link to the next activity in the footer.
-     * @return list of $mod object, show completed activity (bool), and show completion modal (bool)
+     * Get the local url path for current page.
+     * NOTE: This is not a duplciate of $PAGE->get_path();
+     * $PAGE->get_path() includes the moodle subpath if accessed via sub path of url, which is not what we want.
+     * e.g. - $PAGE->get_path on http://testing.local/apps/moodle/user/profile.php would return
+     * apps/moodle/user/profile.php but we just want /user/profile.php
+     * @return mixed
+     * @throws \coding_exception
      */
-    private static function get_completion_footer($nextactivityinfooter, $nextactivitymodaldialog, $nextactivitymodaldialogtolerance) {
-        
-        global $PAGE, $COURSE, $USER, $DB;
-        
-        $mod = null;
-        $nextmod = null;
-        $showcompletionnextactivity = false;
-        $showcompletionmodal = false;
-
-        // Short-circuit if the user is editing.
-        if ($PAGE->user_is_editing()) {
-            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-        }
-          
-        // Short-circuit if neither of nextactivityinfooter or nextactivitymodaldialog are set.
-        if (empty($nextactivityinfooter) && empty($nextactivitymodaldialog)) {
-            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-        }
-              
-        // Short-circuit if we are not on a mod page, and allow restful access
-        $pagepath = explode('-', $PAGE->pagetype);
-        if ($PAGE->pagetype == 'admin' || $pagepath[0] != 'mod' && $PAGE->pagetype != 'theme-snap-rest') {
-            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-        }
-        
-        // Only continue evaluating if course completion is enabled.
-        if ($COURSE->enablecompletion != COMPLETION_ENABLED) {
-            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-        }
- 
-        // Make sure we have a mod object.
-        $mod = $PAGE->cm;
-        if (!is_object($mod)) {           
-            //$PAGE->cm won't be loaded on a restful load
-            $modinfo = get_fast_modinfo($COURSE->id);
-            $mod = $modinfo->get_cm($PAGE->context->instanceid);
-            
-            if (!is_object($mod)) {
-                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-            }
-        }            
-            
-        // Completion tracking states are defined in /lib/completionlib.php
-        /*
-            COMPLETION_TRACKING_NONE        0
-            COMPLETION_TRACKING_MANUAL      1
-            COMPLETION_TRACKING_AUTOMATIC   2
-        */
-        // Check completion setting of current mod, and set showcompletionnextactivity.
-        // If the completion tracking is set to manual, we don't want to pop completion,
-        // but we do want to potentially show the next activity in the footer.
-        if ($mod->completion == COMPLETION_TRACKING_MANUAL) {
-            if ($nextactivityinfooter) {
-                $showcompletionnextactivity = true;
-            }
-        } else {
-
-            // Defensive: short-circuit is completion tracking isn't enabled.
-            if ($mod->completion != COMPLETION_TRACKING_AUTOMATIC) {
-                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-            }
-                     
-            // Read relevant associated completion record.
-            $completion = $DB->get_record('course_modules_completion', array('coursemoduleid' => $mod->id, 'userid' => $USER->id));
-                        
-            // Ensure completion record was read from the database.
-            if (empty($completion)) return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-            
-            // Completion states are defined in /lib/completionlib.php
-            /*
-                COMPLETION_INCOMPLETE       0
-                COMPLETION_COMPLETE         1
-                COMPLETION_COMPLETE_PASS    2
-                COMPLETION_COMPLETE_FAIL    3
-                COMPLETION_UNKNOWN         -1
-                COMPLETION_GRADECHANGE     -2
-            */
-            
-            // Ensure completion state exists on the record. This will ignore incompleted activities, which is incidentally appropriate.
-            if (empty($completion->completionstate)) {
-                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
-            }
-            
-            // For our purposes, both 'complete' and 'complete_pass' are considered completed.
-            // Any other status is 'incomplete'.
-            if ($completion->completionstate != COMPLETION_COMPLETE && $completion->completionstate != COMPLETION_COMPLETE_PASS) {
-                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);    
-            }
-            
-            // Check theme setting on whether to display the next activity in the footer
-            if ($nextactivityinfooter) {
-                $showcompletionnextactivity = true;
-            }
-
-            // Check whether to pop a completion modal dialog based on a theme setting
-            if (!empty($nextactivitymodaldialog)) {
-                
-
-                // Ensure timemodified value exists on the record / object
-                if (!empty($completion->timemodified)) {
-
-            
-                    // We are only interested in popping a completed modal dialog if it has happened in the last thirty seconds
-                    // 'thirty seconds' is a variable theme setting. This is to prevent future loading of the completed activity from
-                    // re-popping the completed dialog. This could have been saved against the user in a more deliberate way.
-                    // Defensive programming: Use absolute value in forumla to offset potential concurrency issues from multiple webservers.
-                    // Use tolerance in seconds from theme setting.
-                    if (abs(time() - $completion->timemodified) < $nextactivitymodaldialogtolerance) {
-                        $showcompletionmodal = true;
-                    }
-                }
-            } 
-        }
-        
-        // If either setting is true, then we need to work out what the next activity is.
-        if ($showcompletionnextactivity || $showcompletionmodal) {
-
-            $currentcmidfoundflag = false;
-            $nextmod = false;
-
-            // Get all course modules from modinfo
-            $cms = $mod->get_modinfo()->cms;
-
-            // Loop through all course modules to find the next mod
-            foreach ($cms as $cmid => $cm) {
-                
-                // The nextmod must be after the current mod
-                // Keep looping until the current mod is found (+1)
-                if (!$currentcmidfoundflag) {
-                    if ($cmid == $mod->id) {
-                        $currentcmidfoundflag = true;
-                    }
-                    
-                    // short circuit to next mod in list
-                    continue;
-                
-                } else {
-                    // (The continue and else condition are not mutually neccessary
-                    // but the statement block is more clear with the explicit else)
-                    
-                    // The current activity has been found... set the next activity to the first 
-                    // user visible mod after this point.
-                    if ($cm->uservisible) {
-                         $nextmod = $cm;
-                         break;
-                    }
-                }
-            }
-        }
-               
-        return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+    public static function current_url_path() {
+        global $PAGE;
+        return parse_url($PAGE->url->out_as_local_url())['path'];
     }
-    
-    // \theme_snap\local::render_completion($this);
-    /**
-     * Render mod completion
-     * 
-     * If we're on a 'mod' page, retrieve the mod object and check it's completion state in order to conditionally
-     * pop a completion modal and show a link to the next activity in the footer.
-     * @return list of $mod object, show completed activity (bool), and show completion modal (bool)
-     */
-    public static function render_completion_footer($nextactivityinfooter, $nextactivitymodaldialog, $nextactivitymodaldialogtolerance) {
-        
-        global $PAGE, $COURSE;
-        
-        // Initialise return variable.
-        $output = '';
-        
-        // Retrieve mod object, next mod object, and whether the completion footer and completion modal should be displayed.
-        list ($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal) = self::get_completion_footer(
-            $nextactivityinfooter,
-            $nextactivitymodaldialog,
-            $nextactivitymodaldialogtolerance
-        );
-        
-        // if not appropriate to render anything, return empty string;
-        if (!$showcompletionnextactivity && !$showcompletionmodal) return $output;
-               
-        // Main completion message 
-        $completiontext = '';
-        
-        // The call-to-action forward arrow link
-        $forwardlinklabel = '';
-        $forwardlinkname = '';
-        $forwardlinkurl =  '';
 
-        if ($nextmod) {
-            // 'You released the next activity '
-            $completiontext = get_string('nextactivitydesc', 'theme_snap');
-            
-            // 'Next Activity'
-            $forwardlinktext = get_string('nextactivity', 'theme_snap');
-            $forwardlinkname = $nextmod->name;
-            $forwardlinkurl =  $nextmod->url;
-            
-        } else {
-            // If there is no "next mod" then assume we are at the final mod, and the call to action
-            // is to return to the course page.
-            
-            // 'Course page '
-            $completiontext = get_string('coursepagedesc', 'theme_snap');
-            
-            // 'To course page'
-            $forwardlinktext = get_string('coursepage', 'theme_snap');
-            $courseurl = new \moodle_url('/course/view.php', ['id' => $COURSE->id], 'section-' . $mod->sectionnum);        
-            $forwardlinkurl =  $courseurl;
-            $forwardlinkname = $COURSE->fullname;
-        }
-
-        if ($showcompletionmodal) {    
-            
-            // html_writer is a completely tedious abstraction.
-            // But... do as we must... I suppose...
-            
-            // no support for html comments.
-            $output .= '<!-- Modal -->';
-            
-            $output .= html_writer::span('', 'darkBackgroundStyle', array('id' => 'darkBackground'));
-                
-            $output .= html_writer::span(
-                    html_writer::span('', 'activity-complete glyphicon glyphicon-ok') .
-                    html_writer::span(get_string('activitycomplete', 'theme_snap'), 'activity-complete-text')
-                , 'boxStyle', array('id' => 'alertBox')
-            );
-
-            $output .= html_writer::start_div('modal fade activitycompletemodal', array('id' => 'activitycompletemodal', 'role' => 'dialog'));
-            //$output .= html_writer::start_div('modal-dialog');
-            $output .= '<!-- Modal content -->';
-
-            $output .= html_writer::start_div('modal-content activitycompletemodal-content');
-            $output .= html_writer::start_div('modal-body activitycompletemodal-body moodle-dialogue-base');
-            $output .= html_writer::start_span('yui3-widget-buttons');
-
-            $output .= html_writer::tag('button','', array(
-                'class' => 'yui3-button closebutton', 
-                'data-dismiss' => 'modal', 
-                'onclick' => 'scrollOut(\'#activitycompletemodal\')')
-            );
-            $output .= html_writer::end_span();
-            
-            $output .= html_writer::tag('h4', get_string('continuenextactivity', 'theme_snap'), array('class' => 'modal-title activitycompletemodal-title'));
-            
-            $output .= html_writer::tag('p', $completiontext .
-                       html_writer::span($forwardlinkname, 'activitycompletenextmodname'));
-
-            $output .= html_writer::end_div();
-            
-            $output .= html_writer::div(
-                html_writer::link($forwardlinkurl, $forwardlinktext .
-                    html_writer::span('', 'glyphicon glyphicon-arrow-right', array('aria-hidden' => 'true'))
-                    , array('class' => 'activitycompletenextmodlink'))
-            , 'modal-footer activitycompletemodal-footer');
-            
-            $output .= html_writer::end_div();
-            //$output .= html_writer::end_div();
-            $output .= html_writer::end_div();
-
-            //page, book, wiki
-            if  (!in_array($mod->modname, ['page', 'book', 'wiki'])) {
-                $PAGE->requires->js_init_call('M.theme_snap.core.addPopCompletion', null, true);
-            }  
-        }
-
-        if ($showcompletionnextactivity) {
-            if  (in_array($mod->modname, ['page', 'book', 'wiki']) && $showcompletionmodal) {
-                $output .= '<div class="next_activity_area"><div class="next_activity_overlay"><h5>Confirm as Complete</h5><button onclick="popCompletion()">I have completed this activity</button></div><div class="next_activity_link"><div class="activity-complete"><span class="activity-complete glyphicon glyphicon-ok"></span><div class="done">Activity complete</div></div><div class="next_activity_text"> <a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a></div></div></div>';
-            } else {
-                $output .= '<div class="next_activity_area"><div class="next_activity_link"><div class="activity-complete"><span class="activity-complete glyphicon glyphicon-ok"></span><div class="done">Activity complete</div></div><div class="next_activity_text"> <a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a></div></div></div>';
-            }
-        }
-        
-        //'completion-region'
-        return $output;
-        
-    }
 }
