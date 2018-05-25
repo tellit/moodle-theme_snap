@@ -65,6 +65,7 @@ define(['jquery', 'core/templates'],
 
             /**
              * Add AJAX loading spinner.
+             * @param {string} str
              */
             this.addAjaxLoading = function(str) {
                 str = !str ? M.util.get_string('loading', 'theme_cass') : str;
@@ -84,6 +85,7 @@ define(['jquery', 'core/templates'],
 
             /**
              * Show footer alert.
+             * @param {function} onCancel
              */
             this.show = function(onCancel) {
                 containerEl.addClass('cass-footer-alert-visible');

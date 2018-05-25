@@ -23,13 +23,11 @@
 Feature: When the moodle theme is set to Cass, log out works via personal menu.
 
   Background:
-    Given the following config values are set as admin:
-      | theme              | cass |
-    And the following "users" exist:
+    Given the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | 1        | teacher1@example.com |
 
   @javascript
   Scenario: User logs in then out.
-    Given I log in as "teacher1" (theme_cass)
-    And I log out (theme_cass)
+    Given I log in as "teacher1"
+    And I log out

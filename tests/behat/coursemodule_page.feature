@@ -26,16 +26,12 @@ Feature: Open page module inline
   I need to view page modules inline and have auto completion tracking updated.
 
   Background:
-    Given the following config values are set as admin:
-      | enablecompletion | 1 |
-      | enableavailability | 1 |
-      | theme | cass |
-    And the following "courses" exist:
+    Given the following "courses" exist:
       | fullname | shortname | format | category | groupmode | enablecompletion |
       | Course 1 | C1        | topics | 0        | 1         | 1                |
     And the following "users" exist:
-      | username | firstname | lastname | email |
-      | student1 | Student | 1 | student1@example.com |
+      | username | firstname | lastname | email                |
+      | student1 | Student   | 1        | student1@example.com |
     And the following "course enrolments" exist:
       | user     | course | role    |
       | admin    | C1     | teacher |
@@ -46,7 +42,7 @@ Feature: Open page module inline
     Given the following "activities" exist:
       | activity | course | idnumber | name       | intro        | content       | completion | completionview |
       | page     | C1     | page1    | Test page1 | Test page 1  | page content1 | 0          | 0              |
-    And I log in as "student1" (theme_cass)
+    And I log in as "student1"
     And I am on the course main page for "C1"
     And I should not see "page content1"
     And I follow "Read more&nbsp;»"
@@ -65,21 +61,21 @@ Feature: Open page module inline
     And the following "activities" exist:
       | activity | course | idnumber     | name            | section |
       | assign   | C1     | assigntest   | Assignment Test | 2       |
-    And I log in as "admin" (theme_cass)
+    And I log in as "admin"
     And I am on the course main page for "C1"
     # Restrict the second page module to only be accessible after the first page module is marked complete.
     And I restrict course asset "Page restricted" by completion of "Page completion"
     # Restrict section one of the course to only be accessible after the first page module is marked complete.
     And I follow "Topic 1"
     And I click on "#section-1 .edit-summary" "css_element"
-    And I set the field "name" to "Topic 1"
+    And I set the section name to "Topic 1"
     And I apply asset completion restriction "Page completion" to section
     And I follow "Topic 2"
     And I click on "#section-2 .edit-summary" "css_element"
-    And I set the field "name" to "Topic 2"
+    And I set the section name to "Topic 2"
     And I apply asset completion restriction "Page completion 2" to section
-    And I log out (theme_cass)
-    And I log in as "student1" (theme_cass)
+    And I log out
+    And I log in as "student1"
     And I am on the course main page for "C1"
     Then I should not see "page content2"
     # Note: nth-of-type(2) corresponds to the second section in the TOC.
@@ -120,3 +116,4 @@ Feature: Open page module inline
     Then I should not see availability info "Not available unless: The activity Page completion 2 is marked complete"
     And I should not see "Conditional" in the "#chapters li:nth-of-type(3)" "css_element"
     And I should see "Assignment Test"
+

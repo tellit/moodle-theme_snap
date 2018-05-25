@@ -25,29 +25,27 @@ Feature: When the moodle theme is set to Cass,
           and optionally open the personal menu on login
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-    And the following "users" exist:
+    Given the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | 1        | teacher1@example.com |
     And I am on site homepage
 
   @javascript
   Scenario: User opens and closes login menu using call-to-action button on site homepage
-    Given I click on "#page-mast .js-personal-menu-trigger" "css_element"
-    Then "#cass-login" "css_element" should be visible
-    And I follow "Cancel"
-    Then "#cass-login" "css_element" should not be visible
+    Given I click on "#page-mast .js-cass-pm-trigger" "css_element"
+    Then ".cass-pm-login-form" "css_element" should be visible
+    And I follow "Close"
+    Then ".cass-pm-login-form" "css_element" should not be visible
 
   @javascript
-  Scenario: User logs in and does not see the primary menu, if option turned off
+  Scenario: User logs in and does not see the personal menu, if option turned off
     Given the following config values are set as admin:
       | personalmenulogintoggle | 0 | theme_cass |
     Given I follow "Log in"
     And I set the field "username" to "teacher1"
     And I set the field "password" to "teacher1"
     And I press "Log in"
-    Then "#primary-nav" "css_element" should not be visible
+    Then "#cass-pm" "css_element" should not be visible
 
   @javascript
   Scenario: User logs in as guest, no personal menu or login dropdown visible
@@ -55,12 +53,12 @@ Feature: When the moodle theme is set to Cass,
     And I set the field "username" to "guest"
     And I set the field "password" to "guest"
     And I press "Log in"
-    Then "#primary-nav" "css_element" should not exist
+    Then "#cass-pm" "css_element" should not be visible
     And "#username" "css_element" should not be visible
     And "#password" "css_element" should not be visible
 
   @javascript
-  Scenario: User logs in and sees the primary menu, then closes it and re-opens without changing section
+  Scenario: User logs in and sees the personal menu, then closes it and re-opens without changing section
     Given the following "courses" exist:
       | fullname | shortname |
       | Course 1 | C1        |
@@ -71,29 +69,28 @@ Feature: When the moodle theme is set to Cass,
     And I set the field "username" to "teacher1"
     And I set the field "password" to "teacher1"
     And I press "Log in"
-    Then "#primary-nav" "css_element" should be visible
-    And I follow "Course 1"
+    Then "#cass-pm" "css_element" should be visible
+    And I am on "Course 1" course homepage
     And I follow "Introduction"
     And "#section-0" "css_element" should be visible
     And I follow "Topic 1"
     And "#section-1" "css_element" should be visible
     And I follow "My Courses"
-    Then "#primary-nav" "css_element" should be visible
+    Then "#cass-pm" "css_element" should be visible
     And I follow "Close"
-    And "#primary-nav" "css_element" should not be visible
+    And "#cass-pm" "css_element" should not be visible
     And "#section-1" "css_element" should be visible
     And "#section-0" "css_element" should not be visible
 
   @javascript
-  Scenario: User logs in and sees the primary menu on site homepage, if that setting used
+  Scenario: User logs in and sees the personal menu on site homepage, if that setting used
     Given the following config values are set as admin:
-      | defaulthomepage | 0 |
       | defaulthomepage | 0 |
     And I follow "Log in"
     And I set the field "username" to "teacher1"
     And I set the field "password" to "teacher1"
     And I press "Log in"
-    Then "#primary-nav" "css_element" should be visible
+    Then "#cass-pm" "css_element" should be visible
     And I follow "Close"
     Then "#page-site-index #page-header" "css_element" should be visible
 
@@ -107,14 +104,14 @@ Feature: When the moodle theme is set to Cass,
       | teacher1  | C1     | editingteacher |
     And I am on homepage
     When I follow "Courses"
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     # The above will trigger a redirect to the login page.
     And I set the field "username" to "teacher1"
     And I set the field "password" to "teacher1"
     And I press "Log in"
-    Then "#primary-nav" "css_element" should not be visible
+    Then "#cass-pm" "css_element" should not be visible
     And "#section-0" "css_element" should be visible
     And I am on site homepage
-    And "#primary-nav" "css_element" should not be visible
+    And "#cass-pm" "css_element" should not be visible
     And I am on homepage
-    And "#primary-nav" "css_element" should not be visible
+    And "#cass-pm" "css_element" should not be visible

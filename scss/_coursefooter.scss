@@ -1,0 +1,156 @@
+// -------------------------
+//  Course footer - a footer in cass courses.
+// -------------------------
+// -------------------------
+// Course footer.
+// -------------------------
+
+#cass-course-footer {
+    padding: 3.444%;
+    background-color: $gray-lighter;
+
+    .cass-media-object {
+        font-weight: normal;
+    }
+}
+
+#cass-course-footer-recent-activity,
+#cass-course-footer-about,
+#cass-course-footer-summary,
+#cass-course-footer-contacts {
+    padding-top: .5em;
+}
+
+// -------------------------
+//  About the course.
+// -------------------------
+#cass-course-footer-about {
+    max-width: 43.5em;
+}
+#cass-course-footer-summary {
+    font-family: $font-family-serif;
+}
+// -------------------------
+//  Course contacts.
+// -------------------------
+#cass-course-footer-contacts {
+    .cass-media-object .userpicture {
+        width: 50px;
+    }
+}
+
+// -------------------------
+//  Recent updates.
+// -------------------------
+#cass-course-footer-recent-activity {
+    padding-top: .5em;
+
+    h3 {
+        display: none;
+    }
+
+    // Grid content for various breakpoints.
+    @include media-breakpoint-up(md) {
+        .cass-media-object {
+            width: 23%;
+            float: left;
+        }
+        // Clear every 4th.
+        & > .cass-media-object:nth-child(5n+1) {
+            clear: left;
+        }
+    }
+    @include media-breakpoint-down(md) {
+        .cass-media-object {
+            width: 48%;
+            float: left;
+        }
+        // Clear every second.
+        & > .cass-media-object:nth-child(3n+1) {
+            clear: left;
+        }
+    }
+
+    .cass-media-object {
+        margin-right: 2%;
+        border-top: .3em solid $gray-light;
+        // Mrooms forum output updates as media objects which we need to be 100%;
+        .cass-media-object {
+            width: 100%;
+            float: none;
+            border: none;
+
+            h3 {
+                display: block;
+            }
+        }
+        // Activity colours.
+        &.forum,
+        &.chat,
+        &.hsuforum {
+            border-color: $color-communication;
+        }
+        &.assign,
+        &.assignment,
+        &.workshop {
+            border-color: $color-assignment;
+        }
+        &.choice,
+        &.feedback,
+        &.quiz,
+        &.survey,
+        &.questionnaire,
+        &.lesson {
+            border-color: $color-quiz;
+        }
+        &.data,
+        &.glossary,
+        &.wiki {
+            border-color: $color-wiki;
+        }
+    }
+
+    // Single line recent updates info (normally a link).
+    .info {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &.bold {
+            font-weight: inherit;
+        }
+    }
+
+    .date {
+        font-size: small;
+    }
+
+    // Attempt to only show the most recent update.
+    // This is complex.
+    // Cass also uses js to update the dom for recent updates.
+
+    // Hide things to start...
+    .cass-media-object .cass-media-object,
+    li,
+    .head,
+    .info {
+        display: none;
+    }
+    // Updates are shown in reverse order, and we want the most recent, i.e. the last.
+    .cass-media-object {
+        div.cass-media-object,
+        li,
+        div.head {
+            &:last-of-type {
+                display: block;
+            }
+        }
+    }
+
+    // Block display some elements account for dom inconsistansies.
+    .head .info,
+    .cass-media-object.chat .head,
+    .cass-media-object.chat .userlist {
+        display: block;
+    }
+}

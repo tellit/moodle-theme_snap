@@ -22,7 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace theme_cass\output;
+namespace cass\output;
+
+defined('MOODLE_INTERNAL') || die();
 
 use html_writer;
 use theme_cass\output\shared;

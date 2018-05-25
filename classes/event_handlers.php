@@ -24,6 +24,8 @@ use core\event\course_module_deleted;
 use core\event\course_module_completion_updated;
 use core\event\user_deleted;
 use core\event\user_graded;
+use core\event\base;
+use core\event\user_loggedout;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -38,6 +40,25 @@ defined('MOODLE_INTERNAL') || die();
  */
 
 class event_handlers {
+
+    /**
+     * The user logged out event.
+     *
+     * Redirect user based on user theme
+     *
+     * @param course_updated $event
+     * @return void
+     */
+    public static function user_loggedout(user_loggedout $event) {
+
+        // This event gets called for every user logout, regardless of whether cass is the active theme, or whether
+        // the site allows user themes and regardless of the user theme setting.
+        $user  = $event->get_record_snapshot('user', $event->objectid);
+
+        if (get_config('core', 'theme') == 'cass' || get_config('core', 'allowuserthemes') && $user->theme == 'cass') {
+            local::logout_redirect();
+        }
+    }
 
     /**
      * The course update event.
@@ -124,6 +145,14 @@ class event_handlers {
     public static function course_module_completion_updated(course_module_completion_updated $event) {
         // Force an update for the specific course and user effected by this completion event.
         local::course_user_completion_cachestamp($event->courseid, $event->relateduserid, true);
+    }
+
+    /**
+     * Record calendar change for affected course.
+     * @param base $event
+     */
+    public static function calendar_change(base $event) {
+        local::add_calendar_change_stamp($event->courseid);
     }
 
 }

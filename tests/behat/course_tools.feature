@@ -24,10 +24,7 @@
 Feature: When the moodle theme is set to Cass, a course tools section is available.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-      | defaulthomepage | 0 |
-    And the following "courses" exist:
+    Given the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1        | 0        | topics |
     And the following "users" exist:
@@ -47,29 +44,53 @@ Feature: When the moodle theme is set to Cass, a course tools section is availab
   @javascript
   Scenario Outline: Course tools link functions for supported formats.
     Given the course format for "C1" is set to "<format>"
+    And completion tracking is "<completionenabled>" for course "C1"
+    And I set the following system permissions of "Student" role:
+      | capability            | permission            |
+      | gradereport/overview:view | <gradebookaccessible> |
     When I log in as "student1"
     And I am on the course main page for "C1"
     And I click on "a[href=\"#coursetools\"]" "css_element"
     Then I should see "Course Dashboard" in the "#coursetools" "css_element"
+    And "#cass-student-dashboard" "css_element" should exist
+    And ".cass-student-dashboard-progress" "css_element" <seecompletion> exist
+    And ".cass-student-dashboard-grade" "css_element" <seegrade> exist
     Examples:
-      | format |
-      | topics |
-      | weeks  |
+      | format | completionenabled | gradebookaccessible | seecompletion | seegrade   |
+      | topics | Enabled           | Allow               | should        | should     |
+      | topics | Disabled          | Prohibit            | should not    | should not |
+      | topics | Enabled           | Prohibit            | should        | should not |
+      | topics | Disabled          | Allow               | should not    | should     |
+      | weeks  | Enabled           | Allow               | should        | should     |
+      | weeks  | Disabled          | Prohibit            | should not    | should not |
+      | weeks  | Enabled           | Prohibit            | should        | should not |
+      | weeks  | Disabled          | Allow               | should not    | should     |
 
   @javascript
-  Scenario: Course tools show automatically for single activity format.
+  Scenario Outline: Course tools show automatically for single activity format.
     Given the course format for "C1" is set to "singleactivity" with the following settings:
       | name      | activitytype |
       | value     | forum        |
     And the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section |
       | forum    | C1     | forum1   | Test forum      | Test forum      | 1       |
+    And completion tracking is "<completionenabled>" for course "C1"
+    And I set the following system permissions of "Student" role:
+      | capability                | permission            |
+      | gradereport/overview:view | <gradebookaccessible> |
     When I log in as "student1"
     And I am on the course main page for "C1"
     # Note we have to call this step twice because for some reason it doesn't automatically go to the module page the
     # first time - that's a core issue though.
     And I am on the course main page for "C1"
     Then I should see "Course Dashboard" in the "#coursetools" "css_element"
+    And "#cass-student-dashboard" "css_element" should exist
+    And ".cass-student-dashboard-progress" "css_element" <seecompletion> exist
+    And ".cass-student-dashboard-grade" "css_element" <seegrade> exist
+    Examples:
+      | completionenabled | gradebookaccessible | seecompletion | seegrade   |
+      | Enabled           | Allow               | should        | should     |
+      | Disabled          | Prohibit            | should not    | should not |
 
   @javascript
   Scenario Outline: Course tools show automatically for single activity format set to hsuforum of types general / single.
@@ -80,13 +101,49 @@ Feature: When the moodle theme is set to Cass, a course tools section is availab
     And the following "activities" exist:
       | activity    | course | idnumber | name          | intro           | section | type   |
       | hsuforum    | C1     | forum1   | Test hsuforum | Test hsuforum   | 1       | <type> |
+    And completion tracking is "<completionenabled>" for course "C1"
+    And I set the following system permissions of "Student" role:
+      | capability                | permission            |
+      | gradereport/overview:view | <gradebookaccessible> |
     When I log in as "student1"
     And I am on the course main page for "C1"
     # Note we have to call this step twice because for some reason it doesn't automatically go to the module page the
     # first time - that's a core issue though.
     And I am on the course main page for "C1"
     Then I should see "Course Dashboard" in the "#coursetools" "css_element"
+    And "#cass-student-dashboard" "css_element" should exist
+    And ".cass-student-dashboard-progress" "css_element" <seecompletion> exist
+    And ".cass-student-dashboard-grade" "css_element" <seegrade> exist
     Examples:
-      | type    |
-      | general |
-      | single  |
+      | type    | completionenabled | gradebookaccessible | seecompletion | seegrade   |
+      | general | Enabled           | Allow               | should        | should     |
+      | general | Disabled          | Prohibit            | should not    | should not |
+      | single  | Enabled           | Allow               | should        | should     |
+      | single  | Disabled          | Prohibit            | should not    | should not |
+
+  @javascript
+  Scenario: Grade and progress are shown to students only when allowed by settings.
+    Given completion tracking is "Disabled" for course "C1"
+    And I set the following system permissions of "Student" role:
+      | capability                | permission            |
+      | gradereport/overview:view | Prohibit              |
+    When I log in as "student1"
+    And I am on the course main page for "C1"
+    And I click on "a[href=\"#coursetools\"]" "css_element"
+    And ".cass-student-dashboard-progress" "css_element" should not exist
+    And ".cass-student-dashboard-grade" "css_element" should not exist
+    Given completion tracking is "Enabled" for course "C1"
+    And I set the following system permissions of "Student" role:
+      | capability                | permission            |
+      | gradereport/overview:view | Allow                 |
+    And I am on the course main page for "C1"
+    And I click on "a[href=\"#coursetools\"]" "css_element"
+    And ".cass-student-dashboard-progress" "css_element" should exist
+    And ".cass-student-dashboard-grade" "css_element" should exist
+    Given the following config values are set as admin:
+      | showcoursegradepersonalmenu | 0 | theme_cass |
+    And I reload the page
+    And I am on the course main page for "C1"
+    And I click on "a[href=\"#coursetools\"]" "css_element"
+    And ".cass-student-dashboard-progress" "css_element" should exist
+    And ".cass-student-dashboard-grade" "css_element" should exist

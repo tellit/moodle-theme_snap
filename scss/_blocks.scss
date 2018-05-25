@@ -19,6 +19,9 @@
  * @copyright Copyright (c) 2015 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+/* stylelint-disable declaration-no-important*/
+
 @include media-breakpoint-up(md) {
     #moodle-blocks > aside {
         column-count: 2;
@@ -84,7 +87,7 @@
 #page-mod-book-view,
 #page-mod-quiz-review,
 #page-mod-quiz-attempt {
-    #moodle-blocks {
+    #moodle-blocks > aside {
         -webkit-column-count: 1;
         -moz-column-count: 1;
         column-count: 1;
@@ -101,7 +104,7 @@
 
         .block__fake,
         .block_fake {
-            margin-top: 2em;
+            margin-top: 1em;
         }
     }
 }
@@ -112,7 +115,6 @@
     padding: 0 2%;
     border: 0;
     box-shadow: none;
-    border: 0;
     background-color: transparent;
     max-width: 50.5em;
 }
@@ -143,7 +145,6 @@ body.path-site .block.block_settings {
 .block_navigation .block_tree li.item_with_icon > p img,
 .block_settings .block_tree li.item_with_icon > p img {
     top: 0.15em;
-    opacity: 0.7;
     position: relative;
 }
 

@@ -25,9 +25,7 @@ Feature: When the moodle theme is set to Cass, courses in single section per pag
   sections displayed at the same time.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-    And the following "users" exist:
+    Given the following "users" exist:
       | username | firstname | lastname | email |
       | teacher1 | Teacher | 1 | teacher1@example.com |
       | teacher2 | Teacher | 2 | teacher2@example.com |
@@ -47,21 +45,21 @@ Feature: When the moodle theme is set to Cass, courses in single section per pag
   Scenario: All users see course pages rendered in regular mode even when course single section per page mode set.
 
     # Test with admin user.
-    Given I log in as "admin" (theme_cass)
+    Given I log in as "admin"
    Then I can see course "C1" in all sections mode
-    And I log out (theme_cass)
+    And I log out
 
     # Test with editing teacher.
-    And I log in as "teacher1" (theme_cass)
+    And I log in as "teacher1"
     Then I can see course "C1" in all sections mode
-    And I log out (theme_cass)
+    And I log out
 
     # Test widh non editing teacher.
-    And I log in as "teacher2" (theme_cass)
+    And I log in as "teacher2"
     Then I can see course "C1" in all sections mode
-    And I log out (theme_cass)
+    And I log out
 
     # Test with student.
-    And I log in as "student1" (theme_cass)
+    And I log in as "student1"
     Then I can see course "C1" in all sections mode
-    And I log out (theme_cass)
+    And I log out

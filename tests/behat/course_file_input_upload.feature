@@ -25,9 +25,7 @@ Feature: When the moodle theme is set to Cass, teachers can upload files as reso
   course section from a simple file input element in either read or edit mode.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-    And the following "courses" exist:
+  Given the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1 | 0 | topics |
     And the following "users" exist:
@@ -42,7 +40,7 @@ Feature: When the moodle theme is set to Cass, teachers can upload files as reso
 
   @javascript
   Scenario: In read mode, teacher uploads file.
-    Given I log in as "teacher1" (theme_cass)
+    Given I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
@@ -55,11 +53,11 @@ Feature: When the moodle theme is set to Cass, teachers can upload files as reso
     And I upload file "testgif.gif" to section 1
     Then I should not see "Add image to course page"
     And I should not see "Create file resource"
-    And I should see "testgif" in the "#section-1 .cass-image-image .cass-image-title" "css_element"
+    And I should see "testgif" in the "#section-1 .cass-native-image .activityinstance .instancename" "css_element"
 
   @javascript
   Scenario: Student cannot upload file.
-    Given I log in as "student1" (theme_cass)
+    Given I log in as "student1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#cass-drop-file" "css_element" should not exist

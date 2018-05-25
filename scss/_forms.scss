@@ -20,6 +20,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/* stylelint-disable declaration-no-important*/
+
 // Exclude hidden form elements from being hidden when behat is running or it breaks
 // "I set the following fields to these values". More specifically, the error is because expand_all_fields in
 // behat_forms.php doesn't handle errors with .moreless-toggler not being visible (it handles it not being there but
@@ -75,14 +77,14 @@ body:not(.behat-site) {
 }
 #page-grade-export-xml-index {
     .mform .fitem {
-        &.fitem.fitem_fcheckbox .fitemtitle{
+        &.fitem.fitem_fcheckbox .fitemtitle {
             float: left;
             width: 25%;
         }
         .fcheckbox {
             color: red;
             input {
-                margin-right: 20px
+                margin-right: 20px;
             }
         }
     }
@@ -168,7 +170,6 @@ fieldset abbr[title] {
     border: none;
     &:after {
         content: " " attr(title);
-        text-transform: lowercase;
         text-transform: capitalize;
     }
 }
@@ -185,7 +186,7 @@ textarea {
 }
 
 .editor_atto_content_wrap {
-    border-color: #eee;
+    border-color: $gray-lighter;
 }
 
 
@@ -194,6 +195,19 @@ textarea {
 // -------------------------
 input[type="radio"] {
     max-width: none;
+    margin-right: .5rem;
+}
+
+// -------------------------
+// Radio & checkbox padding.
+// -------------------------
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 0.25rem;
+}
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 0.25rem;
 }
 
 // -------------------------
@@ -281,7 +295,7 @@ div.editor_atto_toolbar div.atto_group {
     bottom: 1em;
     .atto_info,
     .atto_warning {
-      border-radius: 0;
+        border-radius: 0;
     }
 }
 
@@ -290,10 +304,10 @@ div.editor_atto_toolbar div.atto_group {
     max-width: 100%;
 }
 
-// Hide save & display for resources
-#page-mod-url-mod,
-#page-mod-page-mod,
-#page-mod-resource-mod {
+// Hide save & display for resources (except in single activity format).
+#page-mod-url-mod:not(.format-singleactivity),
+#page-mod-page-mod:not(.format-singleactivity),
+#page-mod-resource-mod:not(.format-singleactivity) {
     #id_submitbutton {
         display: none;
     }
@@ -307,13 +321,20 @@ div.editor_atto_toolbar div.atto_group {
 #page-course-edit #maincontent + h2,
 #page-course-editsection #maincontent + h2,
 .pagelayout-admin.path-mod #maincontent + h2 {
- @extend h6;
+    @extend h6;
+}
+
+// Help for mods displayed in the edit form.
+#cass-collapse-help {
+    padding: 1em 0;
+    margin: 2em 2%;
+    background-color: $gray-lighter;
 }
 
 #id_cancel {
-    @extend .btn-link;
     font-weight: 300;
     margin-left: 2em;
+    border: none;
 }
 
 #fitem_id_outcomes .yui3-moodle-core_outcome-mapoutcome-content-wrapper ul {
@@ -349,6 +370,20 @@ div.editor_atto_toolbar div.atto_group {
     }
 }
 
+.cass-form-advanced {
+    .cass-form-visibility {
+        padding: 1em;
+        background-color: #eee;
+    }
+    .dndupload-message {
+        font-family: $font-family-system;
+        font-size: small;
+    }
+    legend {
+        font-size: 1rem;
+    }
+}
+
 .mform legend {
     margin: 0;
     font-size: 1.2rem;
@@ -358,6 +393,35 @@ div.editor_atto_toolbar div.atto_group {
 .mform legend a:hover {
     color: $body-color;
     text-decoration: none;
+}
+
+// Colapse/expand toggle on forms.
+.mform fieldset {
+    &.collapsible {
+        legend a.fheader {
+            padding: 0;
+            display: block;
+            background: none;
+            margin-left: 0;
+
+            &:after {
+                font-family: FontAwesome;
+                line-height: 1.5;
+                content: "\f106"; // up arrow default.
+                float: right;
+                margin-right: .4rem; // magic number to line up with help icons.
+            }
+        }
+    }
+    &.collapsed legend a.fheader:after {
+        content: "\f107"; // down arrow to indicate can expand.
+    }
+}
+
+// Remove arrow on expand all link.
+.collapsible-actions .collapseexpand {
+    background: none;
+    padding-left: 0;
 }
 
 @include media-breakpoint-up(lg) {
@@ -375,26 +439,24 @@ div.editor_atto_toolbar div.atto_group {
 
     // All the non-essential form elements.
     .cass-form-advanced {
-        fieldset.collapsible legend a.fheader {
-            margin-left: -6px;
-        }
-
-        legend {
-            font-size: 1em;
-        }
-
         // FF select elements don't respect % max width.
         select {
-            max-width: 200px !important;
+            max-width: 250px !important;
         }
-
-
-        .collapsible-actions {
-            text-align: left;
-
-            .collapseexpand {
-                margin-left: -6px;
-            }
+        .ftoggler {
+            background-color: $gray-lighter;
+            padding: .3em .5em;
+        }
+        .collapsed .ftoggler {
+            background-color: transparent;
+        }
+        fieldset > .fcontainer {
+            border: 3px solid $gray-lighter;
+        }
+        // Make sure buttons fit container.
+        button,
+        .btn {
+            white-space: normal;
         }
     }
 }
@@ -441,44 +503,16 @@ div.editor_atto_toolbar div.atto_group {
 }
 
 // -------------------------
-// Resource display form.
-// -------------------------
-#id_s_theme_cass_resourcedisplay {
-    @include make-row();
-    max-width: 100%;
-}
-#s_theme_cass_resourcedisplay_list,
-#s_theme_cass_resourcedisplay_card {
-    @include make-col(6);
-    text-align: center;
-
-    + br {
-        display: none;
-    }
-    &:before {
-        display: block;
-    }
-}
-
-
-#s_theme_cass_resourcedisplay_list:before {
-    content: url("[[pix:theme|list]]");
-}
-#s_theme_cass_resourcedisplay_card:before {
-    content: url("[[pix:theme|cards]]");
-}
-
-// -------------------------
 // Enrolled Users filter
 // -------------------------
 
 @include media-breakpoint-up(sm) {
     #page-enrol-users #filterform > .fitem {
-            margin-right: 1rem;
-            margin-bottom: 1rem;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
 
-            &:last-child {
-                display: block;
+        &:last-child {
+            display: block;
         }
     }
 }

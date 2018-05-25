@@ -35,14 +35,11 @@ section#region-main
 
  ****************************/
 
-// SHAME - do we need this?
-.singlebutton {
-    margin: 0.5em 0;
-    text-align: center;
-}
+/* stylelint-disable declaration-no-important*/
 
 // Course page  - turn editing on button.
-.format-topics, .format-weeks {
+.format-topics,
+.format-weeks {
     #page-mast .singlebutton {
         display: none;
     }
@@ -84,12 +81,6 @@ section#region-main
     }
 }
 
-.ie.path-course-view section#region-main > .singlebutton input[type="submit"] {
-    background-image: url("[[pix:theme|edit_for_ie]]");
-    background-size: 23px;
-    background-position: left center;
-}
-
 .section .filler {
     display: none;
 }
@@ -106,7 +97,7 @@ section#region-main
 }
 .dndupload-over {
     .cass-dropzone {
-        background-color:#fafafa;
+        background-color: #fafafa;
     }
 }
 
@@ -115,6 +106,39 @@ section#region-main
 // -------------------------
 #coursetools {
     @include clearfix;
+}
+
+// -------------------------
+// Progressbar.js circles in course dashboard.
+// -------------------------
+.cass-progress-circle {
+    width: 75%;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 100%;
+
+    &.cass-progressbar-link {
+        &:hover,
+        &:focus {
+            background-color: #eee;
+        }
+        .progressbar-text:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .progressbar-text {
+        font-size: 1.3em;
+        font-family: $font-family-system;
+    }
+}
+
+#cass-student-dashboard {
+    padding: 1em 0;
+
+    .userpicture {
+        margin-top: 5%;
+    }
 }
 
 #coursetools-list {
@@ -128,7 +152,7 @@ section#region-main
         font-size: 1em;
         text-align: center;
         border: 1px solid #eee;
-        border-radius: 4px;
+        border-radius: $btn-border-radius;
 
         .cass-participant-icons,
         img.svg-icon {
@@ -174,13 +198,9 @@ section#region-main
     padding: 0;
 }
 
-.format-weeks #chapters {
-    list-style: none;
-}
-
 .format-topics {
     li.section .sectionname:before {
-        content: counter(annotation-list) ".\00a0";
+        content: none;
     }
 
     // drag and drop yui hack
@@ -228,7 +248,7 @@ li.section:focus {
 }
 
 .sectionname {
-    padding-top: 0;
+    padding: .5rem 0;
     margin-top: 0;
     white-space: normal !important;
 }
@@ -236,7 +256,7 @@ li.section:focus {
 .path-course-view .section .summary {
     position: relative;
     line-height: inherit;
-    padding-bottom: 1.5em;
+    padding-bottom: 1.25em;
     margin-bottom: 1.5em;
     @include clearfix;
 
@@ -246,7 +266,6 @@ li.section:focus {
 }
 
 .cass-section-editing {
-    visibility: hidden;
     max-width: 100%;
     min-width: 0;
     width: auto;
@@ -254,8 +273,8 @@ li.section:focus {
     margin: 0 auto;
     float: none;
     display: block;
-    text-align: left;
-    margin-top: -1em;
+    text-align: center;
+    margin-top: 0;
 
     a {
         display: inline-block;
@@ -264,7 +283,10 @@ li.section:focus {
         height: 2em;
         padding: 0.1em 0.3em;
         text-align: center;
-        &:hover {
+        overflow: hidden;
+        &:hover,
+        &.cass-show,
+        &[aria-pressed="true"] {
             background-color: $gray-lighter;
         }
     }
@@ -296,12 +318,19 @@ li.section:focus {
         background-image: url([[pix:core|t/delete]]);
     }
 
-    .cass-highlight.cass-marker:after {
+    .cass-highlight[aria-pressed="false"]:after {
         background-image: url([[pix:core|i/marker]]);
     }
 
-    .cass-highlight.cass-marked:after {
+    .cass-highlight[aria-pressed="true"]:after {
         background-image: url([[pix:core|i/marked]]);
+    }
+
+    a.ajaxing:after {
+        @include ajaxing(block, relative, 20px, 6px);
+        background-image: none !important;
+        margin: 0 auto;
+        top: 6px;
     }
 
     .loadingstat {
@@ -310,8 +339,38 @@ li.section:focus {
 
 }
 
-.cass-dropzone {
-    visibility: hidden;
+#cass-modchooser-modal {
+    .modal-header {
+        border-bottom: none;
+    }
+
+    #cass-modchooser-help-tab .nav-link {
+        border: none;
+    }
+
+    .cass-modchooser-addlink {
+        display: block;
+        height: 90px;
+        overflow: hidden;
+        font-size: .8em;
+        font-family: $font-family-system;
+        color: $body-color;
+        @include alakazam;
+
+        &:hover,
+        &:focus {
+            transform: scale(1.1);
+        }
+
+        img {
+            margin: 0.5em 0;
+        }
+
+    }
+
+    .cass-modchooser-help {
+        text-align: left;
+    }
 }
 
 .cass-dropzone {
@@ -324,14 +383,52 @@ li.section:focus {
         background-size: 2rem 2rem;
         padding: 3em 0 1em 0;
         border: 3px dashed #eee;
-        border-radius: 4px;
+        border-radius: $btn-border-radius;
 
         &:hover,
         &:focus {
             border-color: $gray-lighter;
+
+            .fake-link {
+                text-decoration: underline;
+            }
         }
     }
 }
+
+span#mod_quiz_navblock_title {
+    display: none;
+}
+
+.section-modchooser-link.btn {
+    display: block;
+    cursor: pointer;
+    background-size: 2rem 2rem;
+    padding: 1em 0 1em 0;
+    border: 3px dashed #eee;
+    border-radius: 4px;
+    background: transparent;
+    box-shadow: none;
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+    font-family: $font-family-fancy !important;
+
+    &:hover,
+    &:focus {
+        border-color: $gray-lighter;
+        background: inherit;
+    }
+}
+
+.col-sm-6.cass-modchooser.section_add_menus {
+    padding-top: 1em;
+}
+
+.cass-section-complete + small {
+    color: #6C953C;
+}
+
 
 .section-modchooser-link {
     display: block;
@@ -363,17 +460,6 @@ li.section:focus {
     border-color: white;
 }
 
-// Do not show elements requiring js until js is classed as loaded.
-.cass-course-listening {
-    .cass-section-editing {
-        visibility: visible;
-    }
-
-    .cass-dropzone {
-        visibility: visible;
-    }
-}
-
 // get rid of js cursor style applied to the whole commands area
 .cass-section-editing[style] {
     cursor: default !important;
@@ -398,7 +484,7 @@ li.section:focus {
     overflow: hidden;
 }
 
-.course-content > ul li.section.state-visible, {
+.course-content > ul li.section.state-visible {
     overflow: visible;
 }
 
@@ -435,6 +521,10 @@ li.section:focus {
     overflow: visible;
 }
 
+.course-content > ul li.section.state-visible {
+    counter-reset: activity;
+}
+
 /* hide progress label with odd z-indexing */
 #completionprogressid {
     display: none;
@@ -466,8 +556,8 @@ body.format-flexpage .singlebutton {
 // Reset moodle css mess
 // -------------------------
 
-.path-site li.activity>div,
-.path-course-view li.activity>div {
+.path-site li.activity > div,
+.path-course-view li.activity > div {
     padding: 0;
 }
 
@@ -500,24 +590,48 @@ body.format-flexpage .singlebutton {
         }
     }
 }
+// Bootstrap navtabs do not require margin.
+.section {
+    ul,
+    ol {
+        &.nav-tabs {
+            margin: 0;
+        }
+    }
+}
+
+.section .activityinstance.collapse {
+    max-height: auto;
+    min-height: auto;
+}
 
 // -------------------------
 // Activity & Resource styles
 // -------------------------
+h4.cass-asset-link .instancename {
+    line-height: 1em;
+}
 
 // -------------------------
-//  Assets in Cass.
+//  Assets in cass.
 // -------------------------
 .section li.cass-asset {
     display: block;
     position: relative;
-    padding: 0;
-    margin: 0 auto;
+    padding: 0 0 1.55em;
+    margin: 0;
     height: auto;
-    font-family: $font-family-base;
+    font-family: $font-family-system;
     background-color: #fff;
-    border: 1px solid $gray-lighter;
+    border-left: 1px solid #bbb;
     border-top-width: 0.3em;
+
+    #section-0 & {
+        border: none;
+    }
+    box-shadow: none;
+    background-color: transparent;
+    border-radius: 0;
 
     // For editors add space for editong tools.
     &.cass-can-edit {
@@ -529,7 +643,12 @@ body.format-flexpage .singlebutton {
         overflow-x: hidden;
         overflow-y: auto;
         position: static;
-        padding: 0.5em 1em;
+        padding: 0;
+        #section-0 & {
+            border-top: 3px solid $brand-info;
+            box-shadow: -2px 1px 4px $gray-light;
+            background: #fff;
+        }
     }
 
     .cass-assettype {
@@ -538,9 +657,12 @@ body.format-flexpage .singlebutton {
     }
 
     .activityinstance {
-        padding: 0;
+        padding: 0 2.2em 1em;
         height: auto;
-        background-color: rgba(255,255,255,0.9);
+        #section-0 & {
+            padding: 1em;
+        }
+        //background-color: rgba(255,255,255,0.9);
         @include clearfix;
 
         .activityicon {
@@ -561,6 +683,8 @@ body.format-flexpage .singlebutton {
 
             // The link itself.
             a {
+                color: $body-color;
+
                 &:hover,
                 &:focus {
                     text-decoration: none;
@@ -574,8 +698,10 @@ body.format-flexpage .singlebutton {
     }
 }
 
-
-
+// Override the stepper border on the final activity list item
+.section li.cass-asset-last {
+    border-left: none;
+}
 
 /**
  * resourcelinkdetails = moodle putting filetype on screen if option selected
@@ -599,7 +725,7 @@ body.format-flexpage .singlebutton {
     height: auto;
     width: 100%;
     text-align: left;
-    font-weight: 300;
+    font-weight: 400;
     padding: 0.5em 0;
     margin: 0.5em 0;
     box-shadow: none;
@@ -622,7 +748,7 @@ body.format-flexpage .singlebutton {
     margin: 0.5em auto;
 
     .asset-wrapper {
-        padding:0;
+        padding: 0;
     }
 
     .activityicon,
@@ -676,48 +802,54 @@ body.format-flexpage .singlebutton {
 
 // TODO - make better
 // title/link on images - css is shame
-
 .cass-native.cass-image .activityinstance .cass-asset-link a {
     display: none;
 }
 
-.modtype_book,
-.modtype_page {
-    border-bottom: 1px solid #ccc;
-}
+//.modtype_book,
+//.modtype_page {
+//    border-bottom: 1px solid #ccc;
+//}
 
 
 .cass-native.modtype_book ol.bookmod-chapters {
     margin: 0;
 }
 
-.cass-image-image {
+.cass-resource-figure {
     position: relative;
 
-    .cass-image-link {
-        display: block;
-    }
-
-    .cass-image-summary,
-    .cass-image-title {
+    .cass-expand-link {
+        display: inline-block;
         position: absolute;
-        bottom: 0;
-        display: block;
-        width: 100%;
-        background-color: rgba(255,255,255,0.9);
-        padding: 0 4%;
-        font-size: 1em;
+        top: 0.5rem;
+        left: 0.5rem;
+
+        img {
+            border-radius: 100%;
+            border: 1px solid white;
+            width: 1.75rem;
+            height: 1.75rem;
+            transition: all .4s ease-in-out;
+            background-color: white;
+        }
+
+        &:hover,
+        &:focus {
+
+            img {
+                transform: scale(1.1);
+                border-color: $gray-light;
+            }
+        }
     }
 
-    .cass-image-title {
-        text-align: center;
-    }
-
-    .cass-image-summary {
-        position: relative;
-        margin-top: -3em;
+    .cass-resource-figure-caption {
+        padding: 0.5em 0;
+        color: $gray;
     }
 }
+
 
 // -------------------------
 // Cass resource
@@ -737,9 +869,6 @@ body.format-flexpage .singlebutton {
         font-size: 1em;
     }
 }
-
-
-
 
 // -------------------------
 // Cass resources as cards.
@@ -777,13 +906,13 @@ body.cass-resource-card li.cass-resource {
     &.cass-mime-writer,
     &.cass-mime-oth,
     &.cass-mime-text {
-        border-top-color: #03A9F4;
+        border-top-color: $color-word;
         background-image: url([[pix:core|/f/document]]);
     }
 
     &.cass-mime-powerpoint,
     &.cass-mime-impress {
-        border-top-color: #ff7300;
+        border-top-color: $color-powerpoint;
         background-image: url([[pix:core|/f/powerpoint]]);
     }
 
@@ -791,7 +920,7 @@ body.cass-resource-card li.cass-resource {
     &.cass-mime-chart,
     &.cass-mime-database,
     &.cass-mime-calc {
-        border-top-color: #009e51;
+        border-top-color: $color-excel;
         background-image: url([[pix:core|/f/spreadsheet]]);
     }
 
@@ -799,7 +928,7 @@ body.cass-resource-card li.cass-resource {
     &.cass-mime-pdf,
     &.cass-mime-eps,
     &.cass-mime-flash {
-        border-top-color: #F44336;
+        border-top-color: $color-pdf;
         background-image: url([[pix:core|/f/pdf]]);
     }
 
@@ -811,7 +940,7 @@ body.cass-resource-card li.cass-resource {
     &.cass-mime-mp3,
     &.cass-mime-wav,
     &.cass-mime-audio {
-        border-top-color: #8BC34A;
+        border-top-color: $color-audio;
         background-image: url([[pix:core|/f/audio]]);
     }
 
@@ -821,13 +950,13 @@ body.cass-resource-card li.cass-resource {
     &.cass-mime-quicktime,
     &.cass-mime-mpeg,
     &.cass-mime-avi {
-        border-top-color: #55B5CC;
+        border-top-color: $color-video;
         background-image: url([[pix:core|/f/video]]);
     }
 
     &.modtype_lightboxgallery,
     &.cass-mime-bmp {
-        border-top-color: #4ABC96;
+        border-top-color: #4abc96;
         background-image: url([[pix:core|/f/image]]);
     }
 
@@ -839,11 +968,10 @@ body.cass-resource-card li.cass-resource {
 
     &.modtype_imscp,
     &.modtype_scorm {
-        border-top-color: #F7981D;
+        border-top-color: #f7981d;
         background-image: url([[pix:core|/f/book]]);
     }
 
-    &.modtype_imscp,
     &.modtype_scorm {
         background-image: url([[pix:core|/f/scorm]]);
     }
@@ -920,6 +1048,7 @@ body.cass-resource-card li.cass-resource {
 // -------------------------
 // Cass Activity
 // -------------------------
+/*
 .section li.cass-activity {
     margin: 1em 1%;
     padding-bottom: 1em;
@@ -927,13 +1056,13 @@ body.cass-resource-card li.cass-resource {
     &.modtype_forum,
     &.modtype_chat,
     &.modtype_hsuforum {
-        border-top-color: #8BC34A;
+        border-top-color: $color-communication;
     }
 
     &.modtype_assign,
     &.modtype_assignment,
     &.modtype_workshop {
-        border-top-color: #03A9F4;
+        border-top-color: $color-assignment;
     }
 
     &.modtype_choice,
@@ -942,13 +1071,13 @@ body.cass-resource-card li.cass-resource {
     &.modtype_survey,
     &.modtype_questionnaire,
     &.modtype_lesson {
-        border-top-color: #FFA000;
+        border-top-color: $color-quiz;
     }
 
     &.modtype_data,
     &.modtype_glossary,
     &.modtype_wiki {
-        border-top-color: #009688;
+        border-top-color: $color-wiki;
     }
 
     &.modtype_collaborate {
@@ -959,20 +1088,150 @@ body.cass-resource-card li.cass-resource {
         border-top-color: #fed859;
     }
 }
+*/
+
+//CASS block
+
+body#page-course-view-weeks button {
+    background: none;
+    color: #999;
+    box-shadow: none;
+    padding: 0 1em;
+}
+
+h4.cass-asset-link a {
+    color: #333;
+}
+
+h4.cass-asset-link {
+    font-size: 1.1em;
+    color: #333;
+    padding-left: 2em;
+    float: left;
+    margin-top: -1px;
+    #section-0 & {
+        padding: .618em 1em;
+    }
+}
+
+.unavailable .cass-asset-link:before {
+    background: $gray-light;
+}
+
+span.stepper-complete {
+    position: absolute;
+    left: -31px;
+    top: -15px;
+    background: $brand-success;
+    border-radius: 3em;
+    width: 63px;
+    height: 63px;
+    line-height: 2.2em;
+    color: $body-bg;
+    text-indent: 8px;
+    font-size: .7em;
+    font-feature-settings: 'lnum';
+    border: solid $body-bg 16px;
+    background-clip: padding-box;
+}
+
+span.stepper-current {
+    position: absolute;
+    left: -31px;
+    top: -15px;
+    background: $brand-info;
+    border-radius: 3em;
+    width: 63px;
+    height: 63px;
+    text-indent: 12px;
+    line-height: 2.3em;
+    color: #fff;
+    font-size: .7em;
+    font-family: $font-family-monospace;
+    font-feature-settings: 'lnum';
+    border: solid $body-bg 16px;
+    background-clip: padding-box;
+}
+
+span.stepper-future {
+    position: absolute;
+    left: -31px;
+    top: -15px;
+    background: $gray;
+    border-radius: 3em;
+    width: 63px;
+    height: 63px;
+    text-indent: 12px;
+    line-height: 2.3em;
+    color: #fff;
+    font-size: .7em;
+    font-family: $font-family-monospace;
+    font-feature-settings: 'lnum';
+    border: solid $body-bg 16px;
+    background-clip: padding-box;
+}
+
+li.unavailable h4 {
+    color: $gray-light;
+}
+
+#page .course-content .content ul.section.img-text {
+    margin: 1em 0 0 .75em;
+}
+
+.course-content #section-0 .content ul.section.img-text {
+    margin: 0;
+}
+
+h2.sectionname {
+    line-height: 1em;
+}
+
+.section li.cass-activity {
+    background-image: none;
+    width: 99%; // to allow for box-shadow faux border
+
+
+    .activityicon {
+        display: none;
+    }
+
+    .activityinstance .cass-asset-link {
+        display: block;
+        font-size: $font-size-lg;
+        display: block;
+        overflow: hidden;
+        @include clearfix();
+
+    }
+}
+
+// experimental code, not used bu keeping as may...
+.section li.cass-activity {
+    &.modtype_forum {
+
+        // background-image:linear-gradient(to right,#71d5df 22%,#ffffff 22%);
+    }
+}
+
+li.cass-activity {
+    border-left: 0.3em solid #ccc;
+    border-radius: 3px;
+}
 
 // -------------------------
 // Editing resources/activites
 // -------------------------
 /* EDIT SUMMARY */
 /* Make it obvious that you can edit a summary - Add text and some styles to that gear thing */
-#page-site-index .sitetopic>a:last-of-type,
+#page-site-index .sitetopic > a:last-of-type,
 .summary .edit-summary {
     clear: both;
     display: block;
     text-align: center;
     margin: 1em 0;
     background-color: transparent;
-    font-family: $font-family-base;
+    font-family: $font-family-system;
 }
 
 #page-site-index {
@@ -982,7 +1241,6 @@ body.cass-resource-card li.cass-resource {
             &:after {
                 content: attr(title);
                 display: block;
-                font-weight: 300;
             }
             &:before {
                 content: " ";
@@ -994,7 +1252,7 @@ body.cass-resource-card li.cass-resource {
             }
         }
 
-        .iconsmall{
+        .iconsmall {
             display: none;
         }
     }
@@ -1008,13 +1266,18 @@ body.cass-resource-card li.cass-resource {
     padding: 0;
 }
 
+a.cass-assignment-stage.label.label-warning {
+    display: none;
+}
+
 // Activity data - e.g. Due date & Group info
 .cass-completion-meta,
 .cass-group-tag,
 .cass-grouping-tag {
-    text-align: right;
     font-size: $font-size-sm;
     margin-bottom: 0.5em;
+    margin-left: -0.4em;
+    font-family: $font-family-fancy;
 
     a {
         padding: 0.5em;
@@ -1027,19 +1290,20 @@ body.cass-resource-card li.cass-resource {
 }
 
 // Activity dues date.
-a.cass-due-date {
-    font-size: 1em;
+.cass-due-date {
+    font-size: inherit;
+    font-weight: normal;
     border-radius: 1em;
-    padding: 0.5em 1em;
 }
 
 
 // Conditional information styled as fauz alerts.
 .cass-conditional-tag,
+.cass-stealth-tag,
 .cass-draft-tag,
 .cass-current-tag {
     font-size: small;
-    font-family: $font-family-base;
+    font-family: $font-family-system;
     background-color: #eee;
     margin: 0.5em 0;
     padding: 0.5em;
@@ -1047,6 +1311,11 @@ a.cass-due-date {
     .availabilityinfo {
         display: inline;
         margin-left: 0.5em;
+    }
+
+    .svg-icon {
+        width: 1.3rem;
+        height: auto;
     }
 
     ul {
@@ -1063,19 +1332,18 @@ a.cass-due-date {
 .cass-completion-meta {
     // SHAME - hsuforum sets div inline block to overcome other themes moodle css...
     // We need to counteract this for cass for hsu forum for the moment.
-    display: block !important;
     clear: both;
 }
 
-// hide draft tag, unless asset has class draft (can be added by js)
+// Hide draft tag, unless asset has class draft (can be added by js).
 .cass-draft-tag,
 .cass-current-tag {
     display: none !important; // SHAME - overcome bad overspecificity...
     font-size: $font-size-sm;
 }
 
-// show draft tag if parent has draft or class.
-.hidden .content .cass-draft-tag,
+// Show draft for mods & sections.
+.hidden .content .cass-draft-section,
 .cass-asset.draft .cass-draft-tag {
     display: block !important; // SHAME - overcome bad overspecificity...
 }
@@ -1083,8 +1351,7 @@ a.cass-due-date {
 // Show current tag if parent has current class.
 .current .cass-current-tag {
     display: block !important; // SHAME - overcome bad overspecificity...
-    color: white;
-    background-color: $brand-success;
+    color: $brand-success;
 }
 
 // Draft hide/show.
@@ -1094,21 +1361,26 @@ a.cass-due-date {
     }
 }
 
-// Assets with draft tag.
-.cass-asset.draft {
-    border-top-color: #eee !important;
-
-    .activityinstance {
-        opacity: 0.75;
-    }
-
-    // Options to hide/show in the dropdown.
-    .editing_hide {
-        display: none;
-    }
-
+// Hide hide/show when section is hidden.
+.hidden li.cass-asset {
+    .editing_hide,
     .editing_show {
-        display: block;
+        display: none !important;
+    }
+}
+
+// Assets with draft tag.
+.cass-asset {
+    &.draft,
+    &.stealth {
+        border-top-color: #eee !important;
+        // Options to hide/show in the dropdown.
+        .editing_hide {
+            display: none;
+        }
+        .editing_show {
+            display: block;
+        }
     }
 }
 
@@ -1122,7 +1394,7 @@ a.cass-due-date {
 
     // Draft assets inside hidden section....
     .cass-asset.draft .activityinstance {
-            opacity: 1;
+        opacity: 1;
     }
 }
 
@@ -1130,57 +1402,29 @@ a.cass-due-date {
 // If so - add 1.3em gutter to slat to stop overlapping.
 
 .cass-asset-completion-tracking {
-    position: absolute;
-    top: 0.5em;
-    right: 1em;
-    display: block;
-    line-height: 0;
+    display: none;
 }
 
 /* Completion actions */
-@keyframes circleajax {
-    0% {
-        border-top-color: rgba(100,100,100,1);
-        border-right-color: rgba(50,50,50,0.25);
-        border-bottom-color: rgba(50,50,50,0.25);
-        border-left-color: rgba(50,50,50,0.25);
-    }
-    25% {
-        border-top-color: rgba(50,50,50,0.25);
-        border-right-color: rgba(100,100,100,1);
-        border-bottom-color: rgba(50,50,50,0.25);
-        border-left-color: rgba(50,50,50,0.25);
-    }
-    50% {
-        border-top-color: rgba(50,50,50,0.25);
-        border-right-color: rgba(50,50,50,0.25);
-        border-bottom-color: rgba(100,100,100,1);
-        border-left-color: rgba(50,50,50,0.25);
-    }
-    75% {
-        border-top-color: rgba(50,50,50,0.25);
-        border-right-color: rgba(50,50,50,0.25);
-        border-bottom-color: rgba(50,50,50,0.25);
-        border-left-color: rgba(100,100,100,1);
-    }
-    100% {
-        border-top-color: rgba(100,100,100,1);
-        border-right-color: rgba(50,50,50,0.25);
-        border-bottom-color: rgba(50,50,50,0.25);
-        border-left-color: rgba(50,50,50,0.25);
-    }
-}
+
 span.autocompletion img,
 form.togglecompletion {
     position: relative;
     width: 20px;
     height: 20px;
+    margin: 0;
 }
+
 form.togglecompletion {
-    input {
-        &[type="image"] {
-            width: 100%;
-            height: 100%;
+    .btn.btn-link {
+        padding: 0;
+        border: 0 none transparent;
+        img.icon {
+            padding: 0;
+            margin-right: 6px;
+            width: 20px;
+            height: 20px;
+            max-width: none;
         }
     }
     @include alakazam;
@@ -1192,39 +1436,11 @@ form.togglecompletion {
 
     &.ajaxing {
         &:after {
-            content:'';
-            display: block;
-            position: absolute;
-            width: calc(100% + 8px);
-            height: calc(100% + 8px);
-            margin-top: -4px;
-            margin-left: -4px;
-            top: 0px;
-            left: 0px;
-            border: solid;
-            border-width: 6px;
-            border-radius: 50%;
-            box-sizing: border-box;
-            border-top-color: rgba(50,50,50,1);
-            border-right-color: rgba(50,50,50,0.25);
-            border-bottom-color: rgba(50,50,50,0.25);
-            border-left-color: rgba(50,50,50,0.25);
-            animation-name: circleajax;
-            animation-duration: 2s;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
+            @include ajaxing(block, absolute, 20px, 6px);
         }
         div {
             display: none;
         }
-    }
-}
-
-/* Indent text associated with activity/resource. */
-.section li.cass-activity {
-    .contentafterlink,
-    .hsuforum-recent {
-        margin-left: (38px + 9px); // icon size (38px + margin);
     }
 }
 
@@ -1234,7 +1450,6 @@ form.togglecompletion {
 
 // All the editing options in one region.
 .cass-asset-actions {
-    visibility: hidden;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1264,6 +1479,15 @@ form.togglecompletion {
         margin: 0;
     }
 
+    .dropdown-toggle.cass-edit-asset-more.ajaxing {
+        &:after {
+            @include ajaxing(inline-block, relative, 26px, 7px);
+        }
+        img {
+            display: none;
+        }
+    }
+
     .svg-icon {
         border-radius: 100%;
         border: 1px solid white;
@@ -1279,7 +1503,7 @@ form.togglecompletion {
     }
 
     .dropdown-menu {
-        box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
         border: 0;
         padding: 0;
     }
@@ -1287,12 +1511,6 @@ form.togglecompletion {
     .dropdown-menu a {
         font-weight: inherit;
         font-size: 0.8em;
-    }
-}
-// Only show these actions once all listeners applied.
-.cass-course-listening {
-    .cass-asset-actions {
-        visibility: visible;
     }
 }
 
@@ -1312,12 +1530,12 @@ form.togglecompletion {
 
 /* reset some moodle shame */
 .moodle-actionmenu,
-.moodle-actionmenu>ul,
-.moodle-actionmenu>ul>li {
+.moodle-actionmenu > ul,
+.moodle-actionmenu > ul > li {
     display: block;
 }
 
-.moodle-actionmenu>ul>li {
+.moodle-actionmenu > ul > li {
     display: inline-block;
 }
 /*  actions at the footer of an element */
@@ -1329,7 +1547,6 @@ form.togglecompletion {
     top: auto;
     bottom: 0;
     left: 0;
-    width: 100%;
     overflow: hidden;
     @include clearfix;
 
@@ -1341,7 +1558,7 @@ form.togglecompletion {
             text-align: right;
         }
 
-        &>ul {
+        & > ul {
             margin: 0;
         }
     }
@@ -1349,7 +1566,7 @@ form.togglecompletion {
 
 /* add bg colour for actions when editing */
 .editing .actions {
-    background-color: rgba(255,255,255,0.95);
+    background-color: rgba(255, 255, 255, 0.95);
 }
 /* remove bg colour for actions when menu shown */
 .action-menu-shown .actions {
@@ -1400,7 +1617,7 @@ div.commands ul.menubar {
 }
 
 // last min css for marks code changes - make edit button block when editing...
-.action-menu-shown .moodle-actionmenu>ul>li {
+.action-menu-shown .moodle-actionmenu > ul > li {
     display: block;
 }
 
@@ -1463,16 +1680,37 @@ input.titleeditor {
 }
 
 span.editinstructions {
-    box-shadow: none;
-    border: 0;
-    font-family: $font-family-base;
+    /*rtl:remove*/
+    position: absolute;
+    /*rtl:raw:
+    position: relative;
+    */
+    top: 0;
+    margin-top: -22px;
+    margin-left: 30px;
+    font-size: $font-size-sm;
+    padding: .1em .4em;
+    background-color: #fff;
+    color: $state-info-text;
+    text-decoration: none;
+    z-index: 9999;
+    font-family: $font-family-system;
 }
 
 /* forum unread posts button */
 .cass-asset .unread {
-    clear: both;
-    display: block;
-    background-color: transparent;
+    display: inline-block;
+    background: $brand-green;
+    border-radius: 1.618em;
+    padding: .618em 1em;
+    margin: 0 0 1em 0;
+    font-size: .618em;
+    line-height: 1em;
+    color: $modal-bg;
+    a {
+        color: $modal-bg;
+        font-family: $font-family-fancy;
+    }
 }
 
 .editing .dndupload-preview .mod-indent {
@@ -1486,38 +1724,6 @@ span.editinstructions {
     padding-left: 0;
 }
 
-// -------------------------
-// Course footer.
-// -------------------------
-
-#cass-course-footer {
-    margin: 2em auto -2em; // pull the sitewide footer up if we have a course footer
-    padding: 1em 4%;
-    background-color: #f1f0ee;
-}
-
-#course_recent_updates {
-    h3 {
-        font-size: 1em;
-        clear: both;
-    }
-
-    .head {
-        .date,
-        .name {
-            display: inline;
-        }
-
-        .date {
-            float: right;
-            font-size: small;
-        }
-    }
-
-    .info.bold {
-        font-weight: inherit;
-    }
-}
 
 // -------------------------
 // Course completion settings page.
@@ -1556,7 +1762,7 @@ span.editinstructions {
 #page-course-recent #region-main div.generalbox {
     td,
     > div {
-        font-family: $font-family-base;
+        font-family: $font-family-system;
         font-size: $font-size-base;
         margin-top: 0.5rem;
 
@@ -1587,7 +1793,7 @@ span.editinstructions {
             margin-left: 10px;
             // Get rid of bold title in workshop.
             strong {
-                font-weight: 300;
+                font-weight: 400;
             }
         }
     }
@@ -1659,18 +1865,16 @@ span.editinstructions {
     }
 }
 
-
-
 // -------------------------
 // Moving things in cass
 // -------------------------
 @keyframes fadeup {
-   0%{
-       opacity:0.1;
-   }
-   100%{
-       opacity:1;
-   }
+    0% {
+        opacity: 0.1;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 .path-course-view {
     li.state-visible,
@@ -1684,7 +1888,7 @@ span.editinstructions {
 }
 
 @keyframes fadein {
-    0%   {
+    0% {
         opacity: 0;
     }
     100% {
@@ -1706,9 +1910,9 @@ span.editinstructions {
     margin: 1em 0;
     clear: both;
     border: 2px dashed $gray-lighter;
-    font-family: $font-family-base;
+    font-family: $font-family-system;
     text-align: center;
-    display:none;
+    display: none;
 }
 
 .section-drop,
@@ -1722,21 +1926,21 @@ span.editinstructions {
         display: block;
 
         &:hover {
-          border-color: $state-success-text;
+            border-color: $state-success-text;
         }
     }
 }
 
 #cass-footer-alert {
     position: fixed;
-    z-index:1;
-    bottom:0;
-    left:0;
-    width:100%;
-    background-color:#000;
-    color:#fff;
-    background-image:none !important;
-    outline:none !important;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    background-image: none !important;
+    outline: none !important;
     // for animation..
     max-height: 0;
     overflow: hidden;
@@ -1747,22 +1951,19 @@ span.editinstructions {
         height: 1em;
     }
     &.cass-footer-alert-visible {
-        padding:0.5em 0;
+        padding: 0.5em 0;
         max-height: 200px;
         z-index: 2;
     }
 }
 
-.cass-footer-alert-title{
+.cass-footer-alert-title {
     text-transform: capitalize;
     color: #fff !important;
     display: inline-block;
-    background-size: 1.5em 1.5em;
-    background-position: 0 center;
-    background-repeat: no-repeat;
-    padding-left: 1.7em; // Magic number for icon
+    padding: 1em;
     margin-left: 4%;
-    width: 68.2%;
+    width: 50%;
 }
 
 .cass-footer-alert-cancel {
@@ -1782,7 +1983,20 @@ span.editinstructions {
     }
 }
 
+// Small screen moving cancel link.
+@include media-breakpoint-down(md) {
+    #moodle-page #region-main {
+        padding: 0 3.44% 6.18%;
+    }
 
+    // Small screen moving cancel link.
+    .cass-footer-alert-cancel {
+        margin-right: 3em;
+    }
+    li.cass-visible-section {
+        background: #eee;
+    }
+}
 
 // Body class when moving
 .cass-move-inprogress {
@@ -1795,7 +2009,7 @@ span.editinstructions {
     .cass-section-editing,
     .cass-modchooser,
     .cass-dropzone {
-      display:none !important;
+        display: none !important;
     }
 
     &.cass-move-section {
@@ -1812,52 +2026,50 @@ span.editinstructions {
 
 .cass-asset {
     &.movefinished {
-        & + li.cass-resource {
-
-        }
         animation: fadein 0.5s;
         animation-iteration-count: 1;
         animation-fill-mode: forwards;
     }
 }
 
-.cass-move-note, .cass-drop.asset-drop {
+.cass-move-note,
+.cass-drop.asset-drop {
     display: none;
 }
 // Show when moving
 // Asset dropzones.
 .cass-move-asset {
-      .cass-asset:not(.asset-moving) {
-          border: 2px dashed $gray-light;
-      }
+    .cass-asset:not(.asset-moving) {
+        border: 2px dashed $gray-light;
+    }
 
-      .cass-resource:not(.asset-moving) {
-          border: 2px dashed white;
-      }
+    .cass-resource:not(.asset-moving) {
+        border: 2px dashed white;
+    }
 
-      .cass-asset:not(.asset-moving) .cass-move-note {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background-color: rgba(255,255,255,0.7);
-          cursor: pointer;
-          text-align: center;
-          padding: 1em;
-          display: block;
-      }
+    .cass-asset:not(.asset-moving) .cass-move-note {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        text-align: center;
+        padding: 1em;
+        display: block;
+    }
 
-      .cass-drop.asset-drop {
-          display: block;
-          clear: both;
-          border: 2px dashed $gray-light;
-          font-size: 2em;
-          font-color: $gray;
-          font-family: $font-family-base;
-          text-align: center;
-          cursor: pointer;
-      }
+    .cass-drop.asset-drop {
+        display: block;
+        clear: both;
+        border: 2px dashed $gray-light;
+        font-size: 2em;
+        color: $gray;
+        font-family: $font-family-system;
+        text-align: center;
+        cursor: pointer;
+    }
 }
 
 #cass-light-box {
@@ -1869,7 +2081,7 @@ span.editinstructions {
     bottom: 0;
     background-color: $modal-backdrop-bg;
     z-index: 1000000;
-    overflow-y:scroll;
+    overflow-y: scroll;
 
     &.state-visible {
         display: block;
@@ -1887,7 +2099,7 @@ span.editinstructions {
     }
 
     .resourcecontent audio {
-       margin: 1em auto;
+        margin: 1em auto;
     }
 }
 
@@ -1897,10 +2109,10 @@ span.editinstructions {
 }
 
 @include media-breakpoint-up(md) {
-  .cass-lightbox-description {
-      overflow-y: auto;
-      max-height: 80vh;
-  }
+    .cass-lightbox-description {
+        overflow-y: auto;
+        max-height: 80vh;
+    }
 }
 
 // Adding support for bootstrap 4 progress bar.

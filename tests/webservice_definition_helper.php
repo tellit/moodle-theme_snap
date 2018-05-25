@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 use theme_cass\webservice\definition_helper;
 use theme_cass\renderables\course_toc;
 
@@ -51,8 +53,8 @@ class definition_helper_testable extends definition_helper {
      */
     public function __call($name, $arguments) {
         $reflection = new ReflectionObject($this);
-        $parentReflection = $reflection->getParentClass();
-        $method = $parentReflection->getMethod($name);
+        $parentreflection = $reflection->getParentClass();
+        $method = $parentreflection->getMethod($name);
         $method->setAccessible(true);
         return $method->invokeArgs($this, $arguments);
     }
@@ -316,7 +318,8 @@ EOF;
     }
 
     public function test_convert_ws_param_no_type() {
-        $this->setExpectedException('coding_exception', 'Type not specified');
+        $this->expectException('coding_exception');
+        $this->expectExceptionMessage('Type not specified');
         new definition_helper_testable(new wsparam_notype());
     }
 

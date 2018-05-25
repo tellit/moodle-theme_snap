@@ -31,32 +31,45 @@ use theme_cass\renderables\bb_dashboard_link;
 
 ?>
 <header id='mr-nav' class='clearfix moodle-has-zindex'>
-<div class="pull-right">
+<div class="pull-right js-only">
 <?php
-    if (class_exists('local_geniusws\navigation')) {
-        $bblink = new bb_dashboard_link();
-        echo $OUTPUT->render($bblink);
-    }
-    echo $OUTPUT->fixed_menu();
-    echo core_renderer::search_box();
-    $settingslink = new settings_link();
-    echo $OUTPUT->render($settingslink);
+if (class_exists('local_geniusws\navigation')) {
+    $bblink = new bb_dashboard_link();
+    echo $OUTPUT->render($bblink);
+}
+
+echo $OUTPUT->personal_menu_trigger();
+echo $OUTPUT->render_notification_popups();
+
+$settingslink = new settings_link();
+echo $OUTPUT->render($settingslink);
+echo '<span class="hidden-md-down">';
+echo core_renderer::search_box();
+echo '</span>';
 ?>
 </div>
 
 <?php
-    $sitefullname = format_string($SITE->fullname);
-    $attrs = array(
-        'aria-label' => get_string('home', 'theme_cass'),
-        'id' => 'cass-home',
-        'title' => $sitefullname,
-    );
+$sitefullname = format_string($SITE->fullname);
+$attrs = array(
+    'aria-label' => get_string('home', 'theme_cass'),
+    'id' => 'cass-home',
+    'title' => $sitefullname,
+);
 
-    if (!empty($PAGE->theme->settings->logo)) {
-        $sitefullname = '<span class="sr-only">'.format_string($SITE->fullname).'</span>';
-        $attrs['class'] = 'logo';
-    }
+if (!empty($PAGE->theme->settings->logo)) {
+    $sitefullname = '<span class="sr-only">'.format_string($SITE->fullname).'</span>';
+    $attrs['class'] = 'logo';
+}
 
-    echo html_writer::link($CFG->wwwroot, $sitefullname, $attrs);
+echo html_writer::link($CFG->wwwroot, $sitefullname, $attrs);
+?>
+<?php
+if (!empty($PAGE->theme->settings->breadcrumbsinnav)) {
+    echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
+}
 ?>
 </header>
+
+<?php
+echo $OUTPUT->personal_menu();

@@ -46,16 +46,32 @@ echo $OUTPUT->doctype();
 <?php echo $OUTPUT->standard_head_html() ?>
 <meta name="theme-color" content="<?php echo $PAGE->theme->settings->themecolor ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href='//fonts.googleapis.com/css?family=Roboto:500,100,400,300' rel='stylesheet' type='text/css'>
+    <?php
+    if (!empty($PAGE->theme->settings->fontloader)) {
+        echo $PAGE->theme->settings->fontloader;
+    }
+    ?>
 <?php
 
-// Output course cover image?
-if ($COURSE->id != SITEID) {
-    $coverimagecss = \theme_cass\local::course_coverimage_css($COURSE->id);
-} else {
-    $coverimagecss = \theme_cass\local::site_coverimage_css();
+// Front page carousel.
+$carousel = false;
+if ($PAGE->pagetype === 'site-index' && !empty($PAGE->theme->settings->cover_carousel)) {
+    // Output is html from template, but can be empty if no slides.
+    $carousel = $OUTPUT->cover_carousel();
 }
-if (!empty($coverimagecss)) {
+// Cover images for the site, catagory or course.
+$coverimagecss = '';
+if ($PAGE->context->contextlevel === CONTEXT_COURSECAT) {
+    if ($PAGE->pagelayout === 'coursecategory') {
+        $coverimagecss = \theme_cass\local::course_cat_coverimage_css($PAGE->context->instanceid);
+    }
+} else if ($PAGE->pagelayout === 'frontpage' || $PAGE->pagelayout === 'login') {
+    $coverimagecss = \theme_cass\local::site_coverimage_css();
+} else {
+    $coverimagecss = \theme_cass\local::course_coverimage_css($COURSE->id);
+}
+
+if (!empty($coverimagecss) && !$carousel) {
     echo "<style>$coverimagecss</style>";
 }
 ?>

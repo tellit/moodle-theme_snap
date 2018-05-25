@@ -3,6 +3,8 @@
  *
  */
 
+/* stylelint-disable declaration-no-important*/
+
 // Hide unnecessary content on the page.
 #page-message-index {
     #page-mast,
@@ -22,7 +24,7 @@
         padding: 58px 0 0 0; // 58px for #mr-nav height.
 
         textarea {
-            font-family: $font-family-base;
+            font-family: $font-family-system;
         }
     }
 }
@@ -30,7 +32,7 @@
 // Style messaging area.
 // Note - once supported this should probably use a css grid or flex.
 .messaging-area-container {
-    font-family: $font-family-base;
+    font-family: $font-family-system;
     margin-bottom: 0;
 
     .messaging-area {
@@ -44,7 +46,7 @@
                 background-color: transparent;
             }
             // Contact media element type things.
-            .contacts .contact .information{
+            .contacts .contact .information {
 
                 .name {
                     font-weight: normal;
@@ -78,7 +80,7 @@
                     border: none;
                     padding: 0;
                     // This is your own message, and gets a brand-color background.
-                    &.right{
+                    &.right {
                         color: white;
                     }
                     // These are other messages.

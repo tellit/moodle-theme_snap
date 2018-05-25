@@ -139,37 +139,48 @@ class shared extends \renderer_base {
             return; // No valid handlers - don't enable drag and drop.
         }
 
+        // Adding file handlers straight to footer, explanation below.
+        $json = json_encode($handler->get_js_data());
+        $script = <<<EOF
+            <script>
+                var themeCassCourseFileHandlers = $json;
+            </script>
+EOF;
+
+        if (!isset($CFG->additionalhtmlfooter)) {
+            $CFG->additionalhtmlfooter = '';
+        }
+        // Note, we have to put the file handlers into the footer instead of passing them into the amd module as an
+        // argument. If you pass large amounts of data into the amd arguments then it throws a debug error.
+        $CFG->additionalhtmlfooter .= $script;
+
         // Add the javascript to the page.
-        $jsmodule = array(
-            'name' => 'coursedndupload',
-            'fullpath' => '/theme/cass/javascript/dndupload.js',
-            'strings' => array(
-                array('addfilehere', 'moodle'),
-                array('dndworkingfiletextlink', 'moodle'),
-                array('dndworkingfilelink', 'moodle'),
-                array('dndworkingfiletext', 'moodle'),
-                array('dndworkingfile', 'moodle'),
-                array('dndworkingtextlink', 'moodle'),
-                array('dndworkingtext', 'moodle'),
-                array('dndworkinglink', 'moodle'),
-                array('namedfiletoolarge', 'moodle'),
-                array('actionchoice', 'moodle'),
-                array('servererror', 'moodle'),
-                array('upload', 'moodle'),
-                array('cancel', 'moodle'),
-                array('modulename', 'mod_label'),
-            ),
-            'requires' => array('node', 'event', 'json', 'anim')
-        );
+        $PAGE->requires->strings_for_js([
+            'addfilehere',
+            'dndworkingfiletextlink',
+            'dndworkingfilelink',
+            'dndworkingfiletext',
+            'dndworkingfile',
+            'dndworkingtextlink',
+            'dndworkingtext',
+            'dndworkinglink',
+            'namedfiletoolarge',
+            'actionchoice',
+            'servererror',
+            'upload',
+            'cancel'
+        ], 'moodle');
+        $PAGE->requires->strings_for_js([
+            'modulename'
+        ], 'mod_label');
         $vars = array(
             array('courseid' => $course->id,
                 'maxbytes' => get_max_upload_file_size($CFG->maxbytes, $course->maxbytes),
-                'handlers' => $handler->get_js_data(),
                 'showstatus' => $showstatus)
         );
 
         $PAGE->requires->js('/course/dndupload.js');
-        $PAGE->requires->js_init_call('M.theme_cass.dndupload.init', $vars, true, $jsmodule);
+        $PAGE->requires->js_call_amd('theme_cass/dndupload-lazy', 'init', $vars);
     }
 
 
@@ -234,8 +245,6 @@ class shared extends \renderer_base {
             'error:failedtochangeassetvisibility',
             'error:failedtoduplicateasset',
             'deleteassetconfirm',
-            'deletingasset',
-            'deletingassetname',
             'deletesectionconfirm',
             'deletingsection'
         ], 'theme_cass');
@@ -268,12 +277,11 @@ class shared extends \renderer_base {
      * @return void
      */
     public static function page_requires_js() {
-        global $CFG, $PAGE, $COURSE, $USER;
+        global $CFG, $PAGE, $COURSE, $USER, $OUTPUT;
 
         $PAGE->requires->jquery();
         $PAGE->requires->js_amd_inline("require(['theme_boost/loader']);");
         $PAGE->requires->strings_for_js(array(
-            'close',
             'coursecontacts',
             'debugerrors',
             'problemsfound',
@@ -293,14 +301,21 @@ class shared extends \renderer_base {
             'movefailed',
             'movingdropsectionhelp',
             'movingstartedhelp',
-            'notpublished'
+            'notpublished',
+            'visibility'
         ), 'theme_cass');
 
         $PAGE->requires->strings_for_js([
             'ok',
             'cancel',
             'error',
-            'unknownerror'
+            'unknownerror',
+            'closebuttontitle',
+            'modhide',
+            'modshow',
+            'hiddenoncoursepage',
+            'showoncoursepage',
+            'switchrolereturn'
         ], 'moodle');
 
         $PAGE->requires->strings_for_js([
@@ -324,7 +339,7 @@ class shared extends \renderer_base {
             $completioninfo = new \completion_info($COURSE);
             if ($completioninfo->is_enabled()) {
                 $modinfo = get_fast_modinfo($COURSE);
-                $sections= $modinfo->get_section_info_all();
+                $sections = $modinfo->get_section_info_all();
                 foreach ($sections as $number => $section) {
                     $ci = new \core_availability\info_section($section);
                     $information = '';
@@ -348,18 +363,43 @@ class shared extends \renderer_base {
             'id' => $COURSE->id,
             'shortname' => $COURSE->shortname,
             'contextid' => $PAGE->context->id,
+            'categoryid' => !empty($PAGE->category->id) ? $PAGE->category->id : false,
             'ajaxurl' => '/course/rest.php',
             'unavailablesections' => $unavailablesections,
             'unavailablemods' => $unavailablemods,
             'enablecompletion' => isloggedin() && $COURSE->enablecompletion
         ];
 
+        $mprocs = get_message_processors(true);
         $forcepwdchange = (bool) get_user_preferences('auth_forcepasswordchange', false);
-        $conversationbadgecountenabled = isloggedin() && !isset($mprocs['badge']) && $PAGE->theme->settings->messagestoggle == 1;
+        $conversationbadgecountenabled = isloggedin() && isset($mprocs['badge']) && $PAGE->theme->settings->messagestoggle == 1;
         $userid = $USER->id;
+        $sitepolicyacceptreqd = isloggedin() && $CFG->sitepolicy && empty($USER->policyagreed) && !is_siteadmin();
+        $inalternativerole = $OUTPUT->in_alternative_role();
+
+        // We want to have some theme settings available to javascript.
+        // But some theme settings may be sensitive so only pass which settings are required.
+        $required_settings = array('fixheadertotopofpage', 'nextactivitymodaldialogdelay');
+        $theme_settings = array_intersect_key((array)$PAGE->theme->settings, array_flip($required_settings));
+
+        // We want some information about the activity to be available to javascript on mod pages
+        // There exist various pure javascript techniques for attempting to determine this infomation
+        // from the renderered HTML, but nothing beats being explicit.
+        $mod = null;
+        //Sometimes it is better to test the URL, rather than rely on the pagetype being correct
+        if (explode('-', $PAGE->pagetype)[0] == 'mod') {
+            if (is_object($PAGE->cm)) {
+                $mod = array(
+                    'modname' => $PAGE->cm->modname,
+                    'contextid' => $PAGE->cm->context->id
+                );
+            }
+        }
+
         $initvars = [$coursevars, $pagehascoursecontent, get_max_upload_file_size($CFG->maxbytes), $forcepwdchange,
-                     $conversationbadgecountenabled, $userid];
+                     $conversationbadgecountenabled, $userid, $sitepolicyacceptreqd, $inalternativerole, $theme_settings, $mod];
         $PAGE->requires->js_call_amd('theme_cass/cass', 'cassInit', $initvars);
+        $PAGE->requires->js_call_amd('theme_cass/breadcrumb', 'init');
 
         // Does the page have editable course content?
         if ($pagehascoursecontent && $PAGE->user_allowed_editing()) {
@@ -517,7 +557,7 @@ class shared extends \renderer_base {
 
         // Course settings.
         if (has_capability('moodle/course:update', $coursecontext)) {
-            $iconurl = $OUTPUT->pix_url('gear', 'theme');
+            $iconurl = $OUTPUT->image_url('gear', 'theme');
             $coverimageurl = local::course_coverimage_url($COURSE->id);
             if (!empty($coverimageurl)) {
                 $iconurl = $coverimageurl;
@@ -531,7 +571,7 @@ class shared extends \renderer_base {
         }
 
         // Norton grader if installed.
-        $iconurl = $OUTPUT->pix_url('joule_grader', 'theme');
+        $iconurl = $OUTPUT->image_url('joule_grader', 'theme');
         $gradebookicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
         if (array_key_exists('nortongrader', $localplugins)) {
             if (has_capability('local/nortongrader:grade', $coursecontext)
@@ -558,7 +598,7 @@ class shared extends \renderer_base {
 
         // Gradebook.
         if (self::gradebook_accessible($coursecontext)) {
-            $iconurl = $OUTPUT->pix_url('gradebook', 'theme');
+            $iconurl = $OUTPUT->image_url('gradebook', 'theme');
             $gradebookicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
             // Gradebook.
             $links[] = array(
@@ -570,23 +610,23 @@ class shared extends \renderer_base {
         // Participants.
         if (has_capability('moodle/course:viewparticipants', $coursecontext)) {
             // Get count of course users.
-            $usercount = count_enrolled_users(context_course::instance($COURSE->id), '', 0, true);
+            $usercount = count_enrolled_users($coursecontext, '', 0, true);
 
             // Build icon.
             $participanticons = '';
-            if(!empty($usercount)) {
+            if (!empty($usercount)) {
                 // Get subset of users for icon.
-                $usersubset = get_enrolled_users(context_course::instance($COURSE->id), '', 0, 'u.*', 'picture desc, lastaccess desc', 0, 4, true);
+                $usersubset = get_enrolled_users($coursecontext,
+                        '', 0, 'u.*', 'picture desc, lastaccess desc', 0, 4, true);
                 foreach ($usersubset as $user) {
                     $userpicture = new \user_picture($user);
                     $userpicture->link = false;
                     $userpicture->size = 100;
                     $participanticons .= $OUTPUT->render($userpicture);
                 }
-            }
-            else {
+            } else {
                 // Default icon when 0 participants.
-                $iconurl = $OUTPUT->pix_url('u/f1');
+                $iconurl = $OUTPUT->image_url('u/f1');
                 $participanticons = '<img src="'.$iconurl.'" alt="" role="presentation">';
             }
 
@@ -599,7 +639,7 @@ class shared extends \renderer_base {
 
         // Joule reports if installed.
         if (array_key_exists('reports', core_component::get_plugin_list('block'))) {
-            $iconurl = $OUTPUT->pix_url('joule_reports', 'theme');
+            $iconurl = $OUTPUT->image_url('joule_reports', 'theme');
             $reportsicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
             if (has_capability('block/reports:viewown', $coursecontext, null, false)
                 || has_capability('block/reports:view', $coursecontext)
@@ -612,8 +652,8 @@ class shared extends \renderer_base {
         }
 
         // Personalised Learning Designer.
-        if (array_key_exists('pld', $localplugins) && has_capability('moodle/course:update', $coursecontext)) {
-            $iconurl = $OUTPUT->pix_url('pld', 'theme');
+        if (array_key_exists('pld', $localplugins) && has_capability('local/pld:editcourserules', $coursecontext)) {
+            $iconurl = $OUTPUT->image_url('pld', 'theme');
             $pldicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
             $pldname = get_string('pld', 'theme_cass');
             $links[] = array(
@@ -624,7 +664,7 @@ class shared extends \renderer_base {
 
         // Competencies if enabled.
         if (get_config('core_competency', 'enabled') && has_capability('moodle/competency:competencyview', $coursecontext)) {
-            $iconurl = $OUTPUT->pix_url('competencies', 'theme');
+            $iconurl = $OUTPUT->image_url('competencies', 'theme');
             $competenciesicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
             $links[] = array(
                 'link'  => 'admin/tool/lp/coursecompetencies.php?courseid='.$COURSE->id,
@@ -633,8 +673,8 @@ class shared extends \renderer_base {
         }
 
         // Outcomes if enabled.
-        if(!empty($CFG->core_outcome_enable)) {
-            $iconurl = $OUTPUT->pix_url('outcomes', 'theme');
+        if (!empty($CFG->core_outcome_enable)) {
+            $iconurl = $OUTPUT->image_url('outcomes', 'theme');
             $outcomesicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
 
             if (has_capability('moodle/grade:edit', $coursecontext)) {
@@ -646,7 +686,8 @@ class shared extends \renderer_base {
                 $outcomesets = new \core_outcome\model\outcome_set_repository();
                 if ($outcomesets->course_has_any_outcome_sets($COURSE->id)) {
                     $links[] = array(
-                        'link'  => 'outcome/course.php?contextid='.$coursecontext->id.'&action=report_course_user_performance_table',
+                        'link'  => 'outcome/course.php?contextid='.$coursecontext->id.
+                            '&action=report_course_user_performance_table',
                         'title' => $outcomesicon.get_string('outcomes', 'outcome'),
                     );
                 }
@@ -668,7 +709,7 @@ class shared extends \renderer_base {
             );
             $canviewbadges = has_any_capability($badgecaps, $coursecontext);
             if (!is_guest($coursecontext) && $canviewbadges) {
-                $iconurl = $OUTPUT->pix_url('badges', 'theme');
+                $iconurl = $OUTPUT->image_url('badges', 'theme');
                 $badgesicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
                 $links[] = array(
                     'link' => 'badges/view.php?type=' . BADGE_TYPE_COURSE . '&id=' . $COURSE->id,
@@ -679,11 +720,12 @@ class shared extends \renderer_base {
 
         // Output course tools section.
         $coursetools = get_string('coursetools', 'theme_cass');
-        $iconurl = $OUTPUT->pix_url('course_dashboard', 'theme');
+        $iconurl = $OUTPUT->image_url('course_dashboard', 'theme');
         $coursetoolsicon = '<img src="'.$iconurl.'" class="svg-icon" alt="" role="presentation">';
         $o = '<h2>'.$coursetoolsicon.$coursetools.'</h2>';
-        $o .= $enrollink.'<div id="coursetools-list">'.
-            self::render_appendices($links).'</div><hr>';
+        $o .= $enrollink;
+        $o .= self::print_student_dashboard();
+        $o .= '<div id="coursetools-list">' .self::render_appendices($links). '</div><hr>';
 
         return $o;
     }
@@ -720,5 +762,76 @@ class shared extends \renderer_base {
         }
 
         return $output;
+    }
+
+    /**
+     * User dashboard.
+     * Shown to users in the course dashboard, initially their progress and grade.
+     * Progress and Grade use a progress.js circle.
+     *
+     * @return string
+     */
+    public static function print_student_dashboard() {
+        global $USER, $COURSE, $OUTPUT;
+
+        $coursecontext = context_course::instance($COURSE->id);
+        $output = '';
+
+        // Don't output for teachers.
+        if (has_capability('moodle/grade:viewall', $coursecontext)) {
+            return $output;
+        }
+        // Don't output if gradebook is not accessible for this user.
+        if (!self::gradebook_accessible($coursecontext)) {
+            return $output;
+        }
+
+        $userpicture = new \user_picture($USER);
+        $userpicture->link = false;
+        $userpicture->alttext = false;
+        $userpicture->class = 'userpicture cass-icon'; // Icon class for margin.
+        $userpicture->size = 100;
+        $userpic = $OUTPUT->render($userpicture);
+
+        $userboard  = '<div id="cass-student-dashboard" class="row clearfix">';
+        $userboard .= '<div class="col-xs-6">';
+        $userboard .= '<h4 class="h6">' .s(fullname($USER)). '</h4>';
+        $userboard .= $userpic;
+        $userboard .= '</div>';
+
+        // User progress.
+        if ($COURSE->enablecompletion) {
+            $progress = local::course_completion_progress($COURSE);
+            $userboard .= '<div class="col-xs-3 text-center cass-student-dashboard-progress">';
+            $userboard .= '<h4 class="h6">' .get_string('progress', 'theme_cass'). '</h6>';
+            $userboard .= '<div class="js-progressbar-circle cass-progress-circle" value="' .round($progress->progress). '"></div>';
+            $userboard .= '</div>';
+        }
+
+        // User grade.
+        if (has_capability('gradereport/overview:view', $coursecontext)) {
+            $grade = local::course_grade($COURSE, true);
+            $coursegrade = '-';
+            if (isset($grade->coursegrade['percentage'])) {
+                $coursegrade = round($grade->coursegrade['percentage']);
+            }
+
+            $moodleurl = new moodle_url('/grade/report/user/index.php', ['id' => $COURSE->id, 'userid' => $USER->id]);
+
+            $userboard .= '<div class="col-xs-3 text-center cass-student-dashboard-grade">';
+            $userboard .= '<h4 class="h6">' . get_string('grade') . '</h6>';
+            $userboard .= '<a href="' . $moodleurl . '">';
+            $userboard .= '<div class="js-progressbar-circle cass-progress-circle cass-progressbar-link" value="';
+            $userboard .= s($coursegrade) . '"></div>';
+            $userboard .= '</a>';
+            $userboard .= '</div>';
+        }
+
+        $userboard .= '</div><!- close .cass-user-dashboard ->';
+        $userboard .= '<br>';
+
+        $output .= $userboard;
+        return $output;
+
     }
 }

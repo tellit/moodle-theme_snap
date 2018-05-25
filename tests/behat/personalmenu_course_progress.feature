@@ -25,11 +25,7 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
   list of courses they are enrolled in with a progress bar indication completion (if completion tracking is enabled).
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-      | enablecompletion   | 1 |
-      | enableavailability | 1 |
-    And the following "courses" exist:
+    Given the following "courses" exist:
       | fullname        | shortname | category | groupmode | visible |
       | Course 1        | C1        | 0        | 1         | 1       |
     And the following "users" exist:
@@ -44,7 +40,7 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
   @javascript
   Scenario Outline: Completion progress shows only when enabled and with tracked activities
     Given completion tracking is "Enabled" for course "C1"
-    And I log in as "<username>" (theme_cass)
+    And I log in as "<username>"
     And I am on the course main page for "C1"
     And I should not see "Progress: 0 / 0"
     And the following "activities" exist:
@@ -52,17 +48,20 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1          | 1              |
     And I reload the page
     And I open the personal menu
+    And I wait for the personal menu to be loaded
     Then I should see "Course 1"
     And I should see "Progress: 0 / 1"
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     And I go to course section 1
-    And I click on "input[title=\"Mark as complete: Test assignment\"]" "css_element"
+    And I mark the activity "Test assignment" as complete
     And I reload the page
     And I open the personal menu
+    And I wait for the personal menu to be loaded
     Then I should see "Progress: 1 / 1"
     Given completion tracking is "Disabled" for course "C1"
     And I reload the page
     And I open the personal menu
+    And I wait for the personal menu to be loaded
     Then I should not see "Progress:"
     Given completion tracking is "Enabled" for course "C1"
     And the following config values are set as admin:

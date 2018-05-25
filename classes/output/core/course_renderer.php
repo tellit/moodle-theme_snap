@@ -32,9 +32,11 @@ use context_course;
 use context_module;
 use html_writer;
 use moodle_url;
+use coursecat;
 use stdClass;
 use theme_cass\activity;
 use theme_cass\activity_meta;
+use DomDocument;
 
 require_once($CFG->dirroot . "/mod/book/locallib.php");
 require_once($CFG->libdir . "/gradelib.php");
@@ -62,6 +64,8 @@ class course_renderer extends \core_course_renderer {
         if ($modulehtml = $this->course_section_cm($course, $completioninfo, $mod, $sectionreturn, $displayoptions)) {
             list($cassmodtype, $extension) = $this->get_mod_type($mod);
 
+            $modclasses = array('cass-activity');
+            /*
             if ($mod->modname === 'resource') {
                 // Default for resources/attatchments e.g. pdf, doc, etc.
                 $modclasses = array('cass-resource', 'cass-mime-'.$extension);
@@ -70,10 +74,8 @@ class course_renderer extends \core_course_renderer {
                 }
                 // For images we overwrite with the native class.
                 if ($this->is_image_mod($mod)) {
-                    $modclasses = array('cass-native', 'cass-image', 'cass-mime-'.$extension);
+                    $modclasses = array('cass-native-image', 'cass-image', 'cass-mime-'.$extension);
                 }
-            } else if ($mod->modname === 'label') {
-                // Do nothing.
             } else if ($mod->modname === 'folder' && !$mod->url) {
                 // Folder mod set to display on page.
                 $modclasses = array('cass-activity');
@@ -81,7 +83,7 @@ class course_renderer extends \core_course_renderer {
                 $modclasses = array('cass-resource');
             } else if ($mod->modname === 'scorm') {
                 $modclasses = array('cass-resource');
-            } else {
+            } else if ($mod->modname !== 'label') {
                 $modclasses = array('cass-activity');
             }
 
@@ -95,10 +97,15 @@ class course_renderer extends \core_course_renderer {
                     $attr['data-href'] = $modurl;
                 }
             }
+            */
 
             // Is this mod draft?
-            if (!$mod->visible) {
+            if (!$mod->visible && !$mod->visibleold) {
                 $modclasses [] = 'draft';
+            }
+            // Is this mod stealth?
+            if ($mod->is_stealth()) {
+                $modclasses [] = 'stealth';
             }
 
             $canviewhidden = has_capability('moodle/course:viewhiddenactivities', $mod->context);
@@ -121,10 +128,32 @@ class course_renderer extends \core_course_renderer {
             }
 
             $modclasses [] = 'cass-asset'; // Added to stop conflicts in flexpage.
+
+            // For the stepper to look nice, the final asset should not contain a left border
+            // Tag the final activity in the section with an additional class
+            $modinfo = $mod->get_modinfo();
+            $sectionindex = $mod->sectionnum;
+            $activityindex = count($modinfo->sections[$mod->sectionnum]) - 1;
+            $activityarray = $modinfo->sections[$sectionindex];
+            if (array_key_exists($activityindex, $activityarray)) {
+                if ($mod->id ==  $activityarray[$activityindex]) {
+                    $modclasses [] = 'cass-asset-last';
+                }
+            }
+
             $modclasses [] = 'activity'; // Moodle needs this for drag n drop.
-            $modclasses [] = $mod->modname;
-            $modclasses [] = "modtype_$mod->modname";
-            $modclasses [] = $mod->extraclasses;
+
+            // Tagging an li element with a selector called 'page' results is poor CSS specificity due to
+            // the main HTML region also being tagged with 'page'. Hopefully cass people will address this
+            // in the future, but they probably don't have the same problems we do because they embed
+            // page content anyway, and don't treat it like any other course render li target.
+            if ($mod->modname == 'page') {
+                // Do nothing here
+            } else {
+                $modclasses [] = $mod->modname;
+                $modclasses [] = "modtype_$mod->modname";
+                $modclasses [] = $mod->extraclasses;
+            }
 
             $attr['data-type'] = $cassmodtype;
             $attr['class'] = implode(' ', $modclasses);
@@ -190,9 +219,9 @@ class course_renderer extends \core_course_renderer {
 
         $output = '';
         // We return empty string (because course module will not be displayed at all)
-        // if:
+        // when
         // 1) The activity is not visible to users
-        // and
+        // and also
         // 2) The 'availableinfo' is empty, i.e. the activity was
         // hidden in a way that leaves no info, such as using the
         // eye icon.
@@ -200,6 +229,10 @@ class course_renderer extends \core_course_renderer {
             && (empty($mod->availableinfo))) {
             return $output;
         }
+        if (!$mod->is_visible_on_course_page()) {
+            return $output;
+        }
+
         $output .= '<div class="asset-wrapper">';
 
         // Drop section notice.
@@ -207,18 +240,125 @@ class course_renderer extends \core_course_renderer {
             $output .= '<a class="cass-move-note" href="#">'.get_string('movehere', 'theme_cass').'</a>';
         }
         // Start the div for the activity content.
-        $output .= "<div class='activityinstance'>";
+
+        //Three states per activity:
+        //Activity is completed: $currentmodcompleted is true.
+        //Activity is current: $currentmodcompleted is false, $allpreviouscompleted is true and mod is available
+        //Activity is future: $currentmodcompleted is false, $allpreviouscompleted is false
+        $currentmodcompleted = false;
+        $allpreviouscompleted = false;
+
+        // TODO: comment
+        // Break with style conventions to name a variable as a negative, due to it being an unusual exclusive condition
+        $sectionzeronostepper = false;
+
+        $collapsebutton = '';
+        $collapsestate = '';
+        $stepperspan = '';
+
+        $sectionzeronostepper = $mod->sectionnum == "0" && !$this->page->theme->settings->showstepperonsectionzero;
+
+        // If allow collapse/expand of activities with bootstrap, provide an id for this activityinstance and default collapse state based on completion.
+        if ($this->page->theme->settings->collapsecompletedactivities) {
+            $collapsetarget = 'collapsetarget-' . $mod->modname . '-' . $mod->instance;
+            $collapsebutton = '<button data-toggle="collapse" data-target="#' . $collapsetarget . '"><span class="glyphicon glyphicon-chevron-down"></span></button>';
+            $collapsestate = 'collapse';
+        }
+
+        // If the mod is in section zero, and the theme setting disables the stepper,
+        // then collapse all mods in this section, and do not number them
+        // (Early short-cicuit)
+        // No need to check completion, all previous completed etc..
+        if ($sectionzeronostepper) {
+            $stepperspan = "<span class='stepper-sectionzero'></span>";
+        } else {
+
+
+            $completiondata = $completioninfo->get_data($mod, true);
+            if ($completioninfo->is_enabled($mod) == COMPLETION_TRACKING_MANUAL || $completioninfo->is_enabled($mod) == COMPLETION_TRACKING_AUTOMATIC) {
+                if ($completiondata->completionstate != COMPLETION_INCOMPLETE) {
+                    $currentmodcompleted = true;
+                }
+            }
+
+            //If current is completed change stepper to OK (tick).
+            if ($currentmodcompleted) {
+                $stepperspan = '<span class="stepper-complete glyphicon glyphicon-ok"></span>';
+            } else {
+
+                $allpreviouscompleted = true;
+                //Find stepper item number
+                $stepper = 1;
+                //Loop through all previous mods in section
+                //This isn't the most efficient option, but it is the least invasive to the current codebase.
+                //Non-display of labels etc might break the stepper count
+                $modinfo = $mod->get_modinfo();
+                foreach ($modinfo->sections[$mod->sectionnum] as $imodnumber) {
+                    //Retrieve mod
+                    $imod = $modinfo->cms[$imodnumber];
+
+                    //Stop when mod is current
+                    if ($mod->id == $imod->id) break;
+
+                    //Note completion state of all previous
+                    if ($allpreviouscompleted) {
+                        if ($completioninfo->is_enabled($imod) == COMPLETION_TRACKING_AUTOMATIC) {
+                            $icompletiondata = $completioninfo->get_data($imod, true);
+                            if ($icompletiondata->completionstate == COMPLETION_INCOMPLETE) {
+                                $allpreviouscompleted = false;
+                            }
+                        }
+                    }
+
+                    //Increment stepper count
+                    $stepper++;
+                }
+
+                //if current is available and the first in section that is not completed, give number and expand
+                if ($mod->available && $allpreviouscompleted) {
+                    $collapsestate = 'collapse in';
+                    $stepperspan = "<span class='stepper-current'>$stepper</span>";
+                } else {
+                    $stepperspan = "<span class='stepper-future'>$stepper</span>";
+                }
+            }
+        }
+
+        $collapsecontainer = '';
+        if (empty($collapsetarget)) {
+            $collapsecontainer .= "<div class='activityinstance'>";
+        } else {
+            $collapsecontainer .= "<div id=\"$collapsetarget\" class='activityinstance $collapsestate'>";
+        }
+
+        $steppercontainer = '';
+        if (is_object($mod->url)) {
+            $steppercontainer =  '<a href="' . $mod->url->out() . '">' . $stepperspan . '</a>';
+        } else {
+            $steppercontainer =  $stepperspan;
+        }
+
         // Display the link to the module (or do nothing if module has no url).
         $cmname = $this->course_section_cm_name($mod, $displayoptions);
         $assetlink = '';
 
         if (!empty($cmname)) {
+
+            $activitycurrent = '';
+            if ($allpreviouscompleted && !$currentmodcompleted) {
+                $activitycurrent = ' cass-activity-current';
+            }
+
             // Activity/resource type.
             $cassmodtype = $this->get_mod_type($mod)[0];
             $assetlink = '<div class="cass-assettype">'.$cassmodtype.'</div>';
             // Asset link.
-            $assetlink .= '<h4 class="cass-asset-link">'.$cmname.'</h4>';
+            $assetlink .= '<h4 class="cass-asset-link' . $activitycurrent . '">'.$cmname.'</h4>';
         }
+
+        // Append everything together
+        // If the collapse setting isn't enabled then collapsebutton will be empty and collapsecontainer will not be tagged to be collapsable.
+        $output .= $steppercontainer . $assetlink . $collapsebutton . $collapsecontainer;
 
         // Asset content.
         $contentpart = $this->course_section_cm_text($mod, $displayoptions);
@@ -227,20 +367,30 @@ class course_renderer extends \core_course_renderer {
         // Due date, feedback available and all the nice cass things.
         $casscompletionmeta = '';
         $casscompletiondata = $this->module_meta_html($mod);
-        if($casscompletiondata) {
+        if ($casscompletiondata) {
             $casscompletionmeta = '<div class="cass-completion-meta">'.$casscompletiondata.'</div>';
         }
 
         // Completion tracking.
-        $completiontracking = '<div class="cass-asset-completion-tracking">'.$this->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions).'</div>';
+        $completiontracking = '<div class="cass-asset-completion-tracking">';
+        $completiontracking .= $this->course_section_cm_completion($course, $completioninfo, $mod, $displayoptions);
+        $completiontracking .= '</div>';
 
-        // Draft status - always output, shown via css of parent.
-        $drafttag = '<div class="cass-draft-tag">'.get_string('draft', 'theme_cass').'</div>';
+        // Draft & Stealth tags.
+        $stealthtag = '';
+        $drafttag = '';
+        if ($mod->is_stealth()) {
+            // Stealth tag.
+            $stealthtag = '<div class="cass-stealth-tag">'.get_string('hiddenoncoursepage', 'moodle').'</div>';
+        } else {
+            // Draft status - always output, shown via css of parent.
+            $drafttag = '<div class="cass-draft-tag">'.get_string('draft', 'theme_cass').'</div>';
+        }
 
         // Group.
         $groupmeta = '';
         // Resources cannot have groups/groupings.
-        if($mod->modname !== 'resource') {
+        if ($mod->modname !== 'resource') {
             $canmanagegroups = has_capability('moodle/course:managegroups', context_course::instance($mod->course));
             if ($canmanagegroups && $mod->effectivegroupmode != NOGROUPS) {
                 if ($mod->effectivegroupmode == VISIBLEGROUPS) {
@@ -265,17 +415,57 @@ class course_renderer extends \core_course_renderer {
         $conditionalmeta = '';
         if (!$mod->available || $canviewhidden) {
             $availabilityinfo = $this->course_section_cm_availability($mod, $displayoptions);
-            if($availabilityinfo) {
+            if ($availabilityinfo) {
                 $conditionalmeta .= '<div class="cass-conditional-tag">'.$availabilityinfo.'</div>';
             }
         }
 
         // Add draft, contitional.
-        $assetmeta = $drafttag.$conditionalmeta;
+        $assetmeta = $stealthtag.$drafttag.$conditionalmeta;
 
         // Build output.
         $postcontent = '<div class="cass-asset-meta" data-cmid="'.$mod->id.'">'.$assetmeta.$mod->afterlink.'</div>';
-        $output .= $assetlink.$postcontent.$contentpart.$casscompletionmeta.$groupmeta.$completiontracking;
+
+        if ($this->page->theme->settings->collapsecompletedactivities) {
+            if ($this->page->theme->settings->embedcurrentactivity) {
+                if (!$currentmodcompleted && $mod->available && $allpreviouscompleted) {
+                    //scrape/embed the mod page
+                    $url = new moodle_url($mod->url, array('embed'=>'1'));
+
+                    //$url = clone $mod->url;
+                    //$url->param('embed', '1');
+
+                    //Send user cookie
+                    $context = stream_context_create(array('http' => array('header'=> 'Cookie: ' . $_SERVER['HTTP_COOKIE']."\r\n")));
+
+                    //Must close session prior to embed to prevent session deadlock
+                    session_write_close();
+
+                    //Retieve the page (Do not URL encode parameters)
+                    $contents = file_get_contents($url->out(false), false, $context);
+
+                    //Use a dom document to parse and correct any missing closing elements
+                    $doc = new DOMDocument();
+
+                    //We are not interested in escalating errors associated with malformed HTML
+                    //Disable PHP warning reports (but storethe current state of libxml_use_internal_errors)
+                    $libxml_previous_state = libxml_use_internal_errors(true);
+                    $doc->loadHTML($contents);
+                    $contents = $doc->saveHTML();
+                    //Clear any errors
+                    libxml_clear_errors();
+                    //Restore error reporting state
+                    libxml_use_internal_errors($libxml_previous_state);
+
+                    $postcontent .= '<div id="current-mod-embed" class="current-mod-embed">' . $contents . '</div>';
+                }
+            }
+
+            $output .= $contentpart.$postcontent;
+        }   else {
+            //$output .= $assetlink.$contentpart.$postcontent;
+            $output .= $assetlink.$postcontent.$contentpart.$casscompletionmeta.$groupmeta.$completiontracking;
+        }
 
         // Bail at this point if we aren't using a supported format. (Folder view is only partially supported).
         $supported = ['folderview', 'topics', 'weeks', 'site'];
@@ -290,68 +480,80 @@ class course_renderer extends \core_course_renderer {
         $modcontext = context_module::instance($mod->id);
         $baseurl = new moodle_url('/course/mod.php', array('sesskey' => sesskey()));
 
-        if (has_capability('moodle/course:update', $modcontext)) {
-            $str = get_strings(array('delete', 'move', 'duplicate', 'hide', 'show', 'roles'), 'moodle');
-            // TODO - add cass strings here.
+        $str = get_strings(array('delete', 'move', 'duplicate', 'hide', 'show', 'roles'), 'moodle');
+        // TODO - add cass strings here.
 
-            // Move, Edit, Delete.
-            if (has_capability('moodle/course:manageactivities', $modcontext)) {
-                $movealt = get_string('move', 'theme_cass', $mod->get_formatted_name());
-                $moveicon = "<img title='$movealt' aria-hidden='true' class='svg-icon' src='".$this->output->pix_url('move', 'theme')."' />";
-                $editalt = get_string('edit', 'theme_cass', $mod->get_formatted_name());
-                $editicon = "<img title='$editalt' alt='$editalt' class='svg-icon' src='".$this->output->pix_url('edit', 'theme')."'/>";
-                $actions .= "<input id='cass-move-mod-$mod->id' class='js-cass-asset-move sr-only' type='checkbox'><label class='cass-asset-move' for='cass-move-mod-$mod->id'><span class='sr-only'>$movealt</span>$moveicon</label>";
-                $actions .= "<a class='cass-edit-asset' href='".new moodle_url($baseurl, array('update' => $mod->id))."'>$editicon</a>";
-                $actionsadvanced[] = "<a href='".new moodle_url($baseurl, array('delete' => $mod->id)).
-                    "' class='js_cass_delete dropdown-item'>$str->delete</a>";
-            }
+        // Move, Edit, Delete.
+        if (has_capability('moodle/course:manageactivities', $modcontext)) {
+            $movealt = s(get_string('move', 'theme_cass', $mod->get_formatted_name()));
+            $moveicon = '<img title="'.$movealt.'" aria-hidden="true" class="svg-icon" src="';
+            $moveicon .= $this->output->image_url('move', 'theme').'"/>';
+            $editalt = s(get_string('edit', 'theme_cass', $mod->get_formatted_name()));
+            $editicon = '<img title="'.$editalt.'" alt="'.$editalt.'" class="svg-icon" src="';
+            $editicon .= $this->output->image_url('edit', 'theme').'"/>';
+            $actions .= '<input id="cass-move-mod-'.$mod->id.'" class="js-cass-asset-move sr-only" type="checkbox">';
+            $actions .= '<label class="cass-asset-move" for="cass-move-mod-'.$mod->id.'">';
+            $actions .= '<span class="sr-only">'.$movealt.'</span>'.$moveicon.'</label>';
+            $actions .= '<a class="cass-edit-asset" href="'.new moodle_url($baseurl, array('update' => $mod->id)).'">';
+            $actions .= $editicon.'</a>';
+            $actionsadvanced[] = '<a href="'.new moodle_url($baseurl, array('delete' => $mod->id)).
+                '" data-action="delete" class="js_cass_delete dropdown-item">'.$str->delete.'</a>';
+        }
 
-            // Hide/Show.
-            if (has_capability('moodle/course:activityvisibility', $modcontext)) {
-                $actionsadvanced[] = "<a href='".new moodle_url($baseurl, array('hide' => $mod->id))."' class='dropdown-item editing_hide js_cass_hide'>$str->hide</a>";
-                $actionsadvanced[] = "<a href='".new moodle_url($baseurl, array('show' => $mod->id))."' class='dropdown-item editing_show js_cass_show'>$str->show</a>";
-                // AX click to change.
-            }
+        // Hide/Show.
+        // Not output for stealth activites.
+        if (has_capability('moodle/course:activityvisibility', $modcontext) && !$mod->is_stealth()) {
+            $hideaction = '<a href="'.new moodle_url($baseurl, array('hide' => $mod->id));
+            $hideaction .= '" data-action="hide" class="dropdown-item editing_hide js_cass_hide">'.$str->hide.'</a>';
+            $actionsadvanced[] = $hideaction;
+            $showaction = '<a href="'.new moodle_url($baseurl, array('show' => $mod->id));
+            $showaction .= '" data-action="show" class="dropdown-item editing_show js_cass_show">'.$str->show.'</a>';
+            $actionsadvanced[] = $showaction;
+        }
 
-            // Duplicate.
-            $dupecaps = array('moodle/backup:backuptargetimport', 'moodle/restore:restoretargetimport');
-            if (has_all_capabilities($dupecaps, $coursecontext) &&
+        // Duplicate.
+        $dupecaps = array('moodle/backup:backuptargetimport', 'moodle/restore:restoretargetimport');
+        if (has_all_capabilities($dupecaps, $coursecontext) &&
             plugin_supports('mod', $mod->modname, FEATURE_BACKUP_MOODLE2) &&
             plugin_supports('mod', $mod->modname, 'duplicate', true)) {
-                $actionsadvanced[] = "<a href='".new moodle_url($baseurl, array('duplicate' => $mod->id))."' class='dropdown-item js_cass_duplicate'>$str->duplicate</a>";
-            }
-
-            // Asign roles.
-            if (has_capability('moodle/role:assign', $modcontext)) {
-                $actionsadvanced[] = "<a class='dropdown-item' href='".new moodle_url('/admin/roles/assign.php', array('contextid' => $modcontext->id))."'>$str->roles</a>";
-            }
-
-            // Give local plugins a chance to add icons.
-            $localplugins = array();
-            foreach (get_plugin_list_with_function('local', 'extend_module_editing_buttons') as $function) {
-                $localplugins = array_merge($localplugins, $function($mod));
-            }
-
-            foreach (get_plugin_list_with_function('block', 'extend_module_editing_buttons') as $function) {
-                $localplugins = array_merge($localplugins, $function($mod));
-            }
-
-            // TODO - pld string is far too long....
-            $locallinks = '';
-            foreach ($localplugins as $localplugin) {
-                $url = $localplugin->url;
-                $text = $localplugin->text;
-                $class = 'dropdown-item ' . $localplugin->attributes['class'];
-                $actionsadvanced[] = "<a href='$url' class='$class'>$text</a>";
-            }
-
+            $actionsadvanced[] = "<a href='".new moodle_url($baseurl, array('duplicate' => $mod->id)).
+                "' data-action='duplicate' class='dropdown-item js_cass_duplicate'>$str->duplicate</a>";
         }
+
+        // Asign roles.
+        if (has_capability('moodle/role:assign', $modcontext)) {
+            $actionsadvanced[] = "<a class='dropdown-item' href='".
+                new moodle_url('/admin/roles/assign.php', array('contextid' => $modcontext->id)).
+                "'>$str->roles</a>";
+        }
+
+        // Give local plugins a chance to add icons.
+        $localplugins = array();
+        foreach (get_plugin_list_with_function('local', 'extend_module_editing_buttons') as $function) {
+            $localplugins = array_merge($localplugins, $function($mod));
+        }
+
+        foreach (get_plugin_list_with_function('block', 'extend_module_editing_buttons') as $function) {
+            $localplugins = array_merge($localplugins, $function($mod));
+        }
+
+        // TODO - pld string is far too long....
+        $locallinks = '';
+        foreach ($localplugins as $localplugin) {
+            $url = $localplugin->url;
+            $text = $localplugin->text;
+            $class = 'dropdown-item ' . $localplugin->attributes['class'];
+            $actionsadvanced[] = "<a href='$url' class='$class'>$text</a>";
+        }
+
         $advancedactions = '';
         if (!empty($actionsadvanced)) {
-            $moreicon = "<img title='".get_string('more', 'theme_cass')."' alt='".get_string('more', 'theme_cass')."' class='svg-icon' src='".$this->output->pix_url('more', 'theme')."'/>";
-            $advancedactions = "<div class='dropdown cass-edit-more-dropdown'>
-                      <a href='#' class='dropdown-toggle cass-edit-asset-more' data-toggle='dropdown' aria-expanded='false' aria-haspopup='true'>$moreicon</a>
-                      <div class='dropdown-menu' role='menu'>";
+            $moreicon = "<img title='".get_string('more', 'theme_cass')."' alt='".get_string('more', 'theme_cass').
+                    "' class='svg-icon' src='".$this->output->image_url('more', 'theme')."'/>";
+            $advancedactions = '<div class="dropdown cass-edit-more-dropdown">';
+            $advancedactions .= '<a href="#" class="dropdown-toggle cass-edit-asset-more" ';
+            $advancedactions .= 'data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">'.$moreicon.'</a>';
+            $advancedactions .= '<div class="dropdown-menu" role="menu">';
             foreach ($actionsadvanced as $action) {
                 $advancedactions .= "$action";
             }
@@ -361,7 +563,7 @@ class course_renderer extends \core_course_renderer {
 
         // Add actions menu.
         if ($actions) {
-            $output .= "<div class='cass-asset-actions' role='region' aria-label='actions'>";
+            $output .= "<div class='js-only cass-asset-actions' role='region' aria-label='actions'>";
             $output .= $actions.$advancedactions;
             $output .= "</div>";
         }
@@ -533,7 +735,6 @@ class course_renderer extends \core_course_renderer {
             // Can't get meta data for this module.
             return '';
         }
-        $content .= '';
 
         if ($meta->isteacher) {
             // Teacher - useful teacher meta data.
@@ -584,20 +785,28 @@ class course_renderer extends \core_course_renderer {
                 // TODO - spit out a 'submissions allowed from' tag.
                 return $content;
             }
+            // @codingStandardsIgnoreLine
+            /* @var cm_info $mod */
             $content .= $this->submission_cta($mod, $meta);
         }
 
         // Activity due date.
-        if (!empty($meta->timeclose)) {
-            $due = get_string('due', 'theme_cass');
-            $url = new \moodle_url("/mod/{$mod->modname}/view.php", ['id' => $mod->id]);
+        if (!empty($meta->extension) || !empty($meta->timeclose)) {
             $dateformat = get_string('strftimedate', 'langconfig');
-            $labeltext = $due . ' ' . userdate($meta->timeclose, $dateformat);
-            $dateclass = 'tag-success';
-            if($meta->timeclose < time()){
-                $dateclass = ' tag-danger';
+            if (!empty($meta->extension)) {
+                $field = 'extension';
+            } else if (!empty($meta->timeclose)) {
+                $field = 'timeclose';
             }
-            $content .= html_writer::link($url, $labeltext, array('class' => 'cass-due-date tag '.$dateclass));
+            $labeltext = get_string('due', 'theme_cass', userdate($meta->$field, $dateformat));
+            $pastdue = $meta->$field < time();
+            $url = new \moodle_url("/mod/{$mod->modname}/view.php", ['id' => $mod->id]);
+            $dateclass = $pastdue ? 'tag-danger' : 'tag-success';
+            $content .= html_writer::link($url, $labeltext,
+                    [
+                        'class' => 'cass-due-date tag '.$dateclass,
+                        'data-from-cache' => $meta->timesfromcache ? 1 : 0
+                    ]);
         }
 
         return $content;
@@ -611,6 +820,7 @@ class course_renderer extends \core_course_renderer {
      * @return string
      */
     protected function mod_image_html($mod) {
+        global $OUTPUT;
         if (!$mod->uservisible) {
                 return "";
         }
@@ -631,18 +841,24 @@ class course_renderer extends \core_course_renderer {
                 );
             }
         }
+
+        $summary = '';
         $summary = $mod->get_formatted_content(array('overflowdiv' => false, 'noclean' => true));
-
-        $imglink = "<a class='cass-image-link' href='{$imgsrc}' target='_blank'>".format_text("<img src='{$imgsrc}' alt=''/>")."</a>";
-
         $modname = format_string($mod->name);
+        $img = format_text('<img src="' .$imgsrc. '" alt="' .$modname. '"/>');
+        $icon = '<img title="' .get_string('vieworiginalimage', 'theme_cass'). '"
+                alt="' .get_string('vieworiginalimage', 'theme_cass'). '"
+                src="' .$OUTPUT->image_url('arrow-expand', 'theme'). '">';
+        $imglink = '<a class="cass-expand-link" href="' .$imgsrc. '" target="_blank">' .$icon. '</a>';
 
-        if (!empty($summary)) {
-            return "<div class='cass-image-image'>$imglink<div class='cass-image-summary'><h6>$modname</h6>$summary</div></div>";
-        }
+        $output = '<figure class="cass-resource-figure figure">'
+                    .$img.$imglink.
+                    '<figcaption class="cass-resource-figure-caption figure-caption">'
+                        .$modname.$summary.
+                    '</figcaption>
+                </figure>';
 
-        return "<div class='cass-image-image'><div class='cass-image-title'><h6>$modname</h6></div>$imglink</div>";
-
+        return $output;
     }
 
     /**
@@ -666,7 +882,7 @@ class course_renderer extends \core_course_renderer {
         }
 
         $readmore = get_string('readmore', 'theme_cass');
-        $close = get_string('close', 'theme_cass');
+        $close = get_string('closebuttontitle', 'moodle');
 
         // Identify content elements which should force an AJAX lazy load.
         $elcontentblist = ['iframe', 'video', 'object', 'embed'];
@@ -679,12 +895,14 @@ class course_renderer extends \core_course_renderer {
             }
         }
         $contentloaded = !$lazyload ? 1 : 0;
+        $pslinkclass = 'btn btn-secondary pagemod-readmore';
+        $pmcontextattribute = 'data-pagemodcontext="'.$mod->context->id.'"';
 
         $o = "
         {$thumbnail}
         <div class='summary-text'>
             {$page->summary}
-            <p><a class='btn btn-default pagemod-readmore' title='{$mod->name}' href='{$mod->url}' data-pagemodcontext='{$mod->context->id}'>{$readmore}</a></p>
+            <p><a class='$pslinkclass' title='{$mod->name}' href='{$mod->url}' $pmcontextattribute>{$readmore}</a></p>
         </div>
 
         <div class=pagemod-content tabindex='-1' data-content-loaded={$contentloaded}>
@@ -714,9 +932,11 @@ class course_renderer extends \core_course_renderer {
             $formatoptions->overflowdiv = true;
             $formatoptions->context = $context;
             $content = format_text($content, $book->introformat, $formatoptions);
-
-            return "<div class=summary-text>
-                    {$content}</div>".$this->book_get_toc($chapters, $book, $cm);
+            $o = '<div class="summary-text row">';
+            $o .= '<div class="col-sm-6">' .$content. '</div>';
+            $o .= '<div class="col-sm-6">' .$this->book_get_toc($chapters, $book, $cm) . '</div>';
+            $o .= '</div>';
+            return $o;
         }
         return $this->book_get_toc($chapters, $book, $cm);
     }
@@ -789,9 +1009,9 @@ class course_renderer extends \core_course_renderer {
 
         // Is this for labels or something with no other page url to point to?
         $url = $mod->url;
-        if (!$url) {
-            return $output;
-        }
+        // if (!$url) {
+        //     return $output;
+        // }
 
         // Get asset name.
         $instancename = $mod->get_formatted_name();
@@ -824,7 +1044,11 @@ class course_renderer extends \core_course_renderer {
         }
 
         if ($mod->uservisible) {
-            $output .= "<a $target  href='$url'>$activityimg<span class='instancename'>$instancename</span></a>" . $groupinglabel;
+            if (!$url) {
+                $output .= "$activityimg<span class='instancename'>$instancename</span>" . $groupinglabel;
+            } else {
+                $output .= "<a $target  href='$url'>$activityimg<span class='instancename'>$instancename</span></a>" . $groupinglabel;
+            }
         } else {
             // We may be displaying this just in order to show information
             // about visibility, without the actual link ($mod->uservisible).
@@ -888,5 +1112,362 @@ class course_renderer extends \core_course_renderer {
 
         $url = new moodle_url('/course/edit.php', ['id' => $COURSE->id]);
         return $OUTPUT->notification(get_string('courseformatnotification', 'theme_cass', $url->out()));
+    }
+
+    /**
+     * Renders html to display a course search form.
+     *
+     * @param string $value default value to populate the search field
+     * @param string $format display format - 'plain' (default), 'short' or 'navbar'
+     * @return string
+     */
+    public function course_search_form($value = '', $format = 'plain') {
+        static $count = 0;
+        $formid = 'coursesearch';
+        if ((++$count) > 1) {
+            $formid .= $count;
+        }
+
+        switch ($format) {
+            case 'navbar' :
+                $formid = 'coursesearchnavbar';
+                $inputid = 'navsearchbox';
+                $inputsize = 20;
+                break;
+            case 'short' :
+                $inputid = 'shortsearchbox';
+                $inputsize = 12;
+                break;
+            default :
+                $inputid = 'coursesearchbox';
+                $inputsize = 30;
+        }
+
+        $data = (object) [
+            'searchurl' => (new moodle_url('/course/search.php'))->out(false),
+            'id' => $formid,
+            'inputid' => $inputid,
+            'inputsize' => $inputsize,
+            'value' => $value
+        ];
+
+        return $this->render_from_template('theme_cass/course_search_form', $data);
+    }
+
+    /**
+     * Renders HTML to display particular course category - list of it's subcategories and courses
+     *
+     * Invoked from /course/index.php
+     *
+     * @param int|stdClass|coursecat $category
+     */
+    public function course_category($category) {
+        global $CFG;
+        require_once($CFG->libdir. '/coursecatlib.php');
+        $coursecat = coursecat::get(is_object($category) ? $category->id : $category);
+        $site = get_site();
+        $output = '';
+        $categoryselector = '';
+        // NOTE - we output manage catagory button in the layout file in Cass.
+
+        if (!$coursecat->id) {
+            if (coursecat::count_all() == 1) {
+                // There exists only one category in the system, do not display link to it.
+                $coursecat = coursecat::get_default();
+                $strfulllistofcourses = get_string('fulllistofcourses');
+                $this->page->set_title("$site->shortname: $strfulllistofcourses");
+            } else {
+                $strcategories = get_string('categories');
+                $this->page->set_title("$site->shortname: $strcategories");
+            }
+        } else {
+            $title = $site->shortname;
+            if (coursecat::count_all() > 1) {
+                $title .= ": ". $coursecat->get_formatted_name();
+            }
+            $this->page->set_title($title);
+
+            // Print the category selector.
+            if (coursecat::count_all() > 1) {
+                $select = new \single_select(new moodle_url('/course/index.php'), 'categoryid',
+                        coursecat::make_categories_list(), $coursecat->id, null, 'switchcategory');
+                $select->set_label(get_string('category').':');
+                $categoryselector .= $this->render($select);
+            }
+        }
+        $output .= '<div class="row">';
+        $output .= '<div class="col-sm-4">';
+        // Add course search form.
+        $output .= $this->course_search_form();
+        $output .= '</div>';
+        // Add cat select box if available.
+        $output .= '<div class="col-sm-8 text-right">';
+        $output .= $categoryselector;
+        $output .= '</div>';
+
+        $chelper = new \coursecat_helper();
+        // Prepare parameters for courses and categories lists in the tree.
+        $atts = ['class' => 'category-browse category-browse-'.$coursecat->id];
+        $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_AUTO)->set_attributes($atts);
+
+        $coursedisplayoptions = array();
+        $catdisplayoptions = array();
+        $browse = optional_param('browse', null, PARAM_ALPHA);
+        $perpage = optional_param('perpage', $CFG->coursesperpage, PARAM_INT);
+        $page = optional_param('page', 0, PARAM_INT);
+        $baseurl = new moodle_url('/course/index.php');
+        if ($coursecat->id) {
+            $baseurl->param('categoryid', $coursecat->id);
+        }
+        if ($perpage != $CFG->coursesperpage) {
+            $baseurl->param('perpage', $perpage);
+        }
+        $coursedisplayoptions['limit'] = $perpage;
+        $catdisplayoptions['limit'] = $perpage;
+        if ($browse === 'courses' || !$coursecat->has_children()) {
+            $coursedisplayoptions['offset'] = $page * $perpage;
+            $coursedisplayoptions['paginationurl'] = new moodle_url($baseurl, array('browse' => 'courses'));
+            $catdisplayoptions['nodisplay'] = true;
+            $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories'));
+            $catdisplayoptions['viewmoretext'] = new \lang_string('viewallsubcategories');
+        } else if ($browse === 'categories' || !$coursecat->has_courses()) {
+            $coursedisplayoptions['nodisplay'] = true;
+            $catdisplayoptions['offset'] = $page * $perpage;
+            $catdisplayoptions['paginationurl'] = new moodle_url($baseurl, array('browse' => 'categories'));
+            $coursedisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'courses'));
+            $coursedisplayoptions['viewmoretext'] = new \lang_string('viewallcourses');
+        } else {
+            // We have a category that has both subcategories and courses, display pagination separately.
+            $coursedisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'courses', 'page' => 1));
+            $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories', 'page' => 1));
+        }
+        $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
+
+        // Display course category tree.
+        $output .= $this->coursecat_tree($chelper, $coursecat);
+
+        // Add action buttons.
+        $context = get_category_or_system_context($coursecat->id);
+        if (has_capability('moodle/course:create', $context)) {
+            // Print link to create a new course, for the 1st available category.
+            if ($coursecat->id) {
+                $url = new moodle_url('/course/edit.php', ['category' => $coursecat->id, 'returnto' => 'category']);
+            } else {
+                $url = new moodle_url('/course/edit.php', ['category' => $CFG->defaultrequestcategory, 'returnto' => 'topcat']);
+            }
+            $output .= '<div class="text-center"><a class="btn btn-secondary" href="'.$url.'">'.
+                get_string('addnewcourse', 'moodle').'</a></div>';
+        }
+
+        $output .= $this->container_start('buttons');
+        ob_start();
+        if (coursecat::count_all() == 1) {
+            print_course_request_buttons(\context_system::instance());
+        } else {
+            print_course_request_buttons($context);
+        }
+        $output .= ob_get_contents();
+        ob_end_clean();
+        $output .= $this->container_end();
+
+        return $output;
+    }
+
+    /**
+     * Prints a course footer with course contacts, course description and recent updates.
+     *
+     * @return string
+     */
+
+    public function course_footer() {
+        global $DB, $COURSE, $CFG, $PAGE;
+
+        // Check toggle switch.
+        if (empty($PAGE->theme->settings->coursefootertoggle)) {
+            return false;
+        }
+
+        $context = context_course::instance($COURSE->id);
+        $courseteachers = '';
+        $coursesummary = '';
+
+        $clist = new \course_in_list($COURSE);
+        $teachers = $clist->get_course_contacts();
+
+        if (!empty($teachers)) {
+            // Get all teacher user records in one go.
+            $teacherids = array();
+            foreach ($teachers as $teacher) {
+                $teacherids[] = $teacher['user']->id;
+            }
+            $teacherusers = $DB->get_records_list('user', 'id', $teacherids);
+
+            // Course contacts.
+            $courseteachers .= '<h5>'.get_string('coursecontacts', 'theme_cass').'</h5>';
+            foreach ($teachers as $teacher) {
+                if (!isset($teacherusers[$teacher['user']->id])) {
+                    continue;
+                }
+                $teacheruser = $teacherusers [$teacher['user']->id];
+                $courseteachers .= $this->print_teacher_profile($teacheruser);
+            }
+        }
+        // If user can edit add link to manage users.
+        if (has_capability('moodle/course:enrolreview', $context)) {
+            if (empty($courseteachers)) {
+                $courseteachers = "<h5>".get_string('coursecontacts', 'theme_cass')."</h5>";
+            }
+            $courseteachers .= '<br><a class="btn btn-outline-secondary btn-sm" href="'.$CFG->wwwroot.'/enrol/users.php?id='.
+                $COURSE->id.'">'.get_string('enrolledusers', 'enrol').'</a>';
+        }
+
+        // Course cummary.
+        if (!empty($COURSE->summary)) {
+            $coursesummary = '<h5>'.get_string('aboutcourse', 'theme_cass').'</h5>';
+            $formatoptions = new stdClass;
+            $formatoptions->noclean = true;
+            $formatoptions->overflowdiv = true;
+            $formatoptions->context = $context;
+            $coursesummarycontent = file_rewrite_pluginfile_urls($COURSE->summary,
+                'pluginfile.php', $context->id, 'course', 'summary', null);
+            $coursesummarycontent = format_text($coursesummarycontent, $COURSE->summaryformat, $formatoptions);
+            $coursesummary .= '<div id="cass-course-footer-summary">'.$coursesummarycontent.'</div>';
+        }
+
+        // If able to edit add link to edit summary.
+        if (has_capability('moodle/course:update', $context)) {
+            if (empty($coursesummary)) {
+                $coursesummary = '<h5>'.get_string('aboutcourse', 'theme_cass').'</h5>';
+            }
+            $coursesummary .= '<br><a class="btn btn-outline-secondary btn-sm" href="'.$CFG->wwwroot.'/course/edit.php?id='.
+                $COURSE->id.'#id_descriptionhdr">'.get_string('editsummary').'</a>';
+        }
+
+        // Get recent activities on mods in the course.
+        $courserecentactivities = $this->get_mod_recent_activity($context);
+        $courserecentactivity = '';
+        if ($courserecentactivities) {
+            $courserecentactivity = '<h5>'.get_string('recentactivity').'</h5>';
+            if (!empty($courserecentactivities)) {
+                $courserecentactivity .= $courserecentactivities;
+            }
+        }
+        // If user can edit add link to moodle recent activity stuff.
+        if (has_capability('moodle/course:update', $context)) {
+            if (empty($courserecentactivities)) {
+                $courserecentactivity = '<h5>'.get_string('recentactivity').'</h5>';
+                $courserecentactivity .= get_string('norecentactivity');
+            }
+            $courserecentactivity .= '<div class="col-xs-12 clearfix"><a href="'.$CFG->wwwroot.'/course/recent.php?id='
+                .$COURSE->id.'">'.get_string('showmore', 'form').'</a></div>';
+        }
+
+        if (!empty($courserecentactivity)) {
+            $columns[] = $courserecentactivity;
+        }
+        if (!empty($courseteachers)) {
+            $columns[] = $courseteachers;
+        }
+        if (!empty($coursesummary)) {
+            $columns[] = $coursesummary;
+        }
+
+        $output = '';
+        if (empty($columns)) {
+            return $output;
+        } else {
+            $output .= '<div class="row">';
+            $output .= '<div class="col-lg-3 col-md-4"><div id="cass-course-footer-contacts">'.$courseteachers.'</div></div>';
+            $output .= '<div class="col-lg-9 col-md-8"><div id="cass-course-footer-about">'.$coursesummary.'</div></div>';
+            $output .= '<div class="col-sm-12"><div id="cass-course-footer-recent-activity">'.$courserecentactivity.'</div></div>';
+            $output .= '</div>';
+        }
+        return $output;
+    }
+
+    /**
+     * Print teacher profile
+     * Prints a media object with the techers photo, name (links to profile) and desctiption.
+     *
+     * @param stdClass $user
+     * @return string
+     */
+    public function print_teacher_profile($user) {
+        global $CFG, $OUTPUT;
+
+        $userpicture = new \user_picture($user);
+        $userpicture->link = false;
+        $userpicture->alttext = false;
+        $userpicture->size = 100;
+        $picture = $this->render($userpicture);
+
+        $fullname = '<a href="' .$CFG->wwwroot. '/user/profile.php?id=' .$user->id. '">'.format_string(fullname($user)).'</a>';
+        $messageicon = '<img class="svg-icon" alt="" role="presentation" src="' .$OUTPUT->image_url('messages', 'theme').' ">';
+        $message = '<br><small><a href="'.$CFG->wwwroot.
+                '/message/index.php?id='.$user->id.'">message'.$messageicon.'</a></small>';
+
+        $data = (object) [
+            'image' => $picture,
+            'content' => $fullname.$message
+        ];
+
+        return $this->render_from_template('theme_cass/media_object', $data);
+    }
+
+    /**
+     * Print recent activites for a course
+     *
+     * @param stdClass $context
+     * @return string
+     */
+    public function get_mod_recent_activity($context) {
+        global $COURSE, $OUTPUT;
+        $viewfullnames = has_capability('moodle/site:viewfullnames', $context);
+        $recentactivity = array();
+        $timestart = time() - (86400 * 7); // Only show last 7 days activity.
+        if (optional_param('testing', false, PARAM_BOOL)) {
+            $timestart = time() - (86400 * 3000); // 3000 days ago for testing.
+        }
+        $modinfo = get_fast_modinfo($COURSE);
+        $usedmodules = $modinfo->get_used_module_names();
+        // Don't show activity for folder mod.
+        unset($usedmodules['folder']);
+        if (empty($usedmodules)) {
+            // No used modules so return null string.
+            return '';
+        }
+        foreach ($usedmodules as $modname => $modfullname) {
+            // Each module gets it's own logs and prints them.
+            ob_start();
+            $hascontent = component_callback('mod_'. $modname, 'print_recent_activity',
+                    array($COURSE, $viewfullnames, $timestart), false);
+            if ($hascontent) {
+                $content = ob_get_contents();
+                if (!empty($content)) {
+                    $recentactivity[$modname] = $content;
+                }
+            }
+            ob_end_clean();
+        }
+
+        $output = '';
+        if (!empty($recentactivity)) {
+            foreach ($recentactivity as $modname => $moduleactivity) {
+                // Get mod icon, empty alt as title already there.
+                $img = html_writer::tag('img', '', array(
+                    'src' => $OUTPUT->image_url('icon', $modname),
+                    'alt' => '',
+                ));
+
+                // Create media object for module activity.
+                $data = (object) [
+                    'image' => $img,
+                    'content' => $moduleactivity,
+                    'class' => $modname
+                ];
+                $output .= $this->render_from_template('theme_cass/media_object', $data);
+            }
+        }
+        return $output;
     }
 }

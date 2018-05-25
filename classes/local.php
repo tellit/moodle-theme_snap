@@ -17,9 +17,12 @@
 
 namespace theme_cass;
 
-use html_writer;
-use \theme_cass\user_forums;
-use \theme_cass\course_total_grade;
+defined('MOODLE_INTERNAL') || die();
+
+use \theme_cass\user_forums,
+    \theme_cass\course_total_grade,
+    html_writer,
+    cm_info;
 
 require_once($CFG->dirroot.'/calendar/lib.php');
 require_once($CFG->libdir.'/completionlib.php');
@@ -66,19 +69,19 @@ class local {
 
     /**
      * Does this course have any visible feedback for current user?.
-     *
      * @param \stdClass $course
-     * @return \stdClass
+     * @param bool $oncoursedashboard
+     * @return object
      */
-    public static function course_grade($course) {
+    public static function course_grade($course, $oncoursedashboard = false) {
         global $USER;
 
         $failobj = (object) [
-            'feedback' => false
+            'coursegrade' => false
         ];
 
         $config = get_config('theme_cass');
-        if (empty($config->showcoursegradepersonalmenu)) {
+        if (empty($config->showcoursegradepersonalmenu) && $oncoursedashboard === false) {
             // If not enabled, don't return data.
             return $failobj;
         }
@@ -132,11 +135,12 @@ class local {
             $report = new course_total_grade($USER, $gpr, $course);
             $coursegrade = $report->get_course_total();
             $ignoregrades = [
+                '',
                 '-',
                 '&nbsp;',
                 get_string('error')
             ];
-            if (!in_array($coursegrade, $ignoregrades)) {
+            if (!in_array($coursegrade['value'], $ignoregrades)) {
                 $feedbackobj->coursegrade = $coursegrade;
             }
         }
@@ -183,7 +187,7 @@ class local {
 
     /**
      * This has been taken directly from the moodle_page class but modified to work independently.
-     * It's used by config.php so that hacks can be targetted at just the Cass theme.
+     * It's used by config.php so that hacks can be targetted at just the cass theme.
      * Work out the theme this page should use.
      *
      * This depends on numerous $CFG settings, and the properties of this page.
@@ -424,7 +428,7 @@ class local {
             $completioninfo = new \completion_info($course);
             if ($completioninfo->is_enabled()) {
                 $modinfo = get_fast_modinfo($course);
-                $sections= $modinfo->get_section_info_all();
+                $sections = $modinfo->get_section_info_all();
                 foreach ($sections as $number => $section) {
                     $ci = new \core_availability\info_section($section);
                     if (!$ci->is_available($information, true)) {
@@ -449,7 +453,6 @@ class local {
      * @return bool | array
      */
     public static function courseinfo($courseids) {
-        global $CFG;
         $courseinfo = array();
 
         $courses = enrol_get_my_courses(['enablecompletion', 'showgrades']);
@@ -473,8 +476,7 @@ class local {
                 'completion' => self::course_completion_progress($course)
             );
 
-            $reportusershowgrade = grade_get_setting($courseid, 'report_user_showgrade', !empty($CFG->grade_report_user_showgrade));
-            if (!empty($showgrades) && !empty($reportusershowgrade)) {
+            if (!empty($showgrades)) {
                 $feedback = self::course_grade($course);
                 $courseinfo[$courseid]->feedback = $feedback;
             }
@@ -491,6 +493,10 @@ class local {
      */
     public static function course_participant_count($courseid, $modname = null) {
         static $participantcount = array();
+
+        if (defined('PHPUNIT_TEST') && PHPUNIT_TEST) {
+            $participantcount = [];
+        }
 
         // Incorporate the modname in the static cache index.
         $idx = $courseid . $modname;
@@ -517,11 +523,39 @@ class local {
 
             $context = \context_course::instance($courseid);
             $onlyactive = true;
-            $enrolled = count_enrolled_users($context, $capability, null, $onlyactive);
+            $enrolled = self::count_enrolled_users($context, $capability, null, $onlyactive);
             $participantcount[$idx] = $enrolled;
         }
 
         return $participantcount[$idx];
+    }
+
+    /**
+     * Counts list of users enrolled given a context, skipping duplicate ids.
+     * Inspired by count_enrolled_users found in lib/enrollib.php
+     * Core method is counting duplicates because users can be enrolled into a course via different methods, hence,
+     * having multiple registered enrollments.
+     *
+     * @param \context $context
+     * @param string $withcapability
+     * @param int $groupid 0 means ignore groups, any other value limits the result by group id
+     * @param bool $onlyactive consider only active enrolments in enabled plugins and time restrictions
+     * @return int number of enrolled users.
+     */
+    public static function count_enrolled_users(\context $context, $withcapability = '', $groupid = 0, $onlyactive = false) {
+        global $DB;
+
+        $capjoin = get_enrolled_with_capabilities_join(
+            $context, '', $withcapability, $groupid, $onlyactive);
+
+        $sql = "SELECT COUNT(*)
+                  FROM (SELECT DISTINCT u.id
+                          FROM {user} u
+                               $capjoin->joins
+                         WHERE $capjoin->wheres AND u.deleted = 0) as uids
+                ";
+
+        return $DB->count_records_sql($sql, $capjoin->params);
     }
 
     /**
@@ -593,7 +627,7 @@ class local {
 
         $messages = self::get_user_messages($USER->id);
         if (empty($messages)) {
-            return '<p>' . get_string('nomessages', 'theme_cass') . '</p>';
+            return '<p class="small">' . get_string('nomessages', 'theme_cass') . '</p>';
         }
 
         $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
@@ -662,183 +696,6 @@ class local {
         }
     }
 
-
-    /**
-     * Return user's upcoming deadlines from the calendar.
-     *
-     * All deadlines from today, then any from the next 12 months up to the
-     * max requested.
-     * @param \stdClass|integer $userorid
-     * @param integer $maxdeadlines
-     * @return array
-     */
-    public static function upcoming_deadlines($userorid, $maxdeadlines = 5) {
-
-        $user = self::get_user($userorid);
-        if (!$user) {
-            return [];
-        }
-
-        $courses = enrol_get_users_courses($user->id, true);
-
-        if (empty($courses)) {
-            return [];
-        }
-
-        $courseids = array_keys($courses);
-
-        $events = self::get_todays_deadlines($user, $courseids);
-
-        if (count($events) < $maxdeadlines) {
-            $maxaftercurrentday = $maxdeadlines - count($events);
-            $moreevents = self::get_upcoming_deadlines($user, $courseids, $maxaftercurrentday);
-            $events = $events + $moreevents;
-        }
-        foreach ($events as $event) {
-            if (isset($courses[$event->courseid])) {
-                $course = $courses[$event->courseid];
-                $event->coursefullname = $course->fullname;
-            }
-        }
-        return $events;
-    }
-
-    /**
-     * Return user's deadlines for today from the calendar.
-     *
-     * @param \stdClass|int $userorid
-     * @param array $courses ids of all user's courses.
-     * @return array
-     */
-    private static function get_todays_deadlines($userorid, $courses) {
-        // Get all deadlines for today, assume that will never be higher than 100.
-        return self::get_upcoming_deadlines($userorid, $courses, 100, true);
-    }
-
-    /**
-     * Return user's deadlines from the calendar.
-     *
-     * Usually called twice, once for all deadlines from today, then any from the next 12 months up to the
-     * max requested.
-     *
-     * Based on the calender function calendar_get_upcoming.
-     *
-     * @param \stdClass|int $userorid
-     * @param array $courses ids of all user's courses.
-     * @param int $maxevents to return
-     * @param bool $todayonly true if only the next 24 hours to be returned
-     * @return array
-     */
-    private static function get_upcoming_deadlines($userorid, $courses, $maxevents, $todayonly=false) {
-
-        $user = self::get_user($userorid);
-        if (!$user) {
-            return [];
-        }
-
-        // We need to do this so that we can calendar events and mod visibility for a specific user.
-        self::swap_global_user($user);
-
-        $tz = new \DateTimeZone(\core_date::get_user_timezone($user));
-        $today = new \DateTime('today', $tz);
-        $tomorrow = new \DateTime('tomorrow', $tz);
-
-        if ($todayonly === true) {
-            $starttime = $today->getTimestamp();
-            $endtime = $tomorrow->getTimestamp()-1;
-        } else {
-            $starttime = $tomorrow->getTimestamp();
-            $endtime = $starttime + (365 * DAYSECS) - 1;
-        }
-
-        $userevents = false;
-        $groupevents = false;
-        $events = calendar_get_events($starttime, $endtime, $userevents, $groupevents, $courses);
-
-        $processed = 0;
-        $output = array();
-        foreach ($events as $event) {
-            if ($event->eventtype === 'course') {
-                // Not an activity deadline.
-                continue;
-            }
-            if ($event->eventtype === 'open' && $event->timeduration == 0) {
-                // Only the opening of multi-day event, not a deadline.
-                continue;
-            }
-            if (!empty($event->modulename)) {
-                $modinfo = get_fast_modinfo($event->courseid);
-                $mods = $modinfo->get_instances_of($event->modulename);
-                if (isset($mods[$event->instance])) {
-                    $cminfo = $mods[$event->instance];
-                    if (!$cminfo->uservisible) {
-                        continue;
-                    }
-                    if ($event->eventtype === 'close') {
-                        // Revert the addition of e.g. "(Quiz closes)" to the event name.
-                        $event->name = $cminfo->name;
-                    }
-                }
-            }
-
-            $output[$event->id] = $event;
-            ++$processed;
-
-            if ($processed >= $maxevents) {
-                break;
-            }
-        }
-
-        self::swap_global_user(false);
-
-        return $output;
-    }
-
-    /**
-     * Get deadlines string.
-     * @return string
-     */
-    public static function deadlines() {
-        global $USER, $PAGE;
-
-        $events = self::upcoming_deadlines($USER->id);
-        if (empty($events)) {
-            return '<p>' . get_string('nodeadlines', 'theme_cass') . '</p>';
-        }
-
-        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
-        $o = '';
-        foreach ($events as $event) {
-            if (!empty($event->modulename)) {
-                $modinfo = get_fast_modinfo($event->courseid);
-                $cm = $modinfo->instances[$event->modulename][$event->instance];
-
-                $eventtitle = $event->name .'<small><br>' .$event->coursefullname. '</small>';
-
-                $modimageurl = $output->pix_url('icon', $event->modulename);
-                $modname = get_string('modulename', $event->modulename);
-                $modimage = \html_writer::img($modimageurl, $modname);
-                $deadline = $event->timestart + $event->timeduration;
-                if ($event->modulename === 'quiz' || $event->modulename === 'lesson') {
-                    $override = \theme_cass\activity::instance_activity_dates($event->courseid, $cm);
-                    $deadline = $override->timeclose;
-                }
-                $meta = $output->friendly_datetime($deadline);
-                // Add completion meta data for students (exclude anyone who can grade them).
-                if (!has_capability('mod/assign:grade', $cm->context)) {
-                    /** @var \theme_cass_core_course_renderer $courserenderer */
-                    $courserenderer = $PAGE->get_renderer('core', 'course', RENDERER_TARGET_GENERAL);
-                    $activitymeta = activity::module_meta($cm);
-                    $meta .= '<div class="cass-completion-meta">' .
-                            $courserenderer->submission_cta($cm, $activitymeta) .
-                            '</div>';
-                }
-                $o .= $output->cass_media_object($cm->url, $modimage, $eventtitle, $meta, '');
-            }
-        }
-        return $o;
-    }
-
     /**
      * Get items which have been graded.
      *
@@ -878,11 +735,11 @@ class local {
                 $url = $cm->url;
             }
 
-            $modimageurl = $output->pix_url('icon', $cm->modname);
+            $modimageurl = $output->image_url('icon', $cm->modname);
             $modname = get_string('modulename', 'mod_'.$cm->modname);
             $modimage = \html_writer::img($modimageurl, $modname);
 
-            $gradetitle = $cm->name. '<small><br>' .$course->fullname. '</small>';
+            $gradetitle = $cm->name. '<small><br>' .format_string($course->fullname). '</small>';
 
             $releasedon = isset($grade->timemodified) ? $grade->timemodified : $grade->timecreated;
             $meta = get_string('released', 'theme_cass', $output->friendly_datetime($releasedon));
@@ -894,7 +751,7 @@ class local {
         }
 
         if (empty($o)) {
-            return '<p>'. get_string('nograded', 'theme_cass') . '</p>';
+            return '<p class="small">'. get_string('nograded', 'theme_cass') . '</p>';
         }
         return $o;
     }
@@ -904,22 +761,29 @@ class local {
 
         $grading = self::all_ungraded($USER->id);
 
-        if (empty($grading)) {
-            return '<p>' . get_string('nograding', 'theme_cass') . '</p>';
-        }
-
         $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
         $out = '';
-        foreach ($grading as $ungraded) {
+        foreach ($grading as $key => $ungraded) {
             $modinfo = get_fast_modinfo($ungraded->course);
             $course = $modinfo->get_course();
             $cm = $modinfo->get_cm($ungraded->coursemoduleid);
+            $groupmode = groups_get_activity_groupmode($cm);
 
-            $modimageurl = $output->pix_url('icon', $cm->modname);
+            $context = \context_module::instance($cm->id);
+
+            // Show grading in the personal menu only to the teachers with the proper access to the courses
+            // or the groups.
+            if ($groupmode == SEPARATEGROUPS && !has_capability('moodle/course:viewhiddenactivities', $context) &&
+                    $cm->uservisible != 1) {
+                unset($grading[$key]);
+                continue;
+            }
+
+            $modimageurl = $output->image_url('icon', $cm->modname);
             $modname = get_string('modulename', 'mod_'.$cm->modname);
             $modimage = \html_writer::img($modimageurl, $modname);
 
-            $ungradedtitle = $cm->name. '<small><br>' .$course->fullname. '</small>';
+            $ungradedtitle = $cm->name. '<small><br>' .format_string($course->fullname). '</small>';
 
             $xungraded = get_string('xungraded', 'theme_cass', $ungraded->ungraded);
 
@@ -935,6 +799,10 @@ class local {
             }
 
             $out .= $output->cass_media_object($cm->url, $modimage, $ungradedtitle, $meta, '');
+        }
+
+        if (empty($grading)) {
+            return '<p class="small">' . get_string('nograding', 'theme_cass') . '</p>';
         }
 
         return $out;
@@ -1035,7 +903,9 @@ class local {
      * @return string
      */
     public static function get_course_color($id) {
-        return substr(md5($id), 0, 6);
+        $colour = substr(md5($id), 0, 6);
+        $colour2 = substr(md5($id), 6, 6);
+        return 'linear-gradient(to bottom right, #' .$colour. ', #'. $colour2. ')';
     }
 
     public static function get_course_firstimage($courseid) {
@@ -1109,7 +979,11 @@ class local {
 
         // Supported file extensions.
         $extensions = explode(',', str_replace('.', '', $extsstr));
-        array_walk($extensions, function($s) {trim($s); });
+        array_walk($extensions, function($s) {
+                trim($s);
+        }
+        );
+
         // Filter out any extensions that might be in the config but not image extensions.
         $imgextensions = ['jpg', 'png', 'gif', 'svg', 'webp'];
         return array_intersect ($extensions, $imgextensions);
@@ -1246,6 +1120,16 @@ class local {
     }
 
     /**
+     * Get processed course cat cover image.
+     * @param $catid
+     * @return bool|stored_file
+     */
+    public static function course_cat_coverimage($catid) {
+        $context = \context_coursecat::instance($catid);
+        return (self::coverimage($context));
+    }
+
+    /**
      * Get processed course cover image.
      *
      * @param $courseid
@@ -1257,7 +1141,22 @@ class local {
     }
 
     /**
+     * Get cover image url for course category.
+     * @param int $catid
+     *
+     * @return bool|moodle_url
+     */
+    public static function course_cat_coverimage_url($catid) {
+        $file = self::course_cat_coverimage($catid);
+        if (!$file) {
+            $file = self::process_coverimage(\context_coursecat::instance($catid));
+        }
+        return self::cass_pluginfile_url($file);
+    }
+
+    /**
      * Get cover image url for course.
+     * @param int $courseid
      *
      * @return bool|moodle_url
      */
@@ -1312,6 +1211,21 @@ class local {
 
 
     /**
+     * Adds the course category cover image to CSS.
+     *
+     * @param int $courseid
+     * @return string The parsed CSS
+     */
+    public static function course_cat_coverimage_css($catid) {
+        $css = '';
+        $coverurl = self::course_cat_coverimage_url($catid);
+        if ($coverurl) {
+            $css = "#page-header {background-image: url($coverurl);}";
+        }
+        return $css;
+    }
+
+    /**
      * Adds the course cover image to CSS.
      *
      * @param int $courseid
@@ -1340,25 +1254,50 @@ class local {
     }
 
     /**
+     * Get the best cover image file name for a given context.
+     * @param \context $context
+     * @return string
+     * @throws \coding_exception
+     */
+    private static function coverimage_filename(\context $context) {
+        $contextlevel = $context->contextlevel;
+
+        $filenamemap = [
+            CONTEXT_SYSTEM => 'site-image',
+            CONTEXT_COURSECAT => 'category-image',
+            CONTEXT_COURSE => 'course-image'
+        ];
+
+        if (empty($filenamemap[$contextlevel])) {
+            throw new \coding_exception('Unsupported context level '.$contextlevel);
+        } else {
+            return $filenamemap[$contextlevel];
+        }
+    }
+
+    /**
      * Copy coverimage file to standard location and name.
      *
      * @param context $context
      * @param stored_file $originalfile
      * @return stored_file|bool
      */
-    public static function process_coverimage($context, $originalfile = false) {
+    public static function process_coverimage(\context $context, $originalfile = false) {
 
         $contextlevel = $context->contextlevel;
-        if ($contextlevel != CONTEXT_SYSTEM && $contextlevel != CONTEXT_COURSE) {
+        $validcontexts = [CONTEXT_SYSTEM, CONTEXT_COURSECAT, CONTEXT_COURSE];
+        if (!in_array($contextlevel, $validcontexts)) {
             throw new \coding_exception('Invalid context passed to process_coverimage');
         }
-        $newfilename = $contextlevel == CONTEXT_SYSTEM ? 'site-image' : 'course-image';
+        $newfilename = self::coverimage_filename($context);
 
         if (!$originalfile) {
-            if ($contextlevel == CONTEXT_SYSTEM) {
+            if ($contextlevel === CONTEXT_SYSTEM) {
                 $originalfile = self::site_coverimage_original($context);
-            } else {
+            } else if ($contextlevel === CONTEXT_COURSE) {
                 $originalfile = self::get_course_firstimage($context->instanceid);
+            } else if ($contextlevel === CONTEXT_COURSECAT) {
+                $originalfile = self::coverimage($context);
             }
         }
 
@@ -1384,8 +1323,10 @@ class local {
 
         $newfile = $fs->create_file_from_storedfile($filespec, $originalfile);
         $finfo = $newfile->get_imageinfo();
-        self::course_card_clean_up($context);
-        self::set_course_card_image($context, $originalfile);
+        if ($contextlevel === CONTEXT_COURSE) {
+            self::course_card_clean_up($context);
+            self::set_course_card_image($context, $originalfile);
+        }
         if ($finfo['mimetype'] == 'image/jpeg' && $finfo['width'] > 1380) {
             return image::resize($newfile, false, 1280);
         } else {
@@ -1416,20 +1357,24 @@ class local {
         $formatoptions->noclean = true;
         $formatoptions->context = $context;
 
+        // Process content.
+        $page->content = file_rewrite_pluginfile_urls($page->content,
+            'pluginfile.php', $context->id, 'mod_page', 'content', $page->revision);
+        $page->content = format_text($page->content, $page->contentformat, $formatoptions);
+
         // Make sure we have some summary/extract text for the course page.
         if (!empty($page->intro)) {
             $page->summary = file_rewrite_pluginfile_urls($page->intro,
                 'pluginfile.php', $context->id, 'mod_page', 'intro', null);
             $page->summary = format_text($page->summary, $page->introformat, $formatoptions);
         } else {
-            $preview = strip_tags($page->content);
+            $preview = $page->content;
+            // Prevent img alt tags from being spat out by html_to_text by escaping them.
+            $preview = str_replace('alt=', 'alt&#61;', $preview);
+            // Only formatting tags and links are allowed.
+            $preview = strip_tags($preview, '<b><i><em><mark><small><del><ins><sub><sup><style><a>');
             $page->summary = shorten_text($preview, 200);
         }
-
-        // Process content.
-        $page->content = file_rewrite_pluginfile_urls($page->content,
-            'pluginfile.php', $context->id, 'mod_page', 'content', $page->revision);
-        $page->content = format_text($page->content, $page->contentformat, $formatoptions);
 
         return ($page);
     }
@@ -1695,7 +1640,7 @@ class local {
                     'cmid' => $post->cmid,
                     'name' => $post->subject,
                     'courseshortname' => $post->courseshortname,
-                    'coursefullname' => $post->coursefullname,
+                    'coursefullname' => format_string($post->coursefullname),
                     'forumname' => $post->forumname,
                     'sectionnum' => null,
                     'timestamp' => $post->modified,
@@ -1721,7 +1666,7 @@ class local {
         global $PAGE;
         $activities = self::recent_forum_activity();
         if (empty($activities)) {
-            return '<p>' . get_string('noforumposts', 'theme_cass') . '</p>';
+            return '<p class="small">' . get_string('noforumposts', 'theme_cass') . '</p>';
         }
         $activities = array_slice($activities, 0, 10);
         $renderer = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
@@ -1742,4 +1687,320 @@ class local {
         return parse_url($PAGE->url->out_as_local_url())['path'];
     }
 
+    /**
+     * Add or update a calendar change stamp for a specific $courseid.
+     * @param $courseid
+     */
+    public static function add_calendar_change_stamp($courseid) {
+        $muc = \cache::make('theme_cass', 'generalstaticappcache');
+        $cached = $muc->get('calendarchangestamps');
+        if ($cached) {
+            $cached[$courseid] = microtime(true);
+        } else {
+            $cached = [$courseid => microtime(true)];
+        }
+        $muc->set('calendarchangestamps', $cached);
+    }
+
+    /**
+     * Recover calendar change stamps.
+     * @return false|mixed
+     */
+    public static function get_calendar_change_stamps() {
+        $muc = \cache::make('theme_cass', 'generalstaticappcache');
+        $cached = $muc->get('calendarchangestamps');
+        return $cached;
+    }
+
+
+    // Redirect to specific URL instead of default login page.
+    public static function logout_redirect () {
+        global $redirect;
+        $theme = \theme_config::load('cass');
+        if (!empty($theme->settings->logoutredirection)) {
+            $redirect = $theme->settings->logoutredirection;
+        }
+    }
+
+    /**
+     * Get mod completion
+     *
+     * If we're on a 'mod' page, retrieve the mod object and check it's completion state in order to conditionally
+     * pop a completion modal and show a link to the next activity in the footer.
+     * @return list of $mod object, show completed activity (bool), and show completion modal (bool)
+     */
+    private static function get_completion_footer($nextactivityinfooter, $nextactivitymodaldialog, $nextactivitymodaldialogtolerance) {
+
+        global $PAGE, $COURSE, $USER, $DB;
+
+        $mod = null;
+        $nextmod = null;
+        $showcompletionnextactivity = false;
+        $showcompletionmodal = false;
+
+        // Short-circuit if the user is editing.
+        if ($PAGE->user_is_editing()) {
+            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+        }
+
+        // Short-circuit if neither of nextactivityinfooter or nextactivitymodaldialog are set.
+        if (empty($nextactivityinfooter) && empty($nextactivitymodaldialog)) {
+            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+        }
+
+        // Short-circuit if we are not on a mod page, and allow restful access
+        $pagepath = explode('-', $PAGE->pagetype);
+        if ($PAGE->pagetype == 'admin' || $pagepath[0] != 'mod' && $PAGE->pagetype != 'theme-cass-rest') {
+            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+        }
+
+        // Only continue evaluating if course completion is enabled.
+        if ($COURSE->enablecompletion != COMPLETION_ENABLED) {
+            return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+        }
+
+        // Make sure we have a mod object.
+        $mod = $PAGE->cm;
+        if (!is_object($mod)) {
+            //$PAGE->cm won't be loaded on a restful load
+            $modinfo = get_fast_modinfo($COURSE->id);
+            $mod = $modinfo->get_cm($PAGE->context->instanceid);
+
+            if (!is_object($mod)) {
+                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+            }
+        }
+
+        // Completion tracking states are defined in /lib/completionlib.php
+        /*
+            COMPLETION_TRACKING_NONE        0
+            COMPLETION_TRACKING_MANUAL      1
+            COMPLETION_TRACKING_AUTOMATIC   2
+        */
+        // Check completion setting of current mod, and set showcompletionnextactivity.
+        // If the completion tracking is set to manual, we don't want to pop completion,
+        // but we do want to potentially show the next activity in the footer.
+        if ($mod->completion == COMPLETION_TRACKING_MANUAL) {
+            if ($nextactivityinfooter) {
+                $showcompletionnextactivity = true;
+            }
+        } else {
+
+            // Defensive: short-circuit is completion tracking isn't enabled.
+            if ($mod->completion != COMPLETION_TRACKING_AUTOMATIC) {
+                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+            }
+
+            // Read relevant associated completion record.
+            $completion = $DB->get_record('course_modules_completion', array('coursemoduleid' => $mod->id, 'userid' => $USER->id));
+
+            // Ensure completion record was read from the database.
+            if (empty($completion)) return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+
+            // Completion states are defined in /lib/completionlib.php
+            /*
+                COMPLETION_INCOMPLETE       0
+                COMPLETION_COMPLETE         1
+                COMPLETION_COMPLETE_PASS    2
+                COMPLETION_COMPLETE_FAIL    3
+                COMPLETION_UNKNOWN         -1
+                COMPLETION_GRADECHANGE     -2
+            */
+
+            // Ensure completion state exists on the record. This will ignore incompleted activities, which is incidentally appropriate.
+            if (empty($completion->completionstate)) {
+                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+            }
+
+            // For our purposes, both 'complete' and 'complete_pass' are considered completed.
+            // Any other status is 'incomplete'.
+            if ($completion->completionstate != COMPLETION_COMPLETE && $completion->completionstate != COMPLETION_COMPLETE_PASS) {
+                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+            }
+
+            // Check theme setting on whether to display the next activity in the footer
+            if ($nextactivityinfooter) {
+                $showcompletionnextactivity = true;
+            }
+
+            // Check whether to pop a completion modal dialog based on a theme setting
+            if (!empty($nextactivitymodaldialog)) {
+
+
+                // Ensure timemodified value exists on the record / object
+                if (!empty($completion->timemodified)) {
+
+
+                    // We are only interested in popping a completed modal dialog if it has happened in the last thirty seconds
+                    // 'thirty seconds' is a variable theme setting. This is to prevent future loading of the completed activity from
+                    // re-popping the completed dialog. This could have been saved against the user in a more deliberate way.
+                    // Defensive programming: Use absolute value in forumla to offset potential concurrency issues from multiple webservers.
+                    // Use tolerance in seconds from theme setting.
+                    if (abs(time() - $completion->timemodified) < $nextactivitymodaldialogtolerance) {
+                        $showcompletionmodal = true;
+                    }
+                }
+            }
+        }
+
+        // If either setting is true, then we need to work out what the next activity is.
+        if ($showcompletionnextactivity || $showcompletionmodal) {
+
+            $currentcmidfoundflag = false;
+            $nextmod = false;
+
+            // Get all course modules from modinfo
+            $cms = $mod->get_modinfo()->cms;
+
+            // Loop through all course modules to find the next mod
+            foreach ($cms as $cmid => $cm) {
+
+                // The nextmod must be after the current mod
+                // Keep looping until the current mod is found (+1)
+                if (!$currentcmidfoundflag) {
+                    if ($cmid == $mod->id) {
+                        $currentcmidfoundflag = true;
+                    }
+
+                    // short circuit to next mod in list
+                    continue;
+
+                } else {
+                    // (The continue and else condition are not mutually neccessary
+                    // but the statement block is more clear with the explicit else)
+
+                    // The current activity has been found... set the next activity to the first
+                    // user visible mod after this point.
+                    if ($cm->uservisible) {
+                        $nextmod = $cm;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+    }
+
+    // \theme_cass\local::render_completion($this);
+    /**
+     * Render mod completion
+     *
+     * If we're on a 'mod' page, retrieve the mod object and check it's completion state in order to conditionally
+     * pop a completion modal and show a link to the next activity in the footer.
+     * @return list of $mod object, show completed activity (bool), and show completion modal (bool)
+     */
+    public static function render_completion_footer($nextactivityinfooter, $nextactivitymodaldialog, $nextactivitymodaldialogtolerance) {
+
+        global $PAGE, $COURSE;
+
+        // Initialise return variable.
+        $output = '';
+
+        // Retrieve mod object, next mod object, and whether the completion footer and completion modal should be displayed.
+        list ($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal) = self::get_completion_footer(
+            $nextactivityinfooter,
+            $nextactivitymodaldialog,
+            $nextactivitymodaldialogtolerance
+        );
+
+        // if not appropriate to render anything, return empty string;
+        if (!$showcompletionnextactivity && !$showcompletionmodal) return $output;
+
+        // Main completion message
+        $completiontext = '';
+
+        // The call-to-action forward arrow link
+        $forwardlinklabel = '';
+        $forwardlinkname = '';
+        $forwardlinkurl =  '';
+
+        if ($nextmod) {
+            // 'You released the next activity '
+            $completiontext = get_string('nextactivitydesc', 'theme_cass');
+
+            // 'Next Activity'
+            $forwardlinktext = get_string('nextactivity', 'theme_cass');
+            $forwardlinkname = $nextmod->name;
+            $forwardlinkurl =  $nextmod->url;
+
+        } else {
+            // If there is no "next mod" then assume we are at the final mod, and the call to action
+            // is to return to the course page.
+
+            // 'Course page '
+            $completiontext = get_string('coursepagedesc', 'theme_cass');
+
+            // 'To course page'
+            $forwardlinktext = get_string('coursepage', 'theme_cass');
+            $courseurl = new \moodle_url('/course/view.php', ['id' => $COURSE->id], 'section-' . $mod->sectionnum);
+            $forwardlinkurl =  $courseurl;
+            $forwardlinkname = $COURSE->fullname;
+        }
+
+        if ($showcompletionmodal) {
+
+            // html_writer is a completely tedious abstraction.
+            // But... do as we must... I suppose...
+
+            // no support for html comments.
+            $output .= '<!-- Modal -->';
+
+            $output .= html_writer::span('', 'darkBackgroundStyle', array('id' => 'darkBackground'));
+
+            $output .= html_writer::span(
+                html_writer::span('', 'activity-complete glyphicon glyphicon-ok') .
+                html_writer::span(get_string('activitycomplete', 'theme_cass'), 'activity-complete-text')
+                , 'boxStyle', array('id' => 'alertBox')
+            );
+
+            $output .= html_writer::start_div('modal fade activitycompletemodal', array('id' => 'activitycompletemodal', 'role' => 'dialog'));
+            //$output .= html_writer::start_div('modal-dialog');
+            $output .= '<!-- Modal content -->';
+
+            $output .= html_writer::start_div('modal-content activitycompletemodal-content');
+            $output .= html_writer::start_div('modal-body activitycompletemodal-body moodle-dialogue-base');
+            $output .= html_writer::start_span('yui3-widget-buttons');
+
+            $output .= html_writer::tag('button','', array(
+                    'class' => 'yui3-button closebutton completeclose',
+                    'data-dismiss' => 'modal')
+            );
+            $output .= html_writer::end_span();
+
+            $output .= html_writer::tag('h4', get_string('continuenextactivity', 'theme_cass'), array('class' => 'modal-title activitycompletemodal-title'));
+
+            $output .= html_writer::tag('p', $completiontext .
+                html_writer::span($forwardlinkname, 'activitycompletenextmodname'));
+
+            $output .= html_writer::end_div();
+
+            $output .= html_writer::div(
+                html_writer::link($forwardlinkurl, $forwardlinktext .
+                    html_writer::span('', 'glyphicon glyphicon-arrow-right', array('aria-hidden' => 'true'))
+                    , array('class' => 'activitycompletenextmodlink'))
+                , 'modal-footer activitycompletemodal-footer');
+
+            $output .= html_writer::end_div();
+            //$output .= html_writer::end_div();
+            $output .= html_writer::end_div();
+
+            //page, book, wiki
+            if  (!in_array($mod->modname, ['page', 'book', 'wiki', 'feedback'])) {
+                $PAGE->requires->js_call_amd('theme_cass/cass', 'addPopCompletion');
+            }
+        }
+
+        if ($showcompletionnextactivity) {
+            if  (in_array($mod->modname, ['page', 'book', 'wiki', 'feedback']) && $showcompletionmodal) {
+                $output .= '<div class="next_activity_area"><div class="next_activity_overlay"><h5>Confirm as Complete</h5><button class="completeclick">I have completed this activity</button></div><div class="next_activity_link"><div class="activity-complete"><span class="activity-complete glyphicon glyphicon-ok"></span><div class="done">Activity complete</div></div><div class="next_activity_text"> <a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a></div></div></div>';
+            } else {
+                $output .= '<div class="next_activity_area"><div class="next_activity_link"><div class="activity-complete"><span class="activity-complete glyphicon glyphicon-ok"></span><div class="done">Activity complete</div></div><div class="next_activity_text"> <a class="next_activity" href="' . $forwardlinkurl . '"><div class="nav_icon"><i class="icon-arrow-right"></i></div><span class="text"><span class="nav_guide">' . $forwardlinktext . '</span><br>' . $forwardlinkname . '</span></a></div></div></div>';
+            }
+        }
+
+        //'completion-region'
+        return $output;
+
+    }
 }

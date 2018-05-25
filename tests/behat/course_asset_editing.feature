@@ -24,10 +24,7 @@
 Feature: When the moodle theme is set to Cass, teachers edit assets without entering edit mode.
 
   Background:
-   Given the following config values are set as admin:
-      | theme | cass |
-      | defaulthomepage | 0 |
-    And the following "courses" exist:
+   Given the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1        | 0        | topics |
     And the following "users" exist:
@@ -48,7 +45,7 @@ Feature: When the moodle theme is set to Cass, teachers edit assets without ente
     Given the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
-    And I log in as "student1" (theme_cass)
+    And I log in as "student1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then ".cass-activity[data-type='Assignment']" "css_element" should exist
@@ -59,7 +56,7 @@ Feature: When the moodle theme is set to Cass, teachers edit assets without ente
   Given the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
-    And I log in as "teacher2" (theme_cass)
+    And I log in as "teacher2"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
@@ -71,7 +68,7 @@ Feature: When the moodle theme is set to Cass, teachers edit assets without ente
   Given the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
-    And I log in as "teacher1" (theme_cass)
+    And I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
@@ -85,7 +82,7 @@ Feature: When the moodle theme is set to Cass, teachers edit assets without ente
 
   @javascript
   Scenario: In read mode, teacher hides then shows resource.
-  Given I log in as "teacher1" (theme_cass)
+  Given I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
@@ -96,16 +93,22 @@ Feature: When the moodle theme is set to Cass, teachers edit assets without ente
     And I click on ".cass-resource[data-type='text'] a.cass-edit-asset-more" "css_element"
     And I click on ".cass-resource[data-type='text'] a.js_cass_hide" "css_element"
    Then I wait until ".cass-resource[data-type='text'].draft" "css_element" exists
+    # This is to test that the change persists.
+    And I reload the page
+    And ".cass-resource[data-type='text'].draft" "css_element" should exist
     And I click on ".cass-resource[data-type='text'] a.cass-edit-asset-more" "css_element"
     And I click on ".cass-resource[data-type='text'] a.js_cass_show" "css_element"
    Then I wait until ".cass-resource[data-type='text'].draft" "css_element" does not exist
+    # This is to test that the change persists.
+    And I reload the page
+    And ".cass-resource[data-type='text'].draft" "css_element" should not exist
 
   @javascript
   Scenario: In read mode, teacher duplicates activity.
   Given the following "activities" exist:
       | activity | course | idnumber | name            | intro           | section | assignsubmission_onlinetext_enabled |
       | assign   | C1     | assign1  | Test assignment | Test assignment | 1       | 1                                   |
-    And I log in as "teacher1" (theme_cass)
+    And I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
@@ -114,10 +117,13 @@ Feature: When the moodle theme is set to Cass, teachers edit assets without ente
     And I click on ".cass-activity[data-type='Assignment'] a.cass-edit-asset-more" "css_element"
     And I click on ".cass-activity[data-type='Assignment'] a.js_cass_duplicate" "css_element"
    Then I wait until ".cass-activity[data-type='Assignment'] + .cass-activity[data-type='Assignment']" "css_element" exists
+    # This is to test that the duplication persists.
+    And I reload the page
+    And ".cass-activity[data-type='Assignment'] + .cass-activity[data-type='Assignment']" "css_element" should exist
 
   @javascript
   Scenario: In read mode, teacher duplicates resource.
-  Given I log in as "teacher1" (theme_cass)
+  Given I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
    Then "#section-1" "css_element" should exist
@@ -128,4 +134,7 @@ Feature: When the moodle theme is set to Cass, teachers edit assets without ente
     And I click on ".cass-resource[data-type='text'] a.cass-edit-asset-more" "css_element"
     And I click on ".cass-resource[data-type='text'] a.js_cass_duplicate" "css_element"
    Then I wait until ".cass-resource[data-type='text'] + .cass-resource[data-type='text']" "css_element" exists
+        # This is to test that the duplication persists.
+    And I reload the page
+   Then ".cass-resource[data-type='text'] + .cass-resource[data-type='text']" "css_element" should exist
 

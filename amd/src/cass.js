@@ -25,13 +25,33 @@
 /**
  * Main cass initialising function.
  */
+
+require.config({
+    enforceDefine: false,
+    paths: {
+        'dependency': 'TweenMax'
+        //'dependency': 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js'
+    }
+});
+
+require.config({
+    enforceDefine: false,
+    paths: {
+        'dependency': 'TweenLite'
+        //'dependency': 'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js'
+    }
+});
+
+
 define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_cass/personal_menu',
-        'theme_cass/responsive_video', 'theme_cass/cover_image'],
-    function($, log, Headroom, util, personalMenu, responsiveVideo, coverImage) {
+        'theme_cass/cover_image', 'theme_cass/progressbar', 'core/templates', 'core/str', 'theme_cass/TweenMax'],
+    function($, log, Headroom, util, personalMenu, coverImage, ProgressBar, templates, str) {
 
         'use strict';
 
+        /* eslint-disable camelcase */
         M.theme_cass = M.theme_cass || {};
+        /* eslint-enable camelcase */
 
         /**
          * master switch for logging
@@ -47,7 +67,8 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
 
         /**
          * Get all url parameters from href
-         * @param href
+         * @param {string} href
+         * @returns {Array}
          */
         var getURLParams = function(href) {
             // Create temporary array from href.
@@ -80,7 +101,6 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
          *
          * @author Guy Thomas
          * @date 2014-05-19
-         * @return void
          */
         var movePHPErrorsToHeader = function() {
             // Remove <br> tags inserted before xdebug-error.
@@ -120,6 +140,7 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
          * Are we on the course page?
          * Note: This doesn't mean that we are in a course - Being in a course could mean that you are on a module page.
          * This means that you are actually on the course page.
+         * @returns {boolean}
          */
         var onCoursePage = function() {
             return $('body').attr('id').indexOf('page-course-view-') === 0;
@@ -128,10 +149,12 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
         /**
          * Apply block hash to form actions etc if necessary.
          */
+        /* eslint-disable no-invalid-this */
         var applyBlockHash = function() {
             // Add block hash to add block form.
             if (onCoursePage()) {
                 $('.block_adminblock form').each(function() {
+                    /* eslint-disable no-invalid-this */
                     $(this).attr('action', $(this).attr('action') + '#coursetools');
                 });
             }
@@ -185,7 +208,6 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
          *
          * @author Guy Thomas
          * @date 2014-05-20
-         * @return void
          */
         var setForumStrings = function() {
             $('.path-mod-forum tr.discussion td.topic.starter').attr('data-cellname',
@@ -204,7 +226,7 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
          * Process toc search string - trim, remove case sensitivity etc.
          *
          * @author Guy Thomas
-         * @param string searchString
+         * @param {string} searchString
          * @returns {string}
          */
         var processSearchString = function(searchString) {
@@ -261,7 +283,8 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
         };
 
         /**
-         * listen for hash changes / popstates.
+         * Listen for hash changes / popstates.
+         * @param {CourseLibAmd} courseLib
          */
         var listenHashChange = function(courseLib) {
             var lastHash = location.hash;
@@ -272,7 +295,7 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
                     if (location.hash === '#primary-nav') {
                         personalMenu.update();
                     } else {
-                        $('#page, #moodle-footer, #js-personal-menu-trigger, #logo, .skiplinks').css('display', '');
+                        $('#page, #moodle-footer, #js-cass-pm-trigger, #logo, .skiplinks').css('display', '');
                         if (onCoursePage()) {
                             log.info('show section', e.target);
                             courseLib.showSection();
@@ -281,6 +304,143 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
                 }
                 lastHash = newHash;
             });
+        };
+
+        /**
+         * Course footer recent activity dom re-order.
+         */
+        var recentUpdatesFix = function() {
+            $('#cass-course-footer-recent-activity .info').each(function() {
+                $(this).appendTo($(this).prev());
+            });
+            $('#cass-course-footer-recent-activity .head .name').each(function() {
+                $(this).prependTo($(this).closest(".head"));
+            });
+        };
+
+        /**
+         * Apply progressbar.js for circular progress displays.
+         */
+        var progressbarcircle = function() {
+            $('.js-progressbar-circle').each(function() {
+                var circle = new ProgressBar.Circle(this, {
+                    color: 'inherit', // @gray.
+                    easing: 'linear',
+                    strokeWidth: 6,
+                    trailWidth: 3,
+                    duration: 1400,
+                    text: {
+                        value: '0'
+                    }
+                });
+
+                var value = ($(this).attr('value') / 100);
+                var endColor = '#8BC34A'; // green @brand-success.
+                if (value === 0 || $(this).attr('value') === '-') {
+                  circle.setText('-');
+                } else {
+                  if ($(this).attr('value') < 50) {
+                      endColor = '#FF9800'; // @brand-warning orange.
+                  } else {
+                      endColor = '#8BC34A'; // green @brand-success.
+                  }
+                  circle.setText($(this).attr('value') + '<small>%</small>');
+                }
+
+                circle.animate(value, {
+                    from: {
+                        color: '#999' // @gray-light.
+                    },
+                    to: {
+                        color: endColor
+                    },
+                    step: function(state, circle) {
+                        circle.path.setAttribute('stroke', state.color);
+                    }
+                });
+            });
+        };
+
+        var scrollIn = function(selector) {
+            $(selector).show().animate({right: "20px", opacity: 1}, 1000);
+        };
+
+        var scrollOut = function(selector) {
+            $(selector).animate({right: "-600px", opacity: 0.5}, 200, function(){ $(selector).hide();});
+        };
+
+        var slideNextActivity = function() {
+            scrollIn('#activitycompletemodal');
+        };
+
+        var popCompletion = function() {
+            $(".next_activity_overlay").fadeTo("slow", 0, function() {
+                $(this).hide();
+            });
+
+            TweenLite.to($("#darkBackground"),  0,      {display:"block"});
+            TweenLite.to($("#darkBackground"),  0.3,    {background:"rgba(0,0,0,0.4)", force3D:true});
+            TweenLite.to($("#alertBox"),        0,      {left:"calc(50% - 150px)", top:"calc(50% - 150px)", delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0,      {display:"block", opacity: 1, delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0,      {display:"block", scale:0.2, opacity: 0, delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0.3,    {opacity: 1, force3D:true, delay:"0.2"});
+            TweenLite.to($("#alertBox"),        0.3,    {scale:1, force3D:true, delay:"0.2"});
+            TweenLite.to($("#darkBackground"),  0.2,    {backgroundColor: "rgba(0,0,0,0)", force3D:true, delay:"2"});
+            TweenLite.to($("#darkBackground"),  0.2,    {display: "none", force3D:true, delay:"2"});
+            TweenLite.to($("#alertBox"),        0.2,    {opacity: 0, display:"none", force3D:true, delay:"2", onComplete:slideNextActivity});
+
+        };
+
+        var addPopCompletion = function() {
+            if (typeof M.cassTheme.settings.nextactivitymodaldialogdelay != 'undefined') {
+                var manualPopActivities = ['page', 'book', 'wiki', 'feedback'];
+                if (manualPopActivities.indexOf(M.cassTheme.mod.modname) == -1) {
+
+                    setTimeout(
+                        function() {
+                            popCompletion();
+                        },
+
+                        M.cassTheme.settings.nextactivitymodaldialogdelay
+                    );
+                }
+            }
+        };
+
+        var bindHsuforumCompletion = function() {
+            $(".hsuforum-reply").submit(function(event) {
+                setTimeout(
+                    function() {
+                        loadCompletion();
+                    }, 3000
+                );
+
+            });
+        };
+
+        var loadCompletion = function() {
+            var type = 'completion';
+            var container = $('#completion-region');
+            try {
+
+                console.log(M.cfg.wwwroot + '/theme/cass/rest.php?action=get_' + type +'&contextid=' + M.cassTheme.mod.contextid);
+
+                $.ajax({
+                    type: "GET",
+                    async:  true,
+                    url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_' + type +'&contextid=' + M.cassTheme.mod.contextid, // M.cfg.context,
+                    success: function(data) {
+                        $('.completion-region').attr('data-content-loaded', '1');
+                        $('.completion-region').html(data.html);
+                        addPopCompletion();
+                    }
+                });
+            } catch(err) {
+                console.log(err);
+            }
+
+            //bind to the control again
+            bindHsuforumCompletion();
         };
 
         /**
@@ -308,29 +468,77 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
                 }
             });
 
-            // Show fixed header on scroll down
-            // using headroom js - http://wicky.nillia.ms/headroom.js/
-            var myElement = document.querySelector("#mr-nav");
-            // Construct an instance of Headroom, passing the element.
-            var headroom = new Headroom(myElement, {
-                "tolerance": 5,
-                "offset": 100,
-                "classes": {
-                    // when element is initialised
-                    initial: "headroom",
-                    // when scrolling up
-                    pinned: "headroom--pinned",
-                    // when scrolling down
-                    unpinned: "headroom--unpinned",
-                    // when above offset
-                    top: "headroom--top",
-                    // when below offset
-                    notTop: "headroom--not-top"
-                }
+            // Alternate up/down chevron direction based on collapsable bootstrap elements
+            $('[data-toggle="collapse"]').on('click', function() {
+                $(this).find("span.glyphicon").toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
             });
-            // When not signed in always show mr-nav?
-            if (!$('.notloggedin').length) {
-                headroom.init();
+
+            //listener for completion button click
+            //#completeclick
+            $('.completeclick').on('click', function(e) {
+                popCompletion();
+                e.preventDefault();
+            });
+
+            //listener for completion modal close
+            //#completeclick
+            $('.completeclose').on('click', function(e) {
+                scrollOut('#activitycompletemodal');
+                e.preventDefault();
+            });
+
+            // Use headroom.js ? Check the theme setting
+            // settings property may not exist during lazy init
+            if (typeof M.cassTheme.settings != 'undefined' && M.cassTheme.settings != null) {
+                if (typeof M.cassTheme.settings.fixheadertotopofpage === 'undefined' ||
+                    M.cassTheme.settings.fixheadertotopofpage == "0") {
+
+                    // Show fixed header on scroll down
+                    // using headroom js - http://wicky.nillia.ms/headroom.js/
+                    var myElement = document.querySelector("#mr-nav");
+                    // Construct an instance of Headroom, passing the element.
+                    var headroom = new Headroom(myElement, {
+                        "tolerance": 5,
+                        "offset": 100,
+                        "classes": {
+                            // when element is initialised
+                            initial: "headroom",
+                            // when scrolling up
+                            pinned: "headroom--pinned",
+                            // when scrolling down
+                            unpinned: "headroom--unpinned",
+                            // when above offset
+                            top: "headroom--top",
+                            // when below offset
+                            notTop: "headroom--not-top"
+                        }
+                    });
+                    // When not signed in always show mr-nav?
+                    if (!$('.notloggedin').length) {
+                        headroom.init();
+                    }
+
+                }
+            }
+
+
+            //Attach specific events for specific mod pages
+            if (typeof M.cassTheme.mod != 'undefined' && M.cassTheme.mod != null) {
+                if (M.cassTheme.mod.modname == 'hsuforum') {
+
+                    //posting a reply inline via hsuforum:
+                    // - Uses a YUI ajax call
+                    // - replaces the article node tagged with the hsuforum-post-target class
+                    // - this node is a child of the mod-hsuforum-posts-container div
+                    // - this node can not be easily targetted by an event listener for a change event
+                    // - can be targeted
+
+                    // Unforunately can not easily attach an event to the hsuform-post-target div
+                    // bind this function to the reply form submit that adds a timer
+                    // to lazy check completion via ajax
+
+                    bindHsuforumCompletion();
+                }
             }
 
             // Listener for toc search.
@@ -444,18 +652,34 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
              * @param {bool} pageHasCourseContent
              * @param {int} siteMaxBytes
              * @param {bool} forcePassChange
-             * @param {bool} conversationBadgeCountEnabled
+             * @param {bool} messageBadgeCountEnabled
              * @param {int} userId
+             * @param {bool} sitePolicyAcceptReqd
+             * @param {bool} inAlternativeRole
              */
             cassInit: function(courseConfig, pageHasCourseContent, siteMaxBytes, forcePassChange,
-                               messageBadgeCountEnabled, userId) {
+                               messageBadgeCountEnabled, userId, sitePolicyAcceptReqd, inAlternativeRole, themeSettings, mod) {
 
                 // Set up.
                 M.cfg.context = courseConfig.contextid;
-                M.cassTheme = {forcePassChange: forcePassChange};
+
+                // To hold theme settings required by javascript
+                // 1. Whether to use headroom
+                // 2. Completion modal dialog delay
+                //themeSettings
+
+                // To hold various pieces of mod information required by javascript
+                // 1. Modname. (Different mods have different options for completion)
+                //mod
+
+                M.cassTheme = {
+                    forcePassChange: forcePassChange,
+                    settings: themeSettings,
+                    mod: mod
+                };
 
                 // General AMD modules.
-                personalMenu.init();
+                personalMenu.init(sitePolicyAcceptReqd);
 
                 // Course related AMD modules (note, site page can technically have course content too).
                 if (pageHasCourseContent) {
@@ -473,6 +697,7 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
                 }
 
                 // When document has loaded.
+                /* eslint-disable complexity */
                 $(document).ready(function() {
                     movePHPErrorsToHeader(); // boring
                     setForumStrings(); // whatever
@@ -480,47 +705,74 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
                     applyBlockHash(); // change location hash if necessary
                     bodyClasses(); // add body classes
 
-                    coverImage(courseConfig.shortname, siteMaxBytes);
+                    // Add a class to the body to show js is loaded.
+                    $('body').addClass('cass-js-loaded');
+                    // Apply progressbar.js for circluar progress display.
+                    progressbarcircle();
+                    // Course footer recent updates dom fixes.
+                    recentUpdatesFix();
 
-                    if ($('body').hasClass('cass-fixy-open')) {
+                    if ($('body').hasClass('pagelayout-course') || $('body').hasClass('pagelayout-frontpage')) {
+                        coverImage.courseImage(courseConfig.shortname, siteMaxBytes);
+                    } else if ($('body').hasClass('pagelayout-coursecategory')) {
+                        if (courseConfig.categoryid) {
+                            coverImage.categoryImage(courseConfig.categoryid, siteMaxBytes);
+                        }
+                    }
+
+                    // Allow deeplinking to bs tabs on cass settings page.
+                    if ($('#page-admin-setting-themesettingcass').length) {
+                        var tabHash = location.hash;
+                        // Check link is to a tab hash.
+                        if (tabHash && $('.nav-link[href="' + tabHash + '"]').length) {
+                            $('.nav-link[href="' + tabHash + '"]').tab('show');
+                            $(window).scrollTop(0);
+                        }
+                    }
+
+                    if ($('body').hasClass('cass-pm-open')) {
                         personalMenu.update();
                     }
 
-                    // SL - 19th aug 2014 - resposive video and cass search in exceptions.
                     // SHAME - make section name creation mandatory
                     if ($('#page-course-editsection.format-topics').length) {
-                        var usedefaultname = document.getElementById('id_usedefaultname'),
-                            sname = document.getElementById('id_name');
-                        usedefaultname.value = '0';
-                        usedefaultname.checked = false;
+                        var usedefaultname = document.getElementById('id_name_customize'),
+                            sname = document.getElementById('id_name_value');
+                        usedefaultname.value = '1';
+                        usedefaultname.checked = true;
                         sname.required = "required";
-                        sname.focus();
-                        $('#id_usedefaultname').parent().css('display', 'none');
+                        $(usedefaultname).parent().css('display', 'none');
 
                         // Enable the cancel button.
                         $('#id_cancel').on('click', function() {
-                            $('#id_name').removeAttr('required');
-                            $('#mform1').submit();
+                            $(sname).removeAttr('required');
+                            return true;
                         });
                     }
 
-                    // Book mod print button.
-                    if ($('#page-mod-book-view').length) {
+                    // Book mod print button, only show if print link already present.
+                    if ($('#page-mod-book-view a[href*="mod/book/tool/print/index.php"]').length) {
                         var urlParams = getURLParams(location.href);
-                        $('.block_book_toc').append('<p>' +
-                            '<hr><a target="_blank" href="/mod/book/tool/print/index.php?id=' + urlParams.id + '">' +
-                            M.util.get_string('printbook', 'booktool_print') +
-                            '</a></p>');
+                        if (urlParams) {
+                            $('[data-block="_fake"]').append('<p>' +
+                                '<hr><a target="_blank" href="/mod/book/tool/print/index.php?id=' + urlParams.id + '">' +
+                                M.util.get_string('printbook', 'booktool_print') +
+                                '</a></p>');
+                        }
                     }
 
-                    var mod_settings_id_re = /^page-mod-.*-mod$/; // e.g. #page-mod-resource-mod or #page-mod-forum-mod
-                    var on_mod_settings = mod_settings_id_re.test($('body').attr('id')) && location.href.indexOf("modedit") > -1;
-                    var on_course_settings = $('body').attr('id') === 'page-course-edit';
-                    var on_section_settings = $('body').attr('id') === 'page-course-editsection';
-                    var page_blacklist = ['page-mod-hvp-mod'];
-                    var page_not_in_blacklist = page_blacklist.indexOf($('body').attr('id')) === -1;
+                    var modSettingsIdRe = /^page-mod-.*-mod$/; // e.g. #page-mod-resource-mod or #page-mod-forum-mod
+                    var onModSettings = modSettingsIdRe.test($('body').attr('id')) && location.href.indexOf("modedit") > -1;
+                    if (!onModSettings) {
+                        modSettingsIdRe = /^page-mod-.*-general$/;
+                        onModSettings = modSettingsIdRe.test($('body').attr('id')) && location.href.indexOf("modedit") > -1;
+                    }
+                    var onCourseSettings = $('body').attr('id') === 'page-course-edit';
+                    var onSectionSettings = $('body').attr('id') === 'page-course-editsection';
+                    var pageBlacklist = ['page-mod-hvp-mod'];
+                    var pageNotInBlacklist = pageBlacklist.indexOf($('body').attr('id')) === -1;
 
-                    if ((on_mod_settings || on_course_settings || on_section_settings) && page_not_in_blacklist) {
+                    if ((onModSettings || onCourseSettings || onSectionSettings) && pageNotInBlacklist) {
                         // Wrap advanced options in a div
                         var vital = [
                             ':first',
@@ -529,8 +781,6 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
                             '#id_general + #id_general', // Turnitin duplicate ID bug.
                             '#id_content',
                             '#page-mod-choice-mod #id_optionhdr',
-                            '#page-mod-assign-mod #id_availability',
-                            '#page-mod-assign-mod #id_submissiontypes',
                             '#page-mod-workshop-mod #id_gradingsettings',
                             '#page-mod-choicegroup-mod #id_miscellaneoussettingshdr',
                             '#page-mod-choicegroup-mod #id_groups',
@@ -540,40 +790,101 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
 
                         $('#mform1 > fieldset').not(vital).wrapAll('<div class="cass-form-advanced col-md-4" />');
 
-                        // Add expand all to advanced column
+                        // Add expand all to advanced column.
                         $(".cass-form-advanced").append($(".collapsible-actions"));
+                        // Add collapsed to all fieldsets in advanced, except on course edit page.
+                        if (!$('#page-course-edit').length) {
+                            $(".cass-form-advanced fieldset").addClass('collapsed');
+                        }
 
                         // Sanitize required input into a single fieldset
-                        var main_form = $("#mform1 fieldset:first");
-                        var append_to = $("#mform1 fieldset:first .fcontainer");
+                        var mainForm = $("#mform1 fieldset:first");
+                        var appendTo = $("#mform1 fieldset:first .fcontainer");
 
                         var required = $("#mform1 > fieldset").not("#mform1 > fieldset:first");
                         for (var i = 0; i < required.length; i++) {
                             var content = $(required[i]).find('.fcontainer');
-                            $(append_to).append(content);
+                            $(appendTo).append(content);
                             $(required[i]).remove();
                         }
-                        $(main_form).wrap('<div class="cass-form-required col-md-8" />');
+                        $(mainForm).wrap('<div class="cass-form-required col-md-8" />');
 
                         var description = $("#mform1 fieldset:first .fitem_feditor:not(.required)");
 
-                        if (on_mod_settings && description) {
+                        if (onModSettings && description) {
                             var editingassignment = $('body').attr('id') == 'page-mod-assign-mod';
                             var editingchoice = $('body').attr('id') == 'page-mod-choice-mod';
                             var editingturnitin = $('body').attr('id') == 'page-mod-turnitintool-mod';
                             var editingworkshop = $('body').attr('id') == 'page-mod-workshop-mod';
                             if (!editingchoice && !editingassignment && !editingturnitin && !editingworkshop) {
-                                $(append_to).append(description);
-                                $(append_to).append($('#fitem_id_showdescription'));
+                                $(appendTo).append(description);
+                                $(appendTo).append($('#fitem_id_showdescription'));
                             }
                         }
 
-                        var savebuttons = $("#mform1 > .form-group:last");
-                        $(main_form).append(savebuttons);
-                    }
+                        // Resources - put description in common mod settings.
+                        description = $("#page-mod-resource-mod [data-fieldtype='editor']").closest('.form-group');
+                        var showdescription = $("#page-mod-resource-mod [id='id_showdescription']").closest('.form-group');
+                        $("#page-mod-resource-mod .cass-form-advanced #id_modstandardelshdr .fcontainer").append(description);
+                        $("#page-mod-resource-mod .cass-form-advanced #id_modstandardelshdr .fcontainer").append(showdescription);
 
-                    // Makes video responsive.
-                    responsiveVideo.init();
+                        // Assignment - put due date in required, and attatchments in common settings.
+                        var filemanager = $("#page-mod-assign-mod [data-fieldtype='filemanager']").closest('.form-group');
+                        var duedate = $("#page-mod-assign-mod [for='id_duedate']").closest('.form-group');
+                        $("#page-mod-assign-mod .cass-form-advanced #id_modstandardelshdr .fcontainer").append(filemanager);
+                        $("#page-mod-assign-mod .cass-form-required .fcontainer").append(duedate);
+
+                        // Move availablity at the top of advanced settings.
+                        var availablity = $('#id_visible').closest('.form-group').addClass('cass-form-visibility');
+                        var label = $(availablity).find('label');
+                        var select = $(availablity).find('select');
+                        $(label).insertBefore(select);
+
+                        // SHAME - rewrite visibility form lang string to be more user friendly.
+                        $(label).text(M.util.get_string('visibility', 'theme_cass') + ' ');
+
+                        if ($("#page-course-edit").length) {
+                            // We are in course editing form.
+                            // Removing the "Show all sections in one page" from the course format form.
+                            str.get_strings([
+                                {key: 'showallsectionsdisabled', component: 'theme_cass'},
+                                {key: 'disabled', component: 'theme_cass'}
+                            ]).then(function(strings) {
+                                var strMessage = strings[0], strDisabled = strings[1];
+                                templates.render('theme_cass/form_alert', {
+                                    type: 'warning',
+                                    classes: '',
+                                    message: strMessage
+                                }).then(function(html) {
+                                    var op0 = $('[name="coursedisplay"] > option[value="0"]');
+                                    var op1 = $('[name="coursedisplay"] > option[value="1"]');
+                                    var selectNode =  $('[name="coursedisplay"]');
+                                    // Disable option 0
+                                    op0.attr('disabled','disabled');
+                                    // Add "(Disabled)" to option text
+                                    op0.append(' (' + strDisabled + ')');
+                                    // Remove selection attribute
+                                    op0.removeAttr("selected");
+                                    // Select option 1
+                                    op1.attr('selected','selected');
+                                    // Add warning
+                                    selectNode.parent().append(html);
+                                });
+                            });
+                        }
+
+                        $('.cass-form-advanced').prepend(availablity);
+
+                        // Add save buttons.
+                        var savebuttons = $("#mform1 > .form-group:last");
+                        $(mainForm).append(savebuttons);
+
+                        // Expand collapsed fieldsets when editing a mod that has errors in it.
+                        var errorElements = $('.form-group.has-danger');
+                        if (onModSettings && errorElements.length) {
+                            errorElements.closest('.collapsible').removeClass('collapsed');
+                        }
+                    }
 
                     // Conversation counter for user badge.
                     if (messageBadgeCountEnabled) {
@@ -586,11 +897,40 @@ define(['jquery', 'core/log', 'theme_cass/headroom', 'theme_cass/util', 'theme_c
                         );
                     }
 
-                    $(window).on('load', function() {
-                        // Add a class to the body to show js is loaded.
-                        $('body').addClass('cass-js-loaded');
-                    });
+                    // Listen to cover image label key press for accessible usage.
+                    var focustarget = $('#cass-coverimagecontrol label');
+                    if (focustarget && focustarget.length) {
+                        focustarget.keypress(function (e) {
+                            if (e.which === 13) {
+                                $('#cass-coverfiles').trigger('click');
+                            }
+                        });
+                    }
+
+                    // Review if settings block is missing.
+                    if (!$('.block_settings').length) {
+                        // Hide admin icon.
+                        $('#admin-menu-trigger').hide();
+                        if (inAlternativeRole) {
+                            // Handle possible alternative role.
+                            require(
+                                [
+                                    'theme_cass/alternative_role_handler-lazy'
+                                ], function(alternativeRoleHandler) {
+                                    alternativeRoleHandler.init(courseConfig.id);
+                                }
+                            );
+                        }
+                    }
                 });
+            },
+
+            addPopCompletion: function() {
+                addPopCompletion();
+            },
+
+            popCompletion: function() {
+                popCompletion();
             }
         };
     }

@@ -43,7 +43,7 @@
 
     Example context (json):
     {
-        "autofocusform": false,
+        "autofocusform": true,
         "canloginasguest": "1",
         "canloginbyemail": false,
         "cansignup": true,
@@ -140,28 +140,65 @@
         <div class="potentialidplist">
             {{#identityproviders}}
                 <div class="potentialidp">
-                    <a href="{{url}}" title={{#quote}}{{name}}{{/quote}}>{{#icon}}{{>core/pix_icon}}{{/icon}}{{name}}</a>
+                    <a href="{{url}}" title={{#quote}}{{name}}{{/quote}}>
+                        {{#iconurl}}
+                            <img class="auth-icon" src="{{iconurl}}"/>
+                        {{/iconurl}}
+                        {{^iconurl}}
+                            {{#pix}} /i/permissions, core {{/pix}}
+                        {{/iconurl}}
+                        {{name}}
+                    </a>
                 </div>
             {{/identityproviders}}
         </div>
     {{/hasidentityproviders}}
+
 </div>
-<div class="cass-login">
-    {{#cansignup}}
+
+{{#hasinstructions}}
+    <div class="js-only cass-login">
+        <div class="cass-login-instructions">
+            <a class="btn btn-primary btn-block iconhelp" href="#" data-toggle="modal" data-target="#login-help-modal">
+                {{#str}}helpwithlogin, theme_cass{{/str}} {{#pix}}help, theme_cass, {{#str}}helpwithlogin, theme_cass{{/str}} {{/pix}}
+            </a>
+            <!-- Modal -->
+            <div class="modal fade" id="login-help-modal" tabindex="-1" role="dialog" aria-labelledby="login-help-modal-title" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{#str}}closebuttontitle{{/str}}">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="login-help-modal-title">{{#str}}helpwithlogin, theme_cass{{/str}}</h5>
+                  </div>
+                  <div class="modal-body summary">
+                      <br>
+                      {{{instructions}}}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{{/hasinstructions}}
+{{#cansignup}}
+    <div class="cass-login">
         <h5>{{#str}}firsttime{{/str}}</h5>
         <p><a class="btn btn-primary btn-block" href="{{signupurl}}">{{#str}}startsignup{{/str}}</a></p>
-    {{/cansignup}}
+    </div>
+{{/cansignup}}
 
-    {{#canloginasguest}}
+{{#canloginasguest}}
+    <div class="cass-login">
         <h5>{{#str}}someallowguest{{/str}}</h5>
         <form action="{{loginurl}}" method="post" id="guestlogin">
             <input type="hidden" name="username" value="guest" />
             <input type="hidden" name="password" value="guest" />
             <button class="btn btn-secondary btn-block" type="submit">{{#str}}loginguest{{/str}}</button>
         </form>
-    {{/canloginasguest}}
-
-</div> <!-- close cass login -->
+    </div>
+{{/canloginasguest}}
 
 
 {{#js}}
@@ -178,5 +215,9 @@
             });
         {{/autofocusform}}
     {{/error}}
-    })
+    });
+
+
+
 {{/js}}
+

@@ -194,10 +194,8 @@ $THEME->layouts = array(
     ),
 );
 
-$THEME->javascripts = array(
-);
-$THEME->javascripts_footer = array(
-);
+$THEME->javascripts = array();
+$THEME->javascripts_footer = array();
 
 $THEME->hidefromselector = false;
 
@@ -218,3 +216,11 @@ if ($themeiscass && $notajaxscript) {
     }
 
 }
+
+$runningbehattest = defined('BEHAT_SITE_RUNNING') && BEHAT_SITE_RUNNING;
+$requiredblocks = array('settings');
+if ($runningbehattest) {
+    array_push($requiredblocks, 'navigation');
+}
+
+$THEME->requiredblocks = $requiredblocks;

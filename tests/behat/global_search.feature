@@ -25,7 +25,6 @@ Feature: When the moodle theme is set to Cass, and global search is enabled, use
 
   Background:
     Given the following config values are set as admin:
-      | theme              | cass |
       | enableglobalsearch | true |
 
   @javascript
@@ -40,7 +39,7 @@ Feature: When the moodle theme is set to Cass, and global search is enabled, use
 
   @javascript
   Scenario: Logged in user sees search interface.
-    Given I log in as "admin" (theme_cass)
+    Given I log in as "admin"
     Then ".search-input-form" "css_element" should exist
     And the following config values are set as admin:
         | enableglobalsearch | |

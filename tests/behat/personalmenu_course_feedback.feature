@@ -24,9 +24,7 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
   a list of courses they are enrolled in with a feedback available or grade.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-    And the following "courses" exist:
+    Given the following "courses" exist:
       | fullname        | shortname | category | groupmode | visible |
       | Course 1        | C1        | 0        | 1         | 1       |
     And the following "users" exist:
@@ -41,7 +39,7 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
       | student1 | C1     | student |
     And the following config values are set as admin:
       | showcoursegradepersonalmenu | <showgrades> | theme_cass |
-    And I log in as "student1" (theme_cass)
+    And I log in as "student1"
     And I open the personal menu
     Then I should see "Course 1"
     And "a.coursegrade" "css_element" should not exist

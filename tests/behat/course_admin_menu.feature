@@ -26,10 +26,7 @@ Feature: When the moodle theme is set to Cass, students do not see the course ad
   Note, folderview is not a core format and therefore is exculded from the tests.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-      | defaulthomepage | 0 |
-    And the following "courses" exist:
+    Given the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1        | 0        | topics |
     And the following "users" exist:
@@ -45,7 +42,7 @@ Feature: When the moodle theme is set to Cass, students do not see the course ad
   Scenario Outline: When on main course page, user can / cannot access course admin menu. Students can access menu for
   any format except topics, weeks, singleactivity and folderview. Teachers can access menu for all course formats.
     Given the course format for "C1" is set to "<format>"
-    And I log in as "<user>" (theme_cass)
+    And I log in as "<user>"
     And I am on the course main page for "C1"
     Then "#admin-menu-trigger" "css_element" should <existornot>
   Examples:
@@ -63,7 +60,7 @@ Feature: When the moodle theme is set to Cass, students do not see the course ad
   Scenario Outline: When not on main course page, user can / cannot access course admin menu. Students cannot
   access menu for any format. Teacher can access menu for all course formats.
     Given the course format for "C1" is set to "<format>"
-    And I log in as "<user>" (theme_cass)
+    And I log in as "<user>"
     And I am on the course "resources" page for "C1"
     Then "#admin-menu-trigger" "css_element" should <existornot>
   Examples:

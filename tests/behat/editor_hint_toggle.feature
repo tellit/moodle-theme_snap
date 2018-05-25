@@ -7,20 +7,19 @@ Feature: the editor hint toggle should be ignored by Cass in Moodlerooms 2.9
   Background:
     Given the following config values are set as admin:
       | theme_cass_disableeditorhints | true |
-      | theme                         | cass |
     Given the following "users" exist:
-      | username | firstname | lastname | email |
-      | teacher1 | Teacher | 1 | teacher1@example.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@example.com |
     And the following "courses" exist:
       | fullname | shortname | category |
-      | Course 1 | C1 | 0 |
+      | Course 1 | C1        | 0        |
     And the following "course enrolments" exist:
-      | user | course | role |
-      | teacher1 | C1 | editingteacher |
+      | user     | course | role           |
+      | teacher1 | C1     | editingteacher |
 
   @javascript
   Scenario: Create a URL resource in Cass theme
-    Given I log in as "teacher1" (theme_cass)
+    Given I log in as "teacher1"
     And I am on the course main page for "C1"
     Then I should see "Welcome to your new course Teacher 1."
     Then I should see "Start by describing what your course is about using text, images, audio & video."

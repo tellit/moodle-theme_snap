@@ -22,11 +22,10 @@
 /**
  * Personal menu course cards.
  */
-define(['jquery', 'core/log', 'core/templates',
-    'theme_cass/pm_course_cards_hidden', 'theme_cass/pm_course_favorites',
+define(['jquery', 'core/log', 'core/templates', 'theme_cass/pm_course_favorites',
     'theme_cass/model_view', 'theme_cass/ajax_notification', 'theme_cass/util',
     'theme_cass/appear'],
-    function($, log, templates, cardsHidden, courseFavorites, mview, ajaxNotify, util, appear) {
+    function($, log, templates, courseFavorites, mview, ajaxNotify, util, appear) {
 
         var CourseCards = function() {
 
@@ -35,7 +34,7 @@ define(['jquery', 'core/log', 'core/templates',
             /**
              * Apply course information to courses in personal menu.
              *
-             * @param crsinfo
+             * @param {Array} crsinfo
              */
             this.applyCourseInfo = function(crsinfo) {
                 // Pre-load template or it will get loaded multiple times with a detriment on performance.
@@ -44,7 +43,7 @@ define(['jquery', 'core/log', 'core/templates',
                         for (var i in crsinfo) {
                             var info = crsinfo[i];
                             log.debug('applying course data for courseid ' + info.course);
-                            var cardEl = $('.courseinfo[data-courseid="' + info.course + '"]');
+                            var cardEl = $('.coursecard[data-courseid="' + info.course + '"]');
                             mview(cardEl, 'theme_cass/course_cards');
                             $(cardEl).trigger('modelUpdate', info);
                         }
@@ -53,7 +52,7 @@ define(['jquery', 'core/log', 'core/templates',
 
             /**
              * Request courseids.
-             * @param courseids[]
+             * @param {number[]} courseids
              */
             this.reqCourseInfo = function(courseids) {
                 if (courseids.length === 0) {
@@ -61,7 +60,7 @@ define(['jquery', 'core/log', 'core/templates',
                 }
                 // Get course info via ajax.
                 var courseiddata = 'courseids=' + courseids.join(',');
-                var courseinfo_key = M.cfg.sesskey + 'courseinfo';
+                var courseInfoKey = M.cfg.sesskey + 'coursecard';
                 log.debug("fetching course data");
                 $.ajax({
                     type: "GET",
@@ -69,18 +68,22 @@ define(['jquery', 'core/log', 'core/templates',
                     url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_courseinfo&contextid=' + M.cfg.context,
                     data: courseiddata,
                     success: function(data) {
-                        if (ajaxNotify.ifErrorShowBestMsg(data)) {
-                            return;
-                        }
-                        if (data.info) {
-                            log.debug('fetched coursedata', data.info);
-                            if (util.supportsSessionStorage()) {
-                                window.sessionStorage[courseinfo_key] = JSON.stringify(data.info);
+                        ajaxNotify.ifErrorShowBestMsg(data).done(function(errorShown) {
+                            if (errorShown) {
+                                return;
+                            } else {
+                                // No errors, apply course info.
+                                if (data.info) {
+                                    log.debug('fetched coursedata', data.info);
+                                    if (util.supportsSessionStorage()) {
+                                        window.sessionStorage[courseInfoKey] = JSON.stringify(data.info);
+                                    }
+                                    self.applyCourseInfo(data.info);
+                                } else {
+                                    log.warn('fetched coursedata with error: JSON data object is missing info property', data);
+                                }
                             }
-                            self.applyCourseInfo(data.info);
-                        } else {
-                            log.warn('fetched coursedata with error: JSON data object is missing info property', data);
-                        }
+                        });
                     }
                 });
             };
@@ -91,24 +94,67 @@ define(['jquery', 'core/log', 'core/templates',
              */
             this.getCourseIds = function() {
                 var courseIds = [];
-                $('.courseinfo').each(function() {
+                $('.coursecard').each(function() {
                     courseIds.push($(this).attr('data-courseid'));
                 });
                 return courseIds;
             };
 
             this.applyAppearForImages = function() {
-                appear(document.body).on('appear', '.courseinfo', function(e, appeared) {
+                appear(document.body).on('appear', '.coursecard', function(e, appeared) {
                     appeared.each(function() {
                         var imgurl = $(this).data('image-url');
                         if (imgurl !== undefined) {
-                            $(this).css('background-image', 'url(' + imgurl.trim() + ')');
+                            var card = $(this);
+                            // We use a fake image element to track the loading of the image so we can insert the
+                            // background image once the image is loaded. If we didn't do this then we'd see a flicker
+                            // from the course card gradient to the main brand colour before the image loaded.
+                            $('<img src="' + imgurl.trim() + '" />').on('load', function() {
+                                $(card).css('background-image', 'url(' + imgurl.trim() + ')');
+                            });
                         }
                     });
                 });
+
+                /**
+                 * Detect when animation is completed.
+                 * https://davidwalsh.name/css-animation-callback
+                 * @returns {string}
+                 */
+                function whichAnimationEvent() {
+                    var t;
+                    var el = document.createElement('fakeelement');
+                    var res = 'Animationend';
+                    var animations = {
+                        'Animation': 'Animationend',
+                        'OAnimation': 'oAnimationEnd',
+                        'MozAnimation': 'Animationend',
+                        'WebkitAnimation': 'webkitAnimationEnd'
+                    };
+
+                    for (t in animations) {
+                        if (el.style[t] !== undefined) {
+                            res = animations[t];
+                            break;
+                        }
+                    }
+                    return res; // Adding a default return value.
+                }
+
+                // When the course archive navigation elements are clicked we need to force appear to check for
+                // newly visible course cards.
+                $('#cass-pm-courses .nav-tabs .nav-link').on('click', function() {
+                    var selector = $(this).attr('href');
+                    // Note, appear does not play nicely with CSS animations so we are waiting for the animation to
+                    // complete before we force appear to check for newly visible cards.
+                    $(selector)[0].addEventListener(whichAnimationEvent(), function() {
+                        $.force_appear();
+                    }, false);
+                });
+
                 // Appear configuration - start loading images when they are out of the view port by 100px.
-                var appearConf = {appeartopoffset : 100, appearleftoffset : 100};
-                $('.courseinfo').appear(appearConf);
+                var appearConf = {appeartopoffset: 100, appearleftoffset: 100};
+                $('.coursecard').appear(appearConf);
                 appear.force_appear();
             };
 
@@ -117,16 +163,16 @@ define(['jquery', 'core/log', 'core/templates',
              */
             this.init = function() {
                 $(document).ready(function() {
-                    courseFavorites(cardsHidden);
+                    courseFavorites();
 
                     // Load course information via ajax.
                     var courseIds = self.getCourseIds();
-                    var courseinfo_key = M.cfg.sesskey + 'courseinfo';
+                    var courseInfoKey = M.cfg.sesskey + 'coursecard';
                     if (courseIds.length > 0) {
                         self.applyAppearForImages();
                         // OK - lets see if we have grades/progress in session storage.
-                        if (util.supportsSessionStorage() && window.sessionStorage[courseinfo_key]) {
-                            var courseinfo = JSON.parse(window.sessionStorage[courseinfo_key]);
+                        if (util.supportsSessionStorage() && window.sessionStorage[courseInfoKey]) {
+                            var courseinfo = JSON.parse(window.sessionStorage[courseInfoKey]);
                             self.applyCourseInfo(courseinfo);
                         } else {
                             // Only make AJAX request on document ready if the session storage isn't populated.
@@ -135,20 +181,8 @@ define(['jquery', 'core/log', 'core/templates',
                     }
                 });
 
-                // Reveal more teachers on click or hover teachers more icon.
-                $('#fixy-my-courses').on('click hover', '.courseinfo-teachers-more', null, function(e) {
-                    e.preventDefault();
-                    var nowhtml = $(this).html();
-                    if (nowhtml.indexOf('+') > -1) {
-                        $(this).html(nowhtml.replace('+', '-'));
-                    } else {
-                        $(this).html(nowhtml.replace('-', '+'));
-                    }
-                    $(this).parents('.courseinfo').toggleClass('show-all');
-                });
-
                 // Personal menu course card clickable.
-                $(document).on('click', '.courseinfo[data-href]', function(e) {
+                $(document).on('click', '.coursecard[data-href]', function(e) {
                     var trigger = $(e.target),
                         hreftarget = '_self';
                     // Excludes any clicks in the card deeplinks.

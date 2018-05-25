@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2017041700;
-$plugin->requires  = 2016120500;
-$plugin->release   = '3.2.2';
+$plugin->version   = 2018050100;
+$plugin->requires  = 2017111300;
+$plugin->release   = '3.4.2';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->component = 'theme_cass';
 $plugin->dependencies = [

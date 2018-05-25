@@ -38,6 +38,24 @@ $observers = array(
         'callback'  => '\theme_cass\event_handlers::user_deleted'
     ),
 
+    // Calendar events.
+    array (
+        'eventname' => '\core\event\calendar_event_created',
+        'callback' => '\theme_cass\event_handlers::calendar_change',
+    ),
+    array (
+        'eventname' => '\core\event\calendar_event_updated',
+        'callback' => '\theme_cass\event_handlers::calendar_change'
+    ),
+    array (
+        'eventname' => '\core\event\calendar_event_deleted',
+        'callback' => '\theme_cass\event_handlers::calendar_change'
+    ),
+    array (
+        'eventname' => '\mod_assign\event\extension_granted',
+        'callback' => '\theme_cass\event_handlers::calendar_change'
+    ),
+
     // All events affecting course completion at course level.
     array (
         'eventname' => '\core\event\course_completion_updated',
@@ -60,5 +78,9 @@ $observers = array(
     array (
         'eventname' => '\core\event\course_module_completion_updated',
         'callback'  => '\theme_cass\event_handlers::course_module_completion_updated'
+    ),
+    array (
+        'eventname' => '\core\event\user_loggedout',
+        'callback'  => '\theme_cass\event_handlers::user_loggedout',
     )
 );

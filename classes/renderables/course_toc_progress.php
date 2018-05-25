@@ -23,6 +23,8 @@
 
 namespace theme_cass\renderables;
 
+defined('MOODLE_INTERNAL') || die();
+
 use theme_cass\output\shared;
 
 class course_toc_progress {
@@ -75,7 +77,7 @@ class course_toc_progress {
             'complete' => null,
             'total' => null
         ];
-        
+
         if (!$completioninfo->is_enabled()) {
             return ''; // Completion tracking not enabled.
         }
@@ -89,7 +91,7 @@ class course_toc_progress {
             'complete' => $sac->progress->complete,
             'total' => $sac->progress->total
         ];
-        $this->pixcompleted = $OUTPUT->pix_url('i/completion-manual-y');
+        $this->pixcompleted = $OUTPUT->image_url('i/completion-manual-y');
         $this->completed = $sac->progress->complete === $sac->progress->total;
     }
 }

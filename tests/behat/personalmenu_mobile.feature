@@ -25,9 +25,7 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
   on mobile devices.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-    And the following "courses" exist:
+    Given the following "courses" exist:
       | fullname | shortname | category | groupmode |
       | Course 1 | C1 | 0 | 1 |
     And the following "users" exist:
@@ -42,7 +40,7 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
   @javascript
   Scenario Outline: Teacher / Student can view personal menu on a mobile device.
     Given I change window size to "320x480"
-    And I log in as "<user>" (theme_cass)
+    And I log in as "<user>"
     And I open the personal menu
     And I follow "Deadlines" in the mobile personal menu
     Then I should see "You have no upcoming deadlines."
@@ -56,9 +54,9 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
     Then I should see "You have no messages."
     And I follow "Forum posts" in the mobile personal menu
     Then I should see "You have no relevant forum posts."
-    And I click on "#fixy-close" "css_element"
+    And I click on "#cass-pm-close" "css_element"
     And I open the personal menu
-    And I wait until "#fixy-mobile-menu" "css_element" is visible
+    And I wait until "#cass-pm-mobilemenu" "css_element" is visible
 
     Examples:
     | user     | gradealt | gradenotice                       |
@@ -66,34 +64,11 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
     | student1 | Feedback | You have no recent feedback.      |
 
   @javascript
-  Scenario: Teacher / Student using Moodlerooms can view alerts in the personal menu on a mobile device.
-    Given I am using Moodlerooms
-    And I change window size to "320x480"
-    And the message processor "badge" is enabled
-    And I log in as "student1" (theme_cass)
-    And I open the personal menu
-    And I follow "Deadlines" in the mobile personal menu
-    Then I should see "You have no upcoming deadlines."
-    # This is deliberately not in the order of the icons as the default pane shows courses so we need to switch to
-    # something else first.
-    And I follow "Courses" in the mobile personal menu
-    Then I should see "Course 1"
-    And I follow "Messages" in the mobile personal menu
-    Then I should see "You have no messages."
-    And I follow "Forum posts" in the mobile personal menu
-    Then I should see "You have no relevant forum posts."
-    And I follow "Alerts" in the mobile personal menu
-    Then I should see "You have no unread alerts."
-    And I click on "#fixy-close" "css_element"
-    And I open the personal menu
-    And I wait until "#fixy-mobile-menu" "css_element" is visible
-
-  @javascript
-  Scenario Outline: Mobile menu icons (excluding alerts) only appear when enabled.
+  Scenario Outline: Mobile menu icons only appear when enabled.
     Given I change window size to "320x480"
     And the following config values are set as admin:
       | <toggle> | 0 | theme_cass |
-    And I log in as "student1" (theme_cass)
+    And I log in as "student1"
     And I open the personal menu
     Then "a[href='<href>']" "css_element" should not exist
     And the following config values are set as admin:
@@ -107,18 +82,5 @@ Feature: When the moodle theme is set to Cass, students and teachers can open a 
     | feedbacktoggle   | #cass-personal-menu-graded     |
     | messagestoggle   | #cass-personal-menu-messages   |
     | forumpoststoggle | #cass-personal-menu-forumposts |
-
-  @javascript
-  Scenario: Alerts mobile menu icon only appears when alerts enabled.
-    Given I am using Moodlerooms
-    And I change window size to "320x480"
-    And the message processor "badge" is disabled
-    And I log in as "student1" (theme_cass)
-    And I open the personal menu
-    Then "a[href='#cass-personal-menu-badges']" "css_element" should not exist
-    And the message processor "badge" is enabled
-    And I reload the page
-    And I open the personal menu
-    Then "a[href='#cass-personal-menu-badges']" "css_element" should exist
 
 

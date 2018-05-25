@@ -28,9 +28,10 @@ define(
         'jquery',
         'core/ajax',
         'theme_cass/util',
-        'theme_cass/ajax_notification'
+        'theme_cass/ajax_notification',
+        'core/str'
     ],
-    function($, ajax, util, ajaxNotify) {
+    function($, ajax, util, ajaxNotify, str) {
 
         /**
          * Module has been completed.
@@ -40,6 +41,7 @@ define(
         var updateModCompletion = function(module, completionhtml) {
             // Update completion tracking icon.
             module.find('.cass-asset-completion-tracking').html(completionhtml);
+            module.find('.btn-link').focus();
             $(document).trigger('cassModuleCompletionChange', module);
         };
 
@@ -66,16 +68,21 @@ define(
                         methodname: 'theme_cass_course_module_completion',
                         args: {id: id, completionstate: completionState},
                         done: function(response) {
-                            form.removeClass('ajaxing');
-                            if (ajaxNotify.ifErrorShowBestMsg(response)) {
-                                return;
-                            }
-                            // Update completion html for this module instance.
-                            updateModCompletion(module, response.completionhtml);
+
+                            ajaxNotify.ifErrorShowBestMsg(response).done(function(errorShown) {
+                                form.removeClass('ajaxing');
+                                if (errorShown) {
+                                    return;
+                                } else {
+                                    // No errors, update completion html for this module instance.
+                                    updateModCompletion(module, response.completionhtml);
+                                }
+                            });
                         },
                         fail: function(response) {
-                            form.removeClass('ajaxing');
-                            ajaxNotify.ifErrorShowBestMsg(response);
+                            ajaxNotify.ifErrorShowBestMsg(response).then(function() {
+                                form.removeClass('ajaxing');
+                            });
                         }
                     }
                 ], true, true);
@@ -87,7 +94,7 @@ define(
          * Reveal page module content.
          *
          * @param {jQuery} pageMod
-         * @param {string} completionhtml - updated completionhtml
+         * @param {string} completionHTML - updated completionHTML
          */
         var revealPageMod = function(pageMod, completionHTML) {
             pageMod.find('.pagemod-content').slideToggle("fast", function() {
@@ -96,8 +103,7 @@ define(
                     pageMod.attr('aria-expanded', 'true');
                     pageMod.find('.pagemod-content').focus();
 
-                }
-                else {
+                } else {
                     pageMod.attr('aria-expanded', 'false');
                     pageMod.focus();
                 }
@@ -134,20 +140,26 @@ define(
                             async: true,
                             url: readPageUrl,
                             success: function(data) {
-                                if (ajaxNotify.ifErrorShowBestMsg(data)) {
-                                    return;
-                                }
-                                // Update completion html for this page mod instance.
-                                updateModCompletion(pageMod, data.completionhtml);
+                                ajaxNotify.ifErrorShowBestMsg(data).done(function(errorShown) {
+                                    if (errorShown) {
+                                        return;
+                                    } else {
+                                        // No errors, update completion html for this page mod instance.
+                                        updateModCompletion(pageMod, data.completionhtml);
+                                    }
+                                });
                             }
                         });
                     }
                 } else {
                     if (!isexpanded) {
                         // Content is not available so request it.
-                        pageMod.find('.contentafterlink').prepend(
-                            '<div class="ajaxstatus alert alert-info">' + M.str.theme_cass.loading + '</div>'
-                        );
+                        var loadingStrPromise = str.get_string('loading', 'theme_cass');
+                        $.when(loadingStrPromise).done(function(loadingStr) {
+                            pageMod.find('.contentafterlink').prepend(
+                                '<div class="ajaxstatus alert alert-info">' + loadingStr + '</div>'
+                            );
+                        });
                         var getPageUrl = M.cfg.wwwroot + '/theme/cass/rest.php?action=get_page&contextid=' +
                             readmore.data('pagemodcontext');
                         $.ajax({
@@ -155,13 +167,17 @@ define(
                             async: true,
                             url: getPageUrl,
                             success: function(data) {
-                                if (ajaxNotify.ifErrorShowBestMsg(data)) {
-                                    return;
-                                }
-                                pageModContent.prepend(data.html);
-                                pageModContent.data('content-loaded', 1);
-                                pageMod.find('.contentafterlink .ajaxstatus').remove();
-                                revealPageMod(pageMod, data.completionhtml);
+                                ajaxNotify.ifErrorShowBestMsg(data).done(function(errorShown) {
+                                    if (errorShown) {
+                                        return;
+                                    } else {
+                                        // No errors, reveal page mod.
+                                        pageModContent.prepend(data.html);
+                                        pageModContent.data('content-loaded', 1);
+                                        pageMod.find('.contentafterlink .ajaxstatus').remove();
+                                        revealPageMod(pageMod, data.completionhtml);
+                                    }
+                                });
                             }
                         });
                     } else {
@@ -181,8 +197,8 @@ define(
             /**
              * Ensure lightbox container exists.
              *
-             * @param appendto
-             * @param onclose
+             * @param {string} appendto
+             * @param {function} onclose
              * @returns {*|jQuery|HTMLElement}
              */
             var lightbox = function(appendto, onclose) {
@@ -198,7 +214,7 @@ define(
                         e.preventDefault();
                         e.stopPropagation();
                         lightboxclose();
-                        if (typeof(onclose) === 'function') {
+                        if (typeof (onclose) === 'function') {
                             onclose();
                         }
                     });
@@ -218,9 +234,9 @@ define(
             /**
              * Open lightbox and set content if necessary.
              *
-             * @param content
-             * @param appendto
-             * @param onclose
+             * @param {string} content
+             * @param {*} appendto
+             * @param {function} onclose
              */
             var lightboxopen = function(content, appendto, onclose) {
                 appendto = appendto ? appendto : $('body');
@@ -247,16 +263,17 @@ define(
                 async: true,
                 url: M.cfg.wwwroot + '/theme/cass/rest.php?action=get_media&contextid=' + $(resourcemod).data('modcontext'),
                 success: function(data) {
-                    if (ajaxNotify.ifErrorShowBestMsg(data)) {
-                        return;
-                    }
-                    lightboxopen(data.html, appendto);
-
-                    updateModCompletion($(resourcemod), data.completionhtml);
-
-                    $(document).trigger('cassContentRevealed');
-
-                    $('#cass-light-box').focus();
+                    ajaxNotify.ifErrorShowBestMsg(data).done(function(errorShown) {
+                        if (errorShown) {
+                            return;
+                        } else {
+                            // No errors, open lightbox and update module completion.
+                            lightboxopen(data.html, appendto);
+                            updateModCompletion($(resourcemod), data.completionhtml);
+                            $(document).trigger('cassContentRevealed');
+                            $('#cass-light-box').focus();
+                        }
+                    });
                 }
             });
 

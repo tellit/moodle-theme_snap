@@ -41,9 +41,12 @@ class cass_personal_menu_controller extends controller_abstract {
      * @return string
      */
     public function get_deadlines_action() {
-        return json_encode(array(
-            'html' => \theme_cass\local::deadlines()
-        ));
+        global $PAGE, $USER;
+        $output = $PAGE->get_renderer('theme_cass', 'core', RENDERER_TARGET_GENERAL);
+        $deadlines = \theme_cass\activity::upcoming_deadlines($USER->id);
+        return json_encode([
+            'html' => $output->deadlines($deadlines)
+        ]);
     }
 
     /**
@@ -96,7 +99,6 @@ class cass_personal_menu_controller extends controller_abstract {
      * @return string
      */
     public function get_courseinfo_action() {
-        
         $courseids = optional_param('courseids', false, PARAM_SEQUENCE);
         if (!empty($courseids)) {
             $courseids = explode(',', $courseids);

@@ -26,7 +26,6 @@ Feature: When the moodle theme is set to Cass, students and teachers can find in
 
   Background:
     Given the following config values are set as admin:
-      | theme | cass |
       | allowcoursethemes | 1 |
     And the following "courses" exist:
       | fullname | shortname | category | groupmode | theme |
@@ -36,32 +35,34 @@ Feature: When the moodle theme is set to Cass, students and teachers can find in
       | username | firstname | lastname | email |
       | teacher1 | Teacher | 1 | teacher1@example.com |
       | student1 | Student | 1 | student1@example.com |
+      | student2 | Student | 2 | student2@example.com |
     And the following "course enrolments" exist:
       | user | course | role |
       | teacher1 | C1 | editingteacher |
       | student1 | C1 | student |
       | student1 | C2 | student |
+      | student2 | C2 | student |
 
   @javascript
   Scenario: Student sees correct submission status against deadlines when 1 out of 2 assignments are submitted by student.
-    Given the following "activities" exist with relative dates:
-      | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate                      |
-      | assign   | C1     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | the timestamp of tomorrow    |
-      | assign   | C1     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | the timestamp of next week   |
-    And I log in as "student1" (theme_cass)
+    Given the following "activities" exist:
+      | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate         |
+      | assign   | C1     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | ##tomorrow##    |
+      | assign   | C1     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | ##next week##   |
+    And I log in as "student1"
     And I open the personal menu
     And I should see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
     And I should see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:nth-of-type(2)" "css_element"
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     And I follow "Topic 1"
     And I wait until "#section-1" "css_element" is visible
     And I should see "Test assignment1"
     And I follow "Not Submitted"
-    When I press "Add submission"
+    When I follow "Add submission"
     And I set the following fields to these values:
       | Online text | I'm the student submission |
     And I press "Save changes"
-    And I press "Submit assignment"
+    And I follow "Submit assignment"
     And I press "Continue"
     And I open the personal menu
     And I should see "Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
@@ -70,11 +71,11 @@ Feature: When the moodle theme is set to Cass, students and teachers can find in
 
   @javascript
   Scenario: Teacher sees no submission status data against deadlines.
-    Given the following "activities" exist with relative dates:
-      | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate                      |
-      | assign   | C1     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | the timestamp of tomorrow    |
-      | assign   | C1     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | the timestamp of next week   |
-    And I log in as "teacher1" (theme_cass)
+    Given the following "activities" exist:
+      | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate       |
+      | assign   | C1     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | ##tomorrow##  |
+      | assign   | C1     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | ##next week## |
+    And I log in as "teacher1"
     And I open the personal menu
     And I should not see "Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
     And I should not see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
@@ -85,23 +86,44 @@ Feature: When the moodle theme is set to Cass, students and teachers can find in
   Scenario: Student sees correct submission status when the platform theme is different from cass and the course is forced to cass
     Given the following config values are set as admin:
       | theme | clean |
-    Given the following "activities" exist with relative dates:
+    Given the following "activities" exist:
       | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate                      |
-      | assign   | C2     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | the timestamp of tomorrow    |
-      | assign   | C2     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | the timestamp of next week   |
+      | assign   | C2     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | ##tomorrow##    |
+      | assign   | C2     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | ##next week##   |
     And I log in as "student1"
-    And I follow "Course 2"
+    And I am on "Course 2" course homepage
     And I follow "Topic 1"
     And I wait until "#section-1" "css_element" is visible
     And I should see "Test assignment1"
     And I follow "Not Submitted"
-    When I press "Add submission"
+    When I follow "Add submission"
     And I set the following fields to these values:
       | Online text | I'm the student submission |
     And I press "Save changes"
-    And I press "Submit assignment"
+    And I follow "Submit assignment"
     And I press "Continue"
     And I open the personal menu
     And I should see "Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
     And I should not see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:first-of-type" "css_element"
     And I should see "Not Submitted" in the "#cass-personal-menu-deadlines div.cass-media-object:nth-of-type(2)" "css_element"
+
+  @javascript
+  Scenario: Extended deadline dates take priority over deadlines.
+    Given the following config values are set as admin:
+      | theme | cass |
+    Given the following "activities" exist:
+      | activity | course | idnumber | name             | intro             | assignsubmission_onlinetext_enabled | assignfeedback_comments_enabled | section | duedate       |
+      | assign   | C2     | assign1  | Test assignment1 | Test assignment 1 | 1                                   | 1                               | 1       | ##yesterday## |
+      | assign   | C2     | assign2  | Test assignment2 | Test assignment 2 | 1                                   | 1                               | 1       | ##tomorrow##  |
+    And deadline for assignment "Test assignment1" in course "C2" is extended to "##next week##" for "student1"
+    And I log in as "student1"
+    And I open the personal menu
+    And I see a personal menu deadline of "##next week##" for "Test assignment1"
+    And I see a personal menu deadline of "##tomorrow##" for "Test assignment2"
+    And I log out
+    # Make sure student2 doesn't see the extension.
+    And I log in as "student2"
+    And I open the personal menu
+    And I do not see a personal menu deadline of "##next week##" for "Test assignment1"
+    And I see a personal menu deadline of "##tomorrow##" for "Test assignment2"
+

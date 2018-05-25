@@ -25,13 +25,9 @@ Feature: When the moodle theme is set to Cass, clicking on a resource with a med
   resource inline.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-      | thememobile | cass |
-      | enablecompletion | 1 |
-    And the following "courses" exist:
+  Given the following "courses" exist:
       | fullname | shortname | category | groupmode | enablecompletion |
-      | Course 1 | C1 | 0 | 1 | 1 |
+      | Course 1 | C1        | 0        | 1         | 1                |
     And the following "users" exist:
       | username | firstname | lastname | email |
       | teacher1 | Teacher | 1 | teacher1@example.com |
@@ -43,7 +39,7 @@ Feature: When the moodle theme is set to Cass, clicking on a resource with a med
 
   @javascript
   Scenario: MP3 opens inline and marked as completed.
-    Given I log in as "teacher1" (theme_cass)
+    Given I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist

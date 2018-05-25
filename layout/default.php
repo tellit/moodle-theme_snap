@@ -23,41 +23,107 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+// If the embedcurrentactivity theme setting is set and a URL parameter
+// of embed is set (to true), output nothing but the activity mod content.
+// This allows the course page to 'scrape' the first page of the activity.
+if ($this->page->theme->settings->embedcurrentactivity) {
+    $embed = optional_param('embed', 0, PARAM_INT);
+    if ($embed) {
+        //Must output doctype
+        echo $OUTPUT->doctype();
+        echo $OUTPUT->main_content();
+        return;
+    }
+}
+
 require(__DIR__.'/header.php');
+
+// By default, assume we are not on a mod page.
+$ismodpage = false;
+
+// Do not assume mod page if user is editing.
+// (This function returns true if the user is adding a new mod
+// $PAGE->pagetype gets set even though the URL is not /mod/)
+if (!$PAGE->user_is_editing()) {
+    $pagepath = explode('-', $PAGE->pagetype);
+    if ($PAGE->pagetype != 'admin' && $pagepath[0] == 'mod') {
+
+        //Defensive Programming. $PAGE->cm doesn't exist if the user is editing (adding a new mod)
+        //It may not exist for other reasons
+        if (is_object($PAGE->cm)) {
+            // We are on a activity (mod) page
+            $ismodpage = true;
+            $mod = $PAGE->cm;
+        }
+    }
+}
+
+// By default, do not add additional CSS classes to the 'page' div
+$modpageclass = '';
+
+// If we are on a mod page, and we are supposed to highlight the first activity in section
+if ($ismodpage && $this->page->theme->settings->highlightfirstactivityinsection) {
+
+    //Get the mod info
+    $modinfo = $mod->get_modinfo();
+
+    // If this activity is the first in the section
+    // This ignores the possibility of hidden scetions
+    if ($mod->id == $modinfo->sections[$mod->sectionnum][0]) {
+        // Add an extra CSS class to the page div
+        $modpageclass = ' class="firstactivityinsection"';
+    }
+}
 
 use theme_cass\local;
 
+// @codingStandardsIgnoreStart
+// Note, coding standards ignore is required so that we can have more readable indentation under php tags.
+
+$mastimage = '';
+// Check we are in a course (not the site level course), and the course is using a cover image.
+if ($COURSE->id != SITEID && !empty($coverimagecss)) {
+    $mastimage = 'mast-image';
+}
 ?>
-<!-- moodle js hooks -->
-<div id="page">
+
+<!-- Moodle js hooks -->
+<div id="page"<?php echo $modpageclass?>>
 <div id="page-content">
 
 <!--
 ////////////////////////// MAIN  ///////////////////////////////
 -->
 <main id="moodle-page" class="clearfix">
-<div id="page-header" class="clearfix
-<?php
-// Check we are in a course (not the site level course), and the course is using a cover image.
-if ($COURSE->id != SITEID && !empty($coverimagecss)): ?>
- mast-image
-<?php endif;?>">
-<div class="breadcrumb-nav" aria-label="breadcrumb"><?php echo $OUTPUT->navbar(); ?></div>
-<div id="page-mast">
-<?php
-echo $OUTPUT->page_heading();
-echo $OUTPUT->course_header();
-if ($PAGE->pagetype == 'site-index') {
-    echo $OUTPUT->login_button();
-}
-?>
-</div>
-<?php
-if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
-    $url = new moodle_url('/admin/settings.php', ['section' => 'themesettingcass'], 'admin-poster');
-    echo $OUTPUT->cover_image_selector();
-}
-?>
+<div id="page-header" class="clearfix <?php echo $mastimage; ?>">
+    <?php if ($PAGE->pagetype !== 'site-index') { ?>
+        <?php
+        if (empty($PAGE->theme->settings->breadcrumbsinnav)) {
+            echo '<div class="breadcrumb-nav" aria-label="breadcrumb">' . $OUTPUT->navbar() . '</div>';
+        }
+        ?>
+    <?php }
+        if ($carousel) {
+            // Front page carousel.
+            echo $carousel;
+        } else {
+            // Front page banner image.
+    ?>
+        <div id="page-mast">
+        <?php
+            echo $OUTPUT->page_heading();
+            echo $OUTPUT->course_header();
+            if ($PAGE->pagetype === 'site-index') {
+                echo $OUTPUT->login_button();
+            }
+        ?>
+        </div>
+        <?php
+            if ($this->page->user_is_editing() && $PAGE->pagetype == 'site-index') {
+                echo $OUTPUT->cover_image_selector();
+            }
+        } // End else.
+    ?>
 </div>
 
 <section id="region-main">
@@ -132,5 +198,5 @@ if (stripos($PAGE->bodyclasses, 'format-singleactivity') !== false ) {
 </div>
 </div>
 <!-- close moodle js hooks -->
-
-<?php require(__DIR__.'/footer.php');
+<?php // @codingStandardsIgnoreEnd
+require(__DIR__.'/footer.php');

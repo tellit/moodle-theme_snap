@@ -22,8 +22,11 @@
 // overwrite some global CSS from a turnitin mod
 // see https://github.com/jmcgettrick/MoodleDirectV2/issues/50
 
+/* stylelint-disable declaration-no-important*/
+
 html {
     -webkit-font-smoothing: auto !important;
+    background: $gray-dark;
 }
 
 // Cass Layout yo...
@@ -34,6 +37,7 @@ html {
 
 img.spacer,
 .noavailable,
+a#cass-home,
 .clearfloat,
 .noicon {
     display: none;
@@ -105,10 +109,31 @@ table.boxwidthwide {
 #page-login-signup {
     #region-main {
         max-width: 100%;
-        padding: 0 4% 2em;
+        padding: 0 0 2em;
     }
-    #moodle-footer {
+    .lang-en #moodle-footer {
         margin-top: 0;
+        font-family: $font-family-fancy;
+        font-size: .8em;
+        color: $gray-light;
+        text-align: left;
+        span[itemprop="name"] {
+            font-weight: bold;
+            color: $body-bg;
+        }
+        a {
+            color: $gray-light;
+        }
+        ul.legal,
+        ul.social {
+            list-style-type: none;
+            padding: 0;
+        }
+        img.cass-logo {
+            height: 189px;
+            margin: 0 0 0 10px;
+            float: right;
+        }
     }
     // The login box.
     .cass-login {
@@ -116,7 +141,7 @@ table.boxwidthwide {
         margin: 2em auto;
         max-width: 30rem;
         width: 100%;
-        background-color: rgba(255,255,255,0.9);
+        background-color: rgba(255, 255, 255, 0.9);
     }
     // The site name.
     .cass-logo-sitename {
@@ -152,32 +177,43 @@ table.boxwidthwide {
 // -------------------------
 
 @mixin alakazam {
-    transition: all 0.4s ease-in-out;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
 @mixin bg-cover {
     background-position: center top;
     background-size: cover;
 }
+// Hide elements which require js to be loaded.
+.js-only {
+    @include alakazam;
+}
+
+body:not(.cass-js-loaded) .js-only {
+    pointer-events: none;
+    cursor: default;
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
 
 // 100% of the screen.
 .full-width {
-  width: 100vw;
-  max-width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+    width: 100vw;
+    max-width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
 }
 
 // 100% with standard cass 4% gutter.
 .full-width-pad {
     @extend .full-width;
-    padding: 0 4%;
+    padding: 0 3.443%;
 }
 
-/* animations */
+// Animations.
 @keyframes cass-drop {
     0% {
         transform: matrix(1, 0, 0, 1, 0, -600);
@@ -201,15 +237,24 @@ table.boxwidthwide {
 // -------------------------
 // Baseline boilerplate for cass
 // -------------------------
+body {
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+a {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 
 ::-moz-selection {
-    background: #fe57a1;
+    background: #8F2B8C;
     color: #fff;
     text-shadow: none;
 }
 
 ::selection {
-    background: #fe57a1;
+    background: $brand-primary;
     color: #fff;
     text-shadow: none;
 }
@@ -217,12 +262,6 @@ table.boxwidthwide {
 // scrollbars in ie
 body.ie {
     -ms-overflow-style: scrollbar;
-}
-
-input:focus,
-textarea:focus,
-a:focus {
-    outline: 0;
 }
 
 label {
@@ -236,11 +275,20 @@ select {
 
 select:disabled,
 input:disabled,
-input:disabled+label {
+input:disabled + label {
     opacity: 0.5;
 }
 
-::disabled {
+#page-mod-quiz-attempt,
+#page-mod-quiz-review {
+    select:disabled,
+    input:disabled,
+    input:disabled + label {
+        opacity: 1;
+    }
+}
+
+:disabled {
     cursor: not-allowed;
 }
 
@@ -248,31 +296,36 @@ textarea {
     max-width: 100%;
 }
 
-body {
-    font-weight: 300;
+small,
+.small {
+    font-size: $font-size-sm !important;
 }
 
 // GT Mod - 2015-07-09 - add .floater .cell to accommodate fixed col and header in gradebook
 table,
 .floater .cell {
     width: 100%;
-    font-family: $font-family-base;
+    font-family: $font-family-system;
     font-size: $font-size-base;
 }
 
-blockquote {
-    //    border-left: 5px solid $brand-primary; customisable
-    font-size: 1em;
+.blockquote {
+    border-left-color: $brand-primary;
+    font-size: 1rem;
 }
+
+.blockquote-reverse {
+    border-right-color: $brand-primary;
+}
+
+blockquote {
+    @extend .blockquote;
+}
+
 
 img {
     max-width: 100%;
     height: auto;
-}
-
-a {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
 }
 
 // Stop images shrinking to nothing on Chrome
@@ -280,7 +333,7 @@ table img {
     min-width: 12px;
 }
 
-table.results td.graph>img {
+table.results td.graph > img {
     min-width: 0;
 }
 
@@ -289,10 +342,6 @@ img[style*="float: left"],
 img[style*="float: right"],
 img[style*="float:right"] {
     margin: 2%;
-}
-
-small, .small {
-    font-size: $font-size-sm !important;
 }
 
 @include media-breakpoint-down(md) {
@@ -313,53 +362,31 @@ img.icon {
     margin-right: 6px;
 }
 
+img.iconlarge {
+    height: 38px;
+    width: 38px;
+}
+
+/* mdl hide stuff icon - hide in bs has different meaning*/
+img.icon.hide {
+    display: inline-block !important;
+}
+
 @mixin svg-icon {
-  width: 2rem;
-  height: 2rem;
-  margin: 0 0.3rem;
-  vertical-align: middle;
+    width: 2rem;
+    height: 2rem;
+    margin: 0 0.3rem;
+    vertical-align: middle;
 }
 
 .svg-icon {
     @include svg-icon;
 }
 
-.mediaplugin_videojs > div {
-    max-width: none !important;
-}
-
-.media-responsive {
-    width: 100%;
-    display: block;
-    position: relative;
-    > *:not(video):first-child {
-        position: absolute !important;
-        top: 0 !important;
-        bottom: 0 !important;
-        right: 0 !important;
-        left: 0 !important;
-        height: 100% !important;
-        width: 100% !important;
-    }
-}
-
-.media-responsive-pad {
-    display: block;
-}
-
-// Responsive video for iframes, objects, embeds.
-.videoiframe iframe {
-    width: 100% !important;
-    margin: 0 auto;
-}
-
-.mediaplugin object,
-.mediaplugin_flv,
-.mediaplugin embed
-.mediaplugin iframe {
-  width: 100%;
-  margin: 0 auto;
-  max-height: 90vh;
+// Font awesome icons.
+i.icon,
+p.tree_item:before {
+    color: #999;
 }
 
 // Responsive video for HTML5 only.
@@ -368,28 +395,62 @@ video {
     height: auto !important;
 }
 
-/* mdl hide stuff icon - hide in bs has different meaning*/
-img.icon.hide {
-    display: inline-block !important;
+@mixin responsive-video() {
+    width: 100%;
+    max-width: $user-content-max-width;
+    height: 240px;
+    margin: 0 auto;
+    display: block;
+    clear: both;
+
+    @include media-breakpoint-up(sm) {
+        height: 360px;
+    }
+    @include media-breakpoint-up(md) {
+        height: 480px;
+    }
+}
+
+// Responsive video for iframes, objects, embeds.
+iframe:not(.vjs-tech) {
+    &[src*="youtube.com"],
+    &[src*="youtu.be"],
+    &[src*="vimeo.com"],
+    &[src*="archive.org/embed"],
+    &[src*="youtube-nocookie.com"],
+    &[src*="embed.ted.com"],
+    &[src*="embed-ssl.ted.com"],
+    &[src*="kickstarter.com"],
+    &[src*="video.html"],
+    &[src*="simmons.tegrity.com"],
+    &[src*="dailymotion.com"] {
+        @include responsive-video();
+    }
+}
+
+body.theme-cass .oembed-responsive {
+    > :first-child:not(video),
+    > .oembed-responsive-pad {
+        @include responsive-video();
+    }
 }
 
 li {
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid;
+    padding: 0 0 .618em 0;
+    line-height: 1.618em;
 }
 
 hr {
-    margin-top: 0.75em;
-    margin-bottom: 0.75em;
-    height: 1.75em;
+    height: 1px;
+    margin: 2em 2%;
     border: 0;
-
-    // border-top: 1px solid $brand-primary; customisable
 }
 
 .block .content hr {
-    margin: 0.3;
+    margin: .3em;
     height: 1px;
 }
 
@@ -470,55 +531,42 @@ textarea {
     max-width: 100%;
 }
 
-.section-modchooser-text,
-#changenumsections .increase-sections,
-#changenumsections .reduce-sections,
-.paging.paging-morelink a,
-button#local-joulegrader-preview-button,
-button.atto_equation_submit,
-a.yui3-button,
-.yui-button button,
-.felement.ftext input + button,
-.header-button-group .btn,
-.btn.btn-primary,
-.btn.btn-default,
 .button-group > button,
 input.form-submit,
-input[type="button"],
-input[type="submit"],
-button[type="submit"],
-.moodle-dialogue-content button,
-button#restrictbygroup,
-button#livelogs-pause-button,
-#page-admin-tool-monitor-managerules a > button,
-input[type="reset"] {
-    font-family: $font-family-base;
-    background: transparent;
+.atto_form button,
+.gradingform_checklist.editor .addgroup input,
+.gradingform_checklist.editor .additem input,
+.gradingform_rubric.editor .addlevel input,
+.gradingform_rubric.editor .addcriterion input,
+.paging.paging-morelink a,
+a.yui3-button,
+.yui-button button,
+#page-site-index .section-modchooser-link .section-modchooser-text {
 
-    &:hover,
-    &:focus {
+    // Imitate btn.btn-secondary CSS for buttons without proper
+    // Bootstrap classes applied to them.
+    transition: all 0.4s ease-in-out;
+    background: transparent;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    // Em's used to allow for small and large buttons.
+    padding: .5em 1em;
+
+    &:hover:not(:disabled),
+    &:focus:not(:disabled),
+    &:active:not(:disabled),
+    &.active:not(:disabled) {
 
         text-decoration: none;
         color: #fff;
-        background: $brand-primary;
+    }
+
+    &:disabled {
+        opacity: 0.65;
     }
 }
 
-.btn.btn-inverse {
-
-    & {
-        color: #fff;
-        border-color: #fff;
-    }
-
-    &:hover,
-    &:active,
-    &:focus {
-        color: $brand-primary;
-        background: #fff;
-        border-color: $brand-primary;
-    }
-}
 .btn.btn-solid {
     &,
     &:active,
@@ -527,7 +575,7 @@ input[type="reset"] {
     }
 }
 
-.btn-group > button + button {
+.button-group > button + button {
     margin-left: 1em;
 }
 
@@ -571,14 +619,10 @@ input[type="reset"] {
 
 .userpicture.defaultuserpic {
     border: 1px solid #e5e5e5;
-
-    .fixy & {
-        border: none;
-    }
 }
 
 // -------------------------
-// Replacing font icon with svgs
+// Icons inserted as pseudo elements.
 // -------------------------
 
 .cass-icon-close:before {
@@ -590,9 +634,16 @@ input[type="reset"] {
     margin: 0.1em auto;
 }
 
-#cass-footer-alert .cass-icon-close:before,
-.fixy .cass-icon-close:before {
-    background: transparent url("[[pix:theme|close_x_white]]") no-repeat 50% 50%;
+.cass-icon-close:focus {
+    text-decoration: underline !important;
+}
+
+// White close icon.
+#cass-footer-alert,
+#cass-pm {
+    .cass-icon-close:before {
+        background-image: url("[[pix:theme|close_x_white]]");
+    }
 }
 
 .icon-arrow-left:before,
@@ -606,7 +657,7 @@ input[type="reset"] {
 }
 
 .icon-arrow-left:before {
-    background: transparent url("[[pix:theme|left-arrow]]") no-repeat 50% 50%;
+    background-image: url("[[pix:theme|left-arrow]]");
 }
 
 // -------------------------
@@ -618,42 +669,31 @@ input[type="reset"] {
     @include bg-cover;
 }
 
-#cass-home.logo {
-    display: block;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: left center;
-    height: 40px;
-    width: 50%;
-}
-
-
 .cass-media-object {
     @include clearfix;
     font-weight: 500;
     padding: 0.5em 0;
     // Block display for keyboard user focus.
     > a:focus {
-         display: block;
+        display: block;
     }
 
     // media o media
-    >a>img,
-    >img {
+    > a > img,
+    > img {
         float: left;
         display: block;
         width: 36px;
-        margin: 0.5em 1em 0 0.5em;
         height: auto;
         vertical-align: baseline;
+        margin-right: .614em;
     }
 
     // media o content
     .cass-media-body {
         overflow: hidden;
 
-        // for fixy - need to re-visit when we re-use more widley
+        // for personal menu updates - need to re-visit when we re-use more widley
         // in the messaging system we ellispe text
         p {
             white-space: nowrap;
@@ -707,74 +747,6 @@ input[type="reset"] {
 
 }
 
-@include media-breakpoint-up(sm) {
-    #moodle-footer .list-unstyled {
-        column-count: 2;
-    }
-
-    #moodle-footer .list-large {
-        column-count: 3;
-    }
-}
-
-// Message badge alerts
-.message_badge_message,
-.message_badge_empty {
-    border-top: none;
-}
-
-.message_badge_message_subject {
-    padding-right: 0;
-}
-
-.message_badge_message_close {
-    display: none;
-}
-
-.message_badge_message_text article {
-    font-size: 0.9em;
-    font-family: $font-family-serif;
-}
-
-.message_badge_message_content {
-    margin-left: 65px;
-}
-
-/**
-Its pointless using a colour to visually show that the message is read as we can already tell this by the fact the
-read button has been removed and the message text is visible
-**/
-.message_badge_message.dimmed_text {
-    color: $body-color;
-
-    .message_badge_message_text,
-    .message_badge_message_text a {
-        color: $body-color !important;
-    }
-}
-
-.message_badge_user_picture {
-    margin-right: 18px;
-
-    img {
-        width: 50px;
-    }
-}
-
-.alert_stream {
-    .message_badge_container {
-        .message_badge_overlay,
-        .message_badge_message_overlay {
-            background-color: transparent;
-            border: none;
-            max-height: none;
-            width: 100%;
-            overflow: visible;
-        }
-    }
-}
-
-// End of message badge alerts
 // -------------------------
 // Layout of moodle/cass DOM structure
 // -------------------------
@@ -797,8 +769,11 @@ footer #moodle-footer
 #moodle-footer,
 #moodle-blocks {
     margin: 0 auto;
-    padding: 0 4%;
+    padding: 0 3.444%;
     font-size: 1em;
+    .row {
+        margin: 0;
+    }
 }
 
 @media (max-width: 375px) {
@@ -807,21 +782,22 @@ footer #moodle-footer
     #region-main,
     #moodle-footer,
     #moodle-blocks {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding: 0 3.444%;
     }
 }
 
-// Mr.nav - he's there and fixed to the top of your page
+// -------------------------
+// Mr.nav - he's there, fixed to the top of your page
 // -------------------------
 
 #mr-nav {
     position: fixed;
-    width: 100%;
+    width: 100vw;
     z-index: 23;
-    line-height: 2;
-    padding: 0.5em 0 0.5em 4%;
-    background-color: rgba(255,255,255,0.95);
+    padding: 0.5em 3.444%;
+    background-color: $nav-bg;
+    font-family: $font-family-fancy;
+    box-shadow: -2px 1px 4px #333;
 
     //headroom js http://wicky.nillia.ms/headroom.js/
     &.headroom--unpinned {
@@ -842,10 +818,136 @@ footer #moodle-footer
         */
     }
 
-    &.errors-found {
+    .popover-region-notifications > div > .icon {
+        color: $nav-color;
 
-        // make header pink
-        // background-color: #fcc !important;
+        &:hover {
+            color: $nav-color-hover;
+        }
+    }
+
+    a {
+        color: $nav-color;
+
+        &:hover,
+        &:focus {
+            color: $nav-color-hover;
+        }
+    }
+
+    .popover-region-container a {
+        color: $brand-primary;
+
+        &:hover {
+            color: darken($brand-primary, 8%);
+        }
+        &:focus {
+            color: darken($brand-primary, 30%);
+            text-decoration: underline;
+        }
+    }
+
+    .cass-login-button {
+        color: $nav-login-color;
+        background-color: $nav-login-bg;
+        border-color: $nav-login-bg;
+
+        &:hover,
+        &:focus {
+            color: darken($nav-login-color, 8%);
+            background-color: darken($nav-login-bg, 8%);
+            border-color: darken($nav-login-bg, 8%);
+        }
+
+    }
+}
+
+#mr-nav #cass-pm-trigger {
+    display: inline;
+    border: none;
+    position: relative; // Position to support message badge.
+    padding-left: 1em; // Padding to support message badge.
+    padding-right: 0.5em;
+    padding-top: 1.2em;
+    padding-bottom: 1.16em;
+    margin-right: 0.5em;
+    color: $nav-button-color;
+    background-color: $nav-button-bg;
+
+    .userpicture {
+        width: 40px;
+        height: auto;
+        @include alakazam;
+    }
+    &:hover,
+    &:focus {
+        .userpicture {
+            transform: scale(1.2);
+        }
+        color: darken($nav-button-color, 8%);
+    }
+
+    // Core alerts badge.
+    .conversation_badge_count {
+        background-color: darken($brand-primary, 8%);
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        padding: 0;
+        line-height: inherit;
+        color: white;
+        position: absolute;
+        left: .33em; // Magic number.
+        top: .6em; // Magic number.
+        font-size: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &.hidden {
+            display: none;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+
+    #mr-nav #cass-pm-trigger {
+        padding-bottom: 1.36em;
+    }
+}
+
+#cass-home {
+    display: inline-block;
+    padding: .5em 0;
+    // If logo image.
+    &.logo {
+        display: block;
+        height: 45px;
+        max-width: 250px;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: left center;
+    }
+}
+
+// Admin menu trigger.
+#cass-admin-icon {
+    @include alakazam;
+    .cass-gear-icon {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 5;
+        stroke-miterlimit: 10;
+    }
+    // Animate and change colour.
+    &:hover,
+    &:focus {
+        transform: rotate(90deg);
+        .cass-gear-icon {
+            fill: currentColor;
+        }
     }
 }
 
@@ -921,24 +1023,88 @@ header#page-header
 // -------------------------
 
 #page-header {
-    padding-top: 4em;
+    padding-top: 3.8em;
     padding-bottom: 0.5em;
+    font-size: .85em;
 }
 
-// Breadcrumb - not really a breadcrumb like on the web, but some moodleything
+// Breadcrumb - not really a breadcrumb like on the web, but something moodley
 // -------------------------
 
-.breadcrumb-nav {
-    margin-bottom: 0;
-    float: none;
-    margin-top: -0.5em;
+ol.breadcrumb a {
+    color: $text-color;
 }
 
-.breadcrumb {
-    background-color: transparent;
-    padding: 0;
-    font-size: $font-size-sm;
-    display: block;
+.breadcrumb > li:before {
+    content: $breadcrumb-divider;
+}
+
+.breadcrumb > li {
+    display: inline;
+}
+
+.admin,
+.path-enrol,
+.pagelayout-admin#page-mod-quiz-attempt #moodle-blocks {
+    .breadcrumb li:first-child:before {
+        content: '\e091 ';
+        padding: 0 1em 0 0;
+        vertical-align: top;
+        font-family: 'Glyphicons Halflings';
+        color: #000;
+    }
+}
+
+.path-mod .breadcrumb li:nth-child(4):before {
+    content: '\e091 ';
+    padding: 0 1em 0 0;
+    vertical-align: top;
+    font-family: 'Glyphicons Halflings';
+    color: #000;
+}
+
+.path-course .breadcrumb li:nth-child(2):before {
+    display: none;
+}
+
+.path-course,
+.path-mod {
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        font-size: $font-size-base;
+        display: block;
+        font-family: $font-family-sans-serif;
+        & > li:last-child,
+        & > li:nth-child(-n+3) {
+            display: none;
+        }
+    }
+}
+
+#page-user-edit .breadcrumb li:nth-child(-n+1) {
+    display: none;
+}
+
+.admin,
+.path-enrol,
+.pagelayout-admin {
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        font-size: $font-size-base;
+        display: block;
+        font-family: $font-family-sans-serif;
+        & > li:last-child {
+            display: none;
+        }
+    }
+}
+
+.path-login {
+    .breadcrumb {
+        display: none;
+    }
 }
 
 @include media-breakpoint-down(md) {
@@ -953,6 +1119,36 @@ header#page-header
         }
     }
 }
+
+// Breadcrumb - not really a breadcrumb like on the web, but some moodleything
+// -------------------------
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    display: block;
+}
+
+.path-course .breadcrumb,
+.path-mod .breadcrumb {
+    @media screen {
+        max-width: 478px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+}
+
+// Breadcrumb for activites
+// -------------------------
+.pagelayout-incourse .breadcrumb li:nth-child(3) a,
+.pagelayout-course .breadcrumb li:nth-child(2) a {
+    padding: 0px 0px 0px 20%;
+    margin: 0px 0px 0px -20%;
+}
+
 
 // SHAME - what is this?
 // -------------------------
@@ -972,29 +1168,35 @@ header#page-header
 
  ****************************/
 
+#page-header {
+    padding-top: 4em;
+    padding-bottom: 0.5em;
+}
 
-
-// if the course has an image
+// If the page has an image - courses & catagories.
 .mast-image {
     .breadcrumb {
         li,
         li:before,
-        >li+li:before,
+        > li + li:before,
         a {
             text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
             color: white;
         }
     }
 
-    #page-mast h1 {
-        a, a:hover {
+    #page-mast > {
+        h1,
+        h1 a,
+        h1 a:hover {
             color: white;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
     }
-
+    // Add a bg colur to the toc in page header.
     #course-toc {
-        background-color: rgba(255,255,255,0.95);
+        background-color: rgba(255, 255, 255, 0.95);
+        font-size: .764em;
     }
 }
 
@@ -1032,16 +1234,10 @@ header#page-header
 
 // Admin block link.
 #admin-menu-trigger {
-    width: 40px;
-    height: 40px;
-    margin-right: 1em;
-    border: 1px solid $gray-lighter;
-    border-radius: 100%;
-
-    img {
-        padding: 0.5em;
-        max-height: 100%;
-    }
+    width: 30px;
+    height: 30px;
+    margin-left: .75em;
+    margin-top: .5em;
 }
 
 #page-report-outline-user .section {
@@ -1056,16 +1252,7 @@ header#page-header
 .forumpost .content .posting,
 .no-overflow {
     overflow: visible;
-    padding: 0;
-}
-
-
-.course-content,
-.settingsform,
-.mform,
-#page-mod-page-view #region-main {
-    max-width: 43.5em;
-    margin: 0 auto;
+    padding: 0 0 6.18%;
 }
 
 // Override the above for a table that is also a form
@@ -1074,7 +1261,6 @@ header#page-header
     max-width: none;
 }
 
-
 .forumpost {
     background-color: transparent;
     border: 0;
@@ -1082,63 +1268,28 @@ header#page-header
     padding: 0;
 }
 
-/* BOOK MOD FIX */
-.path-mod-book .book_toc_numbered {
-    font-size: 1em;
-}
-
 /* hide show description option */
-#page-mod-book-mod,
 #page-mod-page-mod {
     #fitem_id_showdescription {
         display: none;
     }
-}
-/* Hide not so useful images and exit book option */
-.navimages {
-    img,
-    .bookexit {
-        display:none;
-    }
-    a img{
-        display: inline;
-    }
-}
-
-
-#page-mod-book-view {
-    #region-main {
-        width: 70%;
-        float: right;
-    }
-    #moodle-blocks {
-        clear: none;
-        width: 30%;
-        float: left;
-    }
-}
-// Print style guide for book
-#page-mod-book-print {
-    font-size: 18px !important;
-    font-family: $font-family-serif !important;
 }
 
 /* FRONT PAGE ELEMENTS */
 #page-site-index {
     #region-main {
         max-width: 100%;
-        padding: 0;
+        padding: 1em 0 0 0;
         margin: 0 auto;
     }
 
-    #page-header {
-    // background-color: $brand-primary; customisable
-    padding-top: 12.7%;
-    padding-bottom: 1.75em;
-    min-height: 405px;
-    border-bottom: 0;
-    margin: 0;
-    position: relative;
+    #page-header,
+    .carousel-slide {
+        // background-color: $brand-primary; customisable
+        min-height: 405px;
+        position: relative;
+        padding: 0;
+        margin: 0;
     }
 
     #cass-coverimagecontrol {
@@ -1148,54 +1299,106 @@ header#page-header
     }
 
     #page-mast {
-        background-color: rgba(255,255,255,0.9);
+        background-color: rgba(255, 255, 255, 0.9);
         display: inline-block;
         padding: 1em 2%;
-        margin-top: 2em;
+        margin: 10em 4% 1em;
+    }
+
+    #moodle-page {
+        padding-top: 2em;
     }
 }
 
-/*
-BUG:
-mobile safari does not re-calculate vh on viewport change
-http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
-*/
-@include media-breakpoint-down(lg) {
-    #page-site-index #page-header {
-        min-height: 87vh;
+@include media-breakpoint-up(lg) {
+    #page-site-index {
+        #page-header,
+        .carousel-slide {
+            min-height: 600px;
+        }
     }
-}
-
-.path-course #page-mast h1 {
-    display: inline;
-}
-
-#page-mast .cass-login-button {
-    display: inline-block;
-    padding: 0.25em 2em;
-    margin-top: 1em;
-}
-#mr-nav .cass-login-button {
-    margin-right: 1em;
 }
 
 @include media-breakpoint-up(md) {
     #page-site-index #page-mast {
         width: 50%;
-        margin: 11vh 0;
+        margin: 20vh 4%;
     }
 }
 
-#page-site-index .breadcrumb-nav {
-    display: none;
+#page-mast .cass-login-button {
+    display: inline-block;
+    margin-top: 1em;
+}
+
+// -------------------------
+// Front page carousel componant.
+// -------------------------
+#cass-site-carousel {
+
+    .carousel-slide {
+        background-position: center center;
+        background-size: cover;
+        background-color: white;
+    }
+
+    .carousel-caption {
+        // Reset bootstrap styles.
+        left: 4%;
+        bottom: inherit;
+        text-align: left;
+        top: 20vh;
+        width: 50%;
+        text-shadow: none;
+        color: #666;
+        // Add cass cover styles.
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 1em 2%;
+        margin-top: 2em;
+    }
+
+    .carousel-indicators {
+        bottom: -50px;
+        transform: scale(1.3);
+
+        li {
+            border-color: $gray-light;
+        }
+        .active {
+            background-color: $gray-light;
+        }
+    }
+
+    .carousel-controls {
+        display: none;
+    }
 }
 
 #page-site-index .content-slide {
     display: none;
 }
 
+// Front page core elements.
+#page-site-index {
+    // Front page course search box.
+    #coursesearch .input-group {
+        max-width: 300px;
+    }
+    // Front page edit summary - hide cog icon.
+    .sitetopic .fa-cog {
+        display: none;
+    }
+    // Front page add resource - hide + icon.
+    .section-modchooser-link .fa-plus {
+        display: none;
+    }
+}
+
 #frontpage-course-list {
     padding: 1em 4%;
+    .paging {
+        padding: 1em;
+    }
 }
 
 #page-site-index .sitetopic,
@@ -1208,7 +1411,11 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 
 #page-site-index .sitetopic {
     @include clearfix;
-    padding: 0 4%;
+    padding: 0 3.444%;
+}
+#page-site-index .singlebutton {
+    display: block;
+    text-align: center;
 }
 
 #site-news-forum h2,
@@ -1242,7 +1449,7 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
 }
 
 .news-article-content {
-    padding: 0 4%;
+    padding: 0 3.444%;
     min-height: 150px;
 }
 
@@ -1281,10 +1488,6 @@ http://blog.rodneyrehm.de/archives/34-iOS7-Mobile-Safari-And-Viewport-Units.html
     .news-article-preview,
     .news-article-image {
         display: none;
-    }
-
-    .news-article-inner {
-
     }
 
     .news-article-message {
@@ -1709,7 +1912,7 @@ ul.events-new + ul.events-underway {
 
 .path-mod-workshop .collapsibleregioncaption {
     font-size: $font-size-h3;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 // -------------------------
@@ -1762,6 +1965,12 @@ ul.events-new + ul.events-underway {
 #page-mod-quiz-review .arrow_link {
     @extend %fake-btn;
     @extend .btn-secondary;
+}
+
+#page-mod-quiz-edit .section .activity .actions {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 // Quiz setup form //
@@ -1860,7 +2069,7 @@ ul.events-new + ul.events-underway {
 
 #page-mod-quiz-edit div.reorder {
     div.question div.content {
-        width: calc("100% - 4.3em");
+        width: calc(100% - 4.3em);
     }
 }
 
@@ -1910,13 +2119,17 @@ ul.events-new + ul.events-underway {
 #page-mod-quiz-edit #categoryquestions .questiontext,
 .questioncontentcontainer label,
 #page-mod-quiz-edit div.question div.content .questiontext {
-    font-weight: 300;
+    font-weight: 400;
+}
+
+#page-mod-quiz-edit .instancemaxmarkcontainer input[name='maxmark'] {
+    height: 1.5em !important;
 }
 
 // Quiz itself //
 
 // For quiz, we don't want two coluns.
-.path-mod-quiz #moodle-blocks>aside {
+.path-mod-quiz #moodle-blocks > aside {
     column-count: 1 !important;
 }
 
@@ -1929,9 +2142,7 @@ ul.events-new + ul.events-underway {
 }
 
 .que {
-    border-bottom: 1px solid $gray;
-    padding: 1.5em 0;
-    margin: 1em 0;
+    margin: 0;
 }
 
 .que .info,
@@ -1951,10 +2162,10 @@ ul.events-new + ul.events-underway {
 .que h3.no,
 .que span.qno {
     font-size: $font-size-h2;
-    font-weight: 300;
+    font-weight: 400;
 }
 
-.que .info>div {
+.que .info > div {
     display: inline-block;
     font-size: $font-size-sm;
     color: $gray-light;
@@ -1968,7 +2179,6 @@ ul.events-new + ul.events-underway {
     .formulation .correct {
         border: 0;
         background-color: transparent;
-        width: 100%;
         margin: 0;
         padding: 0;
         color: $gray;
@@ -1977,6 +2187,7 @@ ul.events-new + ul.events-underway {
 
 .que .qtext {
     font-size: 1.3em;
+    margin-bottom: 0;
 }
 
 // Add margin to quiz submit/check button.
@@ -1986,6 +2197,12 @@ ul.events-new + ul.events-underway {
 
 .que.multichoice .answer .specificfeedback {
     display: block;
+}
+
+.que.multichoice .answer div.r0,
+.que.multichoice .answer div.r1 {
+    padding: .3em 0 0.3em 40px;
+    text-indent: -40px;
 }
 
 #page-mod-quiz-edit .editq div.question {
@@ -2083,16 +2300,13 @@ ul.events-new + ul.events-underway {
 // Forum
 // -------------------------
 
-.forumsearch {
-    padding: 1em;
-    float: right;
-}
-
-// on front page the forum has extranious options //
-.course-1 {
-    .movediscussion,
-    .displaymode {
-        display: none;
+#page-mod-forum-discuss {
+    .discussioncontrol.exporttoportfolio,
+    .discussioncontrol.displaymode,
+    .discussioncontrol.movediscussion {
+        margin: auto;
+        width: 100%;
+        padding-bottom: 10px;
     }
 }
 
@@ -2100,6 +2314,10 @@ ul.events-new + ul.events-underway {
 // Forum responsive table
 // -------------------------
 // Should the forum responsive stuff be moved to modules.scss?
+
+tr.discussion {
+    background: transparent !important;
+}
 
 @include media-breakpoint-down(md) {
     .path-mod-forum .forumheaderlist {
@@ -2136,6 +2354,10 @@ ul.events-new + ul.events-underway {
             text-align: left !important;
             background-color: transparent !important;
             width: 100%;
+        }
+
+        td {
+            padding: 0 .5em 0 0;
         }
 
         td.topic {
@@ -2344,7 +2566,7 @@ table#user-grades tr.avg td.cell {
     #course-search-text {
         padding-top: 0;
         margin: 0.5em 5%;
-        width: calc("84% - 13px");
+        width: calc(84% - 13px);
     }
 
     #course-search-button {
@@ -2357,7 +2579,8 @@ table#user-grades tr.avg td.cell {
         // copied from less/bootstrap3/forms.scss .form-control
         color: $input-color;
         background-color: $input-bg;
-        background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+        // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+        background-image: none;
         border: 1px solid $input-border-color;
         border-radius: $input-border-radius;
         @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
@@ -2591,24 +2814,24 @@ table#user-grades tr.avg td.cell {
 
 .path-blocks-reports .report-title {
     font-weight: normal;
-    font-family: $font-family-base;
+    font-family: $font-family-system;
 }
 
-// whitelist - make grade table larger, apply whitespace remover
+// Whitelist - pages need to be full width.
 .path-mod-assign,
-.path-grade-edit-tree,
-.path-grade-report-customgrader,
-.path-grade-report-grader {
+.path-mod-hvp,
+.path-grade,
+.path-admin-report,
+.pagelayout-admin,
+#page-course-editsection {
     #region-main {
         width: 100%;
         max-width: 100%;
     }
 
-    table.simple,
-    #gradetreesubmit,
-    ul.nav-tabs {
-        max-width: 60.5em;
-        margin: 0 auto 1em;
+    .cass-form-required fieldset {
+        max-width: 43.5em;
+        margin: 1em 0;
     }
 }
 
@@ -2666,6 +2889,11 @@ table#user-grades tr.avg td.cell {
             }
         }
     }
+    .page-mod-assign-grading {
+        #region-main {
+            margin: 0 3.44%;
+        }
+    }
 }
 
 // -------------------------
@@ -2674,9 +2902,14 @@ table#user-grades tr.avg td.cell {
 // bootstrap alerts
 
 .alert {
-    clear: both;
-    border: 0;
-    border-left: 3em solid;
+    &.alert-info,
+    &.alert-success,
+    &.alert-danger,
+    &.alert-warning {
+        clear: both;
+        border: 0;
+        border-left: 3em solid;
+    }
 }
 
 #notice {
@@ -2689,7 +2922,7 @@ table#user-grades tr.avg td.cell {
     // pull buttons up into the #notice when they are placed
     // after it, rather than inside it.
 
-    &+ .continuebutton {
+    & + .continuebutton {
         margin-top: -3em;
     }
 
@@ -2697,6 +2930,10 @@ table#user-grades tr.avg td.cell {
         text-align: center;
         border-top: none;
     }
+}
+
+#page-course-loginas #notice {
+    margin-top: 3em;
 }
 
 // bootstrap labels
@@ -2769,15 +3006,13 @@ body.hascontinuecancel.path-site #page {
 
 // next / previous nav
 .section_footer {
-    margin-top: 2em;
-    padding: 1em 0;
-    border-top: 1px solid #eee;
+    padding: 0 0 6.853em;
 }
 
 .section_footer a {
     font-style: normal;
     text-decoration: none;
-    display: block;
+    display: none;
     width: 100%;
     margin-top: 1em;
 }
@@ -2810,24 +3045,33 @@ body.hascontinuecancel.path-site #page {
 .nav_icon {
     padding: 0.3em;
     text-align: center;
+    font-size: 2em;
 }
 
 .next_section .nav_icon {
-    margin-left: 0.3em;
-    border-left: 1px solid #eee;
-    font-size: 2em;
-    width: 50px;
     float: right;
+    margin-left: 0.3em;
+    border-left: 1px solid $gray-lighter;
+    width: 50px;
 }
 
 .previous_section .nav_icon {
     float: left;
     margin-right: 0.3em;
-    border-right: 1px solid #eee;
-    font-size: 2em;
+    border-right: 1px solid $gray-lighter;
 }
 
-/* moodle dialogues */
+/*rtl:raw:
+.previous_section .nav_icon,
+.next_section .nav_icon {
+        transform: rotate(180deg);
+        border: none;
+}
+*/
+
+// -------------------------
+// Moodle dialogues.
+// -------------------------
 /* standard size */
 .moodle-dialogue-base .moodle-dialogue {
     min-width: 32%;
@@ -2835,117 +3079,17 @@ body.hascontinuecancel.path-site #page {
     /* large size */
     &.chooserdialogue,
     &.filepicker {
-        min-width: 89%;
+        min-width: 90%;
         height: 100%;
-    }
-}
-
-.chooserdialogue .moodle-dialogue-wrap .moodle-dialogue-bd {
-    background: $body-bg;
-}
-
-.jschooser .choosercontainer #chooseform .alloptions {
-    max-height: calc(100vh - 10rem) !important; // Overules JS caculated value.
-}
-
-.choosercontainer #chooseform {
-
-    .moduletypetitle,
-    .option,
-    .nonoption {
-        padding: 0 4%;
-    }
-
-    .option .icon {
-        padding: 0 .5rem;
-    }
-}
-
-/* file picker dropzone */
-.filemanager {
-    .fp-pathbar,
-    .fp-viewbar,
-    .fp-restrictions {
-        display: none;
-    }
-}
-
-#page-user-files,
-#local-joulegrader-gradepane,
-#page-backup-backupfilesedit {
-    .ffilemanager .fp-viewbar {
-        display: block;
-    }
-}
-
-.ffilepicker .fp-btn-choose {
-    margin: 0 0 10px;
-}
-
-.fitem_filepicker .fitemtitle label {
-    margin-bottom: 0;
-}
-
-.felement.ffilepicker {
-    margin-top: 0;
-}
-
-.filepicker-filelist,
-.filemanager-container {
-    border: none;
-}
-
-.filemanager .fp-navbar {
-    background-color: transparent;
-    border: none;
-}
-
-.filemanager-toolbar {
-    padding: 0 0 8px;
-}
-
-.dndupload-arrow {
-    cursor: pointer;
-    background-image: url("[[pix:resource|icon]]");
-    margin-top: 10px;
-}
-
-.filepicker-filelist .filepicker-container,
-.filemanager .filemanager-container .fm-empty-container,
-.filemanager-container.dndupload-over .dndupload-target,
-.filemanager-container .dndupload-target {
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    padding-top: 100px;
-}
-
-.filemanager-loading {
-    border: 2px dashed #bbb;
-    padding-top: 45px;
-    min-height: 130px;
-    background-color: $body-bg;
-}
-
-.jsenabled .filemanager-loading {
-    margin-top: 0;
-}
-
-// -------------------------
-// Show icons with consistent sizes
-// -------------------------
-#page-files-index, #page-outcome-course {
-    #region-main, .moodle-dialogue-base {
-        img.smallicon {
-            @include svg-icon;
-        }
     }
 }
 
 // -------------------------
 // The site footer - moodle-footer
 // -------------------------
+body:not(.pagelayout-course) #moodle-footer {
+    margin-top: 2em;
+}
 
 #moodle-footer {
     padding-top: 3em;
@@ -2953,7 +3097,11 @@ body.hascontinuecancel.path-site #page {
     clear: both;
     color: $gray-lighter;
     background-color: $body-color;
-    margin-top: 0;
+}
+
+#cass-footer-content,
+#cass-socialmedia-links {
+    padding: 1em 0;
 }
 
 #moodle-footer {
@@ -2976,7 +3124,7 @@ body.hascontinuecancel.path-site #page {
 
     a:not(.btn),
     a:not(.btn):hover {
-        color: #fff;
+        color: $gray-light;
     }
 
     .langmenu {
@@ -2984,25 +3132,19 @@ body.hascontinuecancel.path-site #page {
     }
 }
 
-#page-site-index #moodle-footer {
-    margin-top: 0;
+.legal > li {
+    padding: 0;
 }
 
-#moodle-footer.nocoursefooter {
-    margin-top: 2em;
+// Custom menu lists.
+@include media-breakpoint-up(sm) {
+    #moodle-custom-menu .list-unstyled {
+        column-count: 2;
+    }
 }
 
 #site-news-forum + br {
     display: none;
-}
-
-/* Moodle error, reports, all that stuff in the footer */
-#page-footer {
-    border-top: none;
-
-    .langmenu {
-        text-align: right;
-    }
 }
 
 .nav-justified + .nav-justified {
@@ -3109,7 +3251,7 @@ http://css-spinners.com/css/spinner/three-quarters.css
 }
 
 // yui-bs overrides (note CASS specific)
-.yui-bootstrapped {
+.yui-bootstrapped:not(.ie11) {
 
     // stop yui menu from being completely unusable on mobile device
     // note: it still isn't that great and a select box would be way better
@@ -3132,8 +3274,16 @@ http://css-spinners.com/css/spinner/three-quarters.css
     }
 }
 
+.yui-bootstrapped.ie11 #pld_tokenselector.yuimenu {
+    top: 100px !important;
+
+    & > div {
+        height: auto !important;
+    }
+}
+
 // nicer positioning of fatal errors
-div[data-rel = fatalerror] {
+div[data-rel=fatalerror] {
     margin: 1em;
 }
 
@@ -3155,7 +3305,6 @@ div[data-rel = fatalerror] {
     &:focus > img,
     & > img:hover {
         // Reduce border to make the icon expand.
-        background-color: $brand-primary;
         border-width: 0;
         height: 24px;
         width: 24px;
@@ -3215,40 +3364,35 @@ table th img.iconhelp {
 // Reduce font sizes on small screen
 // -------------------------
 @include media-breakpoint-down(sm) {
-    html,
-    #region-main {
-        font-size: 14.4px;
-    }
-
     h1,
     .h1 {
-        font-size: 1.5em;
+        line-height: 1.15384615em;
     }
 
     h2,
     .h2 {
-        font-size: 1.4em;
+        line-height: 1.15384615em;
     }
 
     h3,
     .h3,
     .sectionname {
-        font-size: 1.3em;
+        font-size: 1.13636364em;
     }
 
     h4,
     .h4 {
-        font-size: 1.2em;
+        font-size: 1.11111111em;
     }
 
     h5,
     .h5 {
-        font-size: 1.1em;
+        font-size: 1.11111111em;
     }
 
     h6,
     .h6 {
-        font-size: 1em;
+        font-size: 1.11111111em;
     }
 }
 
@@ -3279,39 +3423,6 @@ table th img.iconhelp {
     max-width: 100%;
 }
 
-#page-admin-setting-themesettingcass{
-
-    .admin_colourpicker {
-    display: block;
-    float: left;
-    height: 40px;
-    width: 30px;
-    margin: 1px 4px;
-    }
-
-    .loadingicon,
-    .colourdialogue,
-    .previewcolour {
-        display: none;
-    }
-
-    .currentcolour {
-        /* size is set with a style tag so need to !important to override */
-        height: 30px !important;
-        width: 30px !important;
-        border-radius: 100%;
-        border: none;
-        margin-left: 0;
-    }
-
-    /* Subtitle textarea. */
-    #admin-subtitle textarea {
-        height: 5em;
-    }
-
-
-}
-
 /* Feature spots. */
 #cass-feature-spots {
     padding: 2em 4%;
@@ -3327,92 +3438,6 @@ table th img.iconhelp {
     }
 }
 
-#page-admin-setting-themecassfeaturespots {
-
-    #admin-fs_heading {
-        input {
-            font-size: $font-size-h4;
-            text-align: center;
-        }
-
-        .form-defaultinfo,
-        .form-shortname {
-            display: none;
-        }
-    }
-    #admin-fs_one_title,
-    #admin-fs_two_title,
-    #admin-fs_three_title {
-        input {
-            font-size: $font-size-h5;
-        }
-    }
-
-    #admin-fs_one_title,
-    #admin-fs_two_title,
-    #admin-fs_three_title,
-    #admin-fs_one_image,
-    #admin-fs_two_image,
-    #admin-fs_three_image,
-    #admin-fs_one_text,
-    #admin-fs_two_text,
-    #admin-fs_three_text {
-        float: left;
-        width: 33.3%;
-        margin: 0;
-
-        .form-defaultinfo,
-        .form-shortname,
-        .fp-btn-download,
-        .dndupload-message {
-            display: none;
-        }
-    }
-
-    #admin-fs_one_image,
-    #admin-fs_one_title,
-    #admin-fs_one_text {
-        clear: left;
-    }
-}
-
-/* Featured courses admin page. */
-#page-admin-setting-themecassfeaturedcourses {
-
-    #admin-fc_heading {
-        input {
-            font-size: $font-size-h4;
-            text-align: center;;
-        }
-
-        .form-shortname {
-            display: none;
-        }
-    }
-
-    #admin-fc_one,
-    #admin-fc_two,
-    #admin-fc_three,
-    #admin-fc_four,
-    #admin-fc_five,
-    #admin-fc_six,
-    #admin-fc_seven,
-    #admin-fc_eight {
-        width: 50%;
-        float: left;
-        padding: 1em;
-
-        .form-defaultinfo,
-        .form-shortname {
-            display: none;
-        }
-    }
-
-    #admin-fc_browse_all {
-        clear: both;
-    }
-}
-
 /* Featured courses section. */
 @include media-breakpoint-up(md) {
     #cass-featured-courses .row div {
@@ -3425,7 +3450,10 @@ table th img.iconhelp {
 /* Featured course container. */
 #cass-featured-courses {
     width: 100%;
-    padding: 2em 4%;
+    padding: 1em 4%;
+}
+.cass-featured-courses-heading {
+    padding: 1em 0;
 }
 
 /* Featured course link. */
@@ -3440,9 +3468,10 @@ table th img.iconhelp {
 
     &:hover {
         transform: scale(1.03);
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-        0 3px 1px -2px rgba(0, 0, 0, 0.2),
-        0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        box-shadow:
+            0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 3px 1px -2px rgba(0, 0, 0, 0.2),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
         .cass-featured-course-title {
             text-decoration: underline;
@@ -3459,12 +3488,6 @@ table th img.iconhelp {
     position: absolute;
     bottom: 0;
     padding: 0.5em 4%;
-}
-
-
-
-#page-admin-setting-themesettingcass #id_s_theme_cass_customcss {
-    font-family: $font-family-monospace;
 }
 
 // Scrolling gradebook fixes
@@ -3513,19 +3536,19 @@ table th img.iconhelp {
 // End Scrolling gradebook fixes
 
 td.mceIframeContainer > iframe {
-    max-width:100%;
+    max-width: 100%;
 }
 
 body.gecko .cass-form-required > fieldset,
 body.gecko .cass-form-advanced > fieldset {
     display: table-cell;
-    max-width:100%;
+    max-width: 100%;
 }
 
 body.ie .cass-form-required > fieldset,
 body.ie .cass-form-advanced > fieldset {
     table-layout: fixed;
-    max-width:100%;
+    max-width: 100%;
 }
 
 .felement.feditor,
@@ -3534,7 +3557,7 @@ table.mceLayout tr,
 td.mceIframeContainer,
 td.mceStatusbar {
     display: block;
-    max-width:100%;
+    max-width: 100%;
 }
 
 table.mceLayout {
@@ -3548,18 +3571,18 @@ table.mceLayout {
 }
 
 table.mceLayout tbody {
-    display:block;
+    display: block;
 }
 
 td.mceToolbar {
     width: 100% !important;
     position: relative;
     display: inline-block;
-    margin: 0px !important;
+    margin: 0 !important;
 }
 
 #page-mod-quiz-edit .instancename {
-    max-width:16px;
+    max-width: 16px;
 }
 
 #page-mod-quiz-edit .activityinstance {
@@ -3569,15 +3592,15 @@ td.mceToolbar {
 
 // General toggle icons.
 button.cass-icon-toggle {
-    &, &:hover, &:link, &:active, &:focus {
-        color: $brand-primary;
+    &,
+    &:hover,
+    &:link,
+    &:active,
+    &:focus {
         background: none;
         border: none;
         box-shadow: none;
         outline: none;
-    }
-    &:focus {
-        border:2px solid $brand-primary;
     }
 }
 
@@ -3591,6 +3614,7 @@ button.cass-icon-toggle {
 
     .btn {
         border-color: transparent;
+        margin-left: 1em;
     }
 }
 
@@ -3608,14 +3632,20 @@ button.cass-icon-toggle {
 }
 
 label[for="cass-coverfiles"],
-#cass-changecoverimageconfirmation button{
+#cass-changecoverimageconfirmation button {
     position: relative;
     display: none;
-    top: -0.5em;
+}
+
+body:not(.pagelayout-coursecategory) {
+    label[for="cass-coverfiles"],
+    #cass-changecoverimageconfirmation button {
+        top: -0.5em;
+    }
 }
 
 label.state-visible[for="cass-coverfiles"],
-#cass-changecoverimageconfirmation.state-visible button{
+#cass-changecoverimageconfirmation.state-visible button {
     display: inline-block;
     cursor: pointer;
 }
@@ -3632,6 +3662,11 @@ label.state-visible[for="cass-coverfiles"] {
         height: 1.5em;
         width: 1.5em;
     }
+    &.ajaxing:before {
+        @include ajaxing(inline-block, relative, 16px, 4px);
+        margin: 0 0 -3px 0.5em;
+        background: none;
+    }
 }
 
 @include media-breakpoint-down(xs) {
@@ -3644,16 +3679,6 @@ label.state-visible[for="cass-coverfiles"] {
 
 #cass-coverfiles {
     cursor: pointer;
-}
-
-label.state-visible[for="cass-coverfiles"],
-#cass-changecoverimageconfirmation .ok {
-    .spinner-three-quarters {
-        width: 1em;
-        height: 1em;
-        border-width: 0.25em;
-        margin-left: 0.5em;
-    }
 }
 
 #cass-changecoverimageconfirmation.disabled .ok {
@@ -3679,8 +3704,27 @@ label.state-visible[for="cass-coverfiles"],
     opacity: 1;
 }
 
+.cass-alert-cover-image {
+    background-color: white;
+    width: auto;
+    text-align: left;
+    margin: 1em 0;
+}
+
+#cass-changecoverimageconfirmation .ok.ajaxing:after {
+    @include ajaxingwhite(inline-block, relative, 16px, 4px);
+    margin: 0 0 -3px 0.5em;
+}
+
+body.pagelayout-frontpage {
+    .cass-alert-cover-image {
+        margin: 1em 4%;
+    }
+}
+
 #page-badges-criteria {
-    .statusbox, ul.nav-tabs {
+    .statusbox,
+    ul.nav-tabs {
         margin: 1em 0;
     }
 }
@@ -3694,4 +3738,1593 @@ label.state-visible[for="cass-coverfiles"],
     overflow: visible;
     clip: auto;
     border: initial;
+}
+
+// Hides 'Blocks editing on' button in all the plagiarism settings pages.
+.path-admin-plagiarism .singlebutton {
+    display: none;
+}
+
+// Adjust the size of the message containers.
+#page-message-index .messaging-area-container .messaging-area .contacts-area .contacts .contact {
+    height: 23%;
+
+    .information .name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+// Auth icon align fix.
+#page-login-index .auth-icon,
+#page-site-index .auth-icon,
+#page-login-index .icon,
+#page-site-index .icon {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+}
+
+
+/**
+ * Next activity area near footer
+ */
+
+.next_activity_area {
+    background: $gray-lighter;
+    padding: 1.94em 0 1.2em;
+    margin-top: 2.29em;
+    width: 100%;
+    position: relative;
+}
+
+.next_activity_link {
+    margin: 0 auto;
+    font-family: $font-family-fancy;
+    max-width: 960px;
+    padding: 0 10px;
+}
+.activity-complete {
+    float: left;
+}
+.nav_icon {
+    margin-left: 0.3em;
+    border-left: 1px solid #888;
+    font-size: 2.5em;
+    width: 36px;
+    float: right;
+    padding: 0.0em 0.3em 0.15em 0em;
+    line-height: 1em;
+}
+
+.next_activity_text {
+    text-align: right;
+}
+
+#page-course-view-weeks #region-main #section-0 p:first-of-type {
+    font-family: $font-family-base;
+    color: $gray-dark;
+}
+
+.essay .notyetanswered+.submitbtns {
+    display: block;
+}
+
+.que.essay
+.qtype_essay_response.readonly {
+    background-color: #fdfdfd;
+}
+
+input[name=previous] {
+    display: none;
+}
+
+.transcript {
+    margin-top: -50px;
+    position: absolute;
+}
+.slide-deck {
+    margin-top: -16px;
+    position: absolute;
+}
+
+.box.quizattempt {
+    padding-bottom: 6.18%;
+}
+
+.next_activity_overlay {
+    background: #888;
+    padding: 0;
+    margin-top: 1px;
+    z-index: 50;
+    width: 100%;
+    height: 114%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+}
+
+.next_activity_overlay h5 {
+    color: white;
+}
+
+div#mod_quiz_navblock .content {
+    display: none;
+}
+
+.path-mod-feedback input[type="radio"] {
+    display: none;
+}
+
+ol.breadcrumb > li {
+    padding: 0;
+}
+
+
+/** The message area **/
+@mixin setSelectedContact() {
+    background-color: #4f94cd;
+    color: #fff;
+    border: none;
+
+    .information {
+        .lastmessage {
+            color: #fff;
+        }
+    }
+    .picture {
+        border: none;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.messaging-area-container {
+
+    .status {
+        .online-text {
+            display: none;
+            color: #7d7;
+        }
+
+        .offline-text {
+            color: #ff6961;
+        }
+
+        &.online {
+            .online-text {
+                display: block;
+            }
+            .offline-text {
+                display: none;
+            }
+        }
+    }
+
+    .messaging-area {
+        border: 1px solid #e3e3e3;
+        clear: both;
+
+        img {
+            max-width: 100%;
+        }
+
+        .contacts-area {
+            height: 600px;
+            @media (max-height: 670px) {
+                height: 500px;
+            }
+            width: 280px;
+            display: inline-block;
+            box-sizing: border-box;
+
+            &.searchfilter {
+
+                .searchtextarea {
+                    height: 80px;
+                }
+
+                .searcharea {
+                    height: 470px;
+                }
+            }
+
+            .searchtextarea {
+                padding: 5px;
+                text-align: center;
+                height: 50px;
+                box-sizing: border-box;
+                line-height: 50px;
+                background-color: #fff;
+                transition: background-color linear 0.2s;
+
+                input {
+                    height: 28px;
+                    line-height: 20px;
+                    margin-bottom: 10px;
+                    vertical-align: middle;
+                    padding: 4px 6px;
+                    background-color: #f5f5f5;
+                    border: 0;
+                    width: 100%;
+                    box-shadow: none;
+                    transition: background-color linear 0.2s;
+
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+
+                &.searching {
+                    background-color: #f5f5f5;
+                    transition: background-color linear 0.2s;
+
+                    input {
+                        background-color: #fff;
+                        transition: background-color linear 0.2s;
+                    }
+                }
+
+                .searchfilterarea {
+                    line-height: 20px;
+                    cursor: pointer;
+
+                    .searchfilter {
+                        float: left;
+                    }
+
+                    .searchfilterdelete {
+                        float: left;
+                        margin-left: 5px;
+                    }
+                }
+            }
+
+            .searcharea {
+
+                .heading {
+                    text-align: center;
+                    border-top: 1px solid black;
+                    border-bottom: 1px solid black;
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+
+                .course {
+                    text-align: center;
+
+                    &:hover {
+                        background-color: #4f94cd;
+                        color: #fff;
+                        border: none;
+                        cursor: pointer;
+                    }
+                }
+
+                .noresults {
+                    padding-top: 20px;
+                    text-align: center;
+                }
+            }
+
+            .contacts {
+                height: 500px;
+                @media (max-height: 670px) {
+                    height: 400px;
+                }
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+
+                .nocontacts {
+                    padding-top: 20px;
+                    text-align: center;
+                }
+
+                .contact {
+                    height: 66px;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    transition: background 0.3s linear;
+
+                    &.unread {
+                        background-color: #f1f1f1;
+
+                        .picture {
+                            border-color: transparent;
+                            border: none;
+                        }
+
+                        .information {
+                            width: 60%;
+                        }
+
+                        .unread-count-container {
+                            display: inline-block;
+                            width: 15%;
+                            float: left;
+                        }
+                    }
+
+                    &:hover {
+                        @include setSelectedContact();
+                        background-color: #79b5e6;
+                    }
+
+                    &.selected {
+                        @include setSelectedContact();
+                    }
+
+                    .picture {
+                        line-height: 66px;
+                        text-align: center;
+                        height: 66px;
+                        width: 25%;
+                        float: left;
+                        display: inline-block;
+                        box-sizing: border-box;
+
+                        img {
+                            border-radius: 50%;
+                            height: 54px;
+                        }
+                    }
+
+                    .information {
+                        padding: 6px 0;
+                        height: 66px;
+                        width: 75%;
+                        float: left;
+                        display: inline-block;
+                        box-sizing: border-box;
+
+                        .name {
+
+                            img {
+                                vertical-align: baseline;
+                            }
+
+                        }
+
+                        .lastmessage {
+                            word-wrap: break-word;
+                            margin: 0;
+                            height: 40px;
+                            line-height: 17px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            color: #a1a1a1;
+                            padding-right: 10px;
+                        }
+                    }
+
+                    .unread-count-container {
+                        display: none;
+                        line-height: 66px;
+                        text-align: center;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+
+            @mixin setSelectedTab() {
+                color: #4f94cd;
+            }
+
+            .tabs {
+                height: 50px;
+                box-sizing: border-box;
+
+                .tab {
+                    cursor: pointer;
+                    height: 100%;
+                    background-color: #f5f5f5;
+                    margin: 0;
+                    width: 50%;
+                    text-align: center;
+                    float: left;
+
+                    &:hover {
+                        @include setSelectedTab();
+                    }
+
+                    .tabimage {
+                        height: 30px;
+                        line-height: 30px;
+
+                        img {
+                            height: 20px;
+                        }
+                    }
+                }
+
+                .tab.selected {
+                    @include setSelectedTab();
+                }
+            }
+        }
+
+        .messages-area {
+            width: calc(100% - 280px);
+            height: 600px;
+            @media (max-height: 670px) {
+                height: 500px !important;
+            }
+            box-sizing: border-box;
+            margin: 0;
+            position: relative;
+            float: right;
+
+            .btn-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding-left: 15px;
+                font-weight: normal;
+
+                &.view-toggle {
+                    display: none;
+                }
+
+                &.delete-all {
+                    display: none;
+                }
+            }
+
+            .profile-header {
+                height: 50px;
+                line-height: 50px;
+                display: none;
+
+                .btn-container {
+                    display: block;
+
+                }
+            }
+
+            .profile {
+                padding: 30px;
+                font-size: 16px;
+                height: 600px;
+                @media (max-height: 670px) {
+                    height: 500px;
+                }
+                box-sizing: border-box;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+
+                .user-container {
+                    height: 100px;
+
+                    .profile-picture {
+                        border-radius: 50%;
+                        max-height: 100px;
+                        display: inline-block;
+                    }
+
+                    .name-container {
+                        display: inline-block;
+                        vertical-align: top;
+                        margin-top: 20px;
+                        margin-left: 10px;
+
+                        .name {
+                            font-weight: bold;
+                            display: block;
+
+                            .btn {
+
+                            }
+                        }
+
+                        .status {
+                            display: block;
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                .information {
+                    margin: 0;
+                    display: inline-block;
+                    float: right;
+                    margin-top: 20px;
+                    font-size: 14px;
+                    list-style: none;
+
+                    .name {
+                        display: inline-block;
+                        font-weight: bold;
+                        text-align: right;
+                        margin-right: 10px;
+                    }
+
+                    .value {
+                        display: inline-block;
+                    }
+                }
+
+                .actions {
+                    padding-top: 80px;
+
+                    .separator {
+                        border-bottom: 1px solid #e3e3e3;
+                        margin-bottom: 20px;
+                        padding-bottom: 5px;
+
+                        a {
+                            &.danger {
+                                color: #ff6961;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .messages-header {
+                height: 50px;
+                font-weight: bold;
+                line-height: 50px;
+                box-sizing: border-box;
+                text-align: center;
+                position: relative;
+
+                .delete-instructions {
+                    display: none;
+                }
+
+                .name-container {
+                    padding-top: 9px;
+                    display: inline-block;
+
+                    .name {
+                        line-height: 20px;
+
+                        .btn {
+                            background-color: transparent;
+                            color: $text-color;
+                            padding: 0;
+                            border: none;
+                            box-shadow: none;
+
+                        }
+                    }
+
+                    .status {
+                        line-height: 12px;
+                        font-size: 12px;
+                        font-weight: normal;
+                    }
+                }
+
+                .actions {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    padding-right: 15px;
+                    font-weight: normal;
+
+                    .cancel-messages-delete {
+                        display: none;
+                    }
+                }
+            }
+
+            .messages {
+                height: 500px;
+                @media (max-height: 670px) {
+                    height: 400px;
+                }
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                box-sizing: border-box;
+                padding: 20px;
+
+                .blocktime {
+                    clear: both;
+                    text-align: center;
+                    color: #a1a1a1;
+                    font-size: 12px;
+                    margin: 5px 0;
+                }
+
+                .message {
+                    @include make-row(0);
+
+                    .deletemessagecheckbox {
+                        display: none;
+                        text-align: center;
+                        padding-top: 5px;
+                    }
+
+                    .content {
+                        border: 1px solid #e3e3e3;
+                        padding: 10px;
+                        margin-bottom: 5px;
+                        font-size: 12px;
+                        word-wrap: break-word;
+                        max-width: 55%;
+                        position: relative;
+
+                        .text {
+                            display: block;
+
+                            p {
+                                margin: 0 !important;
+                                font-family: $font-family-fancy !important;
+                            }
+                        }
+
+                        .timesent {
+                            font-size: 10px;
+                            color: #a1a1a1;
+                            float: right;
+                        }
+                    }
+
+                    .content.left .text {
+                        background: $gray-light;
+                        padding: 0.618em 1em 0.618em  0.618em;
+                    }
+
+                    .content.right {
+                        float: right;
+
+                    }
+                }
+            }
+
+            .response {
+                display: table;
+                padding: 8px 10px 0px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                line-height: 28px;
+                text-align: center;
+                box-sizing: border-box;
+                background-color: #fff;
+                transition: background-color linear 0.2s;
+
+                .delete-confirmation {
+                    display: none;
+
+                    .btn.btn-link.confirm {
+                        border: 1px solid #4f94cd;
+                        height: 30px;
+
+                        &:hover {
+                            background-color: #4f94cd;
+                            color: #fff;
+                            text-shadow: none;
+                        }
+                    }
+                }
+
+                .message-box {
+                    display: table-row;
+
+                    .message-text-container {
+                        display: table-cell;
+
+                        textarea {
+                            line-height: 20px;
+                            padding: 4px 6px;
+                            vertical-align: middle;
+                            width: 100%;
+                            margin: 0;
+                            resize: none;
+                            border: none;
+                            box-shadow: none;
+                            box-sizing: border-box;
+                            background-color: #f5f5f5;
+                            transition: background-color linear 0.2s;
+
+                            &:focus {
+                                box-shadow: none;
+                            }
+                        }
+                    }
+
+                    .send-button-container {
+                        display: table-cell;
+                        width: 1px;
+
+                        .btn {
+                            margin: .17em 0 .17em 1.618em;
+                        }
+
+                    }
+                }
+
+                &.messaging {
+                    background-color: #f5f5f5;
+                    transition: background-color linear 0.2s;
+
+                    .message-box {
+                        .message-text-container {
+                            textarea {
+                                background-color: #fff;
+                                transition: background-color linear 0.2s;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.editing {
+                .messages-header {
+                    .btn-container {
+                        &.view-all {
+                            display: none;
+                        }
+
+                        &.delete-all {
+                            display: block;
+                        }
+                    }
+
+                    .delete-instructions {
+                        display: block;
+                    }
+
+                    .name-container {
+                        display: none;
+                    }
+
+                    .actions {
+                        .messages-delete {
+                            display: none;
+                        }
+
+                        .cancel-messages-delete {
+                            display: block;
+                        }
+                    }
+                }
+
+                .messages {
+                    .message {
+                        cursor: pointer;
+
+                        &[aria-checked="true"] {
+                            .content {
+                                background-color: #4f94cd;
+                                border-color: #4f94cd;
+                                color: #fff;
+
+                                .timesent {
+                                    color: #fff;
+                                }
+                            }
+                        }
+
+                        &[aria-checked="false"] {
+                            .content {
+                                &:hover {
+                                    background-color: #79b5e6;
+                                    color: #fff;
+
+                                    .timesent {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .response {
+                    .delete-confirmation {
+                        display: block;
+                    }
+
+                    .message-box {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.preferences-container {
+    .container-fluid {
+        padding: 0;
+
+        .span6 {
+            min-height: 20px;
+        }
+    }
+    .align-bottom {
+        vertical-align: bottom;
+    }
+    .preference-table {
+        border: 1px solid #ddd;
+
+        thead {
+            th {
+                text-align: center;
+
+                .config-warning {
+                    display: none;
+                }
+
+                &.unconfigured {
+                    .config-warning {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+        tr {
+            td {
+                &:not(:first-child) {
+                    width: 150px;
+                    text-align: center;
+                }
+                &:nth-child(even) {
+                    background-color: #f7f7f7;
+                }
+            }
+            th:nth-child(even) {
+                background-color: #f7f7f7;
+            }
+        }
+        .preference-row {
+            .hover-tooltip-container {
+                display: inline-block;
+            }
+
+            .preference-name {
+                vertical-align: middle;
+            }
+            .disabled-message {
+                text-align: center;
+                height: 30px;
+                line-height: 30px;
+            }
+            .preference-state {
+                margin: 0;
+                padding: 0;
+                display: inline-block;
+                vertical-align: middle;
+
+                input[type="checkbox"]:checked + .preference-state-status-container {
+                    background-color: #5cb85c;
+
+                    .on-text {
+                        display: inline-block;
+                    }
+                    .off-text {
+                        display: none;
+                    }
+                }
+                .preference-state-status-container {
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    text-align: center;
+                    border-radius: 4px;
+                    background-color: #d9534f;
+                    color: #fff;
+                    cursor: pointer;
+
+                    .loading-icon {
+                        display: none;
+                    }
+                    .on-text {
+                        display: none;
+                    }
+                    .off-text {
+                        display: inline-block;
+                    }
+                }
+                &.loading {
+                    input[type="checkbox"]:checked + .preference-state-status-container {
+                        .on-text,
+                        .off-text {
+                            display: none;
+                        }
+                    }
+
+                    .preference-state-status-container {
+                        .on-text,
+                        .off-text {
+                            display: none;
+                        }
+                        .loading-icon {
+                            display: block;
+                        }
+                    }
+                }
+            }
+            &.loading {
+                .preference-name {
+                    .loading-icon {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.disabled-message {
+    display: none;
+}
+
+.disabled {
+    .disabled-message {
+        display: block;
+
+        + form {
+            display: none;
+        }
+    }
+}
+
+.general-settings-container {
+    .loading-icon {
+        display: none;
+    }
+    .loading {
+        .loading-icon {
+            display: inline-block;
+        }
+    }
+    label {
+        display: inline-block;
+    }
+}
+.processor-container {
+    position: relative;
+
+    .loading-container {
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.5);
+
+        .vertical-align {
+            height: 100%;
+            width: 0%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    &.loading {
+        .loading-container {
+            display: block;
+        }
+    }
+}
+
+.preferences-page-container {
+    .checkbox-container {
+        margin: 30px 5px;
+        line-height: 20px;
+
+        input {
+            line-height: 20px;
+            margin: 0;
+        }
+
+        .loading-icon {
+            display: none;
+        }
+
+        &.loading {
+            .loading-icon {
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.notification-area {
+    height: 600px;
+    @media (max-height: 670px) {
+        height: 500px;
+    }
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    border: 1px solid #e3e3e3;
+
+    .control-area {
+        box-sizing: border-box;
+        display: inline-block;
+        width: 300px;
+        height: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        border-right: 1px solid #e3e3e3;
+
+        .content {
+            position: relative;
+
+            .content-item-container {
+                cursor: pointer;
+            }
+
+            &:empty + .empty-text {
+                display: block;
+            }
+        }
+
+        .loading-icon {
+            display: none;
+        }
+
+        .empty-text {
+            display: none;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        &.loading {
+            .loading-icon {
+                display: block;
+                text-align: center;
+                box-sizing: border-box;
+                padding: 5px;
+            }
+
+            .content:empty + .empty-text {
+                display: none;
+            }
+        }
+    }
+
+    .content-area {
+        box-sizing: border-box;
+        display: inline-block;
+        width: calc(100% - 300px);
+        float: right;
+
+        .toggle-mode {
+            display: none;
+        }
+
+        .header {
+            height: 50px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #e3e3e3;
+            padding: 5px;
+
+            .image-container {
+                display: inline-block;
+                height: 25px;
+                width: 24px;
+                float: left;
+            }
+
+            .subject-container {
+                display: inline-block;
+                max-width: calc(100% - 24px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                height: 25px;
+                padding-left: 5px;
+                box-sizing: border-box;
+            }
+
+            .timestamp {
+                font-size: 10px;
+                line-height: 10px;
+                margin: 0;
+                color: #666;
+                margin-left: 30px;
+            }
+
+            &:empty {
+                display: none;
+            }
+        }
+
+        > .content {
+            height: 500px;
+            @media (max-height: 670px) {
+                height: 400px;
+            }
+            box-sizing: border-box;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 15px;
+
+            &:empty {
+                display: none;
+
+                & + .empty-text {
+                    display: block;
+                    text-align: center;
+                    padding-top: 100px;
+                }
+            }
+        }
+
+        .empty-text {
+            display: none;
+        }
+
+        .footer {
+            height: 50px;
+            box-sizing: border-box;
+            text-align: center;
+
+            a {
+                line-height: 50px;
+            }
+
+            &:empty {
+                display: none;
+            }
+        }
+    }
+}
+
+@media (max-width: 979px) {
+    .messaging-area-container {
+        .messaging-area {
+            position: relative;
+            overflow: hidden;
+            height: 600px;
+            @media (max-height: 670px) {
+                height: 500px;
+            }
+
+            .messages-area {
+                .messages-header {
+                    .btn-container {
+                        &.view-toggle {
+                            display: block;
+                        }
+
+                        &.delete-all {
+                            display: none;
+                        }
+                    }
+                }
+
+                .profile-header {
+                    display: block;
+                }
+
+                .profile {
+                    height: 550px;
+                }
+
+                &.editing {
+                    .messages-header {
+                        .btn-container {
+                            &.view-toggle {
+                                display: none;
+                            }
+
+                            &.delete-all {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .contacts-area {
+                width: 100%;
+                border-right: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: auto;
+                bottom: auto;
+            }
+
+            .messages-area {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: auto;
+                right: 0;
+                bottom: auto;
+            }
+
+            &.show-messages {
+                .contacts-area {
+                    left: -100%;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: left 0.25s, opacity 0.25s, visibility 0.25s;
+                }
+
+                .messages-area {
+                    right: 0;
+                    opacity: 1;
+                    visibility: visible;
+                    transition: right 0.25s, opacity 0.25s, visibility 0.25s;
+                }
+            }
+
+            &.hide-messages {
+                .contacts-area {
+                    left: 0;
+                    opacity: 1;
+                    visibility: visible;
+                    transition: left 0.25s, opacity 0.25s, visibility 0.25s;
+
+                    .contact {
+                        &.selected {
+                            background-color: inherit;
+                            color: inherit;
+                            border-bottom: 1px solid #e3e3e3;
+
+                            &:hover {
+                                @include setSelectedContact();
+                                background-color: #79b5e6;
+                            }
+
+                            .information {
+                                .lastmessage {
+                                    color: #a1a1a1;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .messages-area {
+                    right: -100%;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: right 0.25s, opacity 0.25s, visibility 0.25s;
+                }
+            }
+        }
+    }
+
+    .notification-area {
+        position: relative;
+        overflow: hidden;
+
+        .control-area {
+            border-right: none;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            visibility: visible;
+            transition: left 0.25s;
+        }
+
+        .content-area {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            right: -100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: right 0.25s, opacity 0.25s, visibility 0.25s;
+
+            .toggle-mode {
+                display: inline-block;
+                float: left;
+                width: 70px;
+                height: 50px;
+                line-height: 50px;
+                box-sizing: border-box;
+                border-right: 1px solid #e3e3e3;
+                border-bottom: 1px solid #e3e3e3;
+            }
+
+            .header {
+                display: inline-block;
+                width: calc(100% - 70px);
+            }
+        }
+
+        &.show-content-area {
+            .control-area {
+                left: -100%;
+                opacity: 0;
+                visibility: hidden;
+                transition: left 0.25s, opacity 0.25s, visibility 0.25s;
+            }
+
+            .content-area {
+                right: 0;
+                opacity: 1;
+                visibility: visible;
+                transition: right 0.25s;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .messaging-area-container {
+        .messaging-area {
+            .messages-area {
+                &.editing {
+                    .messages-header {
+                        height: 80px;
+
+                        .delete-all {
+                            top: 30px;
+                        }
+
+                        .actions {
+                            top: 30px;
+                        }
+                    }
+
+                    .messages {
+                        height: 470px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Message contaacts list */
+.message-contacts {
+    list-style: none;
+    padding: 0;
+}
+.message-contacts .pix,
+.message-contacts .link,
+.message-contacts .contact {
+    display: inline;
+}
+.message-contacts .pix {
+    margin-right: 0.5em;
+}
+.message-contacts .link {
+    float: right;
+}
+.path-mod-choice .results.names .user {
+    clear: both;
+}
+.path-mod-assignment .userpicture,
+.path-mod-assignment .picture.user,
+.path-mod-assignment .picture.teacher {
+    height: auto;
+}
+.comment-ctrl,
+.comment-list {
+    font-size: 1em;
+}
+.comment-area {
+    max-width: 100%;
+}
+.path-mod-workshop .userplan {
+    width: 100%;
+}
+.path-mod-workshop .collapsibleregioncaption {
+    font-size: 42px;
+    font-weight: 300;
+}
+#chat-input-area,
+#chat-input-area table.generaltable,
+#chat-input-area table.generaltable td.cell,
+#chat-userlist {
+    background-color: transparent !important;
+}
+.yui-skin-sam .yui-layout.path-mod-chat-gui_ajax #chat-input-area table.generaltable,
+.yui-skin-sam .yui-layout.path-mod-chat-gui_ajax #chat-input-area table.generaltable td.cell {
+    padding: 0;
+}
+#page-mod-chat-gui_basic-index #mr-nav,
+#page-mod-chat-gui_basic-index #moodle-footer,
+#page-mod-chat-gui_basic-index #page-header {
+    display: none;
+}
+.branchbuttoncontainer {
+    margin: 2em 0;
+}
+
+.messaging-area-container .messaging-area .messages-area {
+    width: calc(100% - 280px);
+    height: 600px;
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
+    float: right;
+}
+
+.messaging-area-container .messaging-area .messages-area .messages .message .content.left {
+    float: left;
+    clear: both;
+}
+
+.messaging-area-container .messaging-area .messages-area .messages .message .content {
+    border: 1px solid #e3e3e3;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    word-wrap: break-word;
+    max-width: 55%;
+    border-radius: 4px;
+    position: relative;
+}
+
+.row-fluid {
+    width: 100%;
+}
+.messaging-area-container .messaging-area .messages-area .messages .blocktime {
+    clear: both;
+    text-align: center;
+    color: #a1a1a1;
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+#page-message-index {
+    h2,
+    #page-mast,
+    #page-header,
+    #moodle-footer,
+    #moodle-blocks,
+    #admin-menu-trigger {
+        display: none;
+    }
+
+    #maincontent + h2 {
+        @include sr-only();
+    }
+
+    #region-main {
+        max-width: 100%;
+        padding: 58px 3.444% 0; // 58px for #mr-nav height.
+
+        textarea {
+            font-family: $font-family-base;
+        }
+    }
+}
+
+// Style messaging area.
+// Note - once supported this should probably use a css grid or flex.
+.messaging-area-container {
+    font-family: $font-family-base;
+    margin-bottom: .618em;
+
+    .messaging-area {
+        border: none;
+        border-top: 1px solid $gray-lighter;
+        overflow: visible !important;
+        // Contacts area.
+        .contacts-area {
+            // Footer to switch between contacts and messages.
+            .tabs .tab {
+                background-color: transparent;
+            }
+            // Contact media element type things.
+            .contacts .contact .information {
+
+                .name {
+                    font-weight: normal;
+                }
+
+                .lastmessage {
+                    line-height: normal;
+                    height: auto;
+                }
+            }
+
+            // Search area headings.
+            .searcharea .heading {
+                border: 0;
+                @extend .h1;
+                padding: 1rem 0;
+            }
+        }
+        // Messages area.
+        .messages-area {
+            // Delete messages link.
+            .response .delete-confirmation .btn.btn-link.confirm {
+                height: auto;
+            }
+            // Message.
+            .messages .message {
+
+                .content {
+                    font-size: 1rem;
+                    background-color: white !important; // SHAME - !important to overide hover styles when editing.
+                    border: none;
+                    padding: 0;
+                    // This is your own message, and gets a brand-color background.
+                    &.right {
+                        color: white;
+                    }
+                    &.left {
+                        background-color: $gray-light;
+                    }
+                    // These are other messages.
+                    .text {
+                        background-color: $gray-dark;
+                        border-radius: 1rem;
+                        border: none;
+                        padding: 0.618em 0.618em 0.618em 1em;
+                        margin: 0 .1em;
+                    }
+                }
+
+                // Selecting messages to delete when editing a thread.
+                &[aria-checked="true"] .content,
+                &[aria-checked="false"] .content:hover {
+
+                    .text {
+                        background-color: $brand-success;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// -------------------------
+// Messaging
+// -------------------------
+.messaging-area-container .messaging-area {
+    .contacts-area {
+        // Hoverable divs.
+        .contacts .contact,
+        .contacts .contact.selected,
+        .searcharea .course {
+
+            &:hover {
+                background-color: fade($gray-lighter, 50%);
+                color: $text-color !important;
+            }
+        }
+
+        // contact.selected large screen only, media query copied from message.scss
+        @media (min-width: 979px) {
+            .contacts .contact.selected {
+                background-color: $gray-lighter;
+                color: $text-color !important;
+            }
+        }
+
+        // Tabs to change from messages to contacts.
+        .tabs .tab:hover {
+            color: darken($brand-primary, 8%);
+        }
+    }
+
+}
+
+.callstoaction section .cass-personal-menu-more,
+#fixy-my-courses .cass-personal-menu-more {
+    display: none;
+}
+
+.header-button-group a.btn:hover {
+    color: $body-bg;
+    background: $brand-primary;
+    border-radius: 4px;
+}
+
+span.loading-icon {
+    display: none;
+}
+
+:focus {
+    outline: none !important;
+    border: $gray-light;
+}
+
+.contact .picture {
+    border-bottom: none;
 }

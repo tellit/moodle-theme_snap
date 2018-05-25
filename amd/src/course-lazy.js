@@ -33,6 +33,7 @@ define(
 
     /**
      * Return class(has private and public methods).
+     * @param {object} courseConfig
      */
     return function(courseConfig) {
 
@@ -50,8 +51,7 @@ define(
 
         /**
          * Scroll to a mod via search
-         * @param string modid
-         * @return void
+         * @param {string} modid
          */
         var scrollToModule = function(modid) {
             // sometimes we have a hash, sometimes we don't
@@ -91,7 +91,7 @@ define(
             }
             var sectionSetByServer = '';
 
-            if($('.section.main.state-visible.set-by-server').length) {
+            if ($('.section.main.state-visible.set-by-server').length) {
                 sectionSetByServer = '#' + $('.section.main.state-visible.set-by-server').attr('id');
                 $('.section.main.state-visible.set-by-server').removeClass('set-by-server');
             } else {
@@ -168,8 +168,23 @@ define(
             }
         };
 
+        /**
+         * Cass modchooser listener to add current section to urls.
+         */
+        var modchooserSectionLinks = function() {
+            $('.section-modchooser-link').click(function() {
+                // Grab the section number from the button.
+                var sectionNum = $(this).attr('data-section');
+                $('.cass-modchooser-addlink').each(function() {
+                    // Update section in mod link to current section.
+                    var newLink = this.href.replace(/(section=)[0-9]+/ig, '$1' + sectionNum);
+                    $(this).attr('href', newLink);
+                });
+            });
+        };
+
         // Intialise course lib.
         init();
-
+        modchooserSectionLinks();
     };
 });

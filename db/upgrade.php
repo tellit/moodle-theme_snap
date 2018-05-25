@@ -16,7 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-include_once($CFG->dirroot.'/theme/cass/lib.php');
+require_once($CFG->dirroot.'/theme/cass/lib.php');
 
 /**
  * Theme upgrade
@@ -91,6 +91,13 @@ function xmldb_theme_cass_upgrade($oldversion) {
             set_config('showcoursegradepersonalmenu', 0, 'theme_cass');
         }
         upgrade_plugin_savepoint(true, 2016121309, 'theme', 'cass');
+    }
+
+    if ($oldversion < 2017122801) {
+        if (!is_null(get_config('theme_cass', 'hidenavblock'))) {
+            unset_config('hidenavblock', 'theme_cass');
+        }
+        upgrade_plugin_savepoint(true, 2017122801, 'theme', 'cass');
     }
 
     return true;

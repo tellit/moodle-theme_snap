@@ -16,13 +16,13 @@
 
 namespace theme_cass\services;
 
+defined('MOODLE_INTERNAL') || die();
+
 use theme_cass\renderables\course_card;
 use theme_cass\local;
 use theme_cass\renderables\course_toc;
 
 require_once($CFG->dirroot.'/course/lib.php');
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Course service class.
@@ -56,7 +56,7 @@ class course {
     protected function check_summary_files_for_image_suitability($context) {
 
         $fs = get_file_storage();
-        $files = $fs->get_area_files($context->id, 'course', 'overviewfiles',0);
+        $files = $fs->get_area_files($context->id, 'course', 'overviewfiles', 0);
         $tmparr = [];
         // Remove '.' file from files array.
         foreach ($files as $file) {
@@ -76,6 +76,7 @@ class course {
             return false;
         }
 
+        // @codingStandardsIgnoreLine
         /* @var \stored_file $file*/
         $file = end($files);
         $ext = strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION));
@@ -88,25 +89,16 @@ class course {
     }
 
     /**
-     * @param string $courseshortname
+     * @param \context $context
      * @param string $data
      * @param string $filename
      * @return array
      * @throws \file_exception
      * @throws \stored_file_creation_exception
      */
-    public function setcoverimage($courseshortname, $data, $filename) {
+    public function setcoverimage(\context $context, $data, $filename) {
 
         global $CFG;
-
-        $course = $this->coursebyshortname($courseshortname);
-        if ($course->id != SITEID) {
-            // Course cover images.
-            $context = \context_course::instance($course->id);
-        } else {
-            // Site cover images.
-            $context = \context_system::instance();
-        }
 
         require_capability('moodle/course:changesummary', $context);
 
@@ -120,14 +112,13 @@ class course {
 
         $newfilename = 'rawcoverimage.'.$ext;
 
-        $binary =  base64_decode($data);
+        $binary = base64_decode($data);
         if (strlen($binary) > get_max_upload_file_size($CFG->maxbytes)) {
             throw new \moodle_exception('error:coverimageexceedsmaxbytes', 'theme_cass');
         }
 
-        if ($course->id != SITEID) {
+        if ($context->contextlevel === CONTEXT_COURSE) {
             // Course cover images.
-            $context = \context_course::instance($course->id);
             // Check suitability of course summary files area for use with cover images.
             if (!$this->check_summary_files_for_image_suitability($context)) {
                 return ['success' => false, 'warning' => get_string('coursesummaryfilesunsuitable', 'theme_cass')];
@@ -141,11 +132,9 @@ class course {
                 'filepath' => '/',
                 'filename' => $newfilename);
 
-            // Remove any old course summary image files.
+            // Remove any old course summary image files for this context.
             $fs->delete_area_files($context->id, $fileinfo['component'], $fileinfo['filearea']);
-        } else {
-            // Site cover images.
-            $context = \context_system::instance();
+        } else if ($context->contextlevel === CONTEXT_SYSTEM || $context->contextlevel === CONTEXT_COURSECAT) {
             $fileinfo = array(
                 'contextid' => $context->id,
                 'component' => 'theme_cass',
@@ -154,18 +143,20 @@ class course {
                 'filepath' => '/',
                 'filename' => $newfilename);
 
-            // Remove everything from poster area.
+            // Remove everything from poster area for this context.
             $fs->delete_area_files($context->id, 'theme_cass', 'poster');
+        } else {
+            throw new coding_exception('Unsupported context level '.$context->contextlevel);
         }
 
         // Create new cover image file and process it.
         $storedfile = $fs->create_file_from_string($fileinfo, $binary);
         $success = $storedfile instanceof \stored_file;
-        if ($course->id != SITEID) {
-            local::process_coverimage($context, $storedfile);
-        } else {
+        if ($context->contextlevel === CONTEXT_SYSTEM) {
             set_config('poster', $newfilename, 'theme_cass');
             local::process_coverimage($context);
+        } else if ($context->contextlevel === CONTEXT_COURSE || $context->contextlevel === CONTEXT_COURSECAT) {
+            local::process_coverimage($context, $storedfile);
         }
         return ['success' => $success];
     }
@@ -222,18 +213,24 @@ class course {
      * @throws \coding_exception
      */
     public function my_courses_split_by_favorites() {
-        $courses = enrol_get_my_courses(null, 'fullname ASC, id DESC');
+        $courses = enrol_get_my_courses('enddate', 'fullname ASC, id DESC');
         $favorites = $this->favorites();
         $favorited = [];
         $notfavorited = [];
+        $past = [];
         foreach ($courses as $course) {
-            if (isset($favorites[$course->id])) {
+            $today = time();
+            if (!empty($course->enddate) && $course->enddate < $today) {
+                $course->endyear = userdate($course->enddate, '%Y');
+                $past[$course->endyear][$course->id] = $course;
+            } else if (isset($favorites[$course->id])) {
                 $favorited[$course->id] = $course;
             } else {
                 $notfavorited[$course->id] = $course;
             }
         }
-        return [$favorited, $notfavorited];
+        krsort($past); // Reorder list by year.
+        return [$past, $favorited, $notfavorited];
     }
 
     /**
@@ -314,7 +311,6 @@ class course {
         $newlyavailablesections = array_diff($previouslyunavailablesections, $unavailablesections);
         $intersectunavailable = array_intersect($previouslyunavailablesections, $unavailablesections);
         $newlyunavailablesections = array_diff($unavailablesections, $intersectunavailable);
-
 
         $newlyavailablemods = array_diff($previouslyunavailablemods, $unavailablemods);
         $intersectunavailable = array_intersect($previouslyunavailablemods, $unavailablemods);
@@ -479,9 +475,7 @@ class course {
         if (course_can_delete_section($course, $sectioninfo)) {
             course_delete_section($course, $sectioninfo, true);
         }
-
         $toc = new \theme_cass\renderables\course_toc($course);
-
         return [
             'toc' => $toc->export_for_template($OUTPUT)
         ];

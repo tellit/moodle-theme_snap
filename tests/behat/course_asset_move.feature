@@ -24,14 +24,12 @@
 Feature: When the moodle theme is set to Cass, teachers can move course resources and activities without using drag and drop.
 
   Background:
-    Given I log in as "admin" (theme_cass)
-    And I navigate to "Front page > Front page settings" in site administration
+    Given I log in as "admin"
+    And I am on site homepage
+    And I navigate to "Edit settings" node in "Front page settings"
     And I set the following fields to these values:
       | Include a topic section | 1 |
-    And I log out (theme_cass)
-    Given the following config values are set as admin:
-      | theme           | cass |
-      | defaulthomepage | 0    |
+    And I log out
     And the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1 | 0 | topics |
@@ -52,7 +50,8 @@ Feature: When the moodle theme is set to Cass, teachers can move course resource
 
   @javascript
   Scenario: In read mode, on front page, admin moves activity.
-    Given I log in as "admin" (theme_cass)
+    Given I log in as "admin"
+    And I am on site homepage
     And I click on ".cass-activity.modtype_assign .cass-asset-move img[title='Move \"Test assignment1\"']" "css_element"
     Then I should see "Moving \"Test assignment1\""
     And I click on "#region-main .sitetopic ul.section li.cass-drop.asset-drop div.asset-wrapper" "css_element"
@@ -60,7 +59,7 @@ Feature: When the moodle theme is set to Cass, teachers can move course resource
 
   @javascript
   Scenario: In read mode, on course, teacher moves activity.
-    Given I log in as "teacher1" (theme_cass)
+    Given I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
@@ -71,7 +70,7 @@ Feature: When the moodle theme is set to Cass, teachers can move course resource
 
   @javascript
   Scenario: In read mode, on course, teacher moves activity to a different section.
-    Given I log in as "teacher1" (theme_cass)
+    Given I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
@@ -83,7 +82,7 @@ Feature: When the moodle theme is set to Cass, teachers can move course resource
 
   @javascript
   Scenario: In read mode, on course, teacher moves two activities to a different section.
-    Given I log in as "teacher1" (theme_cass)
+    Given I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
@@ -98,7 +97,7 @@ Feature: When the moodle theme is set to Cass, teachers can move course resource
 
   @javascript
   Scenario: Student cannot move activity.
-    Given I log in as "student1" (theme_cass)
+    Given I log in as "student1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then ".cass-activity.modtype_assign .js-cass-asset-move" "css_element" should not exist

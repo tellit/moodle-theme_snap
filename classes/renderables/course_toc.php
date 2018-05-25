@@ -77,10 +77,15 @@ class course_toc implements \renderable, \templatable{
     protected $format;
 
     /**
+     * @var int
+     */
+    protected $numsections;
+
+    /**
      * course_toc constructor.
      * @param null $course
      */
-    function __construct($course = null) {
+    public function __construct($course = null) {
         global $COURSE;
         if (empty($course)) {
             $course = $COURSE;
@@ -96,7 +101,10 @@ class course_toc implements \renderable, \templatable{
         $this->format  = course_get_format($course);
         $this->course  = $this->format->get_course(); // Has additional fields.
 
-        course_create_sections_if_missing($course, range(0, $this->course->numsections));
+        $this->numsections = $this->format->get_last_section_number();
+
+        // TODO: Remove this
+        // course_create_sections_if_missing($course, range(0, $this->course->numsections));
 
         $this->set_modules();
         $this->set_chapters();
@@ -110,14 +118,15 @@ class course_toc implements \renderable, \templatable{
     protected function set_modules() {
         global $CFG, $PAGE;
 
-        // If course does not have any sections then exit - note, module search is not supported in course formats
-        // that don't have sections.
-        if (!isset($this->course->numsections)) {
-            return;
-        }
-
+        // Set context first so $OUTPUT does not break later.
         if (!isset($PAGE->context) && AJAX_SCRIPT) {
             $PAGE->set_context(context_course::instance($this->course->id));
+        }
+
+        // If course does not have any sections then exit - note, module search is not supported in course formats
+        // that don't have sections.
+        if (empty($this->numsections)) {
+            return;
         }
 
         $modinfo = get_fast_modinfo($this->course);
@@ -126,7 +135,7 @@ class course_toc implements \renderable, \templatable{
             if ($cm->modname == 'label') {
                 continue;
             }
-            if ($cm->sectionnum > $this->course->numsections) {
+            if ($cm->sectionnum > $this->numsections) {
                 continue; // Module outside of number of sections.
             }
             if (!$cm->uservisible && (empty($cm->availableinfo))) {
@@ -157,9 +166,12 @@ class course_toc implements \renderable, \templatable{
 
         $this->chapters = (object) [];
 
-        $this->chapters->listlarge = $this->course->numsections > 9 ? 'list-large' : '';
+        $this->chapters->listlarge = $this->numsections > 9 ? 'list-large' : '';
 
-        $this->chapters->chapters= [];
+        // TODO: Remove this.
+        // $this->chapters->listlarge = $this->course->numsections > 9 ? 'list-large' : '';
+
+        $this->chapters->chapters = [];
 
         $canviewhidden = has_capability('moodle/course:viewhiddensections', context_course::instance($this->course->id));
 
@@ -167,9 +179,11 @@ class course_toc implements \renderable, \templatable{
 
         foreach ($modinfo->get_section_info_all() as $section => $thissection) {
 
+            // TODO: Remove this
             if ($section > $this->course->numsections) {
                 continue;
             }
+
             // Students - If course hidden sections completely invisible & section is hidden, and you cannot
             // see hidden things, bale out.
             if ($this->course->hiddensections
@@ -181,15 +195,18 @@ class course_toc implements \renderable, \templatable{
             $conditional = $this->is_section_conditional($thissection);
             $chapter = new course_toc_chapter();
             $chapter->outputlink = true;
+            $chapter->classes = '';
 
             if ($canviewhidden) { // Teachers.
                 if ($conditional) {
                     $chapter->availabilityclass = 'text-warning';
                     $chapter->availabilitystatus = get_string('conditional', 'theme_cass');
+                    $chapter->classes .= 'conditional ';
                 }
                 if (!$thissection->visible) {
                     $chapter->availabilityclass = 'text-warning';
                     $chapter->availabilitystatus = get_string('notpublished', 'theme_cass');
+                    $chapter->classes .= 'draft ';
                 }
             } else { // Students.
                 if ($conditional && !$thissection->uservisible && !$thissection->availableinfo) {
@@ -199,12 +216,14 @@ class course_toc implements \renderable, \templatable{
                 if ($conditional && $thissection->availableinfo) {
                     $chapter->availabilityclass = 'text-warning';
                     $chapter->availabilitystatus = get_string('conditional', 'theme_cass');
+                    $chapter->classes .= 'conditional ';
                 }
                 if (!$conditional && !$thissection->visible) {
                     // Hidden section collapsed, so show as text in TOC.
                     $chapter->outputlink  = false;
                     $chapter->availabilityclass = 'text-warning';
                     $chapter->availabilitystatus = get_string('notavailable');
+                    $chapter->classes .= 'draft ';
                 }
             }
 
@@ -215,23 +234,23 @@ class course_toc implements \renderable, \templatable{
 
             if ($this->format->is_section_current($section)) {
                 $chapter->iscurrent = true;
+                $chapter->classes .= 'cass-visible-section current ';
             }
 
             if ($chapter->outputlink) {
                 $singlepage = $this->course->format !== 'folderview';
                 if ($singlepage) {
                     $chapter->url = '#section-'.$section;
-                } else
-                    if ($section > 0) {
-                        $chapter->url = course_get_url($this->course, $section, ['navigation' => true, 'sr' => $section]);
-                    } else {
-                        // We need to create the url for section 0, or a hash will get returned.
-                        $chapter->url = new moodle_url('/course/view.php', ['id' => $this->course->id, 'section' => $section]);
-                    }
+                } else if ($section > 0) {
+                    $chapter->url = course_get_url($this->course, $section, ['navigation' => true, 'sr' => $section]);
+                } else {
+                    // We need to create the url for section 0, or a hash will get returned.
+                    $chapter->url = new moodle_url('/course/view.php', ['id' => $this->course->id, 'section' => $section]);
+                }
             }
 
             $chapter->progress = new course_toc_progress($this->course, $thissection);
-            $this->chapters->chapters[]=$chapter;
+            $this->chapters->chapters[] = $chapter;
         }
     }
 
@@ -242,8 +261,8 @@ class course_toc implements \renderable, \templatable{
         global $OUTPUT;
         $this->footer = (object) [
             'canaddnewsection' => has_capability('moodle/course:update', context_course::instance($this->course->id)),
-            'imgurladdnewsection' => $OUTPUT->pix_url('pencil', 'theme'),
-            'imgurltools' => $OUTPUT->pix_url('course_dashboard', 'theme')
+            'imgurladdnewsection' => $OUTPUT->image_url('pencil', 'theme'),
+            'imgurltools' => $OUTPUT->image_url('course_dashboard', 'theme')
         ];
     }
 

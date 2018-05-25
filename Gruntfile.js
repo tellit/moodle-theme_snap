@@ -37,20 +37,19 @@ module.exports = function(grunt) {
     grunt.loadGruntfile("../../Gruntfile.js");
 
     // PHP strings for exec task.
-    var moodleroot = 'dirname(dirname(__DIR__))',
-        configfile = moodleroot + ' . "/config.php"',
-        decachephp = '';
-
-    decachephp += "define(\"CLI_SCRIPT\", true);";
-    decachephp += "require(" + configfile  + ");";
-    decachephp += "theme_reset_all_caches();";
+    var configfile = "dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config.php'";
+        
+	grunt.config('wwwroot', (function(){
+        const execSync = require('child_process').execSync;
+        return execSync('php -r "' + "define('CLI_SCRIPT', true); require(" + configfile  + "); global $CFG; echo $CFG->wwwroot;" + '"');
+	})());
 
     grunt.mergeConfig = grunt.config.merge;
 
     grunt.mergeConfig({
         exec: {
             decache: {
-                cmd: "php -r '" + decachephp + "'",
+                cmd: 'php -r "' + "define('CLI_SCRIPT', true); require(" + configfile  + "); theme_reset_all_caches();" + '"',
                 callback: function(error, stdout, stderror) {
                     // exec will output error messages
                     // just add one to confirm success.
@@ -63,7 +62,12 @@ module.exports = function(grunt) {
         http: {
             prime_theme_cache: {
                 options: {
-                    url: 'http://joule2.dev/theme/styles.php/cass/-1/all',
+                    url: grunt.config('wwwroot') + '/theme/styles.php/cass/-1/all',
+                },
+                callback: function(error, response, body) {
+                    if (!error) {
+                        grunt.log.writeln("Moodle theme cache primed. Response: " + response + ".");
+                    }
                 }
             }
         },

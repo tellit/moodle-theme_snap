@@ -24,6 +24,8 @@
 
 namespace theme_cass;
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/lib/outputrequirementslib.php');
 
 class cass_page_requirements_manager extends \page_requirements_manager {
@@ -71,7 +73,7 @@ class cass_page_requirements_manager extends \page_requirements_manager {
             }
 
             $cassmanprop = new \ReflectionProperty($this, $pname);
-            // if the property is private or protected  set accessible, after the copy reset to not accessible.
+            // If the property is private or protected  set accessible, after the copy reset to not accessible.
             $isprotected = $cassmanprop->isPrivate() || $cassmanprop->isProtected();
             if ($isprotected) {
                 $cassmanprop->setAccessible(true);

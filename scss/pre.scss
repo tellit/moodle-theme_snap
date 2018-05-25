@@ -21,41 +21,65 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Cass specific overrides to Boost settinsg from
+// Cass specific overrides to Boost settings from
 // theme/boost/scss/bootstrap/variables.scss
 
-$font-size-root: 18px;
+$font-size-root: 20px;
 $font-size-lg:   1.25rem;
 $font-size-sm:   .75rem;
 $font-size-xs:   .6rem;
 
+$font-size-h1:            floor($font-size-root * 3);
+$font-size-h2:            floor($font-size-root * 2.6);
+$font-size-h3:            ceil($font-size-root * 2.2);
+$font-size-h4:            ceil($font-size-root * 2);
+$font-size-h5:            ceil($font-size-root * 1.6);
+$font-size-h6:            ceil($font-size-root * 1.3);
+
 // This needs some investigation of issues around IE11 and Moodle's autoprefixer implementaion.
 //$enable-flex:               true;
-$enable-rounded:            false;
 
-$brand-success:         #8BC34A;
-$brand-warning:         #FF9800;
-$brand-danger:          #E91E63;
-$brand-info:            #03A9F4;
+$brand-primary:         #ff7f41 !default;
+$brand-success:         #8bc34a;
+$brand-warning:         #ff9800;
+$brand-danger:          #e91e63;
+$brand-info:            #03a9f4;
 
-$body-bg:              #fff;
-$body-color:            #565656;
+$body-bg:               #fdfdfd;
+$body-color:            #666;
 
-$font-family-base:        "Roboto", "Fira Sans", "Segoe UI", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family-sans-serif: $font-family-base;
-$font-family-serif:       Georgia, "Times New Roman", Times, serif;
+$gray-darker:            #222;
+$gray-dark:              #333;
+$gray:                   #666;
+$gray-light:             #afa79f;
+$gray-lighter:           #f5f5f5;
+
+$brand-primary:         #8f182e;
+$brand-success:         #e2cc00;
+$brand-warning:         #e55302;
+$brand-danger:          #c9282d;
+$brand-info:            #00759b;
+$brand-green:         	#6c953c;
+$brand-yellow:          #e2cc00;
+$brand-purple:          #8f2b8c;
+
+$text-color:            #333;
+$modal-bg:              #fff;
+
+$font-family-system:      Georgia, Arial, sans-serif !default;
+$font-family-sans-serif:  "ff-meta-web-pro", $font-family-system;
+$font-family-feature:     "ff-meta-serif-web-pro", $font-family-system;
 $font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
+$font-family-fancy:       "ff-meta-web-pro", Helvetica, Arial, sans-serif;
 
-$font-family-feature: $font-family-sans-serif;
-
-$headings-font-weight:    300;
+$headings-font-weight:    400;
 $headings-color:          $body-color;
 
 $modal-backdrop-bg:           #fff;
 $modal-backdrop-opacity:      .8;
 
-$breadcrumb-divider: "/";
-$breadcrumb-divider-rtl: '\\';
+$breadcrumb-divider: "|";
+$breadcrumb-divider-rtl: "\005C";
 
 $state-success-text:             $brand-success;
 $state-success-bg:               fade-out($brand-success, 0.9);
@@ -72,3 +96,58 @@ $state-warning-border:           fade-out($brand-warning, 0.9);
 $state-danger-text:              $brand-danger;
 $state-danger-bg:                fade-out($brand-danger, 0.9);
 $state-danger-border:            fade-out($brand-danger, 0.9);
+
+$footer-color-bg:                #f1f0ee;
+
+$user-content-max-width:         43.5em;
+
+// -------------------------
+// Button customisations
+// -------------------------
+
+$btn-secondary-color:           $brand-primary;
+
+$border-radius:          0;
+$border-radius-lg:       0;
+$border-radius-sm:       0;
+
+$btn-border-radius:          .25rem;
+$btn-border-radius-lg:       .3rem;
+$btn-border-radius-sm:       .2rem;
+
+// -------------------------
+// Colour variables for resources and activities.
+// -------------------------
+
+$color-word:                         #03a9f4; // Blue.
+$color-powerpoint:                   #ff7300; // Orange.
+$color-excel:                        #009e51; // Green.
+$color-pdf:                          #f44336; // Red.
+$color-audio:                        #8bc34a; // Green.
+$color-video:                        #55b5cc; // Blue.
+$color-code:                         #f0652a; // Orange.
+
+$color-communication:                #8bc34a; // Foums, Chat
+$color-assignment:                   #03a9f4; // Assignment, workshop
+$color-quiz:                         #ffa000; // Quiz, choice, feedback
+$color-wiki:                         #009688; // Wiki, glossary
+
+
+// -------------------------
+// Colour variables for the customisable mr_nav.
+// -------------------------
+
+$nav-bg:                            rgba(255, 255, 255, .95) !default;
+$nav-color:                         $brand-primary !default;
+$nav-color-hover:                   darken($nav-color, 8%);
+
+$nav-button-bg:                     rgba(255, 255, 255, 0) !default;
+$nav-button-color:                  $nav-color !default;
+
+$nav-login-bg:                      $nav-button-bg;
+$nav-login-color:                   $nav-button-color;
+
+@if (alpha($nav-button-bg) == 0) {
+    $nav-login-color:               $nav-bg;
+    $nav-login-bg:                  $nav-button-color;
+}

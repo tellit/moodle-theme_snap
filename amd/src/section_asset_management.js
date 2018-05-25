@@ -19,9 +19,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification',
+define(['jquery', 'core/log', 'core/ajax', 'core/str', 'core/templates', 'core/notification',
     'theme_cass/util', 'theme_cass/ajax_notification', 'theme_cass/footer_alert'],
-    function($, log, ajax, templates, notification, util, ajaxNotify, footerAlert) {
+    function($, log, ajax, str, templates, notification, util, ajaxNotify, footerAlert) {
 
     return {
         init: function(courseLib) {
@@ -43,10 +43,77 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              */
             var ajaxing = false;
 
+            var ajaxTracker;
+
+            /**
+             * AJAX tracker class - for tracking chained AJAX requests (prevents behat intermittent faults).
+             * Also, sets and unsets ajax classes on trigger element / child of trigger if specified.
+             */
+            var AjaxTracker = function() {
+
+                var triggersByKey = {};
+
+                /**
+                 * Starts tracking.
+                 * @param {string} jsPendingKey
+                 * @param {domElement} trigger
+                 * @param {string} subSelector
+                 * @returns {boolean}
+                 */
+                this.start = function(jsPendingKey, trigger, subSelector) {
+                    if (this.ajaxing(jsPendingKey)) {
+                        log.debug('Skipping ajax request for ' + jsPendingKey + ', AJAX already in progress');
+                        return false;
+                    }
+                    M.util.js_pending(jsPendingKey);
+                    triggersByKey[jsPendingKey] = {trigger: trigger, subSelector: subSelector};
+                    if (trigger) {
+                        if (subSelector) {
+                            $(trigger).find(subSelector).addClass('ajaxing');
+                        } else {
+                            $(trigger).addClass('ajaxing');
+                        }
+                    }
+                    return true;
+                };
+
+                /**
+                 * Is there an AJAX request in progress.
+                 * @param {string} jsPendingKey
+                 * @returns {boolean}
+                 */
+                this.ajaxing = function(jsPendingKey) {
+                    return M.util.pending_js.indexOf(jsPendingKey) > -1;
+                };
+
+                /**
+                 * Completes tracking.
+                 * @param {string} jsPendingKey
+                 */
+                this.complete = function(jsPendingKey) {
+                    var trigger, subSelector;
+                    if (triggersByKey[jsPendingKey]) {
+                        trigger = triggersByKey[jsPendingKey].trigger;
+                        subSelector = triggersByKey[jsPendingKey].subSelector;
+                    }
+                    if (trigger) {
+                        if (subSelector) {
+                            $(trigger).find(subSelector).removeClass('ajaxing');
+                        } else {
+                            $(trigger).removeClass('ajaxing');
+                        }
+                    }
+                    delete triggersByKey[jsPendingKey];
+                    M.util.js_complete(jsPendingKey);
+                };
+            };
+
+            ajaxTracker = new AjaxTracker();
+
             /**
              * Get the section number from a section element.
              * @param {jQuery|object} el
-             * @return {integer}
+             * @returns {number}
              */
             var sectionNumber = function(el) {
                 return (parseInt($(el).attr('id').replace('section-', '')));
@@ -55,6 +122,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             /**
              * Get the section number for an element within a section.
              * @param {object} el
+             * @returns {number}
              */
             var parentSectionNumber = function(el) {
                 return sectionNumber($(el).parents('li.section.main')[0]);
@@ -96,9 +164,8 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                 var title;
                 if (movingObjects.length === 1) {
                     var assetname = $(movingObjects[0]).find('.cass-asset-link .instancename').html();
-                    assetname = assetname || M.str.label.pluginname;
+                    assetname = assetname || M.util.get_string('pluginname', 'label', assetname);
                     title = M.util.get_string('moving', 'theme_cass', assetname);
-
                 } else {
                     title = M.util.get_string('movingcount', 'theme_cass', movingObjects.length);
                 }
@@ -118,24 +185,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             };
 
             /**
-             * Add ajax loading to container
-             * @param {object} container
-             * @param {bool}   dark
-             */
-            var addAjaxLoading = function(container, dark) {
-                if ($(container).find('.loadingstat').length === 0) {
-                    var darkclass = dark ? ' spinner-dark' : '';
-                    $(container).append('<div class="loadingstat spinner-three-quarters' + darkclass +
-                        '">' + M.util.get_string('loading', 'theme_cass') + '</div>');
-                }
-            };
-
-            /**
              * General move request
              *
              * @param {object}   params
-             * @param {function} onsuccess
-             * @param {bool}     finaltime
+             * @param {function} onSuccess
+             * @param {bool}     finalItem
              */
             var ajaxReqMoveGeneral = function(params, onSuccess, finalItem) {
                 if (ajaxing) {
@@ -160,22 +214,25 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     url: M.cfg.wwwroot + courseLib.courseConfig.ajaxurl
                 });
                 req.done(function(data) {
-                    if (ajaxNotify.ifErrorShowBestMsg(data)) {
-                        log.debug('Ajax request fail');
-                        moveFailed();
-                        return;
-                    } else {
-                        log.debug('Ajax request successful');
-                        if (onSuccess) {
-                            onSuccess();
-                        }
-                        if (finalItem) {
-                            if (params.class === 'resource') {
-                                // Only stop moving for resources, sections handle this later once the TOC is reloaded.
-                                stopMoving();
+                    ajaxNotify.ifErrorShowBestMsg(data).done(function(errorShown) {
+                        if (errorShown) {
+                            log.debug('Ajax request fail');
+                            moveFailed();
+                            return;
+                        } else {
+                            // No errors, call success callback and stop moving if necessary.
+                            log.debug('Ajax request successful');
+                            if (onSuccess) {
+                                onSuccess();
+                            }
+                            if (finalItem) {
+                                if (params.class === 'resource') {
+                                    // Only stop moving for resources, sections handle this later once the TOC is reloaded.
+                                    stopMoving();
+                                }
                             }
                         }
-                    }
+                    });
                 });
                 req.fail(function() {
                     moveFailed();
@@ -296,11 +353,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                  * Delete section.
                  */
                 var doDelete = function() {
-                    if (ajaxing) {
-                        // Request already made.
-                        log.debug('Skipping ajax request, one already in progress');
+
+                    if (!ajaxTracker.start('section_delete', el)) {
+                        // Already in progress.
                         return;
                     }
+
                     var delProgress = M.util.get_string('deletingsection', 'theme_cass', sectionName);
 
                     footerAlert.setTitle(delProgress);
@@ -335,23 +393,29 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                                     // Remove section from DOM.
                                     section.remove();
                                     updateSections();
+
+                                    // Current section no longer exists so change location to previous section.
+                                    if (sectionNum >= $('.course-content > ul li.section').length) {
+                                        location.hash = 'section-' + (sectionNum - 1);
+                                    }
+                                    courseLib.showSection();
+                                    // We can't complete the action in the 'always' section because we want it to
+                                    // definitely be called after the section is removed from the DOM.
+                                    ajaxTracker.complete('section_delete');
                                 })
                                 .always(function() {
                                     // Allow another request now this has finished.
                                     footerAlert.hideAndReset();
-                                    ajaxing = false;
+                                })
+                                .fail(function() {
+                                    ajaxTracker.complete('section_delete');
                                 });
-                            // Current section no longer exists so change location to previous section.
-                            if (sectionNum >= $('.course-content > ul li.section').length) {
-                                location.hash = 'section-' + (sectionNum - 1);
-                            }
-                            courseLib.showSection();
                         })
                         .fail(function(response) {
                             ajaxNotify.ifErrorShowBestMsg(response);
                             footerAlert.hideAndReset();
                             // Allow another request now this has finished.
-                            ajaxing = false;
+                            ajaxTracker.complete('section_delete');
                         });
                 };
 
@@ -363,138 +427,123 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             };
 
             /**
-             * Delete asset dialog and confirm function.
-             * @param {object} e
-             * @param {object} el
+             * Generic action handler for all asset actions.
+             * @param {event} e
+             * @param {domNode} triggerEl
              */
-            var assetDelete = function(e, el) {
+            var assetAction = function(e, triggerEl) {
                 e.preventDefault();
-                var asset = $($(el).parents('.cass-asset')[0]);
-                var cmid = Number(asset[0].id.replace('module-', ''));
-                var instanceName = asset.find('.instancename').text();
-                var params = {
-                    id: cmid,
-                    "class": "resource",
-                    sesskey: M.cfg.sesskey,
-                    courseId: courseLib.courseConfig.id,
-                    action: "DELETE"
-                };
 
-                // Create progress and confirmation strings.
-                var delConf = '',
-                    delProgress = '',
-                    plugindata = {
-                        type: M.util.get_string('pluginname', asset.attr('class').match(/modtype_([^\s]*)/)[1])
-                    };
-                if (instanceName.trim() !== '') {
-                    plugindata.name = instanceName;
-                    delConf = M.util.get_string('deletechecktypename', 'moodle', plugindata);
-                    delProgress = M.util.get_string('deletingassetname', 'theme_cass', plugindata);
-                } else {
-                    delConf = M.util.get_string('deletechecktype', 'moodle', plugindata);
-                    delProgress = M.util.get_string('deletingasset', 'theme_cass', plugindata.type);
+                var assetEl = $($(triggerEl).parents('.cass-asset')[0]),
+                    cmid = Number(assetEl[0].id.replace('module-', '')),
+                    instanceName = assetEl.find('.instancename').text().trim(),
+                    action = $(triggerEl).data('action'),
+                    errActionKey = '',
+                    errMessageKey = '',
+                    errAction = '',
+                    errMessage = '',
+                    jsPendingKey = 'asset_' + action;
+
+                if (ajaxTracker.ajaxing(jsPendingKey)) {
+                    // Already in progress.
+                    // We check this because we don't want to show the confirmation dialog when in progress.
+                    return;
                 }
 
-                /**
-                 * Delete asset.
-                 */
-                var doDelete = function() {
-                    if (ajaxing) {
+                var actionAJAX = function() {
+                    if (!ajaxTracker.start(jsPendingKey, assetEl, '.cass-edit-asset-more')) {
                         // Request already made.
-                        log.debug('Skipping ajax request, one already in progress');
                         return;
                     }
 
-                    footerAlert.setTitle(delProgress);
-                    footerAlert.addAjaxLoading('');
-                    footerAlert.show();
+                    var params = {
+                        'action': action,
+                        'sectionreturn': 0,
+                        'id': cmid
+                    };
 
-                    log.debug('Making course/rest.php asset delete request', params);
-                    var req = $.ajax({
-                        type: "POST",
-                        async: true,
-                        data: params,
-                        dataType: 'text',
-                        url: M.cfg.wwwroot + courseLib.courseConfig.ajaxurl
-                    });
-                    req.done(function(data, textStatus, xhr) {
-                        if (data !== '' || xhr.status !== 200) {
-                            if (ajaxNotify.ifErrorShowBestMsg(data)) {
-                                log.debug('Ajax request fail');
-                                return;
-                            }
+                    ajax.call([
+                        {
+                            methodname: 'core_course_edit_module',
+                            args: params
                         }
-                        log.debug('Ajax request successful');
-                        // Remove asset from DOM.
-                        asset.remove();
-                        // Remove asset searchable.
-                        $('#toc-searchables li[data-id="' + cmid + '"]').remove();
-                    });
-                    req.fail(function(data) {
-                        ajaxNotify.ifErrorShowBestMsg(data);
-                    });
-                    req.always(function() {
-                        footerAlert.hideAndReset();
-                    });
-
+                    ], true, true)[0]
+                        .done(function(response) {
+                            ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage).done(function(errorShown) {
+                                ajaxTracker.complete(jsPendingKey);
+                                if (errorShown) {
+                                    log.debug('Ajax request fail');
+                                    return;
+                                } else {
+                                    log.debug('Ajax request successful');
+                                    if (action === 'delete') {
+                                        // Remove asset from DOM.
+                                        assetEl.remove();
+                                        // Remove asset searchable.
+                                        $('#toc-searchables li[data-id="' + cmid + '"]').remove();
+                                    } else if (action === 'show') {
+                                        assetEl.removeClass('draft');
+                                    } else if (action === 'hide') {
+                                        assetEl.addClass('draft');
+                                    } else if (action === 'duplicate') {
+                                        assetEl.replaceWith(response);
+                                    }
+                                }
+                            });
+                        })
+                        .fail(function(response) {
+                            ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage).done(function() {
+                                ajaxTracker.complete(jsPendingKey);
+                            });
+                        })
+                        .always(function() {
+                            footerAlert.hideAndReset();
+                        });
                 };
 
+                /**
+                 * Get error strings incase of AJAX failure.
+                 * @returns {*|Promise}
+                 */
+                var getErrorStrings = function() {
+                    if (action === 'duplicate') {
+                        errActionKey = 'action:duplicateasset';
+                        errMessageKey = 'error:failedtoduplicateasset';
+                    } else if (action === 'show' || action === 'hide') {
+                        errActionKey = 'action:changeassetvisibility';
+                        errMessageKey = 'error:failedtochangeassetvisibility';
+                    } else if (action === 'delete') {
+                        errActionKey = 'action:deleteasset';
+                        errMessageKey = 'error:failedtodeleteasset';
+                    }
+                    return str.get_strings([
+                        {key: errActionKey, component: 'theme_cass'},
+                        {key: errMessageKey, component: 'theme_cass'}
+                    ]);
+                };
 
-                var delTitle = M.util.get_string('confirm', 'moodle');
-                var ok = M.util.get_string('deleteassetconfirm', 'theme_cass', plugindata.type);
-                var cancel = M.util.get_string('cancel', 'moodle');
-                notification.confirm(delTitle, delConf, ok, cancel, doDelete);
-            };
-
-            /**
-             * Show or hide an asset
-             *
-             * @param {object} e
-             * @param {object} el
-             * @param {bool}   show
-             */
-            var assetShowHide = function(e, el, show) {
-                e.preventDefault();
-                var courserest = M.cfg.wwwroot + '/course/rest.php';
-                var parent = $($(el).parents('.cass-asset')[0]);
-
-                var id = parent.attr('id').replace('module-', '');
-
-                addAjaxLoading($(parent).find('.cass-meta'), true);
-
-                var courseid = courseLib.courseConfig.id;
-
-                var errMessage = M.util.get_string('error:failedtochangeassetvisibility', 'theme_cass');
-                var errAction = M.util.get_string('action:changeassetvisibility', 'theme_cass');
-
-                $.ajax({
-                    type: "POST",
-                    async: true,
-                    url: courserest,
-                    dataType: 'html',
-                    complete: function() {
-                        parent.find('.cass-meta .loadingstat').remove();
-                    },
-                    error: function(response) {
-                        ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage);
-                    },
-                    success: function(response) {
-                        if (ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage)) {
-                            return;
-                        }
-                        if (show) {
-                            parent.removeClass('draft');
+                getErrorStrings().then(function(strings) {
+                    errAction = strings[0];
+                    errMessage = strings[0];
+                    if (action === 'delete') {
+                        // Create confirmation strings.
+                        var delConf = '',
+                            plugindata = {
+                                type: M.util.get_string('pluginname', assetEl.attr('class').match(/modtype_([^\s]*)/)[1])
+                            };
+                        if (instanceName !== '') {
+                            plugindata.name = instanceName;
+                            delConf = M.util.get_string('deletechecktypename', 'moodle', plugindata);
                         } else {
-                            parent.addClass('draft');
+                            delConf = M.util.get_string('deletechecktype', 'moodle', plugindata);
                         }
-                    },
-                    data: {
-                        id: id,
-                        'class': 'resource',
-                        field: 'visible',
-                        sesskey: M.cfg.sesskey,
-                        value: show ? 1 : 0,
-                        courseId: courseid
+
+                        var delTitle = M.util.get_string('confirm', 'moodle');
+                        var ok = M.util.get_string('deleteassetconfirm', 'theme_cass', plugindata.type);
+                        var cancel = M.util.get_string('cancel', 'moodle');
+                        notification.confirm(delTitle, delConf, ok, cancel, actionAJAX);
+                    } else {
+                        actionAJAX();
                     }
                 });
             };
@@ -608,61 +657,13 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              * Listen for edit action clicks, hide, show, duplicate, etc..
              */
             var assetEditListeners = function() {
-                $(document).on('click', '.cass-asset-actions .js_cass_hide', function(e) {
-                    assetShowHide(e, this, false);
-                });
+                var actionSelectors = '.cass-asset-actions .js_cass_hide, ';
+                actionSelectors += '.cass-asset-actions .js_cass_show, ';
+                actionSelectors += '.cass-asset-actions .js_cass_delete, ';
+                actionSelectors += '.cass-asset-actions .js_cass_duplicate';
 
-                $(document).on('click', '.cass-asset-actions .js_cass_show', function(e) {
-                    assetShowHide(e, this, true);
-                });
-
-                $(document).on('click', '.cass-asset-actions .js_cass_delete', function(e) {
-                    assetDelete(e, this);
-                });
-
-                $(document).on('click', '.cass-section-editing.actions .cass-delete', function(e) {
-                    sectionDelete(e, this);
-                });
-
-                $(document).on('click', '.cass-asset-actions .js_cass_duplicate', function(e) {
-                    e.preventDefault();
-                    var parent = $($(this).parents('.cass-asset')[0]);
-                    var id = parent.attr('id').replace('module-', '');
-                    addAjaxLoading($(parent).find('.cass-meta'), true);
-
-                    var courseid = courseLib.courseConfig.id;
-
-                    var courserest = M.cfg.wwwroot + '/course/rest.php';
-
-                    var errAction = M.util.get_string('action:duplicateasset', 'theme_cass');
-                    var errMessage = M.util.get_string('error:failedtoduplicateasset', 'theme_cass');
-
-                    $.ajax({
-                        type: "POST",
-                        async: true,
-                        url: courserest,
-                        dataType: 'json',
-                        complete: function() {
-                            parent.find('.cass-meta .loadingstat').remove();
-                        },
-                        error: function(data) {
-                            ajaxNotify.ifErrorShowBestMsg(data, errAction, errMessage);
-                        },
-                        success: function(data) {
-                            if (ajaxNotify.ifErrorShowBestMsg(data, errAction, errMessage)) {
-                                return;
-                            }
-                            $(data.fullcontent).insertAfter(parent);
-                        },
-                        data: {
-                            'class': 'resource',
-                            field: 'duplicate',
-                            id: id,
-                            sr: 0,
-                            sesskey: M.cfg.sesskey,
-                            courseId: courseid
-                        }
-                    });
+                $(document).on('click', actionSelectors, function(e) {
+                    assetAction(e, this);
                 });
             };
 
@@ -670,7 +671,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              * Generic section action handler.
              *
              * @param {string} action visibility, highlight
-             * @param {null|function} callback for when completed.
+             * @param {null|function} onComplete for when completed.
              */
             var sectionActionListener = function(action, onComplete) {
 
@@ -678,6 +679,8 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
 
                     e.stopPropagation();
                     e.preventDefault();
+
+                    var trigger = this;
 
                     /**
                      * Invalid section action exception.
@@ -695,28 +698,24 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         throw new InvalidActionException(action);
                     }
 
-                    // Only allow 1 request to be made at a time.
-                    // Note, this is still async - just limited to one section action request at a time.
-                    // All other ajax requests (templates, etc) will still be async.
-                    if (ajaxing) {
-                        // Request already made.
-                        log.debug('Skipping ajax request, one already in progress');
+                    if (!ajaxTracker.start('section_' + action, trigger)) {
+                        // Request already in progress.
                         return;
                     }
-                    ajaxing = true;
 
-                    var toggler = action === 'visibility' ? 'cass-show' : 'cass-marker';
-                    var toggle = $(this).hasClass(toggler) ? 1 : 0;
+                    // For toggling visibility.
+                    var toggle;
+                    if (action === 'visibility') {
+                        toggle = $(this).hasClass('cass-hide') ? 0 : 1;
+                    } else {
+                        // For toggling highlight/mark as current.
+                        toggle = $(this).attr('aria-pressed') === 'true' ? 0 : 1;
+                    }
 
                     var sectionNumber = parentSectionNumber(this);
                     var sectionActionsSelector = '#section-' + sectionNumber + ' .cass-section-editing';
                     var actionSelector = sectionActionsSelector + ' .cass-' + action;
 
-                    // Add spinner.
-                    addAjaxLoading(sectionActionsSelector, true);
-
-                    var jsid = 'sectionupdate_' + new Date().getTime().toString(16) + (Math.floor(Math.random() * 1000));
-                    M.util.js_pending(jsid);
 
                     // Make ajax call.
                     var ajaxPromises = ajax.call([
@@ -742,12 +741,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                             errMessage = M.util.get_string('error:failedtohighlightsection', 'theme_cass');
                             errAction = M.util.get_string('action:highlightsectionvisibility', 'theme_cass');
                         }
-                        ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage);
-                        M.util.js_complete(jsid);
+                        ajaxNotify.ifErrorShowBestMsg(response, errAction, errMessage).done(function() {
+                            // Allow another request now this has finished.
+                            ajaxTracker.complete('section_' + action);
+                        });
                     }).always(function() {
-                        $(sectionActionsSelector + ' .loadingstat').remove();
-                        // Allow another request now this has finished.
-                        ajaxing = false;
+                        $(trigger).removeClass('ajaxing');
                     }).done(function(response) {
                         // Update section action and then reload TOC.
                         return templates.render('theme_cass/course_action_section', response.actionmodel)
@@ -759,25 +758,27 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                         }).then(function(result) {
                             $('#course-toc').html($(result).html());
                             $(document).trigger('cassTOCReplaced');
-                            if (onComplete && typeof(onComplete) === 'function') {
+                            if (onComplete && typeof (onComplete) === 'function') {
                                 var completion = onComplete(sectionNumber, toggle);
-                                if (completion && typeof(completion.always) === 'function') {
+                                if (completion && typeof (completion.always) === 'function') {
                                     // Callback returns a promise, js no longer running.
                                     completion.always(
                                         function() {
-                                            M.util.js_complete(jsid);
+                                            // Allow another request now this has finished.
+                                            ajaxTracker.complete('section_' + action);
                                         }
                                     );
                                 } else {
                                     // Callback does not return a promise, js no longer running.
-                                    M.util.js_complete(jsid);
+                                    // Allow another request now this has finished.
+                                    ajaxTracker.complete('section_' + action);
                                 }
                             } else {
-                                M.util.js_complete(jsid);
+                                // Allow another request now this has finished.
+                                ajaxTracker.complete('section_' + action);
                             }
                         });
                     });
-
                 });
             };
 
@@ -786,7 +787,28 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
              */
             var highlightSectionListener = function() {
                 sectionActionListener('highlight', function(sectionNumber) {
-                    $('#section-' + sectionNumber).toggleClass("current");
+                    $('#section-' + sectionNumber).toggleClass('current');
+
+                    // Reset sections which are not highlighted.
+                    var $notCurrent = $('li.section.main')
+                    .not('#section-' + sectionNumber)
+                    .not('#section-0').removeClass("current");
+
+                    $notCurrent.each(function() {
+                        var highlighter = $(this).find('.cass-highlight');
+                        var sectionNumber = parentSectionNumber(highlighter);
+                        var newLink = $(highlighter).attr('href').replace(/(marker=)[0-9]+/ig, '$1' + sectionNumber);
+                        $(highlighter).attr('href', newLink).attr('aria-pressed', 'false');
+                    });
+                });
+            };
+
+            /**
+             * Delete section on click.
+             */
+            var deleteSectionListener = function() {
+                $(document).on('click', '.cass-section-editing.actions .cass-delete', function(e) {
+                    sectionDelete(e, this);
                 });
             };
 
@@ -796,9 +818,9 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             var toggleSectionListener = function() {
                 /**
                  * Toggle hidden class and update section navigation.
-                 * @param sectionNumber
-                 * @param toggle
-                 * @returns {promise}
+                 * @param {number} sectionNumber
+                 * @param {boolean} toggle
+                 * @returns {Promise}
                  */
                 var manageHiddenClass = function(sectionNumber, toggle) {
                     if (toggle === 0) {
@@ -814,7 +836,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                     ];
                     var selector = selectors.join(',');
                     return updateSectionNavigation(selector);
-
                 };
                 sectionActionListener('visibility', manageHiddenClass);
             };
@@ -981,6 +1002,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
                 moveSectionListener();
                 toggleSectionListener();
                 highlightSectionListener();
+                deleteSectionListener();
                 assetMoveListener();
                 movePlaceListener();
                 assetEditListeners();
@@ -994,9 +1016,11 @@ define(['jquery', 'core/log', 'core/ajax', 'core/templates', 'core/notification'
             var overrideCore = function() {
                 // Check M.course exists (doesn't exist in social format).
                 if (M.course && M.course.resource_toolbox) {
+                    /* eslint-disable camelcase */
                     M.course.resource_toolbox.handle_resource_dim = function(button, activity, action) {
                         return (action === 'hide') ? 0 : 1;
                     };
+                    /* eslint-enable camelcase */
                 }
             };
 

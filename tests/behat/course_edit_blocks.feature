@@ -24,9 +24,7 @@
 Feature: When the moodle theme is set to Cass, teachers only see block edit controls when in edit mode.
 
   Background:
-    Given the following config values are set as admin:
-      | theme | cass |
-    And the following "courses" exist:
+    Given the following "courses" exist:
       | fullname | shortname | category | format |
       | Course 1 | C1        | 0        | topics |
       | Course 2 | C2        | 0        | weeks  |
@@ -44,7 +42,7 @@ Feature: When the moodle theme is set to Cass, teachers only see block edit cont
     Given the following "activities" exist:
       | activity | course | idnumber | name             | intro                         | section |
       | assign   | C1     | assign1  | Test assignment1 | Test assignment description 1 | 1       |
-    And I log in as "teacher1" (theme_cass)
+    And I log in as "teacher1"
     And I am on the course main page for "C1"
     And I follow "Topic 1"
     Then "#section-1" "css_element" should exist
@@ -66,7 +64,7 @@ Feature: When the moodle theme is set to Cass, teachers only see block edit cont
 
   @javascript
   Scenario: If edit mode is on for a course, it should not carry over to site homepage
-    Given I log in as "admin" (theme_cass)
+    Given I log in as "admin"
     And I am on the course main page for "C1"
     And I follow "Course Dashboard"
     And I follow "Edit blocks"
@@ -76,7 +74,7 @@ Feature: When the moodle theme is set to Cass, teachers only see block edit cont
 
   @javascript
   Scenario: If edit mode is on for site homepage, it should not carry over to courses
-    Given I log in as "admin" (theme_cass)
+    Given I log in as "admin"
     And I am on site homepage
     And I click on "#admin-menu-trigger" "css_element"
     And I follow "Turn editing on"
@@ -93,7 +91,7 @@ Feature: When the moodle theme is set to Cass, teachers only see block edit cont
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C3     | editingteacher |
-    Given I log in as "teacher1" (theme_cass)
+    Given I log in as "teacher1"
     And I am on the course main page for "C3"
     And I follow "Edit blocks"
     And I should see "Add Topic"

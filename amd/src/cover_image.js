@@ -24,12 +24,12 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
 
         // TODO - in Moodle 3.1 we should use the core template for this.
         var addCoverImageAlert = function(id, msg) {
-            var closestr =  M.util.get_string('close', 'theme_cass');
+            var closestr = M.util.get_string('closebuttontitle', 'moodle');
             if (!$(id).length) {
-                $('#cass-coverimagecontrol').after(
-                    '<div id="'+id+'" class="alert alert-warning" role="alert">' +
+                $('#cass-coverimagecontrol').before(
+                    '<div id="' + id + '" class="cass-alert-cover-image alert alert-warning" role="alert">' +
                     msg +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="'+closestr+'">' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="' + closestr + '">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
                     '</div>'
@@ -40,52 +40,55 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
         /**
          * Get human file size from bytes.
          * http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable.
-         * @param size
+         * @param {int} size
          * @returns {string}
          */
         var humanFileSize = function(size) {
-            var i = Math.floor( Math.log(size) / Math.log(1024) );
-            return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+            var i = Math.floor(Math.log(size) / Math.log(1024));
+            return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
         };
 
         /**
-         * Main function
-         * @param {string} courseshortname
+         * First state - image selection button visible.
          */
-        var courseCoverImage = function(courseshortname, siteMaxBytes) {
+        var state1 = function() {
+            $('#cass-changecoverimageconfirmation .ok').removeClass('ajaxing');
+            $('#cass-alert-cover-image-size').remove();
+            $('#cass-alert-cover-image-bytes').remove();
+            $('label[for="cass-coverfiles"]').removeClass('ajaxing');
+            $('#cass-changecoverimageconfirmation').removeClass('state-visible');
+            $('label[for="cass-coverfiles"]').addClass('state-visible');
+            $('#cass-coverfiles').val('');
+        };
 
+        /**
+         * Second state - confirm / cancel buttons visible.
+         */
+        var state2 = function() {
+            $('#cass-alert-cover-image-upload-failed').remove();
+            $('#cass-changecoverimageconfirmation').removeClass('disabled');
+            $('label[for="cass-coverfiles"]').removeClass('state-visible');
+            $('#cass-changecoverimageconfirmation').addClass('state-visible');
+            $('body').removeClass('cover-image-change');
+        };
+
+        /**
+         *
+         * @param {int} siteMaxBytes
+         * @param {object} ajaxParams
+         */
+        var coverImage = function(siteMaxBytes, ajaxParams) {
             // Take a backup of what the current background image url is (if any).
             $('#page-header').data('servercoverfile', $('#page-header').css('background-image'));
 
-            var file, filedata;
             $('#changecoverimage').click(function(e) {
                 e.preventDefault();
                 $(this).removeClass('state-visible');
                 $('label[for="cass-coverfiles"]').addClass('state-visible');
             });
 
-            /**
-             * First state - image selection button visible.
-             */
-            var state1 = function() {
-                $('#cass-alert-cover-image-size').remove();
-                $('#cass-alert-cover-image-bytes').remove();
-                $('label[for="cass-coverfiles"] .loadingstat').remove();
-                $('#cass-changecoverimageconfirmation').removeClass('state-visible');
-                $('label[for="cass-coverfiles"]').addClass('state-visible');
-                $('#cass-coverfiles').val('');
-            };
-
-            /**
-             * Second state - confirm / cancel buttons visible.
-             */
-            var state2 = function() {
-                $('#cass-alert-cover-image-upload-failed').remove();
-                $('#cass-changecoverimageconfirmation').removeClass('disabled');
-                $('label[for="cass-coverfiles"]').removeClass('state-visible');
-                $('#cass-changecoverimageconfirmation').addClass('state-visible');
-                $('body').removeClass('cover-image-change');
-            };
+            var file,
+                filedata;
 
             $('#cass-coverfiles').on('change', function(e) {
                 $('body').addClass('cover-image-change');
@@ -103,11 +106,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
 
                 var reader = new FileReader();
 
-                $('label[for="cass-coverfiles"]').append(
-                    '<span class="loadingstat spinner-three-quarters">' +
-                    M.util.get_string('loading', 'theme_cass') +
-                    '</span>'
-                );
+                $('label[for="cass-coverfiles"]').addClass('ajaxing');
 
                 // Closure to capture the file information.
                 reader.onload = (function(theFile) {
@@ -118,18 +117,6 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
 
                         // Ensure that the page-header in courses has the mast-image class.
                         $('.path-course-view #page-header').addClass('mast-image');
-
-                        // Warn if image resolution is too small.
-                        var img = $('<img />');
-                        img = img.get(0);
-                        img.src = filedata;
-                        if (img.width < 1024) {
-                            addCoverImageAlert('cass-alert-cover-image-size',
-                                M.util.get_string('error:coverimageresolutionlow', 'theme_cass')
-                            );
-                        } else {
-                            $('#cass-alert-cover-image-size').remove();
-                        }
 
                         // Warn if image file size exceeds max upload size.
                         // Note: The site max bytes is intentional, as the person who can do the upload would be able to
@@ -146,6 +133,20 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
                             $('#cass-alert-cover-image-bytes').remove();
                         }
 
+                        // Warn if image resolution is too small.
+                        var img = $('<img />');
+                        img = img.get(0);
+                        img.src = filedata;
+                        $(img).on('load', function() {
+                            if (img.width < 1024) {
+                                addCoverImageAlert('cass-alert-cover-image-size',
+                                    M.util.get_string('error:coverimageresolutionlow', 'theme_cass')
+                                );
+                            } else {
+                                $('#cass-alert-cover-image-size').remove();
+                            }
+                        });
+
                         $('#page-header').css('background-image', 'url(' + filedata + ')');
                         $('#page-header').data('localcoverfile', theFile.name);
 
@@ -157,7 +158,7 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
                 reader.readAsDataURL(file);
 
             });
-            $('#cass-changecoverimageconfirmation .ok').click(function(){
+            $('#cass-changecoverimageconfirmation .ok').click(function() {
 
                 if ($(this).parent().hasClass('disabled')) {
                     return;
@@ -166,35 +167,32 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
                 $('#cass-alert-cover-image-size').remove();
                 $('#cass-alert-cover-image-bytes').remove();
 
-                $('#cass-changecoverimageconfirmation .ok').append(
-                    '<span class="loadingstat spinner-three-quarters">' +
-                    M.util.get_string('loading', 'theme_cass') +
-                    '</span>'
-                );
+                $('#cass-changecoverimageconfirmation .ok').addClass('ajaxing');
                 $('#cass-changecoverimageconfirmation').addClass('disabled');
 
-                var imagedata = filedata.split('base64,')[1];
+                var imageData = filedata.split('base64,')[1];
+
+                ajaxParams.imagedata = imageData;
+                ajaxParams.imagefilename = file.name;
+
                 ajax.call([
                     {
                         methodname: 'theme_cass_cover_image',
-                        args: {imagefilename: file.name, imagedata:imagedata, courseshortname:courseshortname},
+                        args: {params: ajaxParams},
                         done: function(response) {
                             state1();
-                            $('#cass-changecoverimageconfirmation .ok .loadingstat').remove();
                             if (!response.success && response.warning) {
                                 addCoverImageAlert('cass-alert-cover-image-upload-failed', response.warning);
                             }
                         },
                         fail: function(response) {
                             state1();
-                            $('#cass-changecoverimageconfirmation .ok .loadingstat').remove();
                             ajaxNotify.ifErrorShowBestMsg(response);
                         }
                     }
                 ], true, true);
-
             });
-            $('#cass-changecoverimageconfirmation .cancel').click(function(){
+            $('#cass-changecoverimageconfirmation .cancel').click(function() {
 
                 if ($(this).parent().hasClass('disabled')) {
                     return;
@@ -205,6 +203,25 @@ define(['jquery', 'core/log', 'core/ajax', 'core/notification', 'theme_cass/ajax
             });
             $('#cass-coverimagecontrol').addClass('cass-js-enabled');
         };
-        return courseCoverImage;
+
+        var categoryCoverImage = function(categoryId, siteMaxBytes) {
+            var ajaxParams = {imagefilename: null, imagedata: null, categoryid: categoryId,
+                    courseshortname: null};
+
+            coverImage(siteMaxBytes, ajaxParams);
+        };
+
+        /**
+         * Main function
+         * @param {string} courseShortName
+         * @param {int} siteMaxBytes
+         */
+        var courseCoverImage = function(courseShortName, siteMaxBytes) {
+            var ajaxParams = {imagefilename: null, imagedata: null, categoryid: null,
+                    courseshortname: courseShortName};
+
+            coverImage(siteMaxBytes, ajaxParams);
+        };
+        return {courseImage: courseCoverImage, categoryImage: categoryCoverImage};
     }
 );
