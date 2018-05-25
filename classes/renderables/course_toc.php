@@ -180,9 +180,9 @@ class course_toc implements \renderable, \templatable{
         foreach ($modinfo->get_section_info_all() as $section => $thissection) {
 
             // TODO: Remove this
-            if ($section > $this->course->numsections) {
-                continue;
-            }
+            // if ($section > $this->course->numsections) {
+            //    continue;
+            // }
 
             // Students - If course hidden sections completely invisible & section is hidden, and you cannot
             // see hidden things, bale out.
