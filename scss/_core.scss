@@ -26,7 +26,6 @@
 
 html {
     -webkit-font-smoothing: auto !important;
-    background: $gray-dark;
 }
 
 // Cass Layout yo...
@@ -101,6 +100,25 @@ table.boxwidthwide {
     padding: 0;
 }
 
+img.cass-logo {
+    height: 189px;
+    margin: 1em;
+    float: right;
+    margin-bottom: .1em;
+} 
+
+.lang-en #moodle-footer ul.legal,
+.lang-en #moodle-footer ul.social {
+    float: left;
+    list-style-type: none;
+    padding: 0;
+}
+
+@media (min-width: 992px) {
+    .col-md-offset-4 {
+        margin-left: 33.33333333%;
+    }
+} 
 // -------------------------
 // Login & sign up page
 // -------------------------
@@ -129,12 +147,8 @@ table.boxwidthwide {
             list-style-type: none;
             padding: 0;
         }
-        img.cass-logo {
-            height: 189px;
-            margin: 0 0 0 10px;
-            float: right;
-        }
     }
+
     // The login box.
     .cass-login {
         padding: 1em 4%;
@@ -301,12 +315,19 @@ small,
     font-size: $font-size-sm !important;
 }
 
+
+.text-success, .green, .notifysuccess, .connected {
+    color: $brand-green !important;
+    margin-bottom: 5px !important;
+}
+
 // GT Mod - 2015-07-09 - add .floater .cell to accommodate fixed col and header in gradebook
 table,
 .floater .cell {
     width: 100%;
     font-family: $font-family-system;
     font-size: $font-size-base;
+    margin: 1em 0;
 }
 
 .blockquote {
@@ -551,7 +572,7 @@ a.yui3-button,
     border-width: 1px;
     border-style: solid;
     // Em's used to allow for small and large buttons.
-    padding: .5em 1em;
+    padding: 1em 1.618em;
 
     &:hover:not(:disabled),
     &:focus:not(:disabled),
@@ -871,7 +892,7 @@ footer #moodle-footer
     padding-top: 1.2em;
     padding-bottom: 1.16em;
     margin-right: 0.5em;
-    color: $nav-button-color;
+    color: $gray-dark;
     background-color: $nav-button-bg;
 
     .userpicture {
@@ -884,7 +905,7 @@ footer #moodle-footer
         .userpicture {
             transform: scale(1.2);
         }
-        color: darken($nav-button-color, 8%);
+        color: darken($gray-dark, 8%);
     }
 
     // Core alerts badge.
@@ -963,6 +984,7 @@ footer #moodle-footer
     position: relative;
     left: 0;
     transition: all 0.4s 0s ease;
+    background: $body-bg;
 
     // When admin block is open
     &.offcanvas {
@@ -1047,19 +1069,19 @@ ol.breadcrumb a {
 .path-enrol,
 .pagelayout-admin#page-mod-quiz-attempt #moodle-blocks {
     .breadcrumb li:first-child:before {
-        content: '\e091 ';
-        padding: 0 1em 0 0;
-        vertical-align: top;
-        font-family: 'Glyphicons Halflings';
-        color: #000;
+	    content: "\f060";
+	    padding: 0 1em 0 0;
+	    vertical-align: top;
+	    font-family: FontAwesome;
+	    color: #000;
     }
 }
 
 .path-mod .breadcrumb li:nth-child(4):before {
-    content: '\e091 ';
+    content: "\f060";
     padding: 0 1em 0 0;
     vertical-align: top;
-    font-family: 'Glyphicons Halflings';
+    font-family: FontAwesome;
     color: #000;
 }
 
@@ -1236,8 +1258,8 @@ ol.breadcrumb a {
 #admin-menu-trigger {
     width: 30px;
     height: 30px;
-    margin-left: .75em;
-    margin-top: .5em;
+    margin-left: 1em;
+    margin-top: .62em;
 }
 
 #page-report-outline-user .section {
@@ -2142,17 +2164,19 @@ ul.events-new + ul.events-underway {
 }
 
 .que {
-    margin: 0;
+    margin: 0 !important;
 }
 
-.que .info,
-.que .content {
-    background-color: transparent;
-    border: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    float: none;
+#region-main {
+	.que .info,
+	.que .content {
+	    background-color: transparent;
+	    border: 0;
+	    width: 100%;
+	    margin: 0;
+	    padding: 0;
+	    float: none;
+	}
 }
 
 .que h3.no {
@@ -2180,15 +2204,16 @@ ul.events-new + ul.events-underway {
         border: 0;
         background-color: transparent;
         margin: 0;
-        padding: 0;
         color: $gray;
     }
 }
 
-.que .qtext {
-    font-size: 1.3em;
-    margin-bottom: 0;
-}
+/*
+	.que .qtext {
+	    font-size: 1.3em;
+	    margin-bottom: 0;
+	}
+*/
 
 // Add margin to quiz submit/check button.
 .que .im-controls {
@@ -2201,7 +2226,7 @@ ul.events-new + ul.events-underway {
 
 .que.multichoice .answer div.r0,
 .que.multichoice .answer div.r1 {
-    padding: .3em 0 0.3em 40px;
+    padding: .3em 0 0.3em 40px !important;
     text-indent: -40px;
 }
 
@@ -2825,8 +2850,9 @@ table#user-grades tr.avg td.cell {
 .pagelayout-admin,
 #page-course-editsection {
     #region-main {
-        width: 100%;
-        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 3.444%;
+        font-size: 1em;
     }
 
     .cass-form-required fieldset {
@@ -3092,11 +3118,17 @@ body:not(.pagelayout-course) #moodle-footer {
 }
 
 #moodle-footer {
-    padding-top: 3em;
+    margin-top: 0;
+    font-family: $font-family-sans-serif;
+    font-size: .8em;
+    color: $gray-light;
+    text-align: left;
+    padding-top: 2em;
     padding-bottom: 1em;
+    border-top: 1px solid $gray-dark;
     clear: both;
-    color: $gray-lighter;
-    background-color: $body-color;
+    background-color: $gray-dark;
+    margin-top: 0;
 }
 
 #cass-footer-content,
@@ -3858,7 +3890,8 @@ div#mod_quiz_navblock .content {
 }
 
 ol.breadcrumb > li {
-    padding: 0;
+    padding: .618em 0;
+    line-height: 1em;
 }
 
 

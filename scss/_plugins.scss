@@ -179,16 +179,16 @@
 
     // Larger screen layout.
     @include media-breakpoint-up(md) {
-        .assign-intro,
-        .assign-feedback {
-            @include make-col(8);
-            padding-right: 4%;
-            min-height: 100px;
-        }
+/*
+	        .assign-intro,
+	        .assign-feedback {
+	            @include make-col(8);
+	            padding-right: 4%;
+	            min-height: 100px;
+	        }
+*/
 
-        .groupselector,
-        .assign-grading-summary,
-        .assign-submission-data {
+        .groupselector {
             @include make-row();
             @include make-col(4);
             float: right;
@@ -201,8 +201,13 @@
         padding: 1em;
         margin-bottom: .5em;
         background-color: $gray-lighter;
-        font-family: $font-family-system;
+       
     }
+
+    .assign-intro {
+        display: flex;
+    }
+
     // Add an indicator of progress for submissions.
     .submissions-status {
         border-bottom: .5em solid #999;

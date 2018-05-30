@@ -46,13 +46,13 @@ $brand-danger:          #e91e63;
 $brand-info:            #03a9f4;
 
 $body-bg:               #fdfdfd;
-$body-color:            #666;
+$body-color:            #333;
 
-$gray-darker:            #222;
-$gray-dark:              #333;
-$gray:                   #666;
-$gray-light:             #afa79f;
-$gray-lighter:           #f5f5f5;
+$gray-darker:           #222;
+$gray-dark:             #333;
+$gray:                  #666;
+$gray-light:            #afa79f;
+$gray-lighter:          #f5f5f5;
 
 $brand-primary:         #8f182e;
 $brand-success:         #e2cc00;
@@ -105,7 +105,7 @@ $user-content-max-width:         43.5em;
 // Button customisations
 // -------------------------
 
-$btn-secondary-color:           $brand-primary;
+$btn-secondary-color:           #fff;
 
 $border-radius:          0;
 $border-radius-lg:       0;
@@ -137,8 +137,8 @@ $color-wiki:                         #009688; // Wiki, glossary
 // Colour variables for the customisable mr_nav.
 // -------------------------
 
-$nav-bg:                            rgba(255, 255, 255, .95) !default;
-$nav-color:                         $brand-primary !default;
+$nav-bg:                            #fff !default;
+$nav-color:                         $gray-dark !default;
 $nav-color-hover:                   darken($nav-color, 8%);
 
 $nav-button-bg:                     rgba(255, 255, 255, 0) !default;
