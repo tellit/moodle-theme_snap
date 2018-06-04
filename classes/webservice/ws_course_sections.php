@@ -29,6 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../../../lib/externallib.php');
 
+require_once __DIR__ . '/definition_helper.php';
+
 /**
  * Course section action web service.
  *
@@ -63,12 +65,12 @@ class ws_course_sections extends \external_api {
     public static function service_returns() {
         $keys = [
             'actionmodel' => new \external_single_structure(
-                definition_helper::define_class_for_webservice('theme_cass\renderables\course_action_section_base'),
+                \cass\webservice\definition_helper::define_class_for_webservice('theme_cass\renderables\course_action_section_base'),
                 'Action model',
                 VALUE_OPTIONAL
             ),
             'toc' => new \external_single_Structure(
-                definition_helper::define_class_for_webservice('theme_cass\renderables\course_toc'),
+                \cass\webservice\definition_helper::define_class_for_webservice('theme_cass\renderables\course_toc'),
                 'Table of contents',
                 VALUE_REQUIRED
             )

@@ -22,6 +22,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../../../lib/externallib.php');
 
+require_once __DIR__ . '/definition_helper.php';
+
 /**
  * Course TOC chapters web service.
  * @author    gthomas2
@@ -48,7 +50,7 @@ class ws_course_toc_chapters extends \external_api {
                 [
                     'chapters' => new \external_multiple_structure(
                         new \external_single_structure(
-                            definition_helper::define_class_for_webservice('theme_cass\renderables\course_toc_chapter')
+                            \cass\webservice\definition_helper::define_class_for_webservice('theme_cass\renderables\course_toc_chapter')
                         ),
                         'Table of content chapters',
                         true

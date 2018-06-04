@@ -295,6 +295,7 @@ class theme_cass_local_test extends cass_base_test {
         $message->fullmessagehtml   = '<p>message body</p>';
         $message->smallmessage      = 'small message';
         $message->notification      = '0';
+        $message->courseid          = SITEID;
 
         message_send($message);
         $aftersent = time();
@@ -332,6 +333,7 @@ class theme_cass_local_test extends cass_base_test {
         $message->fullmessagehtml   = '<p>message body</p>';
         $message->smallmessage      = 'small message';
         $message->notification      = '0';
+        $message->courseid          = SITEID;
 
         $messageid = message_send($message);
 
@@ -366,6 +368,7 @@ class theme_cass_local_test extends cass_base_test {
         $message->fullmessagehtml   = '<p>message body</p>';
         $message->smallmessage      = 'small message';
         $message->notification      = '0';
+        $message->courseid          = SITEID;
 
         message_send($message);
 

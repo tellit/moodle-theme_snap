@@ -22,6 +22,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../../../lib/externallib.php');
 
+require_once __DIR__ . '/definition_helper.php';
+
 /**
  * Course completion web service.
  * @author    gthomas2
@@ -67,7 +69,7 @@ class ws_course_completion extends \external_api {
                 )
             ),
             'toc' => new \external_single_structure(
-                definition_helper::define_class_for_webservice('theme_cass\renderables\course_toc'),
+                \cass\webservice\definition_helper::define_class_for_webservice('theme_cass\renderables\course_toc'),
                 'Table of contents', VALUE_REQUIRED
             )
         ];
