@@ -1764,10 +1764,20 @@ class local {
         if (!is_object($mod)) {
             //$PAGE->cm won't be loaded on a restful load
             $modinfo = get_fast_modinfo($COURSE->id);
-            $mod = $modinfo->get_cm($PAGE->context->instanceid);
 
-            if (!is_object($mod)) {
-                return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+            $context = $PAGE->context;
+
+            if ($context->contextlevel == CONTEXT_MODULE) {
+
+                $instanceid = $context->instanceid;
+                if (!empty($instanceid)) {
+
+                    $mod = $modinfo->get_cm($instanceid);
+
+                    if (!is_object($mod)) {
+                        return array($mod, $nextmod, $showcompletionnextactivity, $showcompletionmodal);
+                    }
+                }
             }
         }
 
