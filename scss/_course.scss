@@ -1099,7 +1099,7 @@ body#page-course-view-weeks button {
     padding: 0 1em;
 }
 
-h4.cass-asset-link a {
+#cass-course-wrapper .course-content h4.cass-asset-link a {
     color: #333;
 }
 
@@ -1121,7 +1121,7 @@ h4.cass-asset-link {
 span.stepper-complete {
     position: absolute;
     left: -31px;
-    top: -15px;
+    top: -18px;
     background: $brand-success;
     border-radius: 3em;
     width: 63px;
@@ -1138,7 +1138,7 @@ span.stepper-complete {
 span.stepper-current {
     position: absolute;
     left: -31px;
-    top: -15px;
+    top: -18px;
     background: $brand-info;
     border-radius: 3em;
     width: 63px;
@@ -1156,7 +1156,7 @@ span.stepper-current {
 span.stepper-future {
     position: absolute;
     left: -31px;
-    top: -15px;
+    top: -18px;
     background: $gray;
     border-radius: 3em;
     width: 63px;
@@ -1493,7 +1493,7 @@ form.togglecompletion {
         border: 1px solid white;
         width: 1.75em;
         height: 1.75em;
-        background-color: white;
+        background-color: transparent;
         @include alakazam;
     }
 
@@ -1987,6 +1987,7 @@ span.editinstructions {
 @include media-breakpoint-down(md) {
     #moodle-page #region-main {
         padding: 0 3.44% 6.18%;
+        max-width: 100%;
     }
 
     // Small screen moving cancel link.

@@ -119,6 +119,8 @@ img.cass-logo {
         margin-left: 33.33333333%;
     }
 } 
+
+
 // -------------------------
 // Login & sign up page
 // -------------------------
@@ -315,8 +317,12 @@ small,
     font-size: $font-size-sm !important;
 }
 
+#page-mod-quiz-attempt .text-success {
+    color: $brand-green !important;
+    margin-bottom: 5px !important; 
+}
 
-.text-success, .green, .notifysuccess, .connected {
+.green, .notifysuccess, .connected {
     color: $brand-green !important;
     margin-bottom: 5px !important;
 }
@@ -432,22 +438,7 @@ video {
     }
 }
 
-// Responsive video for iframes, objects, embeds.
-iframe:not(.vjs-tech) {
-    &[src*="youtube.com"],
-    &[src*="youtu.be"],
-    &[src*="vimeo.com"],
-    &[src*="archive.org/embed"],
-    &[src*="youtube-nocookie.com"],
-    &[src*="embed.ted.com"],
-    &[src*="embed-ssl.ted.com"],
-    &[src*="kickstarter.com"],
-    &[src*="video.html"],
-    &[src*="simmons.tegrity.com"],
-    &[src*="dailymotion.com"] {
-        @include responsive-video();
-    }
-}
+
 
 body.theme-cass .oembed-responsive {
     > :first-child:not(video),
@@ -827,8 +818,8 @@ footer #moodle-footer
         animation-timing-function: ease-in-out;
         animation-duration: 0.4s;
         animation-fill-mode: forwards;
-    }
-
+        position: fixed;
+    }  
     &.headroom--pinned {
 
         // firefox no like this animation :(
@@ -1077,13 +1068,13 @@ ol.breadcrumb a {
     }
 }
 
-.path-mod .breadcrumb li:nth-child(4):before {
+.path-mod .breadcrumb li:nth-child(3):before {
     content: "\f060";
     padding: 0 1em 0 0;
     vertical-align: top;
     font-family: FontAwesome;
     color: #000;
-}
+} 
 
 .path-course .breadcrumb li:nth-child(2):before {
     display: none;
@@ -1095,10 +1086,10 @@ ol.breadcrumb a {
         background-color: transparent;
         padding: 0;
         font-size: $font-size-base;
-        display: block;
+        display: inline;
         font-family: $font-family-sans-serif;
-        & > li:last-child,
-        & > li:nth-child(-n+3) {
+        & > li:nth-child(-n+2),
+        & >li:nth-child(5) {
             display: none;
         }
     }
@@ -1115,7 +1106,7 @@ ol.breadcrumb a {
         background-color: transparent;
         padding: 0;
         font-size: $font-size-base;
-        display: block;
+        display: inline;
         font-family: $font-family-sans-serif;
         & > li:last-child {
             display: none;
@@ -2205,6 +2196,7 @@ ul.events-new + ul.events-underway {
         background-color: transparent;
         margin: 0;
         color: $gray;
+        padding: 1rem 0;
     }
 }
 
@@ -3130,6 +3122,7 @@ body:not(.pagelayout-course) #moodle-footer {
     background-color: $gray-dark;
     margin-top: 0;
 }
+
 
 #cass-footer-content,
 #cass-socialmedia-links {
@@ -5360,4 +5353,65 @@ span.loading-icon {
 
 .contact .picture {
     border-bottom: none;
+}
+
+td.control {
+    vertical-align: top;
+    padding-top: .45em;
+}
+
+.alert-warning,
+#page-admin-index .adminwarning,
+.uninstalldeleteconfirmexternal,
+.que .outcome,
+.que .comment {
+    background-color: rgba(229,83,2,.1);
+    border-color: rgba(229,83,2,.1);
+    color: #e55302;
+}
+.alert,
+#page-admin-index .releasenoteslink,
+#page-admin-index .adminwarning,
+#page-admin-index .adminerror,
+.que .formulation,
+.que .outcome,
+.que .comment {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+.que .outcome {
+    padding: 0 !important;
+    border: none;
+    margin-bottom: -1px !important;
+    margin-top: 1em;
+}
+label .m-l-1 {
+    margin-left: 0rem !important; 
+}
+    
+.othernav,
+#page-mod-quiz-review #moodle-blocks {
+    display: none;
+}
+
+#page-course-view-weeks ol.chapters li:first-child {
+    list-style-type: none;
+}
+ 
+ @media (min-width: 979px) {
+            #page-course-view-weeks .col-lg-3 {
+    		width: 33.333%;
+    		position: sticky;
+    		top: 0;
+			}
+		#page-course-view-weeks .col-lg-9 {
+    	float: left;
+    	width: 66.66667%;
+		}
+		}
+
+#cass-pm-courses .cass-personal-menu-more {
+    display: none;
 }

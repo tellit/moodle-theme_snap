@@ -47,7 +47,7 @@
         .chapter-title {
             display: block;
             margin-bottom: -0.25em;
-            line-height: 1.75;
+            line-height: 1em;
             color: $text-color;
         }
     }
@@ -84,11 +84,12 @@ li.cass-visible-section:after {
     line-height: 1.6em;
     font-weight: bold;
     padding-right: .614em;
-    margin-top: -1.35em;
+    margin-top: -1.65em;
 }
 
 #cass-course-wrapper {
-    margin: 0 3.44%;
+    margin: 0 auto;
+    max-width: 960px;
 
     #region-main {
         font-family: $font-family-fancy;
@@ -96,11 +97,11 @@ li.cass-visible-section:after {
             padding-top: 5.35em;
         }
         #page-course-view-weeks & {
-            padding-top: 4.2em;
+            padding-top: 4.1em;
         }
     }
     #course-toc {
-        padding-top: 5.5em;
+        padding-top: 10.5em;
         font-family: $font-family-fancy;
     }
 
@@ -117,31 +118,7 @@ li.cass-visible-section:after {
     }
 
     /* TOC list. */
-    #chapters {
-        @include list-unstyled();
-        li {
-            margin-left: 0;
-            // Indicators for draft and current section.
-            &.draft,
-            &.current {
-                .chapter-title:before {
-                    content: " ";
-                    height: 14px;
-                    width: 14px;
-                    display: inline-block;
-                    margin-right: .35em;
-                    border-radius: 50%;
-                }
-            }
-            &.current .chapter-title:before {
-                background-color: $brand-success;
-            }
-            &.draft .chapter-title:before {
-                background-color: $brand-warning;
-            }
-        }
-
-    }
+    
 
     .toc-footer {
         padding-bottom: 2em;
@@ -157,7 +134,10 @@ li.cass-visible-section:after {
             }
         }
     }
+}
 
+a.chapter-title {
+    padding-bottom: 0.614em;
 }
 
 // -------------------------

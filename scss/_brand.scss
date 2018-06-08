@@ -41,7 +41,7 @@
 #page-mod-quiz-review {
     .que .feedback {
         padding: 1em 1.618em;
-        margin: 0 0 5em 0;
+        margin: 0 0 5em 0 !important;
         border-radius: .618em;
         font-family: $font-family-fancy;
         border: 1px solid;
@@ -51,9 +51,19 @@
         color: $gray-dark;
     }
 
+	.que .outcome {
+	    padding: 0 !important;
+	    border: none;
+	    margin-bottom: -1px !important;
+	    margin-top: 1em;
+	    background-color: transparent !important;
+	    border-color: transparent !important;
+	    color: transparent !important;
+	}
+
     table.generaltable.generalbox.quizreviewsummary:before {
         content: "Quiz results";
-        font-size: 3.8em;
+        font-size: 52px;
         width: 100%;
         display: table-caption;
         padding-bottom: .4em;
@@ -65,9 +75,9 @@
     }
 
     table.quizreviewsummary th.cell {
-        padding: 0 .5em .618em 0em;
+        padding: 0 .5em 0em 0em;
         font-weight: 700;
-        text-align: left;
+        text-align: right;
         width: 10em;
         background: transparent;
         line-height: inherit;
@@ -79,7 +89,7 @@
     }
 
     table.quizreviewsummary td.cell {
-        padding: 0 .5em .618em 1em;
+        padding: 0 .5em 0em 1em;
         text-align: left;
         background: transparent;
         line-height: inherit;
@@ -126,7 +136,6 @@
             color: $modal-bg;
         }
         &:hover {
-            color: $modal-bg;
             text-decoration: underline;
         }
     }
@@ -230,6 +239,7 @@ input[type="reset"],
     background: $brand-primary;
     border-radius: 4px;
 }
+
 
 .snap-media-object a img {
     width: 36px;
@@ -1094,16 +1104,7 @@ input[value="Next"] {
     }
 }
 
-.progress-quiz {
-    overflow: hidden;
-    height: 32px;
-    margin-bottom: 0;
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    color: $gray-light;
-    text-align: right;
-}
+
 
 #page-mod-quiz-view .generalbox#feedback h3 {
     width: 100%;
@@ -1215,6 +1216,17 @@ body#page-mod-quiz-attempt {
     #moodle-footer {
         margin-top: 0;
     }
+    
+    .progress {
+	    overflow: hidden;
+	    height: 32px;
+	    margin-bottom: 0;
+	    background-color: transparent;
+	    border: none;
+	    box-shadow: none;
+	    color: $gray-light;
+	    text-align: right;
+	}
 
     .submitbtns,
     #page-mod-quiz-review .submitbtns {
@@ -1251,7 +1263,7 @@ body#page-mod-quiz-attempt {
 }
 
 #page-mod-quiz-attempt section#region-main {
-    max-width: 772px;
+    max-width: 593.313px;
     display: inline-block;
     margin: 0 auto;
     padding: 0 1em;
@@ -1344,21 +1356,16 @@ body#page-mod-quiz-review .questionflag {
     display: none;
 }
 
-.rightanswer {
-    max-width: 65%;
-    float: left;
-}
-
 input[type=submit]:disabled,
 button:disabled {
     display: none;
 }
 
-.incorrect .feedback {
+.path-mod .incorrect .feedback {
     background: $brand-warning;
 
 }
-.correct .feedback {
+.path-mod .correct .feedback {
     background: $brand-green;
 
 }
@@ -1375,6 +1382,7 @@ button:disabled {
     animation: fadein 2s;
     min-height: 200px;
     font-family: $font-family-base;
+     background: $brand-info;
 
 
     .generalfeedback p {
@@ -2332,19 +2340,19 @@ span.activitycompletenextmodname {
 .cass-course-listening  #region-main {
     /*width: calc(~"81%" - unit($coursenav, px)); */
     float: right;
-    margin: 0 calc(50% - 25%) 0 0;
     /*min-height: 98vh;*/
     padding: 0;
-    max-width: 61.8%;
 
     #page-header {
         min-width: 312.2px;
         float: left;
     }
     h2.sectionname {
-        font-size: 3.15em;
+        font-size: 3.1em;
         padding-bottom: 1em;
         color: #000;
+        font-weight: bold;
+        font-family: $font-family-feature;
         #page-course-view-topics & {
             padding-top: .53em;
         }
@@ -2855,12 +2863,13 @@ li.section {
         content: "Week " counter(my-awesome-counter);
         border-bottom: 2px solid #00759B;
         display: block;
-        margin-bottom: 2.614em;
+        margin-bottom: .614em;
         font-family: $font-family-fancy;
         font-size: 20px;
         line-height: 1.618em;
         padding-top: .4em;
         color: $gray-light;
+        font-weight: normal;
     }
 
     #region-main .state-visible p:first-of-type {

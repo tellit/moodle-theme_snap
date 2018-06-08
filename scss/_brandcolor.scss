@@ -70,6 +70,7 @@ $lighter-grey-btn: #e6e6e6;
 
     #cass-collapse-help {
         border-left: .25em solid $brand-primary;
+        visibility: hidden;
     }
 
     // General toggle icons.
@@ -277,18 +278,6 @@ $lighter-grey-btn: #e6e6e6;
         }
     }
 
-    #id_cancel {
-        color: $brand-primary;
-
-        &:hover,
-        &:focus,
-        &:active,
-        &.active {
-            text-decoration: underline;
-            color: darken($brand-primary, 8%);
-            background-color: #fff;
-        }
-    }
 
     #show-toc {
         color: $brand-primary;
