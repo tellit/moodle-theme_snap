@@ -283,7 +283,7 @@ class course_renderer extends \core_course_renderer {
 
             //If current is completed change stepper to OK (tick).
             if ($currentmodcompleted) {
-                $stepperspan = '<span class="stepper-complete glyphicon glyphicon-ok"></span>';
+                $stepperspan = '<span class="stepper-complete fa fa-check"></span>';
             } else {
 
                 $allpreviouscompleted = true;

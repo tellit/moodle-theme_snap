@@ -1639,15 +1639,6 @@ ul.choices {
     margin: .618em 0;
 }
 
-.hsuforum-form {
-    .hsuforum-textarea {
-        display: none;
-    }
-    .hsuforum-textarea {
-        font-family: $font-family-fancy;
-    }
-}
-
 #page-mod-hsuforum-discuss,
 #page-mod-hsuforum-view {
     overflow-x: hidden;
@@ -2152,7 +2143,7 @@ iframe {
 //  'Next' modal
 // -------------------------
 
-.activitycompletemodal {
+.modal.activitycompletemodal {
     position: fixed;
     display: none;
     top: auto;
@@ -2247,7 +2238,7 @@ a.activitycompletenextmodlink {
     padding: 0 0 0 .4em;
 }
 
-.activitycompletemodal-footer {
+.modal-footer.activitycompletemodal-footer {
     border: 0;
     padding: 0 0 .1em;
 }
@@ -2291,15 +2282,18 @@ span.activitycompletenextmodname {
     border: none;
     -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
     box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.25);
+	 max-width: inherit;
 }
 
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd,
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd.yui3-widget-hd {
     padding: .618em 1em 0;
+	max-width: inherit;
 }
 
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
     display: none;
+	max-width: inherit;
 }
 
 .yui3-skin-sam .yui3-widget-mask {
@@ -2309,6 +2303,10 @@ span.activitycompletenextmodname {
 
 .moodle-dialogue-hd {
     display: flex;
+}
+
+.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-bd {
+    height: 100% !important;
 }
 
 
@@ -2351,8 +2349,8 @@ span.activitycompletenextmodname {
         font-size: 3.1em;
         padding-bottom: 1em;
         color: #000;
-        font-weight: bold;
-        font-family: $font-family-feature;
+        font-weight: 500;
+        font-family: $font-family-system;
         #page-course-view-topics & {
             padding-top: .53em;
         }
@@ -2381,7 +2379,7 @@ span.activitycompletenextmodname {
     display: block;
 }
 
-span.activity-complete.glyphicon.glyphicon-ok {
+span.activity-complete.glyphicon.glyphicon-ok, .boxStyle .activity-complete.fa-check, .activity-complete .fa-check {
     top: 0;
     z-index: 4;
     background: $brand-success;
@@ -2488,7 +2486,7 @@ h4.cass-asset-link.cass-activity-current {
     border-radius: .5em;
     z-index: 15000;
     font-family: $font-family-fancy;
-    opacity: .95;
+    opacity: 0;
     color: $modal-bg;
 }
 
@@ -2865,7 +2863,7 @@ li.section {
         display: block;
         margin-bottom: .614em;
         font-family: $font-family-fancy;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 1.618em;
         padding-top: .4em;
         color: $gray-light;

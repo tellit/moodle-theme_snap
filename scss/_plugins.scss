@@ -204,8 +204,8 @@
        
     }
 
-    .assign-intro {
-        display: flex;
+    #page-mod-assign-view .assign-intro {
+        display: grid;
     }
 
     // Add an indicator of progress for submissions.
@@ -220,6 +220,10 @@
         height: .5em;
         margin-bottom: -1.5em; // Height + submissions-status padding.
     }
+}
+
+a#cass-home {
+    display: none;
 }
 
 /**

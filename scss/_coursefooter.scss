@@ -9,6 +9,36 @@
     padding: 3.444%;
     background-color: $gray-lighter;
 
+	footer#cass-course-footer .col-sm-12 {
+    padding: 0;
+}
+	span.snap-media-meta {
+    float: left;
+    clear: both;
+}
+#cass-course-footer-recent-activity h3 {
+    display: block; 
+}
+h3.hsuforum-recent-heading, .forum .cass-media-body h3 {
+    padding-bottom: 2.64em;
+}
+#cass-course-footer-recent-activity li {
+    display: block; 
+}
+	#cass-course-footer-recent-activity ul.unlist {
+    float: left;
+    clear: both;
+}
+	#cass-course-footer-recent-activity .date {
+    line-height: normal;
+}
+	.head, .info {
+    clear: both;
+}
+
+.info {
+    padding-bottom: .64em;
+}
     .cass-media-object {
         font-weight: normal;
     }
@@ -25,7 +55,7 @@
 //  About the course.
 // -------------------------
 #cass-course-footer-about {
-    max-width: 43.5em;
+    display: none;
 }
 #cass-course-footer-summary {
     font-family: $font-family-serif;
