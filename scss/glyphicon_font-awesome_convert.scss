@@ -1,806 +1,806 @@
 $fa-font-path: "../../../lib/fonts/font-awesome-4.7.0/fonts" !default;
 
-@import '../../../lib/fonts/font-awesome-4.7.0/scss/font-awesome.scss';
+/* @import '../../../lib/fonts/font-awesome-4.7.0/scss/font-awesome.scss'; */
 
 .glyphicon {
-  @extend .fa;
-  &.glyphicon-chevron-up {
-    @extend .fa-chevron-up;
-  }
-  &.glyphicon-chevron-right {
-    @extend .fa-chevron-right;
-  }
-  &.glyphicon-chevron-left {
-    @extend .fa-chevron-left;
-  }
-  &.glyphicon-asterisk {
-    @extend .fa-asterisk;
-  }
-  &.glyphicon-plus {
-    @extend .fa-plus;
-  }
-  &.glyphicon-euro,
-  &.glyphicon-eur {
-    @extend .fa-eur;
-  }
-  &.glyphicon-minus {
-    @extend .fa-minus;
-  }
-  &.glyphicon-cloud {
-    @extend .fa-cloud;
-  }
-  &.glyphicon-envelope {
-    @extend .fa-envelope;
-  }
-  &.glyphicon-pencil {
-    @extend .fa-pencil;
-  }
-  &.glyphicon-glass {
-    @extend .fa-glass;
-  }
-  &.glyphicon-music {
-    @extend .fa-music;
-  }
-  &.glyphicon-search {
-    @extend .fa-search;
-  }
-  &.glyphicon-heart {
-    @extend .fa-heart;
-  }
-  &.glyphicon-star {
-    @extend .fa-star;
-  }
-  &.glyphicon-star-empty {
-    @extend .fa-star-o;
-  }
-  &.glyphicon-user {
-    @extend .fa-user;
-  }
-  &.glyphicon-film {
-    @extend .fa-film;
-  }
-  &.glyphicon-th-large {
-    @extend .fa-th-large;
-  }
-  &.glyphicon-th {
-    @extend .fa-th;
-  }
-  &.glyphicon-th-list {
-    @extend .fa-th-list;
-  }
-  &.glyphicon-ok {
-    @extend .fa-check;
-  }
-  &.glyphicon-remove {
-    @extend .fa-remove;
-  }
-  &.glyphicon-zoom-in {
-    @extend .fa-search-plus;
-  }
-  &.glyphicon-zoom-out {
-    @extend .fa-search-minus;
-  }
-  &.glyphicon-off {
-    @extend .fa-power-off;
-  }
-  &.glyphicon-signal {
-    @extend .fa-signal;
-  }
-  &.glyphicon-cog {
-    @extend .fa-cog;
-  }
-  &.glyphicon-trash {
-    @extend .fa-trash;
-  }
-  &.glyphicon-home {
-    @extend .fa-home;
-  }
-  &.glyphicon-file {
-    @extend .fa-file;
-  }
-  &.glyphicon-time {
-    @extend .fa-clock-o;
-  }
-  &.glyphicon-road {
-    @extend .fa-road;
-  }
-  &.glyphicon-download-alt {
-    @extend .fa-cloud-download;
-  }
-  &.glyphicon-download {
-    @extend .fa-download;
-  }
-  &.glyphicon-upload {
-    @extend .fa-upload;
-  }
-  &.glyphicon-inbox {
-    @extend .fa-inbox;
-  }
-  &.glyphicon-play-circle {
-    @extend .fa-play-circle;
-  }
-  &.glyphicon-repeat {
-    @extend .fa-repeat;
-  }
-  &.glyphicon-refresh {
-    @extend .fa-refresh;
-  }
-  &.glyphicon-list-alt {
-    @extend .fa-list-alt;
-  }
-  &.glyphicon-lock {
-    @extend .fa-lock;
-  }
-  &.glyphicon-flag {
-    @extend .fa-flag;
-  }
-  &.glyphicon-headphones {
-    @extend .fa-headphones;
-  }
-  &.glyphicon-volume-off {
-    @extend .fa-volume-off;
-  }
-  &.glyphicon-volume-down {
-    @extend .fa-volume-down;
-  }
-  &.glyphicon-volume-up {
-    @extend .fa-volume-up;
-  }
-  &.glyphicon-qrcode {
-    @extend .fa-qrcode;
-  }
-  &.glyphicon-barcode {
-    @extend .fa-barcode;
-  }
-  &.glyphicon-tag {
-    @extend .fa-tag;
-  }
-  &.glyphicon-tags {
-    @extend .fa-tags;
-  }
-  &.glyphicon-book {
-    @extend .fa-book;
-  }
-  &.glyphicon-bookmark {
-    @extend .fa-bookmark;
-  }
-  &.glyphicon-print {
-    @extend .fa-print;
-  }
-  &.glyphicon-camera {
-    @extend .fa-camera;
-  }
-  &.glyphicon-font {
-    @extend .fa-font;
-  }
-  &.glyphicon-bold {
-    @extend .fa-bold;
-  }
-  &.glyphicon-italic {
-    @extend .fa-italic;
-  }
-  &.glyphicon-text-height {
-    @extend .fa-text-height;
-  }
-  &.glyphicon-text-width {
-    @extend .fa-text-width;
-  }
-  &.glyphicon-align-left {
-    @extend .fa-align-left;
-  }
-  &.glyphicon-align-center {
-    @extend .fa-align-center;
-  }
-  &.glyphicon-align-right {
-    @extend .fa-align-right;
-  }
-  &.glyphicon-align-justify {
-    @extend .fa-align-justify;
-  }
-  &.glyphicon-list {
-    @extend .fa-list;
-  }
-  &.glyphicon-indent-left {
-    @extend .fa-indent;
-  }
-  &.glyphicon-indent-right {
-    @extend .fa-outdent;
-  }
-  &.glyphicon-facetime-video {
-    @extend .fa-video-camera;
-  }
-  &.glyphicon-picture {
-    @extend .fa-picture-o;
-  }
-  &.glyphicon-map-marker {
-    @extend .fa-map-marker;
-  }
-  &.glyphicon-adjust {
-    @extend .fa-adjust;
-  }
-  &.glyphicon-tint {
-    @extend .fa-tint;
-  }
-  &.glyphicon-edit {
-    @extend .fa-edit;
-  }
-  &.glyphicon-share {
-    @extend .fa-share;
-  }
-  &.glyphicon-check {
-    @extend .fa-check;
-  }
-  &.glyphicon-move {
-    @extend .fa-arrows;
-  }
-  &.glyphicon-step-backward {
-    @extend .fa-step-backward;
-  }
-  &.glyphicon-fast-backward {
-    @extend .fa-fast-backward;
-  }
-  &.glyphicon-backward {
-    @extend .fa-backward;
-  }
-  &.glyphicon-play {
-    @extend .fa-play;
-  }
-  &.glyphicon-pause {
-    @extend .fa-pause;
-  }
-  &.glyphicon-stop {
-    @extend .fa-stop;
-  }
-  &.glyphicon-forward {
-    @extend .fa-forward;
-  }
-  &.glyphicon-fast-forward {
-    @extend .fa-fast-forward;
-  }
-  &.glyphicon-step-forward {
-    @extend .fa-step-forward;
-  }
-  &.glyphicon-eject {
-    @extend .fa-eject;
-  }
-  &.glyphicon-chevron-left {
-    @extend .fa-chevron-left;
-  }
-  &.glyphicon-chevron-right {
-    @extend .fa-chevron-right;
-  }
-  &.glyphicon-plus-sign {
-    @extend .fa-plus-circle;
-  }
-  &.glyphicon-minus-sign {
-    @extend .fa-minus-circle;
-  }
-  &.glyphicon-remove-sign {
-    @extend .fa-times-circle;
-  }
-  &.glyphicon-ok-sign {
-    @extend .fa-check-circle;
-  }
-  &.glyphicon-question-sign {
-    @extend .fa-question-circle;
-  }
-  &.glyphicon-info-sign {
-    @extend .fa-info-circle;
-  }
-  &.glyphicon-screenshot {
-    @extend .fa-crosshairs;
-  }
-  &.glyphicon-remove-circle {
-    @extend .fa-times-circle;
-  }
-  &.glyphicon-ok-circle {
-    @extend .fa-check-circle;
-  }
-  &.glyphicon-ban-circle {
-    @extend .fa-ban;
-  }
-  &.glyphicon-arrow-left {
-    @extend .fa-arrow-left;
-  }
-  &.glyphicon-arrow-right {
-    @extend .fa-arrow-right;
-  }
-  &.glyphicon-arrow-up {
-    @extend .fa-arrow-up;
-  }
-  &.glyphicon-arrow-down {
-    @extend .fa-arrow-down;
-  }
-  &.glyphicon-share-alt {
-    @extend .fa-share-alt;
-  }
-  &.glyphicon-resize-full {
-    @extend .fa-expand;
-  }
-  &.glyphicon-resize-small {
-    @extend .fa-compress;
-  }
-  &.glyphicon-exclamation-sign {
-    @extend .fa-exclamation-circle;
-  }
-  &.glyphicon-gift {
-    @extend .fa-gift;
-  }
-  &.glyphicon-leaf {
-    @extend .fa-leaf;
-  }
-  &.glyphicon-fire {
-    @extend .fa-fire;
-  }
-  &.glyphicon-eye-open {
-    @extend .fa-eye;
-  }
-  &.glyphicon-eye-close {
-    @extend .fa-eye-slash;
-  }
-  &.glyphicon-warning-sign {
-    @extend .fa-exclamation-triangle;
-  }
-  &.glyphicon-plane {
-    @extend .fa-plane;
-  }
-  &.glyphicon-calendar {
-    @extend .fa-calendar;
-  }
-  &.glyphicon-random {
-    @extend .fa-random;
-  }
-  &.glyphicon-comment {
-    @extend .fa-comment;
-  }
-  &.glyphicon-magnet {
-    @extend .fa-magnet;
-  }
-  &.glyphicon-chevron-up {
-    @extend .fa-chevron-up;
-  }
-  &.glyphicon-chevron-down {
-    @extend .fa-chevron-down;
-  }
-  &.glyphicon-retweet {
-    @extend .fa-retweet;
-  }
-  &.glyphicon-shopping-cart {
-    @extend .fa-shopping-cart;
-  }
-  &.glyphicon-folder-close {
-    @extend .fa-folder;
-  }
-  &.glyphicon-folder-open {
-    @extend .fa-folder-open;
-  }
-  &.glyphicon-resize-vertical {
-    @extend .fa-arrows-v;
-  }
-  &.glyphicon-resize-horizontal {
-    @extend .fa-arrows-h;
-  }
-  &.glyphicon-hdd {
-    @extend .fa-hdd-o;
-  }
-  &.glyphicon-bullhorn {
-    @extend .fa-bullhorn;
-  }
-  &.glyphicon-bell {
-    @extend .fa-bell;
-  }
-  &.glyphicon-certificate {
-    @extend .fa-certificate;
-  }
-  &.glyphicon-thumbs-up {
-    @extend .fa-thumbs-up;
-  }
-  &.glyphicon-thumbs-down {
-    @extend .fa-thumbs-down;
-  }
-  &.glyphicon-hand-right {
-    @extend .fa-hand-o-right;
-  }
-  &.glyphicon-hand-left {
-    @extend .fa-hand-o-left;
-  }
-  &.glyphicon-hand-up {
-    @extend .fa-hand-o-up;
-  }
-  &.glyphicon-hand-down {
-    @extend .fa-hand-o-down;
-  }
-  &.glyphicon-circle-arrow-right {
-    @extend .fa-arrow-circle-right;
-  }
-  &.glyphicon-circle-arrow-left {
-    @extend .fa-arrow-circle-left;
-  }
-  &.glyphicon-circle-arrow-up {
-    @extend .fa-arrow-circle-up;
-  }
-  &.glyphicon-circle-arrow-down {
-    @extend .fa-arrow-circle-down;
-  }
-  &.glyphicon-globe {
-    @extend .fa-globe;
-  }
-  &.glyphicon-wrench {
-    @extend .fa-wrench;
-  }
-  &.glyphicon-tasks {
-    @extend .fa-tasks;
-  }
-  &.glyphicon-filter {
-    @extend .fa-filter;
-  }
-  &.glyphicon-briefcase {
-    @extend .fa-briefcase;
-  }
-  &.glyphicon-fullscreen {
-    @extend .fa-expand;
-  }
-  &.glyphicon-dashboard {
-    @extend .fa-dashboard;
-  }
-  &.glyphicon-paperclip {
-    @extend .fa-paperclip;
-  }
-  &.glyphicon-heart-empty {
-    @extend .fa-heart-o;
-  }
-  &.glyphicon-link {
-    @extend .fa-link;
-  }
-  &.glyphicon-phone {
-    @extend .fa-phone;
-  }
-  &.glyphicon-pushpin {
-    @extend .fa-thumb-tack;
-  }
-  &.glyphicon-usd {
-    @extend .fa-usd;
-  }
-  &.glyphicon-gbp {
-    @extend .fa-gbp;
-  }
-  &.glyphicon-sort {
-    @extend .fa-sort;
-  }
-  &.glyphicon-sort-by-alphabet {
-    @extend .fa-sort-alpha-asc;
-  }
-  &.glyphicon-sort-by-alphabet-alt {
-    @extend .fa-sort-alpha-desc;
-  }
-  &.glyphicon-sort-by-order {
-    @extend .fa-sort-numeric-asc;
-  }
-  &.glyphicon-sort-by-order-alt {
-    @extend .fa-sort-numeric-desc;
-  }
-  &.glyphicon-sort-by-attributes {
-    @extend .fa-sort-amount-asc;
-  }
-  &.glyphicon-sort-by-attributes-alt {
-    @extend .fa-sort-amount-desc;
-  }
-  &.glyphicon-unchecked {
-    @extend .fa-square-o;
-  }
-  &.glyphicon-expand {
-    @extend .fa-caret-square-o-right;
-  }
-  &.glyphicon-collapse-down {
-    @extend .fa-caret-square-o-down;
-  }
-  &.glyphicon-collapse-up {
-    @extend .fa-caret-square-o-up;
-  }
-  &.glyphicon-log-in {
-    @extend .fa-sign-in;
-  }
-  &.glyphicon-flash {
-    @extend .fa-flash;
-  }
-  &.glyphicon-log-out {
-    @extend .fa-sign-out;
-  }
-  &.glyphicon-new-window {
-    @extend .fa-external-link;
-  }
-  &.glyphicon-record {
-    @extend .fa-dot-circle-o;
-  }
-  &.glyphicon-save {
-    @extend .fa-save;
-  }
-  &.glyphicon-open {
-    @extend .fa-upload;
-  }
-  &.glyphicon-saved {
-    @extend .fa-check;
-  }
-  &.glyphicon-import {
-    @extend .fa-upload;
-  }
-  &.glyphicon-export {
-    @extend .fa-download;
-  }
-  &.glyphicon-send {
-    @extend .fa-paper-plane-o;
-  }
-  &.glyphicon-floppy-disk {
-    @extend .fa-save;
-  }
-  &.glyphicon-floppy-saved {
-    @extend .fa-check;
-  }
-  &.glyphicon-floppy-remove {
-    @extend .fa-remove;
-  }
-  &.glyphicon-floppy-save {
-    @extend .fa-download;
-  }
-  &.glyphicon-floppy-open {
-    @extend .fa-upload;
-  }
-  &.glyphicon-credit-card {
-    @extend .fa-credit-card;
-  }
-  &.glyphicon-transfer {
-    @extend .fa-exchange;
-  }
-  &.glyphicon-cutlery {
-    @extend .fa-cutlery;
-  }
-  &.glyphicon-header {
-    @extend .fa-header;
-  }
-  &.glyphicon-compressed {
-    @extend .fa-file-archive-o;
-  }
-  &.glyphicon-earphone {
-    @extend .fa-phone;
-  }
-  &.glyphicon-phone-alt {
-    @extend .fa-phone-square;
-  }
-  &.glyphicon-tower {
-    @extend .fa-building;
-  }
-  &.glyphicon-stats {
-    @extend .fa-bar-chart;
-  }
-  &.glyphicon-sd-video {
-    @extend .fa-film;
-  }
-  &.glyphicon-hd-video {
-    @extend .fa-film;
-  }
-  &.glyphicon-subtitles {
-    @extend .fa-cc;
-  }
-  &.glyphicon-sound-stereo {
-    @extend .fa-music;
-  }
-  &.glyphicon-sound-dolby {
-    @extend .fa-music;
-  }
-  &.glyphicon-sound-5-1 {
-    @extend .fa-music;
-  }
-  &.glyphicon-sound-6-1 {
-    @extend .fa-music;
-  }
-  &.glyphicon-sound-7-1 {
-    @extend .fa-music;
-  }
-  &.glyphicon-copyright-mark {
-    @extend .fa-copyright;
-  }
-  &.glyphicon-registration-mark {
-    @extend .fa-registered;
-  }
-  &.glyphicon-cloud-download {
-    @extend .fa-cloud-download;
-  }
-  &.glyphicon-cloud-upload {
-    @extend .fa-cloud-upload;
-  }
-  &.glyphicon-tree-conifer {
-    @extend .fa-tree;
-  }
-  &.glyphicon-tree-deciduous {
-    @extend .fa-tree;
-  }
-  &.glyphicon-cd {
-    @extend .fa-dot-circle-o;
-  }
-  &.glyphicon-save-file {
-    @extend .fa-save;
-  }
-  &.glyphicon-open-file {
-    @extend .fa-folder-open-o;
-  }
-  &.glyphicon-level-up {
-    @extend .fa-level-up;
-  }
-  &.glyphicon-copy {
-    @extend .fa-copy;
-  }
-  &.glyphicon-paste {
-    @extend .fa-paste;
-  }
-  &.glyphicon-alert {
-    @extend .fa-exclamation-triangle;
-  }
-  &.glyphicon-equalizer {
-    @extend .fa-bar-chart;
-  }
-  &.glyphicon-king {
-    @extend .fa-question;
-  }
-  &.glyphicon-queen {
-    @extend .fa-question;
-  }
-  &.glyphicon-pawn {
-    @extend .fa-question;
-  }
-  &.glyphicon-bishop {
-    @extend .fa-question;
-  }
-  &.glyphicon-knight {
-    @extend .fa-question;
-  }
-  &.glyphicon-baby-formula {
-    @extend .fa-question;
-  }
-  &.glyphicon-tent {
-    @extend .fa-question;
-  }
-  &.glyphicon-blackboard {
-    @extend .fa-question;
-  }
-  &.glyphicon-bed {
-    @extend .fa-bed;
-  }
-  &.glyphicon-apple {
-    @extend .fa-apple;
-  }
-  &.glyphicon-erase {
-    @extend .fa-eraser;
-  }
-  &.glyphicon-hourglass {
-    @extend .fa-hourglass;
-  }
-  &.glyphicon-lamp {
-    @extend .fa-lightbulb-o;
-  }
-  &.glyphicon-duplicate {
-    @extend .fa-files-o;
-  }
-  &.glyphicon-piggy-bank {
-    @extend .fa-money;
-  }
-  &.glyphicon-scissors {
-    @extend .fa-scissors;
-  }
-  &.glyphicon-bitcoin {
-    @extend .fa-bitcoin;
-  }
-  &.glyphicon-btc {
-    @extend .fa-btc;
-  }
-  &.glyphicon-xbt {
-    @extend .fa-btc;
-  }
-  &.glyphicon-yen {
-    @extend .fa-yen;
-  }
-  &.glyphicon-jpy {
-    @extend .fa-jpy;
-  }
-  &.glyphicon-ruble {
-    @extend .fa-ruble;
-  }
-  &.glyphicon-rub {
-    @extend .fa-rub;
-  }
-  &.glyphicon-scale {
-    @extend .fa-balance-scale;
-  }
-  &.glyphicon-ice-lolly {
-    @extend .fa-question;
-  }
-  &.glyphicon-ice-lolly-tasted {
-    @extend .fa-question;
-  }
-  &.glyphicon-education {
-    @extend .fa-graduation-cap;
-  }
-  &.glyphicon-option-horizontal {
-    @extend .fa-ellipsis-h;
-  }
-  &.glyphicon-option-vertical {
-    @extend .fa-ellipsis-v;
-  }
-  &.glyphicon-menu-hamburger {
-    @extend .fa-bars;
-  }
-  &.glyphicon-modal-window {
-    @extend .fa-question;
-  }
-  &.glyphicon-oil {
-    @extend .fa-question;
-  }
-  &.glyphicon-grain {
-    @extend .fa-question;
-  }
-  &.glyphicon-sunglasses {
-    @extend .fa-question;
-  }
-  &.glyphicon-text-size {
-    @extend .fa-font;
-  }
-  &.glyphicon-text-color {
-    @extend .fa-font;
-  }
-  &.glyphicon-text-background {
-    @extend .fa-font;
-  }
-  &.glyphicon-object-align-top {
-    @extend .fa-question;
-  }
-  &.glyphicon-object-align-bottom {
-    @extend .fa-question;
-  }
-  &.glyphicon-object-align-horizontal {
-    @extend .fa-question;
-  }
-  &.glyphicon-object-align-left {
-    @extend .fa-question;
-  }
-  &.glyphicon-object-align-vertical {
-    @extend .fa-question;
-  }
-  &.glyphicon-object-align-right {
-    @extend .fa-question;
-  }
-  &.glyphicon-triangle-right {
-    @extend .fa-caret-right;
-  }
-  &.glyphicon-triangle-left {
-    @extend .fa-caret-left;
-  }
-  &.glyphicon-triangle-bottom {
-    @extend .fa-caret-down;
-  }
-  &.glyphicon-triangle-top {
-    @extend .fa-caret-up;
-  }
-  &.glyphicon-console {
-    @extend .fa-terminal;
-  }
-  &.glyphicon-superscript {
-    @extend .fa-superscript;
-  }
-  &.glyphicon-subscript {
-    @extend .fa-subscript;
-  }
-  &.glyphicon-menu-left {
-    @extend .fa-chevron-left;
-  }
-  &.glyphicon-menu-right {
-    @extend .fa-chevron-right;
-  }
-  &.glyphicon-menu-down {
-    @extend .fa-chevron-down;
-  }
-  &.glyphicon-menu-up {
-    @extend .fa-chevron-up;
-  }
-  &.glyphicon-transfer {
-    @extend .fa-exchange;
-  }
+    @extend .fa;
+    &.glyphicon-chevron-up {
+        @extend .fa-chevron-up;
+    }
+    &.glyphicon-chevron-right {
+        @extend .fa-chevron-right;
+    }
+    &.glyphicon-chevron-left {
+        @extend .fa-chevron-left;
+    }
+    &.glyphicon-asterisk {
+        @extend .fa-asterisk;
+    }
+    &.glyphicon-plus {
+        @extend .fa-plus;
+    }
+    &.glyphicon-euro,
+    &.glyphicon-eur {
+        @extend .fa-eur;
+    }
+    &.glyphicon-minus {
+        @extend .fa-minus;
+    }
+    &.glyphicon-cloud {
+        @extend .fa-cloud;
+    }
+    &.glyphicon-envelope {
+        @extend .fa-envelope;
+    }
+    &.glyphicon-pencil {
+        @extend .fa-pencil;
+    }
+    &.glyphicon-glass {
+        @extend .fa-glass;
+    }
+    &.glyphicon-music {
+        @extend .fa-music;
+    }
+    &.glyphicon-search {
+        @extend .fa-search;
+    }
+    &.glyphicon-heart {
+        @extend .fa-heart;
+    }
+    &.glyphicon-star {
+        @extend .fa-star;
+    }
+    &.glyphicon-star-empty {
+        @extend .fa-star-o;
+    }
+    &.glyphicon-user {
+        @extend .fa-user;
+    }
+    &.glyphicon-film {
+        @extend .fa-film;
+    }
+    &.glyphicon-th-large {
+        @extend .fa-th-large;
+    }
+    &.glyphicon-th {
+        @extend .fa-th;
+    }
+    &.glyphicon-th-list {
+        @extend .fa-th-list;
+    }
+    &.glyphicon-ok {
+        @extend .fa-check;
+    }
+    &.glyphicon-remove {
+        @extend .fa-remove;
+    }
+    &.glyphicon-zoom-in {
+        @extend .fa-search-plus;
+    }
+    &.glyphicon-zoom-out {
+        @extend .fa-search-minus;
+    }
+    &.glyphicon-off {
+        @extend .fa-power-off;
+    }
+    &.glyphicon-signal {
+        @extend .fa-signal;
+    }
+    &.glyphicon-cog {
+        @extend .fa-cog;
+    }
+    &.glyphicon-trash {
+        @extend .fa-trash;
+    }
+    &.glyphicon-home {
+        @extend .fa-home;
+    }
+    &.glyphicon-file {
+        @extend .fa-file;
+    }
+    &.glyphicon-time {
+        @extend .fa-clock-o;
+    }
+    &.glyphicon-road {
+        @extend .fa-road;
+    }
+    &.glyphicon-download-alt {
+        @extend .fa-cloud-download;
+    }
+    &.glyphicon-download {
+        @extend .fa-download;
+    }
+    &.glyphicon-upload {
+        @extend .fa-upload;
+    }
+    &.glyphicon-inbox {
+        @extend .fa-inbox;
+    }
+    &.glyphicon-play-circle {
+        @extend .fa-play-circle;
+    }
+    &.glyphicon-repeat {
+        @extend .fa-repeat;
+    }
+    &.glyphicon-refresh {
+        @extend .fa-refresh;
+    }
+    &.glyphicon-list-alt {
+        @extend .fa-list-alt;
+    }
+    &.glyphicon-lock {
+        @extend .fa-lock;
+    }
+    &.glyphicon-flag {
+        @extend .fa-flag;
+    }
+    &.glyphicon-headphones {
+        @extend .fa-headphones;
+    }
+    &.glyphicon-volume-off {
+        @extend .fa-volume-off;
+    }
+    &.glyphicon-volume-down {
+        @extend .fa-volume-down;
+    }
+    &.glyphicon-volume-up {
+        @extend .fa-volume-up;
+    }
+    &.glyphicon-qrcode {
+        @extend .fa-qrcode;
+    }
+    &.glyphicon-barcode {
+        @extend .fa-barcode;
+    }
+    &.glyphicon-tag {
+        @extend .fa-tag;
+    }
+    &.glyphicon-tags {
+        @extend .fa-tags;
+    }
+    &.glyphicon-book {
+        @extend .fa-book;
+    }
+    &.glyphicon-bookmark {
+        @extend .fa-bookmark;
+    }
+    &.glyphicon-print {
+        @extend .fa-print;
+    }
+    &.glyphicon-camera {
+        @extend .fa-camera;
+    }
+    &.glyphicon-font {
+        @extend .fa-font;
+    }
+    &.glyphicon-bold {
+        @extend .fa-bold;
+    }
+    &.glyphicon-italic {
+        @extend .fa-italic;
+    }
+    &.glyphicon-text-height {
+        @extend .fa-text-height;
+    }
+    &.glyphicon-text-width {
+        @extend .fa-text-width;
+    }
+    &.glyphicon-align-left {
+        @extend .fa-align-left;
+    }
+    &.glyphicon-align-center {
+        @extend .fa-align-center;
+    }
+    &.glyphicon-align-right {
+        @extend .fa-align-right;
+    }
+    &.glyphicon-align-justify {
+        @extend .fa-align-justify;
+    }
+    &.glyphicon-list {
+        @extend .fa-list;
+    }
+    &.glyphicon-indent-left {
+        @extend .fa-indent;
+    }
+    &.glyphicon-indent-right {
+        @extend .fa-outdent;
+    }
+    &.glyphicon-facetime-video {
+        @extend .fa-video-camera;
+    }
+    &.glyphicon-picture {
+        @extend .fa-picture-o;
+    }
+    &.glyphicon-map-marker {
+        @extend .fa-map-marker;
+    }
+    &.glyphicon-adjust {
+        @extend .fa-adjust;
+    }
+    &.glyphicon-tint {
+        @extend .fa-tint;
+    }
+    &.glyphicon-edit {
+        @extend .fa-edit;
+    }
+    &.glyphicon-share {
+        @extend .fa-share;
+    }
+    &.glyphicon-check {
+        @extend .fa-check;
+    }
+    &.glyphicon-move {
+        @extend .fa-arrows;
+    }
+    &.glyphicon-step-backward {
+        @extend .fa-step-backward;
+    }
+    &.glyphicon-fast-backward {
+        @extend .fa-fast-backward;
+    }
+    &.glyphicon-backward {
+        @extend .fa-backward;
+    }
+    &.glyphicon-play {
+        @extend .fa-play;
+    }
+    &.glyphicon-pause {
+        @extend .fa-pause;
+    }
+    &.glyphicon-stop {
+        @extend .fa-stop;
+    }
+    &.glyphicon-forward {
+        @extend .fa-forward;
+    }
+    &.glyphicon-fast-forward {
+        @extend .fa-fast-forward;
+    }
+    &.glyphicon-step-forward {
+        @extend .fa-step-forward;
+    }
+    &.glyphicon-eject {
+        @extend .fa-eject;
+    }
+    &.glyphicon-chevron-left {
+        @extend .fa-chevron-left;
+    }
+    &.glyphicon-chevron-right {
+        @extend .fa-chevron-right;
+    }
+    &.glyphicon-plus-sign {
+        @extend .fa-plus-circle;
+    }
+    &.glyphicon-minus-sign {
+        @extend .fa-minus-circle;
+    }
+    &.glyphicon-remove-sign {
+        @extend .fa-times-circle;
+    }
+    &.glyphicon-ok-sign {
+        @extend .fa-check-circle;
+    }
+    &.glyphicon-question-sign {
+        @extend .fa-question-circle;
+    }
+    &.glyphicon-info-sign {
+        @extend .fa-info-circle;
+    }
+    &.glyphicon-screenshot {
+        @extend .fa-crosshairs;
+    }
+    &.glyphicon-remove-circle {
+        @extend .fa-times-circle;
+    }
+    &.glyphicon-ok-circle {
+        @extend .fa-check-circle;
+    }
+    &.glyphicon-ban-circle {
+        @extend .fa-ban;
+    }
+    &.glyphicon-arrow-left {
+        @extend .fa-arrow-left;
+    }
+    &.glyphicon-arrow-right {
+        @extend .fa-arrow-right;
+    }
+    &.glyphicon-arrow-up {
+        @extend .fa-arrow-up;
+    }
+    &.glyphicon-arrow-down {
+        @extend .fa-arrow-down;
+    }
+    &.glyphicon-share-alt {
+        @extend .fa-share-alt;
+    }
+    &.glyphicon-resize-full {
+        @extend .fa-expand;
+    }
+    &.glyphicon-resize-small {
+        @extend .fa-compress;
+    }
+    &.glyphicon-exclamation-sign {
+        @extend .fa-exclamation-circle;
+    }
+    &.glyphicon-gift {
+        @extend .fa-gift;
+    }
+    &.glyphicon-leaf {
+        @extend .fa-leaf;
+    }
+    &.glyphicon-fire {
+        @extend .fa-fire;
+    }
+    &.glyphicon-eye-open {
+        @extend .fa-eye;
+    }
+    &.glyphicon-eye-close {
+        @extend .fa-eye-slash;
+    }
+    &.glyphicon-warning-sign {
+        @extend .fa-exclamation-triangle;
+    }
+    &.glyphicon-plane {
+        @extend .fa-plane;
+    }
+    &.glyphicon-calendar {
+        @extend .fa-calendar;
+    }
+    &.glyphicon-random {
+        @extend .fa-random;
+    }
+    &.glyphicon-comment {
+        @extend .fa-comment;
+    }
+    &.glyphicon-magnet {
+        @extend .fa-magnet;
+    }
+    &.glyphicon-chevron-up {
+        @extend .fa-chevron-up;
+    }
+    &.glyphicon-chevron-down {
+        @extend .fa-chevron-down;
+    }
+    &.glyphicon-retweet {
+        @extend .fa-retweet;
+    }
+    &.glyphicon-shopping-cart {
+        @extend .fa-shopping-cart;
+    }
+    &.glyphicon-folder-close {
+        @extend .fa-folder;
+    }
+    &.glyphicon-folder-open {
+        @extend .fa-folder-open;
+    }
+    &.glyphicon-resize-vertical {
+        @extend .fa-arrows-v;
+    }
+    &.glyphicon-resize-horizontal {
+        @extend .fa-arrows-h;
+    }
+    &.glyphicon-hdd {
+        @extend .fa-hdd-o;
+    }
+    &.glyphicon-bullhorn {
+        @extend .fa-bullhorn;
+    }
+    &.glyphicon-bell {
+        @extend .fa-bell;
+    }
+    &.glyphicon-certificate {
+        @extend .fa-certificate;
+    }
+    &.glyphicon-thumbs-up {
+        @extend .fa-thumbs-up;
+    }
+    &.glyphicon-thumbs-down {
+        @extend .fa-thumbs-down;
+    }
+    &.glyphicon-hand-right {
+        @extend .fa-hand-o-right;
+    }
+    &.glyphicon-hand-left {
+        @extend .fa-hand-o-left;
+    }
+    &.glyphicon-hand-up {
+        @extend .fa-hand-o-up;
+    }
+    &.glyphicon-hand-down {
+        @extend .fa-hand-o-down;
+    }
+    &.glyphicon-circle-arrow-right {
+        @extend .fa-arrow-circle-right;
+    }
+    &.glyphicon-circle-arrow-left {
+        @extend .fa-arrow-circle-left;
+    }
+    &.glyphicon-circle-arrow-up {
+        @extend .fa-arrow-circle-up;
+    }
+    &.glyphicon-circle-arrow-down {
+        @extend .fa-arrow-circle-down;
+    }
+    &.glyphicon-globe {
+        @extend .fa-globe;
+    }
+    &.glyphicon-wrench {
+        @extend .fa-wrench;
+    }
+    &.glyphicon-tasks {
+        @extend .fa-tasks;
+    }
+    &.glyphicon-filter {
+        @extend .fa-filter;
+    }
+    &.glyphicon-briefcase {
+        @extend .fa-briefcase;
+    }
+    &.glyphicon-fullscreen {
+        @extend .fa-expand;
+    }
+    &.glyphicon-dashboard {
+        @extend .fa-dashboard;
+    }
+    &.glyphicon-paperclip {
+        @extend .fa-paperclip;
+    }
+    &.glyphicon-heart-empty {
+        @extend .fa-heart-o;
+    }
+    &.glyphicon-link {
+        @extend .fa-link;
+    }
+    &.glyphicon-phone {
+        @extend .fa-phone;
+    }
+    &.glyphicon-pushpin {
+        @extend .fa-thumb-tack;
+    }
+    &.glyphicon-usd {
+        @extend .fa-usd;
+    }
+    &.glyphicon-gbp {
+        @extend .fa-gbp;
+    }
+    &.glyphicon-sort {
+        @extend .fa-sort;
+    }
+    &.glyphicon-sort-by-alphabet {
+        @extend .fa-sort-alpha-asc;
+    }
+    &.glyphicon-sort-by-alphabet-alt {
+        @extend .fa-sort-alpha-desc;
+    }
+    &.glyphicon-sort-by-order {
+        @extend .fa-sort-numeric-asc;
+    }
+    &.glyphicon-sort-by-order-alt {
+        @extend .fa-sort-numeric-desc;
+    }
+    &.glyphicon-sort-by-attributes {
+        @extend .fa-sort-amount-asc;
+    }
+    &.glyphicon-sort-by-attributes-alt {
+        @extend .fa-sort-amount-desc;
+    }
+    &.glyphicon-unchecked {
+        @extend .fa-square-o;
+    }
+    &.glyphicon-expand {
+        @extend .fa-caret-square-o-right;
+    }
+    &.glyphicon-collapse-down {
+        @extend .fa-caret-square-o-down;
+    }
+    &.glyphicon-collapse-up {
+        @extend .fa-caret-square-o-up;
+    }
+    &.glyphicon-log-in {
+        @extend .fa-sign-in;
+    }
+    &.glyphicon-flash {
+        @extend .fa-flash;
+    }
+    &.glyphicon-log-out {
+        @extend .fa-sign-out;
+    }
+    &.glyphicon-new-window {
+        @extend .fa-external-link;
+    }
+    &.glyphicon-record {
+        @extend .fa-dot-circle-o;
+    }
+    &.glyphicon-save {
+        @extend .fa-save;
+    }
+    &.glyphicon-open {
+        @extend .fa-upload;
+    }
+    &.glyphicon-saved {
+        @extend .fa-check;
+    }
+    &.glyphicon-import {
+        @extend .fa-upload;
+    }
+    &.glyphicon-export {
+        @extend .fa-download;
+    }
+    &.glyphicon-send {
+        @extend .fa-paper-plane-o;
+    }
+    &.glyphicon-floppy-disk {
+        @extend .fa-save;
+    }
+    &.glyphicon-floppy-saved {
+        @extend .fa-check;
+    }
+    &.glyphicon-floppy-remove {
+        @extend .fa-remove;
+    }
+    &.glyphicon-floppy-save {
+        @extend .fa-download;
+    }
+    &.glyphicon-floppy-open {
+        @extend .fa-upload;
+    }
+    &.glyphicon-credit-card {
+        @extend .fa-credit-card;
+    }
+    &.glyphicon-transfer {
+        @extend .fa-exchange;
+    }
+    &.glyphicon-cutlery {
+        @extend .fa-cutlery;
+    }
+    &.glyphicon-header {
+        @extend .fa-header;
+    }
+    &.glyphicon-compressed {
+        @extend .fa-file-archive-o;
+    }
+    &.glyphicon-earphone {
+        @extend .fa-phone;
+    }
+    &.glyphicon-phone-alt {
+        @extend .fa-phone-square;
+    }
+    &.glyphicon-tower {
+        @extend .fa-building;
+    }
+    &.glyphicon-stats {
+        @extend .fa-bar-chart;
+    }
+    &.glyphicon-sd-video {
+        @extend .fa-film;
+    }
+    &.glyphicon-hd-video {
+        @extend .fa-film;
+    }
+    &.glyphicon-subtitles {
+        @extend .fa-cc;
+    }
+    &.glyphicon-sound-stereo {
+        @extend .fa-music;
+    }
+    &.glyphicon-sound-dolby {
+        @extend .fa-music;
+    }
+    &.glyphicon-sound-5-1 {
+        @extend .fa-music;
+    }
+    &.glyphicon-sound-6-1 {
+        @extend .fa-music;
+    }
+    &.glyphicon-sound-7-1 {
+        @extend .fa-music;
+    }
+    &.glyphicon-copyright-mark {
+        @extend .fa-copyright;
+    }
+    &.glyphicon-registration-mark {
+        @extend .fa-registered;
+    }
+    &.glyphicon-cloud-download {
+        @extend .fa-cloud-download;
+    }
+    &.glyphicon-cloud-upload {
+        @extend .fa-cloud-upload;
+    }
+    &.glyphicon-tree-conifer {
+        @extend .fa-tree;
+    }
+    &.glyphicon-tree-deciduous {
+        @extend .fa-tree;
+    }
+    &.glyphicon-cd {
+        @extend .fa-dot-circle-o;
+    }
+    &.glyphicon-save-file {
+        @extend .fa-save;
+    }
+    &.glyphicon-open-file {
+        @extend .fa-folder-open-o;
+    }
+    &.glyphicon-level-up {
+        @extend .fa-level-up;
+    }
+    &.glyphicon-copy {
+        @extend .fa-copy;
+    }
+    &.glyphicon-paste {
+        @extend .fa-paste;
+    }
+    &.glyphicon-alert {
+        @extend .fa-exclamation-triangle;
+    }
+    &.glyphicon-equalizer {
+        @extend .fa-bar-chart;
+    }
+    &.glyphicon-king {
+        @extend .fa-question;
+    }
+    &.glyphicon-queen {
+        @extend .fa-question;
+    }
+    &.glyphicon-pawn {
+        @extend .fa-question;
+    }
+    &.glyphicon-bishop {
+        @extend .fa-question;
+    }
+    &.glyphicon-knight {
+        @extend .fa-question;
+    }
+    &.glyphicon-baby-formula {
+        @extend .fa-question;
+    }
+    &.glyphicon-tent {
+        @extend .fa-question;
+    }
+    &.glyphicon-blackboard {
+        @extend .fa-question;
+    }
+    &.glyphicon-bed {
+        @extend .fa-bed;
+    }
+    &.glyphicon-apple {
+        @extend .fa-apple;
+    }
+    &.glyphicon-erase {
+        @extend .fa-eraser;
+    }
+    &.glyphicon-hourglass {
+        @extend .fa-hourglass;
+    }
+    &.glyphicon-lamp {
+        @extend .fa-lightbulb-o;
+    }
+    &.glyphicon-duplicate {
+        @extend .fa-files-o;
+    }
+    &.glyphicon-piggy-bank {
+        @extend .fa-money;
+    }
+    &.glyphicon-scissors {
+        @extend .fa-scissors;
+    }
+    &.glyphicon-bitcoin {
+        @extend .fa-bitcoin;
+    }
+    &.glyphicon-btc {
+        @extend .fa-btc;
+    }
+    &.glyphicon-xbt {
+        @extend .fa-btc;
+    }
+    &.glyphicon-yen {
+        @extend .fa-yen;
+    }
+    &.glyphicon-jpy {
+        @extend .fa-jpy;
+    }
+    &.glyphicon-ruble {
+        @extend .fa-ruble;
+    }
+    &.glyphicon-rub {
+        @extend .fa-rub;
+    }
+    &.glyphicon-scale {
+        @extend .fa-balance-scale;
+    }
+    &.glyphicon-ice-lolly {
+        @extend .fa-question;
+    }
+    &.glyphicon-ice-lolly-tasted {
+        @extend .fa-question;
+    }
+    &.glyphicon-education {
+        @extend .fa-graduation-cap;
+    }
+    &.glyphicon-option-horizontal {
+        @extend .fa-ellipsis-h;
+    }
+    &.glyphicon-option-vertical {
+        @extend .fa-ellipsis-v;
+    }
+    &.glyphicon-menu-hamburger {
+        @extend .fa-bars;
+    }
+    &.glyphicon-modal-window {
+        @extend .fa-question;
+    }
+    &.glyphicon-oil {
+        @extend .fa-question;
+    }
+    &.glyphicon-grain {
+        @extend .fa-question;
+    }
+    &.glyphicon-sunglasses {
+        @extend .fa-question;
+    }
+    &.glyphicon-text-size {
+        @extend .fa-font;
+    }
+    &.glyphicon-text-color {
+        @extend .fa-font;
+    }
+    &.glyphicon-text-background {
+        @extend .fa-font;
+    }
+    &.glyphicon-object-align-top {
+        @extend .fa-question;
+    }
+    &.glyphicon-object-align-bottom {
+        @extend .fa-question;
+    }
+    &.glyphicon-object-align-horizontal {
+        @extend .fa-question;
+    }
+    &.glyphicon-object-align-left {
+        @extend .fa-question;
+    }
+    &.glyphicon-object-align-vertical {
+        @extend .fa-question;
+    }
+    &.glyphicon-object-align-right {
+        @extend .fa-question;
+    }
+    &.glyphicon-triangle-right {
+        @extend .fa-caret-right;
+    }
+    &.glyphicon-triangle-left {
+        @extend .fa-caret-left;
+    }
+    &.glyphicon-triangle-bottom {
+        @extend .fa-caret-down;
+    }
+    &.glyphicon-triangle-top {
+        @extend .fa-caret-up;
+    }
+    &.glyphicon-console {
+        @extend .fa-terminal;
+    }
+    &.glyphicon-superscript {
+        @extend .fa-superscript;
+    }
+    &.glyphicon-subscript {
+        @extend .fa-subscript;
+    }
+    &.glyphicon-menu-left {
+        @extend .fa-chevron-left;
+    }
+    &.glyphicon-menu-right {
+        @extend .fa-chevron-right;
+    }
+    &.glyphicon-menu-down {
+        @extend .fa-chevron-down;
+    }
+    &.glyphicon-menu-up {
+        @extend .fa-chevron-up;
+    }
+    &.glyphicon-transfer {
+        @extend .fa-exchange;
+    }
 }
