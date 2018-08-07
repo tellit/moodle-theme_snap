@@ -9,13 +9,18 @@
     padding: 3.444%;
     background-color: $gray-lighter;
 
-	footer#cass-course-footer .col-sm-12 {
-    padding: 0;
-}
 	span.snap-media-meta {
     float: left;
     clear: both;
 }
+
+ .row{
+ margin: 0;
+ }
+ 
+ .col-sm-12
+ {padding: 0;}
+ 
 #cass-course-footer-recent-activity h3 {
     display: block; 
 }

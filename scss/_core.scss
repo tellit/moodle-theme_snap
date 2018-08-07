@@ -112,6 +112,7 @@ img.cass-logo {
     float: left;
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 @media (min-width: 992px) {
@@ -148,6 +149,7 @@ img.cass-logo {
         ul.social {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
     }
 
@@ -782,7 +784,7 @@ footer #moodle-footer
 #moodle-blocks {
     margin: 0 auto;
     padding: 0 3.444%;
-    font-size: 1em;
+    font-size: .764em;
     .row {
         margin: 0;
     }
@@ -1085,9 +1087,7 @@ ol.breadcrumb a {
     .breadcrumb {
         background-color: transparent;
         padding: 0;
-        font-size: $font-size-base;
         display: inline;
-        font-family: $font-family-sans-serif;
         & > li:nth-child(-n+2),
         & >li:nth-child(5) {
             display: none;
@@ -1105,7 +1105,6 @@ ol.breadcrumb a {
     .breadcrumb {
         background-color: transparent;
         padding: 0;
-        font-size: $font-size-base;
         display: inline;
         font-family: $font-family-sans-serif;
         & > li:last-child {
@@ -1250,7 +1249,7 @@ ol.breadcrumb a {
     width: 30px;
     height: 30px;
     margin-left: 1em;
-    margin-top: .62em;
+    margin-top: .35em;
 }
 
 #page-report-outline-user .section {
@@ -3883,7 +3882,7 @@ div#mod_quiz_navblock .content {
 }
 
 ol.breadcrumb > li {
-    padding: .618em 0;
+    padding: .71em 0;
     line-height: 1em;
 }
 
@@ -5401,7 +5400,7 @@ label .m-l-1 {
 }
  
  @media (min-width: 979px) {
-            #page-course-view-weeks .col-lg-3 {
+            #page-course-view-weeks #cass-course-wrapper .col-lg-3 {
     		width: 33.333%;
     		position: sticky;
     		top: 0;

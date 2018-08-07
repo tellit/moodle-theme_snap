@@ -2352,7 +2352,7 @@ span.activitycompletenextmodname {
         font-weight: 500;
         font-family: $font-family-system;
         #page-course-view-topics & {
-            padding-top: .53em;
+            padding-top: .05em;
         }
     }
 
@@ -2859,21 +2859,24 @@ li.section {
 #page-course-view-weeks {
     h2.sectionname:before {
         content: "Week " counter(my-awesome-counter);
-        border-bottom: 2px solid #00759B;
+        border-bottom: 4px solid $brand-info;
         display: block;
         margin-bottom: .614em;
+        padding-bottom: .614em;
         font-family: $font-family-fancy;
         font-size: 18px;
         line-height: 1.618em;
         padding-top: .4em;
         color: $gray-light;
         font-weight: normal;
-    }
+        width: 31.8%;
+    } 
 
     #region-main .state-visible p:first-of-type {
         font-family: $font-family-fancy;
         padding-top: 1em;
         color: $gray-light;
+        font-size: 18px;
     }
 
     #section-0 h2.sectionname:before {
