@@ -35,7 +35,10 @@
 
     /* TOC list. */
     #chapters {
-        padding: 0 0 0 .618em;
+       padding: 2em 1em 2em 2.618em;
+    	box-shadow: 0 8px 16px 0 rgba(30,30,30,.2);
+    	margin: 0 0em 2.614em;
+    	background: $gray-lighter;
 
         li {
             padding: 0 0 0.618em 0.618em;
@@ -78,18 +81,18 @@
 // Display when toc is part of page body.
 // -------------------------
 
-li.cass-visible-section:after {
+li.cass-visible-section:before {
     content: ">";
     float: right;
     line-height: 1.6em;
     font-weight: bold;
     padding-right: .614em;
-    margin-top: -1.65em;
+    margin-top: -5px;
 }
 
 #cass-course-wrapper {
     margin: 0 auto;
-    max-width: 960px;
+    padding: 0 3.44%;
 
     #region-main {
         font-family: $font-family-fancy;
@@ -101,7 +104,7 @@ li.cass-visible-section:after {
         }
     }
     #course-toc {
-        padding-top: 10em;
+        padding-top: 6em;
         font-family: $font-family-fancy;
     }
 

@@ -301,12 +301,21 @@ h3.hsuforum-recent-heading {
     padding: 0 0 1em;
 }
 
+.block_flexpagemod_hsuforum .snap-media-body, .activity.modtype_hsuforum .snap-media-body, .block_recent_activity .snap-media-body {
+    width: inherit; 
+    float: left;
+}
+
 .snap-media-object a img {
     margin-right: .618em;
 }
 
 #course_recent_updates h3.hsuforum-recent-heading {
     padding-bottom: 1em;
+}
+
+html.hosted #wrap {
+    padding: 0;
 }
 
 .path-mod-assign [data-region="grade-actions-panel"] {
@@ -724,7 +733,7 @@ input[type="reset"],
     background-image: none;
     white-space: nowrap;
     padding: 1em 1.618em;
-    font-size: 14px;
+    font-size: 14px !important;
     line-height: 1em;
     border-radius: 0px;
     -webkit-user-select: none;
@@ -1588,6 +1597,10 @@ ul.choices {
 
 
 #page-mod-assign-view {
+    #region-main {
+        padding: 0;
+	}
+    
     h2 {
         margin: 0 auto;
         padding: 1.5em 0 .3em;
@@ -2082,7 +2095,7 @@ span.dropcap_inner {
 
 .youtube {
     position: relative;
-    padding-bottom: 51.8%;
+    padding-bottom: 50.7%;
     padding-top: 35px;
     height: 0;
     overflow: hidden;
@@ -2096,8 +2109,9 @@ iframe {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: inherit !important;
 }
 
 // -------------------------
@@ -2128,6 +2142,7 @@ iframe {
         line-height: 1em;
         font-family: $font-family-sans-serif;
         color: $text-color;
+        float: left;
     }
 }
 .section li.cass-asset .activityinstance .cass-asset-link a {
@@ -2143,7 +2158,7 @@ iframe {
 //  'Next' modal
 // -------------------------
 
-.modal.activitycompletemodal {
+.completion-region .activitycompletemodal {
     position: fixed;
     display: none;
     top: auto;
@@ -2238,7 +2253,7 @@ a.activitycompletenextmodlink {
     padding: 0 0 0 .4em;
 }
 
-.modal-footer.activitycompletemodal-footer {
+.activitycompletemodal-footer {
     border: 0;
     padding: 0 0 .1em;
 }
@@ -2274,8 +2289,11 @@ span.activitycompletenextmodname {
 .modal-content {
     border-width: 0;
     border-bottom-color: transparent;
-    //box-shadow: 0 12px 15px 0 rgba(0,0,0,0.25);
     max-width: 420px;
+}
+
+.moodle-dialogue-base .moodle-dialogue-wrap.moodle-dialogue-content {
+    max-width: inherit;
 }
 
 .moodle-dialogue-base .moodle-dialogue-wrap {
@@ -2292,8 +2310,11 @@ span.activitycompletenextmodname {
 }
 
 .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
-    display: none;
-	max-width: inherit;
+    padding: .6rem !important;
+}
+
+button.yui3-button.closebutton {
+    margin: 0;
 }
 
 .yui3-skin-sam .yui3-widget-mask {
@@ -2351,6 +2372,8 @@ span.activitycompletenextmodname {
         color: #000;
         font-weight: 500;
         font-family: $font-family-system;
+        padding-top: 0;
+        line-height: .9em;
         #page-course-view-topics & {
             padding-top: .05em;
         }
@@ -2472,21 +2495,20 @@ h4.cass-asset-link.cass-activity-current {
 }
 
 //Completion pop example
+.modal-footer.activitycompletemodal-footer {
+    border-top: none;
+}
+
 .boxStyle {
-    //-webkit-box-shadow: 0px 6px 17px 0px rgba(0,0,0,0.75);
-    //-moz-box-shadow: 0px 6px 17px 0px rgba(0,0,0,0.75);
-    //box-shadow: 0px 6px 17px 0px rgba(0,0,0,0.75);
     position: fixed;
     display: block;
-    left: calc(50% - 150px);
-    top: calc(50% - 150px);
     width: 250px;
     height: 154px;
     background-color: $gray-darker;
     border-radius: .5em;
     z-index: 15000;
     font-family: $font-family-fancy;
-    opacity: 0;
+    opacity: .95;
     color: $modal-bg;
 }
 

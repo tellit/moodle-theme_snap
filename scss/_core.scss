@@ -811,7 +811,7 @@ footer #moodle-footer
     padding: 0.5em 3.444%;
     background-color: $nav-bg;
     font-family: $font-family-fancy;
-    box-shadow: -2px 1px 4px #333;
+    box-shadow: -2px 1px 4px $gray;
 
     //headroom js http://wicky.nillia.ms/headroom.js/
     &.headroom--unpinned {
@@ -982,6 +982,9 @@ footer #moodle-footer
     // When admin block is open
     &.offcanvas {
         left: -200px;
+    }
+    &.pathmod{
+        padding: 0 0 1.614em;
     }
 }
 
@@ -3104,9 +3107,6 @@ body.hascontinuecancel.path-site #page {
 // -------------------------
 // The site footer - moodle-footer
 // -------------------------
-body:not(.pagelayout-course) #moodle-footer {
-    margin-top: 2em;
-}
 
 #moodle-footer {
     margin-top: 0;
@@ -3796,7 +3796,7 @@ body.pagelayout-frontpage {
 
 .next_activity_area {
     background: $gray-lighter;
-    padding: 1.94em 0 1.2em;
+    padding: 1.94em 0;
     margin-top: 2.29em;
     width: 100%;
     position: relative;
@@ -3826,8 +3826,9 @@ body.pagelayout-frontpage {
 }
 
 #page-course-view-weeks #region-main #section-0 p:first-of-type {
-    font-family: $font-family-base;
+    font-family: $font-family-feature;
     color: $gray-dark;
+    font-size: 20px;
 }
 
 .essay .notyetanswered+.submitbtns {
@@ -5399,18 +5400,32 @@ label .m-l-1 {
     list-style-type: none;
 }
  
- @media (min-width: 979px) {
-            #page-course-view-weeks #cass-course-wrapper .col-lg-3 {
-    		width: 33.333%;
-    		position: sticky;
-    		top: 0;
-			}
-		#page-course-view-weeks .col-lg-9 {
-    	float: left;
-    	width: 66.66667%;
-		}
-		}
+@media (min-width: 979px) {
+    #page-course-view-weeks #cass-course-wrapper .col-lg-3 {
+		width: 29.0966%;
+		position: sticky;
+		top: 0;
+		margin: 0;
+        padding: 0;
+	}
+	#page-course-view-weeks .col-lg-9 {
+        float: right;
+        width: 61.8034%;
+        margin: 0;
+        padding: 0;
+    }
+}
 
 #cass-pm-courses .cass-personal-menu-more {
     display: none;
 }
+
+.userprofile .profile_tree section {
+background-color: transparent;
+}
+
+.theme-cass .asset-wrapper .activityinstance .cass-asset-meta a {
+    color: #fff !important;
+}
+
+
